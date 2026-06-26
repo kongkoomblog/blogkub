@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- PRE-LAUNCH: block all indexing. ลบบรรทัดนี้เมื่อพร้อมเปิดตัวจริง -->
+<meta name="robots" content="noindex, nofollow">
+<title>BloggerXMLBuilder — Choose your language / เลือกภาษา</title>
+<meta name="description" content="BloggerXMLBuilder — create professional Blogger themes visually. Choose your language: English or ไทย.">
+<link rel="canonical" href="https://bloggerxmlbuilder.com/">
+<link rel="alternate" hreflang="th" href="https://bloggerxmlbuilder.com/th/">
+<link rel="alternate" hreflang="en" href="https://bloggerxmlbuilder.com/en/">
+<link rel="alternate" hreflang="x-default" href="https://bloggerxmlbuilder.com/en/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --grad: linear-gradient(120deg,#6366f1,#8b5cf6 50%,#ec4899);
+  --glow: rgba(99,102,241,.5);
+  --bg:#07070d; --bg-2:#0d0d16; --surface:rgba(255,255,255,.03); --border:rgba(255,255,255,.1);
+  --ink:#f4f5fb; --ink-2:#a6a8bd; --ink-3:#6e7088;
+  --fd:'Space Grotesk','IBM Plex Sans Thai',sans-serif; --fb:'IBM Plex Sans Thai','Space Grotesk',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{min-height:100vh;background:var(--bg);color:var(--ink);font-family:var(--fb);display:grid;place-items:center;padding:24px;overflow:hidden;position:relative;-webkit-font-smoothing:antialiased;}
+.aura{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.aura b{position:absolute;border-radius:50%;filter:blur(100px);opacity:.45;}
+.aura b:nth-child(1){width:520px;height:520px;background:#4f46e5;top:-160px;left:-100px;}
+.aura b:nth-child(2){width:440px;height:440px;background:#ec4899;bottom:-160px;right:-100px;opacity:.32;}
+.card{position:relative;z-index:1;text-align:center;max-width:520px;width:100%;}
+.brand{display:inline-flex;align-items:center;gap:12px;font-family:var(--fd);font-weight:700;font-size:20px;letter-spacing:-.02em;margin-bottom:28px;}
+.logo{width:42px;height:42px;border-radius:11px;background:var(--grad);display:grid;place-items:center;box-shadow:0 8px 24px -6px var(--glow);}
+.logo svg{width:24px;height:24px;}
+h1{font-family:var(--fd);font-weight:700;font-size:clamp(26px,5vw,38px);letter-spacing:-.03em;line-height:1.15;}
+.tag{color:var(--ink-2);font-size:16px;margin-top:14px;}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:36px;}
+.choice{display:flex;flex-direction:column;align-items:center;gap:8px;padding:26px 18px;border:1px solid var(--border);border-radius:16px;background:var(--surface);text-decoration:none;color:var(--ink);transition:.22s cubic-bezier(.22,1,.36,1);}
+.choice:hover{transform:translateY(-4px);border-color:rgba(255,255,255,.22);background:rgba(255,255,255,.05);box-shadow:0 18px 40px -16px var(--glow);}
+.choice .flag{font-size:34px;line-height:1;}
+.choice .name{font-family:var(--fd);font-weight:600;font-size:18px;}
+.choice .sub{font-size:13px;color:var(--ink-3);}
+.foot{margin-top:30px;font-size:12.5px;color:var(--ink-3);}
+@media(max-width:420px){.choices{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="aura"><b></b><b></b></div>
+<div class="card">
+  <span class="brand"><span class="logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-4 6 4 6"/><path d="M16 6l4 6-4 6"/></svg></span>BloggerXMLBuilder</span>
+  <h1>Choose your language<br>เลือกภาษา</h1>
+  <p class="tag">Create professional Blogger themes — no code.<br>สร้างธีม Blogger ระดับมืออาชีพ ไม่ต้องเขียนโค้ด</p>
+  <div class="choices">
+    <a class="choice" href="en/index.html" hreflang="en"><span class="flag">🇬🇧</span><span class="name">English</span><span class="sub">Continue in English</span></a>
+    <a class="choice" href="th/index.html" hreflang="th"><span class="flag">🇹🇭</span><span class="name">ไทย</span><span class="sub">ใช้งานภาษาไทย</span></a>
+  </div>
+  <p class="foot">© 2026 BloggerXMLBuilder · Free &amp; 100% client-side</p>
+</div>
+</body>
+</html>
