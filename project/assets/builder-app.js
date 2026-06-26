@@ -123,9 +123,9 @@
   var saveT;
   function flashSave() {
     var d = $("#saveDot"); if (!d) return;
-    d.classList.add("saving"); d.querySelector("span").textContent = "กำลังบันทึก…";
+    d.classList.add("saving"); d.querySelector("span").textContent = tr("กำลังบันทึก…");
     clearTimeout(saveT);
-    saveT = setTimeout(function () { d.classList.remove("saving"); d.querySelector("span").textContent = "บันทึกแล้ว"; }, 500);
+    saveT = setTimeout(function () { d.classList.remove("saving"); d.querySelector("span").textContent = tr("บันทึกแล้ว"); }, 500);
   }
   function pushHistory() { HISTORY.push(JSON.stringify(S.blocks)); if (HISTORY.length > 40) HISTORY.shift(); }
   function commit() { pushHistory(); renderCanvas(); renderSeo(); if (window.__bxbRenderLayers && $("#layersView") && $("#layersView").style.display !== "none") window.__bxbRenderLayers(); save(); }
@@ -169,8 +169,9 @@
           '<a style="display:inline-block;margin-top:28px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 26px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
       case "postgrid":
         var cols = p.columns || 3, cards = "";
+        var pgCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? Math.min(cols, 2) : cols;
         for (var i = 0; i < (p.count || 6); i++) cards += postCard(p.showImage, p.showExcerpt, d, ac);
-        return section(p.heading, d, '<div style="display:grid;grid-template-columns:repeat(' + cols + ',1fr);gap:20px">' + cards + "</div>");
+        return section(p.heading, d, '<div style="display:grid;grid-template-columns:repeat(' + pgCols + ',1fr);gap:20px">' + cards + "</div>");
       case "postlist":
         var rows = "";
         for (var j = 0; j < (p.count || 5); j++) rows += postRow(p.showImage, d, ac);
@@ -185,8 +186,9 @@
         return '<div style="padding:40px 32px;text-align:' + p.align + ';max-width:760px;margin:0 auto"><h2 style="font-family:' + fontStack(d.font) + ';font-size:28px;margin:0 0 12px">' + esc(p.heading) + '</h2><p style="color:#4a5063;font-size:16px;line-height:1.7;margin:0">' + esc(p.body) + "</p></div>";
       case "columns":
         var cn = p.cols || 3, its = (p.items || []).slice(0, cn);
+        var colsCols = VIEW === "mobile" ? "1fr" : "repeat(" + cn + ",1fr)";
         var cells = its.map(function (it) { return '<div style="text-align:center;padding:8px"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,' + pr + ',' + ac + ');color:#fff;display:grid;place-items:center;font-size:24px;margin:0 auto 14px">' + esc(it.icon || "\u2605") + '</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:18px;margin:0 0 7px;color:#1e2333">' + esc(it.title) + '</h3><p style="color:#828aa0;font-size:14px;line-height:1.55;margin:0">' + esc(it.text) + '</p></div>'; }).join("");
-        return section(p.heading, d, '<div style="display:grid;grid-template-columns:repeat(' + cn + ',1fr);gap:24px">' + cells + '</div>');
+        return section(p.heading, d, '<div style="display:grid;grid-template-columns:' + colsCols + ';gap:24px">' + cells + '</div>');
       case "cta":
         var cb = p.bg === "soft" ? "#f1f2f9" : "linear-gradient(120deg," + pr + "," + ac + ")";
         var cf = p.bg === "soft" ? "#1e2333" : "#fff";
@@ -200,7 +202,8 @@
         for (var k = 0; k < (p.columns || 4); k++) {
           fcols += '<div><div style="height:9px;width:60%;background:rgba(255,255,255,.3);border-radius:3px;margin-bottom:14px"></div>' + '<div style="display:flex;flex-direction:column;gap:9px">' + Array(4).join().split(",").map(function () { return '<div style="height:7px;width:80%;background:rgba(255,255,255,.16);border-radius:3px"></div>'; }).join("") + "</div></div>";
         }
-        return '<div style="background:#0f172a;color:#fff;padding:48px 32px 28px"><div style="display:grid;grid-template-columns:1.6fr repeat(' + ((p.columns || 4) - 1) + ',1fr);gap:32px;max-width:980px;margin:0 auto">' +
+        var fgrid = VIEW === "mobile" ? "display:flex;flex-direction:column;gap:20px" : "display:grid;grid-template-columns:1.6fr repeat(" + ((p.columns || 4) - 1) + ",1fr);gap:32px";
+        return '<div style="background:#0f172a;color:#fff;padding:48px 32px 28px"><div style="' + fgrid + ';max-width:980px;margin:0 auto">' +
           '<div><div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:19px;color:#fff">' + esc(S.seo.blogTitle || "MyBlog") + '</div><p style="color:rgba(255,255,255,.6);font-size:13.5px;margin-top:12px;line-height:1.6">' + esc(p.about) + "</p>" + (p.social ? '<div style="display:flex;gap:8px;margin-top:14px">' + Array(4).join().split(",").map(function () { return '<div style="width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.1)"></div>'; }).join("") + "</div>" : "") + "</div>" + fcols + "</div>" +
           '<div style="text-align:center;color:rgba(255,255,255,.4);font-size:12.5px;margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">' + esc(p.copyright) + "</div></div>";
     }
@@ -573,7 +576,7 @@
   /* ---------- XML EXPORT ENGINE ---------- */
   function condWrap(html, b) {
     var v = b.vis || {};
-    if (v.hideMobile) html = html.replace(/^(\s*<\w+)/, "$1 class='hide-mobile'");
+    if (v.hideMobile) html = "<div class='hide-mobile'>" + html + "</div>";
     var condMap = { home: "data:view.isHomepage", item: "data:view.isSingleItem", page: "data:view.isPage", label: "data:view.isLabelSearch" };
     if (v.scope && condMap[v.scope]) html = "<b:if cond='" + condMap[v.scope] + "'>\n" + html + "\n</b:if>";
     return html;
@@ -595,7 +598,7 @@
       : "<b:if cond='data:view.isMultipleItems'><b:loop values='data:posts' var='post'><article class='bxb-post'><h2><a expr:href='data:post.url'><data:post.title/></a></h2><div class='post-body'><data:post.body/></div></article></b:loop></b:if><b:if cond='data:view.isSingleItem'><b:loop values='data:posts' var='post'><article><h1 class='post-title'><data:post.title/></h1><div class='post-body'><data:post.body/></div></article></b:loop></b:if>";
     var blogWidget =
       "<b:section id='main' class='main-section' showaddelement='no'>\n" +
-      "<b:widget id='Blog1' locked='true' title='บทความ' type='Blog' version='2' visible='true'>\n" +
+      "<b:widget id='Blog1' title='บทความ' type='Blog' version='2' visible='true'>\n" +
       "<b:includable id='main'>\n" + includableBody + "\n</b:includable>\n" +
       "</b:widget>\n</b:section>";
 
@@ -620,23 +623,22 @@
 
     var xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n" +
 "<!DOCTYPE html>\n" +
-"<html b:version='2' b:layoutsVersion='3' b:defaultwidgetversion='2' class='v2' expr:dir='data:blog.languageDirection' lang='" + (S.lang || "th") + "' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>\n" +
+"<html b:version='2' b:layoutsVersion='3' b:defaultwidgetversion='2' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>\n" +
 "<head>\n" +
-"<meta charset='UTF-8'/>\n" +
+"<b:include data='blog' name='all-head-content'/>\n" +
 "<meta content='width=device-width, initial-scale=1' name='viewport'/>\n" +
 "<title>" + titleExpr + "</title>\n" +
-"<b:include data='blog' name='all-head-content'/>\n" +
 "<link expr:href='data:view.url.canonical' rel='canonical'/>\n" +
 "<b:if cond='data:view.isHomepage'><meta content='index,follow,max-image-preview:large,max-snippet:-1' name='robots'/></b:if>\n" +
 "<b:if cond='data:view.isSingleItem'><meta content='index,follow,max-image-preview:large,max-snippet:-1' name='robots'/></b:if>\n" +
-"<b:if cond='data:view.isMultipleItems and !data:view.isHomepage and !data:view.isLabelSearch'><meta content='noindex,follow' name='robots'/></b:if>\n" +
+"<b:if cond='data:view.isMultipleItems'><b:if cond='!data:view.isHomepage'><b:if cond='!data:view.isLabelSearch'><meta content='noindex,follow' name='robots'/></b:if></b:if></b:if>\n" +
 labelRobots + "\n" +
 "<b:if cond='data:view.isSearch'><meta content='noindex,follow' name='robots'/></b:if>\n" +
 "<meta expr:content='data:view.description.escaped' name='description'/>\n" +
 og + "\n" +
 "<link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>\n" +
-"<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
 schema + "\n" +
+"<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
 "</head>\n" +
 "<body>\n" +
 "<a class='skip' href='#main'>ข้ามไปยังเนื้อหา</a>\n" +
@@ -739,18 +741,19 @@ skinVariables(d),
     return "";
   }
 
+  function jsonStr(s) { return String(s || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"').replace(/</g, "\\u003c").replace(/>/g, "\\u003e").replace(/&/g, "\\u0026"); }
   function schemaGraph(seo) {
-    var bt = esc(seo.blogTitle || "MyBlog");
+    var bt = jsonStr(seo.blogTitle || "MyBlog");
     var out = "";
     // Site-wide @graph: Organization/Person + WebSite, linked by @id
     var entityType = seo.orgType === "Person" ? "Person" : seo.orgType === "LocalBusiness" ? "LocalBusiness" : "Organization";
     var sameAsArr = String(seo.sameAs || "").split(/[\n,]+/).map(function (s) { return s.trim(); }).filter(Boolean);
     var orgProps = ['"@type":"' + entityType + '"', '"@id":"#identity"', '"name":"' + bt + '"'];
-    if (seo.siteUrl) orgProps.push('"url":"' + esc(seo.siteUrl) + '"');
-    if (seo.logoUrl) orgProps.push('"logo":{"@type":"ImageObject","url":"' + esc(seo.logoUrl) + '"}');
-    if (sameAsArr.length) orgProps.push('"sameAs":[' + sameAsArr.map(function (u) { return '"' + esc(u) + '"'; }).join(",") + "]");
+    if (seo.siteUrl) orgProps.push('"url":"' + jsonStr(seo.siteUrl) + '"');
+    if (seo.logoUrl) orgProps.push('"logo":{"@type":"ImageObject","url":"' + jsonStr(seo.logoUrl) + '"}');
+    if (sameAsArr.length) orgProps.push('"sameAs":[' + sameAsArr.map(function (u) { return '"' + jsonStr(u) + '"'; }).join(",") + "]");
     var siteProps = ['"@type":"WebSite"', '"@id":"#website"', '"name":"' + bt + '"', '"publisher":{"@id":"#identity"}'];
-    if (seo.siteUrl) siteProps.push('"url":"' + esc(seo.siteUrl) + '"');
+    if (seo.siteUrl) siteProps.push('"url":"' + jsonStr(seo.siteUrl) + '"');
     var graph = '{"@context":"https://schema.org","@graph":[{' + orgProps.join(",") + "},{" + siteProps.join(",") + "}]}";
     out += "<script type='application/ld+json'>" + graph.replace(/"/g, "&quot;") + "</script>\n";
     // Per-post BlogPosting + Speakable
@@ -1025,7 +1028,7 @@ skinVariables(d),
   function applyBuilderLang(lang) {
     BL = lang; localStorage.setItem("bxb_lang", lang);
     document.querySelectorAll("#blLang button").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
-    buildLib(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
+    buildLib(); setupLibDrag(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
     translateChrome();
   }
   var blEl = $("#blLang");
