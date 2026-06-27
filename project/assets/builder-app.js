@@ -128,7 +128,9 @@
         { label: "ติดต่อ", url: "/p/contact.html" }
       ], sticky: true, showSearch: true, mobileSide: "right" },
       hero: { title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient" },
-      footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", columns: 4, copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์", social: true },
+      footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
+        footerLinks: [{ label: "หน้าแรก", url: "/" }, { label: "บทความ", url: "/search" }, { label: "เกี่ยวกับ", url: "/p/about.html" }, { label: "ติดต่อ", url: "/p/contact.html" }],
+        socialLinks: [] },
       postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true },
       postlist: { heading: "อ่านต่อ", count: 5, showImage: true },
       featured: { heading: "บทความแนะนำ", count: 1 },
@@ -215,6 +217,29 @@
     if (typeof p.menu === "string" && p.menu) return p.menu.split(",").map(function (m) { return { label: m.trim(), url: "/" }; });
     return [];
   }
+  function footerLinksOf(p) { return Array.isArray(p.footerLinks) ? p.footerLinks : []; }
+  function socialLinksOf(p) { return Array.isArray(p.socialLinks) ? p.socialLinks : []; }
+
+  function pageNameToUrl(raw) {
+    raw = (raw || "").trim();
+    if (!raw || raw.charAt(0) === "/" || raw.charAt(0) === "#" || raw.indexOf("http") === 0) return raw;
+    var slug = raw.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
+    return slug ? "/p/" + slug + ".html" : raw;
+  }
+
+  var SOCIAL_ICONS = {
+    facebook:  { label: "Facebook",  color: "#1877f2", svg: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>' },
+    instagram: { label: "Instagram", color: "#e1306c", svg: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>' },
+    twitter:   { label: "Twitter/X", color: "#1d9bf0", svg: '<path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>' },
+    youtube:   { label: "YouTube",   color: "#ff0000", svg: '<path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 0 0-1.95 1.96A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.41 19.1C5.12 19.56 12 19.56 12 19.56s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.95-1.96A29 29 0 0 0 23 11.75a29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/>' },
+    tiktok:    { label: "TikTok",    color: "#010101", svg: '<path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-6.08 6.26 6.27 6.27 0 0 0 6.27 6.27 6.27 6.27 0 0 0 6.26-6.27V8.69a8.2 8.2 0 0 0 4.8 1.52V6.79a4.85 4.85 0 0 1-1.94-.1z"/>' },
+    line:      { label: "LINE",      color: "#06c755", svg: '<path d="M12 2C6.477 2 2 6.145 2 11.25c0 4.61 3.586 8.456 8.402 9.127.327.07.771.216.884.497.101.255.066.654.033.91l-.144.865c-.044.257-.201 1.005.88.548 1.08-.457 5.836-3.437 7.967-5.883C21.493 15.604 22 13.505 22 11.25 22 6.145 17.523 2 12 2zm-.988 7.139h-1.5V12.6h-.5V9.139H7.5v-.5H11v.5zm1.5-.5h.5V12.6h-.5V8.639zm3 4h-2V8.639h2v.5h-1.5v1.25H16v.5h-1.5V12.1H16v.539zm2.5.5h-.5V9.139h-.5v-.5H19.5v.5h-.5V12.6h-.5V9.139h-.488v-.5h1.488v.5h-.5V12.6z"/>' },
+    pinterest: { label: "Pinterest", color: "#e60023", svg: '<path d="M12 0C5.373 0 0 5.372 0 12c0 5.084 3.163 9.426 7.627 11.174-.105-.949-.2-2.405.042-3.441.218-.937 1.407-5.965 1.407-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.1.12.11.23.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.262 7.929-7.262 4.163 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.632-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146A12 12 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"/>' },
+    linkedin:  { label: "LinkedIn",  color: "#0a66c2", svg: '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>' },
+    github:    { label: "GitHub",    color: "#333333", svg: '<path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>' },
+    telegram:  { label: "Telegram",  color: "#2ca5e0", svg: '<path d="M21.198 2.433a2.24 2.24 0 0 0-1.022.215L3.721 9.84c-1.281.585-1.224 1.362-.286 1.663l4.114 1.328 8.064-5.553c.38-.247.73-.114.443.145l-6.534 5.905-.232 4.166c.337 0 .488-.155.67-.33l1.61-1.569 3.354 2.474c.617.341 1.06.166 1.213-.573l2.196-10.35c.218-.994-.381-1.467-1.138-1.11z"/>' },
+    discord:   { label: "Discord",   color: "#5865f2", svg: '<path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.029.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.029.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>' }
+  };
 
   function renderBlockInner(b) {
     var d = design(), p = b.props, r = d.radius + "px", pr = d.primary, ac = d.accent;
@@ -351,14 +376,32 @@
           + '<div style="font-size:12px;color:#aab;text-align:center">Reading Progress Bar — ติดด้านบนทุกหน้า</div>'
           + '</div></div>';
       case "footer":
-        var fcols = "";
-        for (var k = 0; k < (p.columns || 4); k++) {
-          fcols += '<div><div style="height:9px;width:60%;background:rgba(255,255,255,.3);border-radius:3px;margin-bottom:14px"></div>' + '<div style="display:flex;flex-direction:column;gap:9px">' + Array(4).join().split(",").map(function () { return '<div style="height:7px;width:80%;background:rgba(255,255,255,.16);border-radius:3px"></div>'; }).join("") + "</div></div>";
-        }
-        var fgrid = VIEW === "mobile" ? "display:flex;flex-direction:column;gap:20px" : "display:grid;grid-template-columns:1.6fr repeat(" + ((p.columns || 4) - 1) + ",1fr);gap:32px";
-        return '<div style="background:#0f172a;color:#fff;padding:48px 32px 28px"><div style="' + fgrid + ';max-width:980px;margin:0 auto">' +
-          '<div><div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:19px;color:#fff">' + esc(S.seo.blogTitle || "MyBlog") + '</div><p style="color:rgba(255,255,255,.6);font-size:13.5px;margin-top:12px;line-height:1.6">' + esc(p.about) + "</p>" + (p.social ? '<div style="display:flex;gap:8px;margin-top:14px">' + Array(4).join().split(",").map(function () { return '<div style="width:30px;height:30px;border-radius:7px;background:rgba(255,255,255,.1)"></div>'; }).join("") + "</div>" : "") + "</div>" + fcols + "</div>" +
-          '<div style="text-align:center;color:rgba(255,255,255,.4);font-size:12.5px;margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)">' + esc(p.copyright) + "</div></div>";
+        var fLinks = footerLinksOf(p);
+        var fSocials = socialLinksOf(p);
+        var fLinksCols = VIEW === "mobile" ? 1 : (fLinks.length > 4 ? 2 : 1);
+        var fLinksHtml = fLinks.map(function (m) {
+          return '<a style="display:block;color:rgba(255,255,255,.7);font-size:13.5px;text-decoration:none;padding:3px 0;transition:color .2s">' + esc(m.label) + '</a>';
+        }).join("");
+        var fSocialHtml = fSocials.map(function (s) {
+          var ic = SOCIAL_ICONS[s.platform];
+          if (!ic) return "";
+          return '<div title="' + ic.label + '" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.1);display:grid;place-items:center;flex-shrink:0">' +
+            '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:#fff">' + ic.svg + '</svg></div>';
+        }).join("");
+        var fGridStyle = VIEW === "mobile"
+          ? "display:flex;flex-direction:column;gap:24px"
+          : "display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start";
+        return '<div style="background:#0f172a;color:#fff;padding:48px 32px 24px">' +
+          '<div style="' + fGridStyle + ';max-width:980px;margin:0 auto">' +
+          '<div>' +
+            '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:#fff;margin-bottom:12px">' + esc(S.seo.blogTitle || "MyBlog") + '</div>' +
+            '<p style="color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.65;margin:0 0 18px;max-width:320px">' + esc(p.about) + '</p>' +
+            (fSocials.length ? '<div style="display:flex;gap:8px;flex-wrap:wrap">' + fSocialHtml + '</div>' : '') +
+          '</div>' +
+          (fLinks.length ? '<div style="display:grid;grid-template-columns:repeat(' + fLinksCols + ',1fr);gap:6px 24px;padding-top:4px">' + fLinksHtml + '</div>' : '') +
+          '</div>' +
+          '<div style="text-align:center;color:rgba(255,255,255,.35);font-size:12px;margin-top:36px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);max-width:980px;margin-left:auto;margin-right:auto">' + esc(p.copyright) + '</div>' +
+          '</div>';
     }
     return "";
   }
@@ -527,12 +570,44 @@
     var rows = items.map(function (m, i) {
       return '<div class="menu-row" data-mi="' + i + '">' +
         '<div class="menu-row-top"><span class="menu-grip">⋮⋮</span><input class="inp menu-label" data-ml="' + i + '" value="' + esc(m.label) + '" placeholder="ชื่อเมนู"><button class="menu-del" data-mdel="' + i + '" title="ลบ">✕</button></div>' +
-        '<input class="inp menu-url" data-mu="' + i + '" value="' + esc(m.url) + '" placeholder="/p/about.html">' +
+        '<input class="inp menu-url" data-mu="' + i + '" value="' + esc(m.url) + '" placeholder="about">' +
       '</div>';
     }).join("");
     return '<div class="field"><label>เมนูนำทาง — ใส่ลิงก์ได้แต่ละอัน</label><div class="menu-list">' + rows + '</div>' +
       '<button class="menu-add" data-madd="1">+ เพิ่มเมนู</button>' +
-      '<div class="hint">แนะนำใช้ลิงก์แบบ Root-Relative เช่น <code>/p/about.html</code> — เปลี่ยนโดเมนได้โดยไม่ต้องแก้ลิงก์ ใช้ได้ทั้ง blogspot และโดเมนตัวเอง</div></div>';
+      '<div class="hint">พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> ให้อัตโนมัติ หรือใส่ลิงก์เต็ม เช่น <code>/search</code>, <code>/</code> ก็ได้</div></div>';
+  }
+
+  function footerEditor(p) {
+    var fItems = footerLinksOf(p);
+    var sItems = socialLinksOf(p);
+    var PLATFORMS = Object.keys(SOCIAL_ICONS);
+    var linkRows = fItems.map(function (m, i) {
+      return '<div class="menu-row"><div class="menu-row-top">' +
+        '<span class="menu-grip">⋮⋮</span>' +
+        '<input class="inp menu-label" data-fll="' + i + '" value="' + esc(m.label) + '" placeholder="ชื่อลิงก์">' +
+        '<button class="menu-del" data-fldel="' + i + '" title="ลบ">✕</button>' +
+        '</div>' +
+        '<input class="inp menu-url" data-flu="' + i + '" value="' + esc(m.url) + '" placeholder="about">' +
+        '</div>';
+    }).join("");
+    var socialRows = sItems.map(function (s, i) {
+      var opts = PLATFORMS.map(function (k) {
+        return '<option value="' + k + '"' + (s.platform === k ? " selected" : "") + ">" + SOCIAL_ICONS[k].label + "</option>";
+      }).join("");
+      return '<div class="menu-row"><div class="menu-row-top" style="gap:6px">' +
+        '<select class="inp" data-si="' + i + '" style="flex:0 0 auto;width:120px;padding:6px 4px;font-size:12px">' + opts + '</select>' +
+        '<input class="inp" data-su="' + i + '" value="' + esc(s.url) + '" placeholder="https://..." style="flex:1">' +
+        '<button class="menu-del" data-sdel="' + i + '" title="ลบ">✕</button>' +
+        '</div></div>';
+    }).join("");
+    return '<div class="field"><label>ลิงก์ใน Footer</label>' +
+      '<div class="menu-list">' + linkRows + '</div>' +
+      '<button class="menu-add" data-fladd="1">+ เพิ่มลิงก์</button>' +
+      '<div class="hint">พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> อัตโนมัติ</div></div>' +
+      '<div class="field"><label>โซเชียลมีเดีย</label>' +
+      '<div class="menu-list">' + socialRows + '</div>' +
+      '<button class="menu-add" data-sadd="1">+ เพิ่ม Social</button></div>';
   }
 
   function fieldsFor(b) {
@@ -540,7 +615,7 @@
     switch (b.type) {
       case "header": return txt("logoText", "ข้อความโลโก้", p.logoText) + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
       case "hero": return txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]);
-      case "footer": return area("about", "เกี่ยวกับ (คอลัมน์แรก)", p.about) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 5) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright) + tog("social", "แสดงไอคอนโซเชียล", p.social);
+      case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt);
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading);
@@ -584,9 +659,25 @@
     });
     // menu editor bindings
     $$("[data-ml]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = menuItemsOf(b.props); arr[+inp.dataset.ml].label = inp.value; b.props.menuItems = arr; renderCanvas(); save(); }); });
-    $$("[data-mu]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = menuItemsOf(b.props); arr[+inp.dataset.mu].url = inp.value; b.props.menuItems = arr; renderCanvas(); save(); }); });
+    $$("[data-mu]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () { var arr = menuItemsOf(b.props); arr[+inp.dataset.mu].url = inp.value; b.props.menuItems = arr; renderCanvas(); save(); });
+      inp.addEventListener("blur", function () { var v = pageNameToUrl(inp.value); if (v !== inp.value) { inp.value = v; var arr = menuItemsOf(b.props); arr[+inp.dataset.mu].url = v; b.props.menuItems = arr; save(); } });
+    });
     $$("[data-mdel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = menuItemsOf(b.props); arr.splice(+btn.dataset.mdel, 1); b.props.menuItems = arr; commit(); renderProps(); }); });
     var madd = c.querySelector("[data-madd]"); if (madd) madd.addEventListener("click", function () { var arr = menuItemsOf(b.props); arr.push({ label: "เมนูใหม่", url: "/" }); b.props.menuItems = arr; commit(); renderProps(); });
+    // footer link bindings
+    $$("[data-fll]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = footerLinksOf(b.props); arr[+inp.dataset.fll].label = inp.value; b.props.footerLinks = arr; renderCanvas(); save(); }); });
+    $$("[data-flu]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () { var arr = footerLinksOf(b.props); arr[+inp.dataset.flu].url = inp.value; b.props.footerLinks = arr; renderCanvas(); save(); });
+      inp.addEventListener("blur", function () { var v = pageNameToUrl(inp.value); if (v !== inp.value) { inp.value = v; var arr = footerLinksOf(b.props); arr[+inp.dataset.flu].url = v; b.props.footerLinks = arr; save(); } });
+    });
+    $$("[data-fldel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = footerLinksOf(b.props); arr.splice(+btn.dataset.fldel, 1); b.props.footerLinks = arr; commit(); renderProps(); }); });
+    var fladd = c.querySelector("[data-fladd]"); if (fladd) fladd.addEventListener("click", function () { var arr = footerLinksOf(b.props); arr.push({ label: "ลิงก์ใหม่", url: "/" }); b.props.footerLinks = arr; commit(); renderProps(); });
+    // social link bindings
+    $$("[data-si]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = socialLinksOf(b.props); arr[+sel.dataset.si].platform = sel.value; b.props.socialLinks = arr; renderCanvas(); save(); }); });
+    $$("[data-su]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = socialLinksOf(b.props); arr[+inp.dataset.su].url = inp.value; b.props.socialLinks = arr; renderCanvas(); save(); }); });
+    $$("[data-sdel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = socialLinksOf(b.props); arr.splice(+btn.dataset.sdel, 1); b.props.socialLinks = arr; commit(); renderProps(); }); });
+    var sadd = c.querySelector("[data-sadd]"); if (sadd) sadd.addEventListener("click", function () { var arr = socialLinksOf(b.props); arr.push({ platform: "facebook", url: "" }); b.props.socialLinks = arr; commit(); renderProps(); });
     // columns editor bindings
     $$("[data-ci]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = b.props.items || []; arr[+inp.dataset.idx][inp.dataset.ci] = inp.value; b.props.items = arr; renderCanvas(); save(); }); });
     $$("[data-cdel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = b.props.items || []; arr.splice(+btn.dataset.cdel, 1); b.props.items = arr; if (b.props.cols > arr.length) b.props.cols = Math.max(1, arr.length); commit(); renderProps(); }); });
@@ -1101,6 +1192,19 @@ skinVariables(d),
 "@media(max-width:768px){.bxb-page-layout{display:block;padding:16px 20px}.bxb-sidebar-col{margin-top:20px}}",
 ".widget{margin-bottom:1.5rem}",
 ".widget-title{font-size:1rem;font-weight:700;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary)}",
+".site-footer{background:#0f172a;color:#fff;padding:52px 20px 28px}",
+".footer-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;max-width:980px;margin:0 auto;align-items:start}",
+"@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:28px}}",
+".footer-logo{font-weight:700;font-size:20px;color:#fff;margin-bottom:12px;font-family:$(titlefont)}",
+".footer-about{color:rgba(255,255,255,.6);font-size:14px;line-height:1.65;margin:0 0 20px;max-width:340px}",
+".footer-social{display:flex;gap:8px;flex-wrap:wrap}",
+".footer-social-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.1);color:#fff;transition:background .2s,transform .15s}",
+".footer-social-icon:hover{background:var(--ic-color,rgba(255,255,255,.25));transform:translateY(-2px)}",
+".footer-social-icon svg{display:block}",
+".footer-links{display:flex;flex-direction:column;gap:10px;padding-top:6px}",
+".footer-link{color:rgba(255,255,255,.65);font-size:14px;text-decoration:none;transition:color .2s;display:block}",
+".footer-link:hover{color:#fff}",
+".footer-bottom{text-align:center;color:rgba(255,255,255,.35);font-size:12.5px;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);max-width:980px;margin-left:auto;margin-right:auto}",
 "@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}"
     ].join("\n");
   }
@@ -1172,7 +1276,28 @@ skinVariables(d),
       case "search":
         return "<section style='padding:16px 20px'><div class='wrap'>" + (p.heading ? "<h3 style='font-size:16px;margin-bottom:10px'>" + esc(p.heading) + "</h3>" : "") + "<form action='/search' method='get' role='search'><div style='display:flex;max-width:420px'><input name='q' type='search' placeholder='" + esc(p.placeholder || "ค้นหาในบล็อก…") + "' style='flex:1;padding:12px 16px;border:1px solid #dde;border-radius:var(--radius) 0 0 var(--radius);font-size:14px'/><button type='submit' style='padding:12px 16px;background:var(--primary);color:#fff;border:0;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer'>🔍</button></div></form></div></section>";
       case "footer":
-        return "<footer role='contentinfo' style='background:#0f172a;color:#fff;padding:48px 20px 28px'><div class='wrap'><div style='font-weight:700;font-size:19px'>" + esc(S.seo.blogTitle || "MyBlog") + "</div><p style='color:rgba(255,255,255,.6);margin-top:12px;max-width:420px'>" + esc(p.about) + "</p><div style='text-align:center;color:rgba(255,255,255,.4);font-size:12.5px;margin-top:36px;padding-top:20px;border-top:1px solid rgba(255,255,255,.1)'>" + esc(p.copyright) + "</div></div></footer>";
+        var sfLinks = footerLinksOf(p);
+        var sfSocials = socialLinksOf(p);
+        var sfLinksHtml = sfLinks.map(function (m) {
+          return "<a href='" + esc(m.url) + "' class='footer-link'>" + esc(m.label) + "</a>";
+        }).join("\n");
+        var sfSocialHtml = sfSocials.map(function (s) {
+          var ic = SOCIAL_ICONS[s.platform];
+          if (!ic || !s.url) return "";
+          return "<a href='" + esc(s.url) + "' target='_blank' rel='noopener noreferrer' class='footer-social-icon' aria-label='" + ic.label + "' style='--ic-color:" + ic.color + "'>" +
+            "<svg viewBox='0 0 24 24' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" + ic.svg + "</svg></a>";
+        }).join("\n");
+        return "<footer role='contentinfo' class='site-footer'><div class='wrap'>" +
+          "<div class='footer-grid'>" +
+            "<div class='footer-brand'>" +
+              "<div class='footer-logo'>" + esc(S.seo.blogTitle || "MyBlog") + "</div>" +
+              "<p class='footer-about'>" + esc(p.about) + "</p>" +
+              (sfSocials.length ? "<div class='footer-social'>" + sfSocialHtml + "</div>" : "") +
+            "</div>" +
+            (sfLinks.length ? "<nav class='footer-links' aria-label='Footer'>" + sfLinksHtml + "</nav>" : "") +
+          "</div>" +
+          "<div class='footer-bottom'>" + esc(p.copyright) + "</div>" +
+          "</div></footer>";
       case "darkmode":
         var dmPosCSS = (p.position && p.position.indexOf("top") >= 0 ? "top:72px" : "bottom:24px") + ";" + (p.position && p.position.indexOf("left") >= 0 ? "left:24px" : "right:24px");
         return "<style>[data-theme=dark]{background:#0f172a !important;color:#e2e8f0 !important}"
@@ -1756,7 +1881,8 @@ skinVariables(d),
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "จัดวาง": "Align", "ซ้าย": "Left", "กลาง": "Center", "พื้นหลัง": "Background",
     "ไล่สี": "Gradient", "เข้ม": "Dark", "อ่อน": "Soft",
-    "เกี่ยวกับ (คอลัมน์แรก)": "About (first column)", "จำนวนคอลัมน์": "Columns",
+    "เกี่ยวกับ (คอลัมน์แรก)": "About (first column)", "เกี่ยวกับ (คำอธิบายสั้น)": "About (short description)", "จำนวนคอลัมน์": "Columns",
+    "ลิงก์ใน Footer": "Footer links", "+ เพิ่มลิงก์": "+ Add link", "โซเชียลมีเดีย": "Social media", "+ เพิ่ม Social": "+ Add social",
     "ข้อความลิขสิทธิ์": "Copyright text", "แสดงไอคอนโซเชียล": "Show social icons",
     "หัวข้อส่วน": "Section heading", "จำนวนบทความ": "Post count",
     "แสดงรูปภาพ": "Show image", "แสดงคำโปรย": "Show excerpt",
