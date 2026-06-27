@@ -1262,6 +1262,7 @@
   var POST_BLOCKS = { postgrid: 1, postlist: 1, featured: 1 };
   function genXML() {
     var d = S.design, seo = S.seo;
+    var lang = String((S && S.lang) || "th");
     var titleExpr = "<b:if cond='data:view.isHomepage'><data:blog.title.escaped/><b:else/><data:view.title.escaped/> ~ <data:blog.title.escaped/></b:if>";
     var css = minifyCSS(themeCSS(d));
 
@@ -1270,9 +1271,32 @@
     var postBlocks = S.blocks.filter(function (b) { return POST_BLOCKS[b.type]; });
     var firstPostIdx = S.blocks.findIndex(function (b) { return POST_BLOCKS[b.type]; });
 
+    // BlogPosting JSON-LD — placed here (inside post includable) so data:post.* variables are valid.
+    // Both QuestThai and KongKoom reference files use this same placement.
+    var blogPostingSchema = seo.schema
+      ? "<b:if cond='data:view.isPost'>" +
+        "<script type='application/ld+json'>" +
+        "{&quot;@context&quot;:&quot;https://schema.org&quot;," +
+        "&quot;@type&quot;:&quot;BlogPosting&quot;," +
+        "&quot;@id&quot;:&quot;<data:post.url.canonical.jsonEscaped/>#article&quot;," +
+        "&quot;mainEntityOfPage&quot;:{&quot;@type&quot;:&quot;WebPage&quot;,&quot;@id&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;}," +
+        "&quot;url&quot;:&quot;<data:post.url.canonical.jsonEscaped/>&quot;," +
+        "&quot;headline&quot;:&quot;<data:post.title.jsonEscaped/>&quot;," +
+        "&quot;datePublished&quot;:&quot;<b:eval expr='data:post.date.iso8601'/>&quot;," +
+        "&quot;dateModified&quot;:&quot;<b:eval expr='data:post.lastUpdated.iso8601'/>&quot;," +
+        "&quot;inLanguage&quot;:&quot;" + lang + "&quot;," +
+        "&quot;author&quot;:{&quot;@type&quot;:&quot;Person&quot;,&quot;name&quot;:&quot;<data:post.author.name.jsonEscaped/>&quot;}," +
+        "&quot;publisher&quot;:{&quot;@id&quot;:&quot;" + (seo.siteUrl ? seo.siteUrl.replace(/\/?$/, "/") + "#organization" : "#organization") + "&quot;}," +
+        "<b:if cond='data:post.featuredImage'>&quot;image&quot;:{&quot;@type&quot;:&quot;ImageObject&quot;,&quot;url&quot;:&quot;<b:eval expr='resizeImage(data:post.featuredImage,1200,&quot;1200:630&quot;)'/>&quot;},<b:elseif cond='data:post.firstImageUrl'/>&quot;image&quot;:{&quot;@type&quot;:&quot;ImageObject&quot;,&quot;url&quot;:&quot;<b:eval expr='resizeImage(data:post.firstImageUrl,1200,&quot;1200:630&quot;)'/>&quot;},</b:if>" +
+        "&quot;speakable&quot;:{&quot;@type&quot;:&quot;SpeakableSpecification&quot;,&quot;cssSelector&quot;:[&quot;h1.post-title&quot;,&quot;.post-body p:first-of-type&quot;]}" +
+        "}</script>" +
+        "</b:if>"
+      : "";
+
     // Post includable body — rendered inside <b:includable id='post' var='post'>.
     // data:post.* is valid here because Blogger scopes it from the b:loop in 'main'.
     var postIncludableBody =
+      blogPostingSchema +
       "<article class='bxb-post-single'><div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
         "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
           "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
@@ -1360,10 +1384,21 @@ labelRobots + "\n" +
 "<meta expr:content='data:view.description.escaped' name='description'/>\n" +
 og + "\n" +
 "<link rel='dns-prefetch' href='//1.bp.blogspot.com'/>\n" +
+"<link rel='dns-prefetch' href='//2.bp.blogspot.com'/>\n" +
+"<link rel='dns-prefetch' href='//3.bp.blogspot.com'/>\n" +
+"<link rel='dns-prefetch' href='//4.bp.blogspot.com'/>\n" +
 "<link rel='preconnect' href='https://fonts.googleapis.com'/>\n" +
 "<link crossorigin='anonymous' rel='preconnect' href='https://fonts.gstatic.com'/>\n" +
-"<link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>\n" +
-"<b:if cond='data:view.isSingleItem'><b:if cond='data:view.featuredImage'><link expr:href='data:view.featuredImage' rel='preload' as='image' fetchpriority='high'/></b:if></b:if>\n" +
+"<link rel='preconnect' href='https://blogger.googleusercontent.com'/>\n" +
+// Non-blocking font load (preload + onload swap, like both reference files)
+"<link as='style' href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' onload=\"this.onload=null;this.rel='stylesheet'\" rel='preload'/>\n" +
+"<noscript><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/></noscript>\n" +
+// RSS/Atom feeds — helps feed crawlers and freshness signals
+(seo.siteUrl
+  ? "<link href='" + esc(seo.siteUrl.replace(/\/?$/, "/")) + "feeds/posts/default' rel='alternate' title='" + esc(seo.blogTitle || "Blog") + " Atom' type='application/atom+xml'/>\n" +
+    "<link href='" + esc(seo.siteUrl.replace(/\/?$/, "/")) + "feeds/posts/default?alt=rss' rel='alternate' title='" + esc(seo.blogTitle || "Blog") + " RSS' type='application/rss+xml'/>\n"
+  : "") +
+"<b:if cond='data:view.isSingleItem'><b:if cond='data:view.featuredImage'><link expr:href='resizeImage(data:view.featuredImage,1200,\"1200:630\")' rel='preload' as='image' fetchpriority='high'/></b:if></b:if>\n" +
 schema + "\n" +
 "<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
 "</head>\n" +
@@ -1762,49 +1797,66 @@ skinVariables(d),
       var appGraph = '{"@context":"https://schema.org","@graph":[{' + appProps.join(",") + "}]}";
       out += "<script type='application/ld+json'>" + appGraph.replace(/"/g, "&quot;") + "</script>\n";
     }
-    // Per-post: unified @graph [WebPage + BlogPosting + BreadcrumbList]
-    // IMPORTANT: use data:view.* only — data:post.* is only valid inside Blog widget b:loop
-    // Use <b:eval expr='...'> for all dynamic values embedded in JSON strings
-    out += "<b:if cond='data:view.isPost'>\n";
+    // Single post/page: WebPage + Speakable in <head> only.
+    // BlogPosting is placed in the Blog widget's post includable (using data:post.* — valid there).
+    out += "<b:if cond='data:view.isSingleItem'>\n";
     out += "<script type='application/ld+json'>" +
       "{&quot;@context&quot;:&quot;https://schema.org&quot;,&quot;@graph&quot;:[" +
-      // WebPage node
-      "{&quot;@type&quot;:&quot;WebPage&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#webpage&quot;,&quot;url&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;,&quot;name&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;isPartOf&quot;:{&quot;@id&quot;:&quot;" + siteId + "&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;,&quot;datePublished&quot;:&quot;<b:eval expr='data:view.publishDate'/>&quot;,&quot;dateModified&quot;:&quot;<b:eval expr='data:view.lastUpdated'/>&quot;}," +
-      // BlogPosting node — author via org @id (data:post.author not available in <head>)
-      "{&quot;@type&quot;:&quot;BlogPosting&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#article&quot;,&quot;headline&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;datePublished&quot;:&quot;<b:eval expr='data:view.publishDate'/>&quot;,&quot;dateModified&quot;:&quot;<b:eval expr='data:view.lastUpdated'/>&quot;,&quot;author&quot;:{&quot;@id&quot;:&quot;" + orgId + "&quot;},&quot;publisher&quot;:{&quot;@id&quot;:&quot;" + orgId + "&quot;},&quot;mainEntityOfPage&quot;:{&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#webpage&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;,&quot;speakable&quot;:{&quot;@type&quot;:&quot;SpeakableSpecification&quot;,&quot;cssSelector&quot;:[&quot;h1.post-title&quot;,&quot;.post-body p:first-of-type&quot;]}<b:if cond='data:view.featuredImage'>,&quot;image&quot;:{&quot;@type&quot;:&quot;ImageObject&quot;,&quot;url&quot;:&quot;<b:eval expr='resizeImage(data:view.featuredImage,1200,&quot;1200:630&quot;)'/>&quot;}</b:if>}," +
-      // BreadcrumbList — data:view.* only, no data:post.labels loop in <head>
+      "{&quot;@type&quot;:&quot;WebPage&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#webpage&quot;,&quot;url&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;,&quot;name&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;isPartOf&quot;:{&quot;@id&quot;:&quot;" + siteId + "&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;,&quot;speakable&quot;:{&quot;@type&quot;:&quot;SpeakableSpecification&quot;,&quot;cssSelector&quot;:[&quot;h1.post-title&quot;,&quot;.post-body p:first-of-type&quot;]}<b:if cond='data:view.featuredImage'>,&quot;primaryImageOfPage&quot;:{&quot;@type&quot;:&quot;ImageObject&quot;,&quot;url&quot;:&quot;<b:eval expr='resizeImage(data:view.featuredImage,1200,&quot;1200:630&quot;)'/>&quot;}</b:if>}," +
       "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#breadcrumb&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;หน้าแรก&quot;,&quot;item&quot;:&quot;<b:eval expr='data:blog.homepageUrl.jsonEscaped'/>&quot;},{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:2,&quot;name&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;item&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;}]}" +
       "]}</script>\n";
     out += "</b:if>\n";
-    // Label page: CollectionPage + BreadcrumbList @graph
-    out += "<b:if cond='data:view.isLabelSearch'>\n";
+    // Label/archive page: CollectionPage + BreadcrumbList
+    out += "<b:if cond='data:view.isMultipleItems and !data:view.isHomepage'>\n";
     out += "<script type='application/ld+json'>" +
       "{&quot;@context&quot;:&quot;https://schema.org&quot;,&quot;@graph&quot;:[" +
-      "{&quot;@type&quot;:&quot;CollectionPage&quot;,&quot;@id&quot;:&quot;<data:view.url.canonical/>#webpage&quot;,&quot;url&quot;:&quot;<data:view.url.canonical/>&quot;,&quot;name&quot;:&quot;<data:blog.pageName.jsonEscaped/>&quot;,&quot;isPartOf&quot;:{&quot;@id&quot;:&quot;" + siteId + "&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;}," +
-      "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;หน้าแรก&quot;,&quot;item&quot;:&quot;<data:blog.homepageUrl/>&quot;},{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:2,&quot;name&quot;:&quot;<data:blog.pageName.jsonEscaped/>&quot;,&quot;item&quot;:&quot;<data:view.url.canonical/>&quot;}]}" +
+      "{&quot;@type&quot;:&quot;CollectionPage&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#collection&quot;,&quot;url&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;,&quot;name&quot;:&quot;<b:if cond='data:blog.searchLabel'><b:eval expr='data:blog.searchLabel.jsonEscaped'/><b:else/><b:eval expr='data:blog.pageName.jsonEscaped'/></b:if>&quot;,&quot;isPartOf&quot;:{&quot;@id&quot;:&quot;" + siteId + "&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;}," +
+      "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;หน้าแรก&quot;,&quot;item&quot;:&quot;<b:eval expr='data:blog.homepageUrl.jsonEscaped'/>&quot;}" +
+      "<b:if cond='data:blog.searchLabel'>,{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:2,&quot;name&quot;:&quot;<b:eval expr='data:blog.searchLabel.jsonEscaped'/>&quot;,&quot;item&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;}</b:if>" +
+      "]}" +
       "]}</script>\n";
     out += "</b:if>";
     return out;
   }
   function ogTags(seo) {
     var sn = esc(seo.blogTitle || "MyBlog");
-    return [
+    var lines = [
       "<meta expr:content='data:view.title.escaped' property='og:title'/>",
       "<meta expr:content='data:view.description.escaped' property='og:description'/>",
       "<meta expr:content='data:view.url.canonical' property='og:url'/>",
       "<meta content='" + sn + "' property='og:site_name'/>",
+      "<meta expr:content='data:view.isPost ? &quot;article&quot; : &quot;website&quot;' property='og:type'/>",
       "<meta expr:content='data:blog.locale' property='og:locale'/>",
-      "<b:if cond='data:view.isHomepage'><meta content='website' property='og:type'/><b:else/><meta content='article' property='og:type'/></b:if>",
       "<b:if cond='data:view.featuredImage'>",
       "<meta expr:content='resizeImage(data:view.featuredImage, 1200, \"1200:630\")' property='og:image'/>",
       "<meta content='1200' property='og:image:width'/>",
       "<meta content='630' property='og:image:height'/>",
-      "<meta expr:content='data:view.featuredImage' name='twitter:image'/>",
+      "<meta expr:content='resizeImage(data:view.featuredImage, 1200, \"1200:630\")' name='twitter:image'/>",
+      "<b:elseif cond='data:view.firstImageUrl'/>",
+      "<meta expr:content='resizeImage(data:view.firstImageUrl, 1200, \"1200:630\")' property='og:image'/>",
+      "<meta content='1200' property='og:image:width'/>",
+      "<meta content='630' property='og:image:height'/>",
+      "<meta expr:content='resizeImage(data:view.firstImageUrl, 1200, \"1200:630\")' name='twitter:image'/>",
       "</b:if>",
       "<meta content='summary_large_image' name='twitter:card'/>",
       "<meta expr:content='data:view.title.escaped' name='twitter:title'/>",
-      "<meta expr:content='data:view.description.escaped' name='twitter:description'/>"
-    ].join("\n");
+      "<meta expr:content='data:view.description.escaped' name='twitter:description'/>",
+      // Article-specific OG + Twitter meta (like both reference files)
+      "<b:if cond='data:view.isPost'>",
+      "<meta expr:content='data:view.publishDate' property='article:published_time'/>",
+      "<meta expr:content='data:view.lastUpdated' property='article:modified_time'/>",
+      "<meta content='" + sn + "' property='article:author'/>",
+      "<b:if cond='data:view.labels'><b:loop values='data:view.labels' var='lbl'><meta expr:content='data:lbl.name' property='article:tag'/></b:loop><meta expr:content='data:view.labels.first.name' property='article:section'/></b:if>",
+      "<meta content='หมวดหมู่' name='twitter:label1'/>",
+      "<b:if cond='data:view.labels'><meta expr:content='data:view.labels.first.name' name='twitter:data1'/></b:if>",
+      "</b:if>",
+      // Pagination hints for crawlers
+      "<b:if cond='data:blog.pageType == &quot;index&quot;'>",
+      "<b:if cond='data:newerPageUrl'><link expr:href='data:newerPageUrl' rel='prev'/></b:if>",
+      "<b:if cond='data:olderPageUrl'><link expr:href='data:olderPageUrl' rel='next'/></b:if>",
+      "</b:if>"
+    ];
+    return lines.join("\n");
   }
 
   /* validate well-formedness */
