@@ -122,10 +122,10 @@
   function blockDefaults(type) {
     var d = {
       header: { logoText: "MyBlog", menuItems: [
-        { label: "หน้าแรก", url: "/" },
-        { label: "บทความ", url: "/search" },
-        { label: "เกี่ยวกับ", url: "/p/about.html" },
-        { label: "ติดต่อ", url: "/p/contact.html" }
+        { id: "m1", type: "home",   label: "หน้าแรก", url: "/" },
+        { id: "m2", type: "search", label: "บทความ",  url: "/search" },
+        { id: "m3", type: "page",   label: "เกี่ยวกับ", pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
+        { id: "m4", type: "page",   label: "ติดต่อ",    pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
       ], sticky: true, showSearch: true, mobileSide: "right" },
       hero: { title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient" },
       footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
@@ -227,6 +227,51 @@
     return slug ? "/p/" + slug + ".html" : raw;
   }
 
+  /* ---------- Smart Navigation ---------- */
+  var MENU_TYPE_INFO = {
+    home:     { icon: "🏠", label: "หน้าแรก",       hint: "→ /",                    autoUrl: true },
+    page:     { icon: "📄", label: "หน้าเพจ",        hint: "→ /p/about.html",        autoUrl: false },
+    label:    { icon: "🏷️", label: "ป้ายกำกับ",      hint: "→ /search/label/…",      autoUrl: false },
+    search:   { icon: "🔍", label: "ค้นหา",          hint: "→ /search",              autoUrl: true },
+    external: { icon: "🌐", label: "ลิงก์ภายนอก",    hint: "https://…",              autoUrl: false },
+    custom:   { icon: "⚙️", label: "URL กำหนดเอง",   hint: "ทุกรูปแบบ",             autoUrl: false },
+    dropdown: { icon: "▾",  label: "Dropdown",       hint: "มีเมนูย่อย",             autoUrl: false }
+  };
+  var PAGE_CHECKLIST = [
+    { slug: "about",          label: "About" },
+    { slug: "contact",        label: "Contact" },
+    { slug: "privacy-policy", label: "Privacy Policy" },
+    { slug: "terms",          label: "Terms & Conditions" },
+    { slug: "disclaimer",     label: "Disclaimer" },
+    { slug: "sitemap",        label: "Sitemap" }
+  ];
+  function menuUrlFor(item) {
+    var t = item.type || "custom";
+    if (t === "home")   return "/";
+    if (t === "search") return "/search";
+    if (t === "label") {
+      var ln = (item.labelName || "").trim();
+      return ln ? "/search/label/" + encodeURIComponent(ln) : "/search";
+    }
+    if (t === "page") {
+      var raw = (item.pageSlug || item.url || "").trim();
+      if (raw.indexOf("http") === 0) {
+        var m = raw.match(/^https?:\/\/[^/]+(\/.*)?$/); raw = m ? (m[1] || "/") : raw;
+      }
+      if (/^\/p\/.+\.html$/.test(raw)) return raw;
+      raw = raw.replace(/^\/p\//, "").replace(/\.html$/, "");
+      var slug = raw.toLowerCase().replace(/\s+/g, "-").replace(/[^\w-]/g, "");
+      return slug ? "/p/" + slug + ".html" : "/";
+    }
+    if (t === "dropdown") return item.url || "#";
+    var u = (item.url || "").trim();
+    if (!u) return "/";
+    if (t === "custom" && u.indexOf("http") === 0) {
+      var m2 = u.match(/^https?:\/\/[^/]+(\/.*)?$/); return m2 ? (m2[1] || "/") : u;
+    }
+    return u;
+  }
+
   var SOCIAL_ICONS = {
     facebook:  { label: "Facebook",  color: "#1877f2", svg: '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>' },
     instagram: { label: "Instagram", color: "#e1306c", svg: '<rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>' },
@@ -246,10 +291,22 @@
     switch (b.type) {
       case "header":
         var mItems = menuItemsOf(p);
-        var menu = mItems.map(function (m) { return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none">' + esc(m.label) + "</a>"; }).join("");
         var isMob = VIEW === "mobile";
+        var menu = mItems.map(function (m) {
+          var t = m.type || "custom";
+          var hasChildren = t === "dropdown" && Array.isArray(m.children) && m.children.length;
+          if (hasChildren) {
+            var subs = m.children.map(function (c) {
+              return '<a style="display:block;padding:8px 14px;font-size:13px;color:#4a5063;white-space:nowrap">' + esc(c.label) + '</a>';
+            }).join("");
+            return '<div style="position:relative;display:inline-block">' +
+              '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;cursor:pointer">' + esc(m.label) + ' <span style="font-size:10px">▾</span></a>' +
+              '<div style="position:absolute;top:100%;left:0;background:#fff;border:1px solid #eef;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.1);min-width:150px;padding:4px 0;margin-top:4px;z-index:2">' + subs + '</div>' +
+              '</div>';
+          }
+          return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none">' + esc(m.label) + "</a>";
+        }).join("");
         if (isMob) {
-          // mobile: hamburger on chosen side + stacked menu peeking
           var burger = '<div style="width:34px;height:34px;display:grid;place-items:center;font-size:20px;color:' + pr + '">☰</div>';
           return '<div style="padding:14px 18px;background:#fff;border-bottom:1px solid #eef"><div style="display:flex;align-items:center;gap:12px">' +
             (p.mobileSide === "left" ? burger : "") +
@@ -259,7 +316,7 @@
         }
         return '<div style="display:flex;align-items:center;gap:24px;padding:18px 32px;background:#fff;border-bottom:1px solid #eef">' +
           '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:21px;color:' + pr + '">' + esc(p.logoText) + "</div>" +
-          '<nav style="display:flex;gap:22px;margin:0 auto">' + menu + "</nav>" +
+          '<nav style="display:flex;gap:22px;margin:0 auto;align-items:center">' + menu + "</nav>" +
           (p.showSearch ? '<div style="width:34px;height:34px;border-radius:50%;background:#f1f2f9;display:grid;place-items:center">🔍</div>' : "") + "</div>";
       case "hero":
         var bg = p.bg === "gradient" ? "linear-gradient(120deg," + pr + "," + ac + ")" : p.bg === "dark" ? "#0f172a" : "#f7f8fc";
@@ -567,15 +624,83 @@
   function num(key, label, val, mn, mx) { return '<div class="field"><label>' + label + ' — ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
   function menuEditor(p) {
     var items = menuItemsOf(p);
-    var rows = items.map(function (m, i) {
-      return '<div class="menu-row" data-mi="' + i + '">' +
-        '<div class="menu-row-top"><span class="menu-grip">⋮⋮</span><input class="inp menu-label" data-ml="' + i + '" value="' + esc(m.label) + '" placeholder="ชื่อเมนู"><button class="menu-del" data-mdel="' + i + '" title="ลบ">✕</button></div>' +
-        '<input class="inp menu-url" data-mu="' + i + '" value="' + esc(m.url) + '" placeholder="about">' +
-      '</div>';
+    // linked URL set for checklist
+    var linked = {};
+    items.forEach(function (it) { linked[menuUrlFor(it)] = true; });
+    // type select options HTML
+    var typeOpts = Object.keys(MENU_TYPE_INFO).map(function (k) {
+      var ti = MENU_TYPE_INFO[k];
+      return '<option value="' + k + '">' + ti.icon + " " + ti.label + "</option>";
     }).join("");
-    return '<div class="field"><label>เมนูนำทาง — ใส่ลิงก์ได้แต่ละอัน</label><div class="menu-list">' + rows + '</div>' +
+    var rows = items.map(function (m, i) {
+      var t = m.type || "custom";
+      var computedUrl = menuUrlFor(m);
+      var typeSelHtml = '<select class="inp menu-type-sel" data-mt="' + i + '">' +
+        Object.keys(MENU_TYPE_INFO).map(function (k) {
+          return '<option value="' + k + '"' + (t === k ? " selected" : "") + ">" + MENU_TYPE_INFO[k].icon + " " + MENU_TYPE_INFO[k].label + "</option>";
+        }).join("") + "</select>";
+      // secondary area
+      var sec = "";
+      if (t === "home" || t === "search") {
+        sec = '<div class="url-chip auto">⚡ ' + computedUrl + "</div>";
+      } else if (t === "page") {
+        sec = '<input class="inp" data-mpslug="' + i + '" value="' + esc(m.pageSlug || "") + '" placeholder="ชื่อหน้า เช่น about, contact">' +
+          '<div class="url-chip' + (m.pageSlug ? "" : " empty") + '">' + (m.pageSlug ? computedUrl : "กรอกชื่อหน้าก่อน") + "</div>" +
+          '<div class="menu-page-status">' +
+          '<label class="tg-mini"><input type="checkbox" data-mpc="' + i + '"' + (m.pageCreated ? " checked" : "") + '><span class="tg-lbl">สร้างหน้าเพจใน Blogger แล้ว</span></label>' +
+          (!m.pageCreated ? ' <a href="/docs/create-page" target="_blank" class="help-link-sm">📖 วิธีสร้างหน้าเพจ</a>' : "") +
+          "</div>";
+      } else if (t === "label") {
+        sec = '<input class="inp" data-mlname="' + i + '" value="' + esc(m.labelName || "") + '" placeholder="ชื่อป้ายกำกับ เช่น ข่าวสาร, รีวิว">' +
+          '<div class="url-chip' + (m.labelName ? "" : " empty") + '">' + (m.labelName ? computedUrl : "กรอกชื่อป้ายกำกับก่อน") + "</div>";
+      } else if (t === "dropdown") {
+        var children = Array.isArray(m.children) ? m.children : [];
+        var childRows = children.map(function (c, ci) {
+          return '<div class="menu-child-row">' +
+            '<span class="child-indent">↳</span>' +
+            '<input class="inp" data-mclbl="' + i + "_" + ci + '" value="' + esc(c.label || "") + '" placeholder="ชื่อเมนูย่อย">' +
+            '<input class="inp" data-mcurl="' + i + "_" + ci + '" value="' + esc(c.url || "") + '" placeholder="URL หรือชื่อหน้า">' +
+            '<button class="menu-del menu-cdel" data-mcdel="' + i + "_" + ci + '">✕</button>' +
+          "</div>";
+        }).join("");
+        sec = '<div class="menu-children">' + childRows +
+          '<button class="menu-add-child" data-mcadd="' + i + '">+ เพิ่มเมนูย่อย</button></div>';
+      } else {
+        sec = '<input class="inp menu-url" data-mu="' + i + '" value="' + esc(m.url || "") + '" placeholder="' +
+          (t === "external" ? "https://www.example.com" : "/p/about.html") + '">' +
+          (t === "custom" ? '<div class="hint" style="margin:0">รองรับ <code>/p/…</code>, <code>/search/label/…</code>, <code>#id</code></div>' : "");
+      }
+      return '<div class="menu-row" data-mi="' + i + '">' +
+        '<div class="menu-row-top">' +
+        '<span class="menu-grip">⋮⋮</span>' + typeSelHtml +
+        '<input class="inp menu-label" data-ml="' + i + '" value="' + esc(m.label) + '" placeholder="ชื่อเมนู">' +
+        '<button class="menu-del" data-mdel="' + i + '" title="ลบ">✕</button>' +
+        "</div>" +
+        '<div class="menu-secondary">' + sec + "</div>" +
+      "</div>";
+    }).join("");
+    // type picker (shown when adding new item)
+    var pickerBtns = Object.keys(MENU_TYPE_INFO).map(function (k) {
+      var ti = MENU_TYPE_INFO[k];
+      return '<button class="mtp-btn" data-mt-pick="' + k + '"><span class="mtp-ico">' + ti.icon + "</span><span>" + ti.label + "</span></button>";
+    }).join("");
+    // page checklist
+    var clHtml = PAGE_CHECKLIST.map(function (pc) {
+      var url = "/p/" + pc.slug + ".html";
+      return '<label class="cl-item"><input type="checkbox" disabled' + (linked[url] ? " checked" : "") + '><span>' + pc.label + ' <small>' + url + "</small></span></label>";
+    }).join("");
+    return '<div class="field"><label>เมนูนำทาง</label>' +
+      '<div class="menu-list">' + rows + "</div>" +
+      '<div class="menu-type-picker" id="mt-picker" style="display:none">' +
+        '<div class="mtp-grid">' + pickerBtns + "</div>" +
+        '<button class="menu-cancel-pick" id="mt-cancel">ยกเลิก</button>' +
+      "</div>" +
       '<button class="menu-add" data-madd="1">+ เพิ่มเมนู</button>' +
-      '<div class="hint">พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> ให้อัตโนมัติ หรือใส่ลิงก์เต็ม เช่น <code>/search</code>, <code>/</code> ก็ได้</div></div>';
+      "</div>" +
+      '<div class="field"><label>✅ หน้าเพจที่ควรสร้างก่อน</label>' +
+      '<div class="page-checklist">' + clHtml + "</div>" +
+      '<div class="hint">สร้างหน้าเหล่านี้ใน Blogger → หน้าเพจ แล้วนำ URL มาเชื่อมกับเมนูประเภท "หน้าเพจ"</div>' +
+      "</div>";
   }
 
   function footerEditor(p) {
@@ -659,12 +784,109 @@
     });
     // menu editor bindings
     $$("[data-ml]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = menuItemsOf(b.props); arr[+inp.dataset.ml].label = inp.value; b.props.menuItems = arr; renderCanvas(); save(); }); });
+    // type change → recompute URL + re-render props
+    $$("[data-mt]", c).forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        var arr = menuItemsOf(b.props); var i = +sel.dataset.mt;
+        arr[i].type = sel.value; arr[i].url = menuUrlFor(arr[i]);
+        b.props.menuItems = arr; commit(); renderProps();
+      });
+    });
+    // page slug
+    $$("[data-mpslug]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        var arr = menuItemsOf(b.props); var i = +inp.dataset.mpslug;
+        arr[i].pageSlug = inp.value; arr[i].url = menuUrlFor(arr[i]);
+        b.props.menuItems = arr; renderCanvas(); save();
+        var chip = inp.nextElementSibling;
+        if (chip && chip.classList.contains("url-chip")) {
+          chip.textContent = inp.value ? arr[i].url : "กรอกชื่อหน้าก่อน";
+          chip.classList.toggle("empty", !inp.value);
+        }
+      });
+    });
+    // page created checkbox
+    $$("[data-mpc]", c).forEach(function (cb) {
+      cb.addEventListener("change", function () {
+        var arr = menuItemsOf(b.props); arr[+cb.dataset.mpc].pageCreated = cb.checked;
+        b.props.menuItems = arr; commit(); renderProps();
+      });
+    });
+    // label name
+    $$("[data-mlname]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        var arr = menuItemsOf(b.props); var i = +inp.dataset.mlname;
+        arr[i].labelName = inp.value; arr[i].url = menuUrlFor(arr[i]);
+        b.props.menuItems = arr; renderCanvas(); save();
+        var chip = inp.nextElementSibling;
+        if (chip && chip.classList.contains("url-chip")) {
+          chip.textContent = inp.value ? arr[i].url : "กรอกชื่อป้ายกำกับก่อน";
+          chip.classList.toggle("empty", !inp.value);
+        }
+      });
+    });
+    // external/custom URL
     $$("[data-mu]", c).forEach(function (inp) {
       inp.addEventListener("input", function () { var arr = menuItemsOf(b.props); arr[+inp.dataset.mu].url = inp.value; b.props.menuItems = arr; renderCanvas(); save(); });
       inp.addEventListener("blur", function () { var v = pageNameToUrl(inp.value); if (v !== inp.value) { inp.value = v; var arr = menuItemsOf(b.props); arr[+inp.dataset.mu].url = v; b.props.menuItems = arr; save(); } });
     });
+    // delete menu item
     $$("[data-mdel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = menuItemsOf(b.props); arr.splice(+btn.dataset.mdel, 1); b.props.menuItems = arr; commit(); renderProps(); }); });
-    var madd = c.querySelector("[data-madd]"); if (madd) madd.addEventListener("click", function () { var arr = menuItemsOf(b.props); arr.push({ label: "เมนูใหม่", url: "/" }); b.props.menuItems = arr; commit(); renderProps(); });
+    // dropdown children
+    $$("[data-mclbl]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        var parts = inp.dataset.mclbl.split("_"); var pi = +parts[0]; var ci = +parts[1];
+        var arr = menuItemsOf(b.props);
+        if (!arr[pi].children) arr[pi].children = [];
+        arr[pi].children[ci].label = inp.value; b.props.menuItems = arr; renderCanvas(); save();
+      });
+    });
+    $$("[data-mcurl]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        var parts = inp.dataset.mcurl.split("_"); var pi = +parts[0]; var ci = +parts[1];
+        var arr = menuItemsOf(b.props);
+        arr[pi].children[ci].url = inp.value; b.props.menuItems = arr; renderCanvas(); save();
+      });
+      inp.addEventListener("blur", function () {
+        var v = pageNameToUrl(inp.value); if (v !== inp.value) { inp.value = v; }
+      });
+    });
+    $$("[data-mcdel]", c).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var parts = btn.dataset.mcdel.split("_"); var pi = +parts[0]; var ci = +parts[1];
+        var arr = menuItemsOf(b.props); arr[pi].children.splice(ci, 1);
+        b.props.menuItems = arr; commit(); renderProps();
+      });
+    });
+    $$("[data-mcadd]", c).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var arr = menuItemsOf(b.props); var pi = +btn.dataset.mcadd;
+        if (!arr[pi].children) arr[pi].children = [];
+        arr[pi].children.push({ label: "เมนูย่อย", url: "/" });
+        b.props.menuItems = arr; commit(); renderProps();
+      });
+    });
+    // type picker
+    var madd = c.querySelector("[data-madd]");
+    var picker = c.querySelector("#mt-picker");
+    var mtCancel = c.querySelector("#mt-cancel");
+    if (madd && picker) {
+      madd.addEventListener("click", function () { picker.style.display = "block"; madd.style.display = "none"; });
+      if (mtCancel) mtCancel.addEventListener("click", function () { picker.style.display = "none"; madd.style.display = ""; });
+      $$("[data-mt-pick]", picker).forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var t = btn.dataset.mtPick;
+          var arr = menuItemsOf(b.props);
+          var defaults = { id: uid(), type: t, label: MENU_TYPE_INFO[t].label, children: [] };
+          if (t === "home")   { defaults.label = "หน้าแรก"; defaults.url = "/"; }
+          if (t === "search") { defaults.label = "ค้นหา";    defaults.url = "/search"; }
+          arr.push(defaults);
+          b.props.menuItems = arr;
+          picker.style.display = "none"; madd.style.display = "";
+          commit(); renderProps();
+        });
+      });
+    }
     // footer link bindings
     $$("[data-fll]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = footerLinksOf(b.props); arr[+inp.dataset.fll].label = inp.value; b.props.footerLinks = arr; renderCanvas(); save(); }); });
     $$("[data-flu]", c).forEach(function (inp) {
@@ -1172,7 +1394,17 @@ skinVariables(d),
 ".nav-toggle-cb,.nav-burger,.nav-scrim{display:none}",
 ".nav-burger{flex-direction:column;gap:5px;cursor:pointer;padding:8px;margin-left:auto}",
 ".nav-burger span{display:block;width:24px;height:2px;background:#1e2333;border-radius:2px}",
+".site-nav li{position:relative}",
+".site-nav .has-children>a{display:inline-flex;align-items:center;gap:3px}",
+".site-nav .dropdown{display:none;position:absolute;top:calc(100% + 8px);left:0;list-style:none;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:160px;padding:4px 0;z-index:80}",
+".site-nav .dropdown li a{display:block;padding:10px 16px;font-size:14px;color:#1e2333;white-space:nowrap;font-weight:400}",
+".site-nav .dropdown li a:hover{background:#f7f8fc;color:var(--primary)}",
+".site-nav li:hover>.dropdown{display:block}",
+".nav-search{display:flex;align-items:center;gap:4px;margin-left:auto}",
+".nav-search input{padding:7px 12px;border:1px solid #dde;border-radius:var(--radius);font-size:13px;width:160px}",
+".nav-search button{padding:7px 11px;background:var(--primary);color:#fff;border:0;border-radius:var(--radius);cursor:pointer}",
 "@media(max-width:768px){",
+".nav-search{display:none}",
 ".nav-burger{display:flex}",
 ".site-nav{position:fixed;top:0;bottom:0;width:78%;max-width:300px;background:#fff;z-index:60;padding:64px 22px 22px;transition:transform .28s ease;box-shadow:0 0 40px rgba(0,0,0,.2)}",
 ".site-nav ul{flex-direction:column;gap:4px;margin:0}",
@@ -1181,6 +1413,9 @@ skinVariables(d),
 ".site-nav.nav-left{left:0;transform:translateX(-100%)}",
 ".nav-toggle-cb:checked~.site-bar .site-nav{transform:translateX(0)}",
 ".nav-toggle-cb:checked~.site-bar .nav-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:55}",
+".site-nav .dropdown{position:static;box-shadow:none;border:0;border-radius:0;background:rgba(0,0,0,.04);padding:0;margin:4px 0 8px 12px}",
+".site-nav li:hover>.dropdown{display:none}",
+".site-nav .has-children.open>.dropdown{display:block}",
 "}",
 ".hide-mobile{display:block}",
 "@media(max-width:768px){.grid{grid-template-columns:1fr !important}.hide-mobile{display:none !important}}",
@@ -1215,16 +1450,31 @@ skinVariables(d),
     switch (b.type) {
       case "header":
         var hItems = menuItemsOf(p);
-        var menu = hItems.map(function (m) { return "<li><a href='" + esc(m.url) + "'>" + esc(m.label) + "</a></li>"; }).join("");
         var side = p.mobileSide === "left" ? "left" : "right";
+        var hMenu = hItems.map(function (m) {
+          var href = esc(menuUrlFor(m));
+          var t = m.type || "custom";
+          if (t === "dropdown" && Array.isArray(m.children) && m.children.length) {
+            var subs = m.children.map(function (c) {
+              return "<li role='none'><a role='menuitem' href='" + esc(pageNameToUrl(c.url) || "#") + "'>" + esc(c.label) + "</a></li>";
+            }).join("");
+            return "<li class='has-children'>" +
+              "<a href='" + href + "' aria-haspopup='true' aria-expanded='false'>" + esc(m.label) + " <span aria-hidden='true'>▾</span></a>" +
+              "<ul class='dropdown' role='menu'>" + subs + "</ul></li>";
+          }
+          var cur = (t === "home") ? " aria-current='page'" : "";
+          return "<li><a href='" + href + "'" + cur + ">" + esc(m.label) + "</a></li>";
+        }).join("");
         return "<header role='banner' class='site-header'" + (p.sticky ? " style='position:sticky;top:0;z-index:50'" : "") + ">" +
           "<input type='checkbox' id='navtoggle' class='nav-toggle-cb' hidden='hidden'/>" +
           "<div class='wrap site-bar'>" +
           "<a href='/' class='site-logo' style='font-weight:700;font-size:21px;color:var(--primary)'>" + esc(p.logoText) + "</a>" +
-          "<nav role='navigation' aria-label='เมนูหลัก' class='site-nav nav-" + side + "'><ul>" + menu + "</ul></nav>" +
+          "<nav role='navigation' aria-label='เมนูหลัก' class='site-nav nav-" + side + "'><ul>" + hMenu + "</ul></nav>" +
+          (p.showSearch ? "<form action='/search' method='get' class='nav-search' role='search'><input name='q' type='search' placeholder='ค้นหา…' aria-label='ค้นหา'/><button type='submit' aria-label='ค้นหา'>🔍</button></form>" : "") +
           "<label for='navtoggle' class='nav-burger' aria-label='เปิดเมนู'><span></span><span></span><span></span></label>" +
           "<label for='navtoggle' class='nav-scrim'></label>" +
-          "</div></header>";
+          "</div></header>" +
+          "<script>/*<![CDATA[*/(function(){document.querySelectorAll('.has-children>a').forEach(function(a){a.addEventListener('click',function(e){if(window.innerWidth<=768){e.preventDefault();var li=a.parentElement;li.classList.toggle('open');a.setAttribute('aria-expanded',li.classList.contains('open'));}})})}());/*]]>*/<\/script>";
       case "hero":
         return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
