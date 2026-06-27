@@ -905,7 +905,8 @@
     VIEW = v;
     $$("#viewTabs button").forEach(function (x) { x.classList.toggle("on", x.dataset.vw === v); });
     var w = $("#frameWrap");
-    w.style.width = v === "mobile" ? "390px" : v === "tablet" ? "768px" : "100%";
+    w.style.width    = v === "mobile" ? "390px" : v === "tablet" ? "768px" : "100%";
+    w.style.minWidth = v === "desktop" ? "960px" : "";
     renderCanvas();
   }
   $$("#viewTabs button").forEach(function (b) {
