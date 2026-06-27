@@ -1558,11 +1558,58 @@ skinVariables(d),
 
   /* ---------- start screen ---------- */
   var curCat = "ทั้งหมด";
+
+  function tplThumb(t) {
+    var c1 = t.c[0], c2 = t.c[1];
+    var bl = t.blocks;
+    var hasHero = bl.indexOf("hero") >= 0;
+    var hasFeat = bl.indexOf("featured") >= 0;
+    var hasGrid = bl.indexOf("postgrid") >= 0;
+    var hasList = bl.indexOf("postlist") >= 0;
+    var hasSide = bl.indexOf("sidebar") >= 0;
+
+    var heroHtml = "";
+    if (hasHero) {
+      heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + "," + c2 + ')">'
+        + '<div class="th1"></div><div class="th2"></div><div class="tbtn"></div></div>';
+    } else if (hasFeat) {
+      heroHtml = '<div class="t-feat-sec" style="background:' + c1 + '18;border-left:3px solid ' + c1 + '"></div>';
+    }
+
+    var bodyHtml = "";
+    if (hasGrid) {
+      var ncols = hasSide ? 2 : 3;
+      var cards = "";
+      for (var i = 0; i < ncols; i++) {
+        cards += '<div class="tgc"><div class="tgc-img" style="background:' + c1 + '28"></div><div class="tgc-body"></div></div>';
+      }
+      bodyHtml = '<div class="t-grid-row">' + cards + '</div>';
+    } else if (hasList) {
+      bodyHtml = '<div class="t-list-row"></div><div class="t-list-row ts"></div>'
+               + '<div class="t-list-row"></div><div class="t-list-row ts"></div>';
+    } else {
+      bodyHtml = '<div class="t-list-row"></div><div class="t-list-row ts"></div>';
+    }
+
+    return '<div class="t-mini">'
+      + '<div class="t-chrome"><span class="tc-r"></span><span class="tc-y"></span><span class="tc-g"></span><div class="tc-url"></div></div>'
+      + '<div class="t-site-hdr" style="background:' + c1 + '">'
+      + '<div class="t-site-logo"></div><div class="t-site-nav"><i></i><i></i><i></i></div></div>'
+      + heroHtml
+      + '<div class="t-body-sec">' + bodyHtml + '</div>'
+      + '<div class="t-foot-sec" style="background:' + c1 + '28"></div>'
+      + '</div>';
+  }
+
   function renderStart() {
     $("#catTabs").innerHTML = CATS.map(function (c) { return '<button class="cat-tab' + (c === curCat ? " on" : "") + '" data-c="' + c + '">' + c + "</button>"; }).join("");
     var list = TEMPLATES.filter(function (t) { return curCat === "ทั้งหมด" || t.cat === curCat; });
     $("#startGrid").innerHTML = list.map(function (t) {
-      return '<div class="tpl-card" data-tpl="' + t.id + '"><div class="thumb" style="background:linear-gradient(135deg,' + t.c[0] + "," + t.c[1] + ')"><div class="h"></div><div class="l"></div><div class="l s"></div><div class="g"><div></div><div></div><div></div></div></div><div class="meta"><h4>' + t.name + "</h4><p>" + t.desc + "</p></div></div>";
+      return '<div class="tpl-card" data-tpl="' + t.id + '">'
+        + '<div class="thumb">' + tplThumb(t) + '</div>'
+        + '<div class="meta"><h4>' + t.name + '</h4><p>' + t.desc + '</p>'
+        + '<span class="tpl-cat-badge">' + t.cat + '</span></div>'
+        + '</div>';
     }).join("");
     $$("#catTabs .cat-tab").forEach(function (b) { b.addEventListener("click", function () { curCat = b.dataset.c; renderStart(); }); });
     $$("#startGrid .tpl-card").forEach(function (card) { card.addEventListener("click", function () { startFromTemplate(card.dataset.tpl); }); });
@@ -1756,11 +1803,21 @@ skinVariables(d),
   function applyBuilderLang(lang) {
     BL = lang; localStorage.setItem("bxb_lang", lang);
     document.querySelectorAll("#blLang button").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
+    var mlb = document.getElementById("mobLangBtn"); if (mlb) mlb.textContent = lang.toUpperCase();
     buildLib(); setupLibDrag(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
     translateChrome();
   }
   var blEl = $("#blLang");
   if (blEl) blEl.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) applyBuilderLang(b.dataset.bl); });
+
+  var mobLangBtn = $("#mobLangBtn");
+  if (mobLangBtn) {
+    mobLangBtn.addEventListener("click", function () {
+      var next = BL === "th" ? "en" : "th";
+      applyBuilderLang(next);
+      mobLangBtn.textContent = next.toUpperCase();
+    });
+  }
 
   /* ---------- IMPORT JSON ---------- */
   var importFileEl = $("#importFile");
