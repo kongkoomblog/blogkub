@@ -393,6 +393,12 @@ button{font-family:inherit;cursor:pointer;}
   #mobLangBtn{font-size:11.5px;font-weight:700;letter-spacing:.04em;min-width:42px;padding:0 6px;color:var(--ink-2);border-color:var(--border);background:var(--surface);border-radius:9px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-family:var(--fd);cursor:pointer;}
 }
 @media(max-width:560px){.tpl-grid{grid-template-columns:1fr;}.gate-grid{grid-template-columns:1fr;}}
+@media(max-width:1000px){
+  .modal{padding:8px 6px;}
+  .modal-foot{flex-wrap:wrap;gap:7px;padding:10px 14px;}
+  .modal-foot #dlXml{order:-1;width:100%;justify-content:center;}
+  #dlBxb,#dlJson{display:none;}
+}
 @keyframes sheetUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
 
 /* Command Palette */
