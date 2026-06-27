@@ -1270,32 +1270,43 @@
     var postBlocks = S.blocks.filter(function (b) { return POST_BLOCKS[b.type]; });
     var firstPostIdx = S.blocks.findIndex(function (b) { return POST_BLOCKS[b.type]; });
 
-    // Single-post / static-page view — always needed regardless of which post blocks exist
-    var singlePostHtml =
-      "<b:loop values='data:posts' var='post'>" +
-        "<article class='bxb-post-single'><div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
-          "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
-            "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
-          "</div></b:if>" +
-          "<h1 class='post-title' style='font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.2;margin:0 0 16px'><data:post.title/></h1>" +
+    // Post includable body — rendered inside <b:includable id='post' var='post'>.
+    // data:post.* is valid here because Blogger scopes it from the b:loop in 'main'.
+    var postIncludableBody =
+      "<article class='bxb-post-single'><div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
+        "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
+          "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
+        "</div></b:if>" +
+        "<h1 class='post-title' style='font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.2;margin:0 0 16px'><data:post.title/></h1>" +
+        "<b:if cond='data:view.isPost'>" +
           "<div class='post-meta' style='display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:#828aa0;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #eef'>" +
             "<span><data:post.author.name/></span><span><data:post.date/></span>" +
           "</div>" +
-          "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,1200,\"auto\")' expr:alt='data:post.title' style='width:100%;height:auto;border-radius:var(--radius);margin-bottom:28px;display:block' loading='eager'/></b:if>" +
-          "<div class='post-body' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
-        "</div></article>" +
-      "</b:loop>";
+        "</b:if>" +
+        "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,1200,\"auto\")' expr:alt='data:post.title' style='width:100%;height:auto;border-radius:var(--radius);margin-bottom:28px;display:block' loading='eager'/></b:if>" +
+        "<div class='post-body' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
+      "</div></article>";
 
-    // The Blog widget includable: contains all post-driven sections in order.
-    var includableBody = postBlocks.length
-      ? "<b:if cond='data:view.isMultipleItems'>\n" +
-        postBlocks.map(function (b) { return condWrap(renderBlockStatic(b), b); }).join("\n") +
-        "\n<b:else/>\n" + singlePostHtml + "\n</b:if>"
-      : "<b:if cond='data:view.isMultipleItems'><b:loop values='data:posts' var='post'><article class='bxb-post'><h2><a expr:href='data:post.url'><data:post.title/></a></h2><div class='post-body'><data:post.body/></div></article></b:loop></b:if>" + singlePostHtml;
+    // Multiple-items (homepage/label/search) branch — post grid/list blocks or fallback loop
+    var multipleItemsHtml = postBlocks.length
+      ? postBlocks.map(function (b) { return condWrap(renderBlockStatic(b), b); }).join("\n") + "\n<b:include name='nextprev'/>"
+      : "<b:loop values='data:posts' var='post'><article class='bxb-post'><h2><a expr:href='data:post.url'><data:post.title/></a></h2><div class='post-body'><data:post.body/></div></article></b:loop><b:include name='nextprev'/>";
+
+    // main includable: routes between single-item view and multiple-items view.
+    // Single post/page → b:loop calls <b:include name='post'/> → post includable renders body.
+    // This two-includable pattern matches working Blogger v2 templates.
+    var mainIncludable =
+      "<b:if cond='data:view.isPost or data:view.isPage'>\n" +
+      "<b:loop values='data:posts' var='post'><b:include data='post' name='post'/></b:loop>\n" +
+      "<b:else/>\n" +
+      multipleItemsHtml + "\n" +
+      "</b:if>";
+
     var blogWidget =
       "<b:section id='main' class='main-section' mobile='yes' showaddelement='no'>\n" +
       "<b:widget id='Blog1' title='บทความ' type='Blog' version='2' visible='true'>\n" +
-      "<b:includable id='main'>\n" + includableBody + "\n</b:includable>\n" +
+      "<b:includable id='main'>\n" + mainIncludable + "\n</b:includable>\n" +
+      "<b:includable id='post' var='post'>\n" + postIncludableBody + "\n</b:includable>\n" +
       "</b:widget>\n</b:section>";
 
     // If a sidebar block exists, wrap blogWidget + sidebar section in a layout div
