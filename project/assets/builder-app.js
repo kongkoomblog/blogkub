@@ -1326,10 +1326,37 @@
       multipleItemsHtml + "\n" +
       "</b:if>";
 
+    // Both reference templates (QuestThai + KongKoom) define <b:includable id='nextprev'> explicitly.
+    // Blogger validates ALL b:include references at parse time — calling nextprev without defining
+    // it in the same widget causes a silent parse failure that prevents the entire widget from rendering.
+    var nextprevIncludable =
+      "<b:includable id='nextprev'>\n" +
+      "<nav class='blog-pager' id='blog-pager' aria-label='การนำทางหน้าบทความ'>\n" +
+      "<b:if cond='data:newerPageUrl'><a class='blog-pager-newer-link' expr:href='data:newerPageUrl' rel='prev'>&#8592; ใหม่กว่า</a></b:if>\n" +
+      "<b:if cond='data:olderPageUrl'><a class='blog-pager-older-link' expr:href='data:olderPageUrl' rel='next'>เก่ากว่า &#8594;</a></b:if>\n" +
+      "</nav>\n" +
+      "</b:includable>\n";
+
+    var widgetSettings =
+      "<b:widget-settings>\n" +
+      "<b:widget-setting name='showDateHeader'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showShareButtons'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showCommentLink'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showAuthor'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showAuthorProfile'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showLabels'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showTimestamp'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showBacklinks'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showInlineAds'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showReactions'>false</b:widget-setting>\n" +
+      "</b:widget-settings>\n";
+
     var blogWidget =
-      "<b:section id='main' class='main-section' mobile='yes' showaddelement='no'>\n" +
-      "<b:widget id='Blog1' title='บทความ' type='Blog' version='2' visible='true'>\n" +
+      "<b:section id='main' class='main-section' showaddelement='yes'>\n" +
+      "<b:widget id='Blog1' locked='true' mobile='yes' title='บทความ' type='Blog' version='2' visible='true'>\n" +
+      widgetSettings +
       "<b:includable id='main'>\n" + mainIncludable + "\n</b:includable>\n" +
+      nextprevIncludable +
       "<b:includable id='post' var='post'>\n" + postIncludableBody + "\n</b:includable>\n" +
       "</b:widget>\n</b:section>";
 
