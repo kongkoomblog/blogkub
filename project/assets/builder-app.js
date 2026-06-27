@@ -1272,21 +1272,19 @@
 
     // Single-post / static-page view — always needed regardless of which post blocks exist
     var singlePostHtml =
-      "<b:if cond='data:view.isSingleItem'>" +
-        "<b:loop values='data:posts' var='post'>" +
-          "<article class='bxb-post-single'><div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
-            "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
-              "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
-            "</div></b:if>" +
-            "<h1 class='post-title' style='font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.2;margin:0 0 16px'><data:post.title/></h1>" +
-            "<div class='post-meta' style='display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:#828aa0;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #eef'>" +
-              "<span><data:post.author.name/></span><span><data:post.date/></span>" +
-            "</div>" +
-            "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,1200,\"auto\")' expr:alt='data:post.title' style='width:100%;height:auto;border-radius:var(--radius);margin-bottom:28px;display:block' loading='eager'/></b:if>" +
-            "<div class='post-body' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
-          "</div></article>" +
-        "</b:loop>" +
-      "</b:if>";
+      "<b:loop values='data:posts' var='post'>" +
+        "<article class='bxb-post-single'><div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
+          "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
+            "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
+          "</div></b:if>" +
+          "<h1 class='post-title' style='font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.2;margin:0 0 16px'><data:post.title/></h1>" +
+          "<div class='post-meta' style='display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:#828aa0;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #eef'>" +
+            "<span><data:post.author.name/></span><span><data:post.date/></span>" +
+          "</div>" +
+          "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,1200,\"auto\")' expr:alt='data:post.title' style='width:100%;height:auto;border-radius:var(--radius);margin-bottom:28px;display:block' loading='eager'/></b:if>" +
+          "<div class='post-body' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
+        "</div></article>" +
+      "</b:loop>";
 
     // The Blog widget includable: contains all post-driven sections in order.
     var includableBody = postBlocks.length
@@ -1354,7 +1352,7 @@ og + "\n" +
 "<link rel='preconnect' href='https://fonts.googleapis.com'/>\n" +
 "<link crossorigin='anonymous' rel='preconnect' href='https://fonts.gstatic.com'/>\n" +
 "<link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>\n" +
-"<b:if cond='data:view.isSingleItem'><b:if cond='data:post.featuredImage'><link expr:href='data:post.featuredImage' rel='preload' as='image' fetchpriority='high'/></b:if></b:if>\n" +
+"<b:if cond='data:view.isSingleItem'><b:if cond='data:view.featuredImage'><link expr:href='data:view.featuredImage' rel='preload' as='image' fetchpriority='high'/></b:if></b:if>\n" +
 schema + "\n" +
 "<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
 "</head>\n" +
