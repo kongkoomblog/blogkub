@@ -300,7 +300,7 @@
               return '<a style="display:block;padding:8px 14px;font-size:13px;color:#4a5063;white-space:nowrap">' + esc(c.label) + '</a>';
             }).join("");
             return '<div style="position:relative;display:inline-block">' +
-              '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;cursor:pointer">' + esc(m.label) + ' <span style="font-size:10px">▾</span></a>' +
+              '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px">' + esc(m.label) + ' <span style="font-size:11px;color:#9aa">›</span></a>' +
               '<div style="position:absolute;top:100%;left:0;background:#fff;border:1px solid #eef;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.1);min-width:150px;padding:4px 0;margin-top:4px;z-index:2">' + subs + '</div>' +
               '</div>';
           }
@@ -1421,8 +1421,9 @@ skinVariables(d),
 ".site-nav .dropdown{position:static;display:none;box-shadow:none;border:0;border-radius:0;background:rgba(99,102,241,.06);padding:4px 0;margin:0 0 4px 0;opacity:1;transform:none}",
 ".site-nav li:hover>.dropdown{display:none}",
 ".site-nav .has-children.open>.dropdown{display:block}",
-".site-nav .has-children>a::after{content:'›';margin-left:auto;font-size:18px;transition:transform .2s;color:var(--ink-3,#9aa)}",
+".site-nav .has-children>a::after{content:'\\203A';margin-left:auto;font-size:20px;line-height:1;transition:transform .2s;color:var(--ink-3,#9aa)}",
 ".site-nav .has-children.open>a::after{transform:rotate(90deg)}",
+".site-nav .has-children>a .drop-arrow{display:none}",
 ".site-nav .dropdown li a{padding-left:28px;min-height:44px;font-size:14.5px;color:#4a5063}",
 "}",
 ".hide-mobile{display:block}",
@@ -1467,7 +1468,7 @@ skinVariables(d),
               return "<li role='none'><a role='menuitem' href='" + esc(pageNameToUrl(c.url) || "#") + "'>" + esc(c.label) + "</a></li>";
             }).join("");
             return "<li class='has-children'>" +
-              "<a href='" + href + "' aria-haspopup='true' aria-expanded='false'>" + esc(m.label) + " <span aria-hidden='true'>▾</span></a>" +
+              "<a href='" + href + "' aria-haspopup='true' aria-expanded='false'>" + esc(m.label) + "</a>" +
               "<ul class='dropdown' role='menu'>" + subs + "</ul></li>";
           }
           var cur = (t === "home") ? " aria-current='page'" : "";
