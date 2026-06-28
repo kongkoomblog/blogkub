@@ -1353,6 +1353,8 @@
       "<b:widget-setting name='showBacklinks'>false</b:widget-setting>\n" +
       "<b:widget-setting name='showInlineAds'>false</b:widget-setting>\n" +
       "<b:widget-setting name='showReactions'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showSnippet'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='snippetLength'>200</b:widget-setting>\n" +
       "<b:widget-setting name='reactionsLabel'/>\n" +
       "<b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>\n" +
       "<b:widget-setting name='style.layout'>1x1</b:widget-setting>\n" +
@@ -1620,13 +1622,13 @@ skinVariables(d),
           "<b:loop values='data:posts' var='post'><article style='border:1px solid #eef;border-radius:var(--radius);overflow:hidden'>" +
           (p.showImage ? "<a expr:href='data:post.url'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/></b:if></a>" : "") +
           "<div style='padding:16px'><h3 style='font-size:17px'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
-          (p.showExcerpt ? "<b:if cond='data:post.snippet'><p style='color:#828aa0;font-size:14px;margin-top:8px;line-height:1.5;overflow:hidden;height:2.8em'><data:post.snippet/></p><b:else/><p style='color:#b0b7c3;font-size:12px;margin-top:8px'><data:post.timestamp/></p></b:if>" : "") +
+          (p.showExcerpt ? "<p style='color:#828aa0;font-size:14px;margin-top:8px;line-height:1.5;overflow:hidden;height:2.8em'><b:eval expr='data:post.metaDescription ?: data:post.snippet'/></p>" : "") +
           "</div></article></b:loop>" +
           "</div></div></section>";
       case "postlist":
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' var='post'><article style='display:flex;gap:16px;border-bottom:1px solid #eef;padding:16px 0'>" +
           (p.showImage ? "<a expr:href='data:post.url' style='flex:none'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/></b:if></a>" : "") +
-          "<div style='min-width:0'><h3 style='font-size:17px;margin:0 0 6px'><a expr:href='data:post.url'><data:post.title/></a></h3><b:if cond='data:post.snippet'><p style='color:#828aa0;font-size:13px;margin:4px 0 0;line-height:1.5;overflow:hidden;height:2.7em'><data:post.snippet/></p><b:else/><p style='color:#b0b7c3;font-size:12px;margin:4px 0 0'><data:post.timestamp/></p></b:if></div></article></b:loop></div></section>";
+          "<div style='min-width:0'><h3 style='font-size:17px;margin:0 0 6px'><a expr:href='data:post.url'><data:post.title/></a></h3><p style='color:#828aa0;font-size:13px;margin:4px 0 0;line-height:1.5;overflow:hidden;height:2.7em'><b:eval expr='data:post.metaDescription ?: data:post.snippet'/></p></div></article></b:loop></div></section>";
       case "featured":
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' index='i' var='post'><b:if cond='data:i == 0'><article style='border-radius:var(--radius);overflow:hidden;background:linear-gradient(120deg,var(--primary),var(--accent));padding:32px;color:#fff'><h3 style='font-size:26px'><a expr:href='data:post.url' style='color:#fff'><data:post.title/></a></h3></article></b:if></b:loop></div></section>";
       case "about":
@@ -2000,6 +2002,7 @@ skinVariables(d),
       .replace(/<b:if[^>]*>/g, "").replace(/<b:else\/>/g, "").replace(/<\/b:if>/g, "")
       .replace(/<data:post\.title\/>/g, "หัวข้อบทความตัวอย่างที่น่าสนใจ")
       .replace(/<data:post\.snippet\/>/g, "สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…")
+      .replace(/<b:eval expr='data:post\.metaDescription \?:[^']*'\/>/g, "สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…")
       .replace(/<data:post\.timestamp\/>/g, "28 มิ.ย. 2026")
       .replace(/expr:src='data:post\.featuredImage'/g, "src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"225\"><rect width=\"400\" height=\"225\" fill=\"%23e8eaf2\"/></svg>'")
       .replace(/expr:alt='data:post\.title'/g, "alt='ตัวอย่างรูปภาพ'")
