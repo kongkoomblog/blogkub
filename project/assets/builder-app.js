@@ -698,51 +698,51 @@
     // type select options HTML
     var typeOpts = Object.keys(MENU_TYPE_INFO).map(function (k) {
       var ti = MENU_TYPE_INFO[k];
-      return '<option value="' + k + '">' + ti.icon + " " + ti.label + "</option>";
+      return '<option value="' + k + '">' + ti.icon + " " + tr(ti.label) + "</option>";
     }).join("");
     var rows = items.map(function (m, i) {
       var t = m.type || "custom";
       var computedUrl = menuUrlFor(m);
       var typeSelHtml = '<select class="inp menu-type-sel" data-mt="' + i + '">' +
         Object.keys(MENU_TYPE_INFO).map(function (k) {
-          return '<option value="' + k + '"' + (t === k ? " selected" : "") + ">" + MENU_TYPE_INFO[k].icon + " " + MENU_TYPE_INFO[k].label + "</option>";
+          return '<option value="' + k + '"' + (t === k ? " selected" : "") + ">" + MENU_TYPE_INFO[k].icon + " " + tr(MENU_TYPE_INFO[k].label) + "</option>";
         }).join("") + "</select>";
       // secondary area
       var sec = "";
       if (t === "home" || t === "search") {
         sec = '<div class="url-chip auto">⚡ ' + computedUrl + "</div>";
       } else if (t === "page") {
-        sec = '<input class="inp" data-mpslug="' + i + '" value="' + esc(m.pageSlug || "") + '" placeholder="ชื่อหน้า เช่น about, contact">' +
-          '<div class="url-chip' + (m.pageSlug ? "" : " empty") + '">' + (m.pageSlug ? computedUrl : "กรอกชื่อหน้าก่อน") + "</div>" +
+        sec = '<input class="inp" data-mpslug="' + i + '" value="' + esc(m.pageSlug || "") + '" placeholder="' + tpl("ชื่อหน้า เช่น about, contact", "Page slug (e.g. about, contact)") + '">' +
+          '<div class="url-chip' + (m.pageSlug ? "" : " empty") + '">' + (m.pageSlug ? computedUrl : tpl("กรอกชื่อหน้าก่อน", "Enter page slug first")) + "</div>" +
           '<div class="menu-page-status">' +
-          '<label class="tg-mini"><input type="checkbox" data-mpc="' + i + '"' + (m.pageCreated ? " checked" : "") + '><span class="tg-lbl">สร้างหน้าเพจใน Blogger แล้ว</span></label>' +
-          (!m.pageCreated ? ' <a href="/docs/create-page" target="_blank" class="help-link-sm">📖 วิธีสร้างหน้าเพจ</a>' : "") +
+          '<label class="tg-mini"><input type="checkbox" data-mpc="' + i + '"' + (m.pageCreated ? " checked" : "") + '><span class="tg-lbl">' + tpl("สร้างหน้าเพจใน Blogger แล้ว", "Page created in Blogger") + '</span></label>' +
+          (!m.pageCreated ? ' <a href="/docs/create-page" target="_blank" class="help-link-sm">' + tpl("📖 วิธีสร้างหน้าเพจ", "📖 How to create a page") + '</a>' : "") +
           "</div>";
       } else if (t === "label") {
-        sec = '<input class="inp" data-mlname="' + i + '" value="' + esc(m.labelName || "") + '" placeholder="ชื่อป้ายกำกับ เช่น ข่าวสาร, รีวิว">' +
-          '<div class="url-chip' + (m.labelName ? "" : " empty") + '">' + (m.labelName ? computedUrl : "กรอกชื่อป้ายกำกับก่อน") + "</div>";
+        sec = '<input class="inp" data-mlname="' + i + '" value="' + esc(m.labelName || "") + '" placeholder="' + tpl("ชื่อป้ายกำกับ เช่น ข่าวสาร, รีวิว", "Label name (e.g. news, reviews)") + '">' +
+          '<div class="url-chip' + (m.labelName ? "" : " empty") + '">' + (m.labelName ? computedUrl : tpl("กรอกชื่อป้ายกำกับก่อน", "Enter label name first")) + "</div>";
       } else if (t === "dropdown") {
         var children = Array.isArray(m.children) ? m.children : [];
         var childRows = children.map(function (c, ci) {
           return '<div class="menu-child-row">' +
             '<span class="child-indent">↳</span>' +
-            '<input class="inp" data-mclbl="' + i + "_" + ci + '" value="' + esc(c.label || "") + '" placeholder="ชื่อเมนูย่อย">' +
-            '<input class="inp" data-mcurl="' + i + "_" + ci + '" value="' + esc(c.url || "") + '" placeholder="URL หรือชื่อหน้า">' +
+            '<input class="inp" data-mclbl="' + i + "_" + ci + '" value="' + esc(c.label || "") + '" placeholder="' + tpl("ชื่อเมนูย่อย", "Sub-menu name") + '">' +
+            '<input class="inp" data-mcurl="' + i + "_" + ci + '" value="' + esc(c.url || "") + '" placeholder="' + tpl("URL หรือชื่อหน้า", "URL or page slug") + '">' +
             '<button class="menu-del menu-cdel" data-mcdel="' + i + "_" + ci + '">✕</button>' +
           "</div>";
         }).join("");
         sec = '<div class="menu-children">' + childRows +
-          '<button class="menu-add-child" data-mcadd="' + i + '">+ เพิ่มเมนูย่อย</button></div>';
+          '<button class="menu-add-child" data-mcadd="' + i + '">' + tr("+ เพิ่มเมนูย่อย") + '</button></div>';
       } else {
         sec = '<input class="inp menu-url" data-mu="' + i + '" value="' + esc(m.url || "") + '" placeholder="' +
           (t === "external" ? "https://www.example.com" : "/p/about.html") + '">' +
-          (t === "custom" ? '<div class="hint" style="margin:0">รองรับ <code>/p/…</code>, <code>/search/label/…</code>, <code>#id</code></div>' : "");
+          (t === "custom" ? '<div class="hint" style="margin:0">' + tpl("รองรับ", "Supports") + ' <code>/p/…</code>, <code>/search/label/…</code>, <code>#id</code></div>' : "");
       }
       return '<div class="menu-row" data-mi="' + i + '">' +
         '<div class="menu-row-top">' +
         '<span class="menu-grip">⋮⋮</span>' + typeSelHtml +
-        '<input class="inp menu-label" data-ml="' + i + '" value="' + esc(m.label) + '" placeholder="ชื่อเมนู">' +
-        '<button class="menu-del" data-mdel="' + i + '" title="ลบ">✕</button>' +
+        '<input class="inp menu-label" data-ml="' + i + '" value="' + esc(m.label) + '" placeholder="' + tpl("ชื่อเมนู", "Menu label") + '">' +
+        '<button class="menu-del" data-mdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         "</div>" +
         '<div class="menu-secondary">' + sec + "</div>" +
       "</div>";
@@ -750,24 +750,24 @@
     // type picker (shown when adding new item)
     var pickerBtns = Object.keys(MENU_TYPE_INFO).map(function (k) {
       var ti = MENU_TYPE_INFO[k];
-      return '<button class="mtp-btn" data-mt-pick="' + k + '"><span class="mtp-ico">' + ti.icon + "</span><span>" + ti.label + "</span></button>";
+      return '<button class="mtp-btn" data-mt-pick="' + k + '"><span class="mtp-ico">' + ti.icon + "</span><span>" + tr(ti.label) + "</span></button>";
     }).join("");
     // page checklist
     var clHtml = PAGE_CHECKLIST.map(function (pc) {
       var url = "/p/" + pc.slug + ".html";
       return '<label class="cl-item"><input type="checkbox" disabled' + (linked[url] ? " checked" : "") + '><span>' + pc.label + ' <small>' + url + "</small></span></label>";
     }).join("");
-    return '<div class="field"><label>เมนูนำทาง</label>' +
+    return '<div class="field"><label>' + tr("เมนูนำทาง") + '</label>' +
       '<div class="menu-list">' + rows + "</div>" +
       '<div class="menu-type-picker" id="mt-picker" style="display:none">' +
         '<div class="mtp-grid">' + pickerBtns + "</div>" +
-        '<button class="menu-cancel-pick" id="mt-cancel">ยกเลิก</button>' +
+        '<button class="menu-cancel-pick" id="mt-cancel">' + tpl("ยกเลิก", "Cancel") + '</button>' +
       "</div>" +
-      '<button class="menu-add" data-madd="1">+ เพิ่มเมนู</button>' +
+      '<button class="menu-add" data-madd="1">' + tr("+ เพิ่มเมนู") + '</button>' +
       "</div>" +
-      '<div class="field"><label>✅ หน้าเพจที่ควรสร้างก่อน</label>' +
+      '<div class="field"><label>' + tr("✅ หน้าเพจที่ควรสร้างก่อน") + '</label>' +
       '<div class="page-checklist">' + clHtml + "</div>" +
-      '<div class="hint">สร้างหน้าเหล่านี้ใน Blogger → หน้าเพจ แล้วนำ URL มาเชื่อมกับเมนูประเภท "หน้าเพจ"</div>' +
+      '<div class="hint">' + tpl('สร้างหน้าเหล่านี้ใน Blogger → หน้าเพจ แล้วนำ URL มาเชื่อมกับเมนูประเภท "หน้าเพจ"', 'Create these pages in Blogger → Pages, then link them using a "Page" menu type') + '</div>' +
       "</div>";
   }
 
@@ -778,8 +778,8 @@
     var linkRows = fItems.map(function (m, i) {
       return '<div class="menu-row"><div class="menu-row-top">' +
         '<span class="menu-grip">⋮⋮</span>' +
-        '<input class="inp menu-label" data-fll="' + i + '" value="' + esc(m.label) + '" placeholder="ชื่อลิงก์">' +
-        '<button class="menu-del" data-fldel="' + i + '" title="ลบ">✕</button>' +
+        '<input class="inp menu-label" data-fll="' + i + '" value="' + esc(m.label) + '" placeholder="' + tpl("ชื่อลิงก์", "Link label") + '">' +
+        '<button class="menu-del" data-fldel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         '</div>' +
         '<input class="inp menu-url" data-flu="' + i + '" value="' + esc(m.url) + '" placeholder="about">' +
         '</div>';
@@ -791,16 +791,16 @@
       return '<div class="menu-row"><div class="menu-row-top" style="gap:6px">' +
         '<select class="inp" data-si="' + i + '" style="flex:0 0 auto;width:120px;padding:6px 4px;font-size:12px">' + opts + '</select>' +
         '<input class="inp" data-su="' + i + '" value="' + esc(s.url) + '" placeholder="https://..." style="flex:1">' +
-        '<button class="menu-del" data-sdel="' + i + '" title="ลบ">✕</button>' +
+        '<button class="menu-del" data-sdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         '</div></div>';
     }).join("");
-    return '<div class="field"><label>ลิงก์ใน Footer</label>' +
+    return '<div class="field"><label>' + tr("ลิงก์ใน Footer") + '</label>' +
       '<div class="menu-list">' + linkRows + '</div>' +
-      '<button class="menu-add" data-fladd="1">+ เพิ่มลิงก์</button>' +
-      '<div class="hint">พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> อัตโนมัติ</div></div>' +
-      '<div class="field"><label>โซเชียลมีเดีย</label>' +
+      '<button class="menu-add" data-fladd="1">' + tr("+ เพิ่มลิงก์") + '</button>' +
+      '<div class="hint">' + tpl('พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> อัตโนมัติ', 'Type a page name, e.g. <code>contact</code> → auto-converts to <code>/p/contact.html</code>') + '</div></div>' +
+      '<div class="field"><label>' + tr("โซเชียลมีเดีย") + '</label>' +
       '<div class="menu-list">' + socialRows + '</div>' +
-      '<button class="menu-add" data-sadd="1">+ เพิ่ม Social</button></div>';
+      '<button class="menu-add" data-sadd="1">' + tr("+ เพิ่ม Social") + '</button></div>';
   }
 
   function fieldsFor(b) {
@@ -953,9 +953,9 @@
         btn.addEventListener("click", function () {
           var t = btn.dataset.mtPick;
           var arr = menuItemsOf(b.props);
-          var defaults = { id: uid(), type: t, label: MENU_TYPE_INFO[t].label, children: [] };
-          if (t === "home")   { defaults.label = "หน้าแรก"; defaults.url = "/"; }
-          if (t === "search") { defaults.label = "ค้นหา";    defaults.url = "/search"; }
+          var defaults = { id: uid(), type: t, label: tr(MENU_TYPE_INFO[t].label), children: [] };
+          if (t === "home")   { defaults.label = tpl("หน้าแรก", "Home");   defaults.url = "/"; }
+          if (t === "search") { defaults.label = tpl("ค้นหา", "Search"); defaults.url = "/search"; }
           arr.push(defaults);
           b.props.menuItems = arr;
           picker.style.display = "none"; madd.style.display = "";
@@ -2646,7 +2646,13 @@ skinVariables(d),
     "สมัครเสร็จแล้ว — ไปเลือกแม่แบบ →": "Done signing up — go pick a template →",
     "หรือเริ่มจากหน้าเปล่า →": "Or start from blank →",
     // export modal
-    "รายงาน": "Report", "📖 คู่มือ": "📖 Guide", "คัดลอก": "Copy", "ดาวน์โหลด .xml": "Download .xml"
+    "รายงาน": "Report", "📖 คู่มือ": "📖 Guide", "คัดลอก": "Copy", "ดาวน์โหลด .xml": "Download .xml",
+    // menu editor
+    "หน้าเพจ": "Page", "ลิงก์ภายนอก": "External link", "URL กำหนดเอง": "Custom URL",
+    "เมนูนำทาง": "Navigation", "ยกเลิก": "Cancel", "ลบ": "Delete",
+    "ชื่อเมนู": "Menu label", "ชื่อลิงก์": "Link label", "ลิงก์ใหม่": "New link",
+    "ชื่อเมนูย่อย": "Sub-menu name", "✅ หน้าเพจที่ควรสร้างก่อน": "✅ Pages to create first",
+    "+ เพิ่มเมนูย่อย": "+ Add sub-item"
   };
   function tr(s) { s = (s == null ? "" : String(s)).trim(); return (BL === "en" && DICT[s]) ? DICT[s] : s; }
   function tpl(th, en) { return BL === "en" ? en : th; }
