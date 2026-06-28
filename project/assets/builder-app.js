@@ -219,6 +219,13 @@
   }
   function footerLinksOf(p) { return Array.isArray(p.footerLinks) ? p.footerLinks : []; }
   function socialLinksOf(p) { return Array.isArray(p.socialLinks) ? p.socialLinks : []; }
+  // Ensure link URLs are absolute — if user enters "facebook.com" without a protocol, add https://
+  function absUrl(url) {
+    url = (url || "").trim();
+    if (!url) return url;
+    if (/^https?:\/\//i.test(url) || url.charAt(0) === "/" || url.charAt(0) === "#" || /^mailto:/i.test(url)) return url;
+    return "https://" + url;
+  }
 
   function pageNameToUrl(raw) {
     raw = (raw || "").trim();
@@ -1250,6 +1257,7 @@
   }
   $("#mobSwitch").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) showMob(b.dataset.mob); });
   $$("[data-sheet-close]").forEach(function (btn) { btn.addEventListener("click", function () { showMob("canvas"); }); });
+  var _mobScrim = $("#mobScrim"); if (_mobScrim) _mobScrim.addEventListener("click", function () { showMob("canvas"); });
 
   /* ---------- accordion: click a .sec-title to collapse fields until next .sec-title ---------- */
   function bindAccordion(container) {
@@ -1780,12 +1788,12 @@ skinVariables(d),
         var sfLinks = footerLinksOf(p);
         var sfSocials = socialLinksOf(p);
         var sfLinksHtml = sfLinks.map(function (m) {
-          return "<a href='" + esc(m.url) + "' class='footer-link'>" + esc(m.label) + "</a>";
+          return "<a href='" + esc(absUrl(m.url)) + "' class='footer-link'>" + esc(m.label) + "</a>";
         }).join("\n");
         var sfSocialHtml = sfSocials.map(function (s) {
           var ic = SOCIAL_ICONS[s.platform];
           if (!ic || !s.url) return "";
-          return "<a href='" + esc(s.url) + "' target='_blank' rel='noopener noreferrer' class='footer-social-icon' aria-label='" + ic.label + "' style='--ic-color:" + ic.color + "'>" +
+          return "<a href='" + esc(absUrl(s.url)) + "' target='_blank' rel='noopener noreferrer' class='footer-social-icon' aria-label='" + ic.label + "' style='--ic-color:" + ic.color + "'>" +
             "<svg viewBox='0 0 24 24' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" + ic.svg + "</svg></a>";
         }).join("\n");
         return "<footer role='contentinfo' class='site-footer'><div class='wrap'>" +
@@ -2802,7 +2810,7 @@ skinVariables(d),
     if (saved) { S = JSON.parse(saved); if (S && S.blocks) { enterBuilder(); } }
   } catch (e) {}
 
-  // Keep bottom-sheet panels above virtual keyboard on mobile (pan-viewport browsers like Android Chrome)
+  // Keep bottom-sheet panels above virtual keyboard on mobile
   if (window.visualViewport) {
     window.visualViewport.addEventListener("resize", function () {
       if (!window.matchMedia("(max-width:1000px)").matches) return;
@@ -2810,11 +2818,16 @@ skinVariables(d),
       var kbH = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
       $$(".panel.left, .panel.right").forEach(function (p) {
         if (kbH > 80) {
+          // Keyboard open: fill from below topbar all the way down to just above keyboard
+          p.style.top = "54px";
           p.style.bottom = (kbH + 54) + "px";
-          p.style.maxHeight = (vv.height - 60) + "px";
+          p.style.maxHeight = "";
+          p.style.borderRadius = "0";
         } else {
+          p.style.top = "";
           p.style.bottom = "";
           p.style.maxHeight = "";
+          p.style.borderRadius = "";
         }
       });
     });

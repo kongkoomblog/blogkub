@@ -418,6 +418,9 @@ button{font-family:inherit;cursor:pointer;}
   /* keep only essentials on the right */
   #popoutBtn,#restartBtn,#importBtn,#historyBtn{display:none;}
   .tpl-grid{grid-template-columns:repeat(2,1fr);}
+  /* backdrop behind bottom sheet — covers canvas so nothing shows through */
+  #mobScrim{display:none;position:fixed;inset:54px 0 54px 0;background:rgba(0,0,0,.55);z-index:29;backdrop-filter:blur(2px);}
+  body.show-left #mobScrim,body.show-right #mobScrim{display:block;}
   /* bottom bar: 3 nav + lang toggle */
   .mob-switch{display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:6px;position:fixed;bottom:0;left:0;right:0;height:54px;padding:8px 10px;background:var(--panel);border-top:1px solid var(--border);z-index:35;}
   .mob-switch button{border:1px solid var(--border);background:var(--surface);border-radius:9px;color:var(--ink-2);font-family:var(--fd);font-weight:600;font-size:12.5px;display:flex;align-items:center;justify-content:center;gap:6px;}
@@ -577,6 +580,7 @@ body.sheet-settled .panel.right{animation:none;}
     <div id="rtDesign" style="display:none"></div>
   </aside>
 </div>
+<div id="mobScrim"></div>
 
 <!-- mobile switch -->
 <div class="mob-switch" id="mobSwitch">
