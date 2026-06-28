@@ -123,7 +123,41 @@
 
   /* defaults per block type */
   function blockDefaults(type) {
-    var d = {
+    var d = BL === "en" ? {
+      header: { logoText: "MyBlog", menuItems: [
+        { id: "m1", type: "home",   label: "Home",    url: "/" },
+        { id: "m2", type: "search", label: "Posts",   url: "/search" },
+        { id: "m3", type: "page",   label: "About",   pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
+        { id: "m4", type: "page",   label: "Contact", pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
+      ], sticky: true, showSearch: true, mobileSide: "right" },
+      hero: { title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient" },
+      footer: { about: "A blog sharing knowledge and quality articles", copyright: "© 2026 MyBlog. All rights reserved.",
+        footerLinks: [{ label: "Home", url: "/" }, { label: "Posts", url: "/search" }, { label: "About", url: "/p/about.html" }, { label: "Contact", url: "/p/contact.html" }],
+        socialLinks: [] },
+      postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true },
+      postlist: { heading: "Read More", count: 5, showImage: true },
+      featured: { heading: "Featured", count: 1 },
+      about: { name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true },
+      text: { heading: "Your Heading", body: "Write your content here. Add the text you want readers to see.", align: "left" },
+      cta: { title: "Ready to get started?", btnText: "Get Started", bg: "soft" },
+      image: { alt: "Image description", caption: "", ratio: "16/9" },
+      ad: { slot: "Below header", label: true },
+      newsletter: { heading: "Get Updates First", sub: "Enter your email to receive new posts instantly — free, no spam", btnText: "Subscribe", bg: "soft" },
+      share: { label: "Share this article", facebook: true, twitter: true, line: true, copy: true },
+      sidebar: { position: "right", width: "280px", showSearch: true, showCategories: true, showArchive: true, showAbout: false },
+      search: { heading: "", placeholder: "Search blog…" },
+      columns: { heading: "Our Services", cols: 3, items: [
+        { icon: "★", title: "High Quality", text: "Carefully curated content, reliable and trustworthy" },
+        { icon: "⚡", title: "Fast", text: "Loads quickly, smooth on all devices" },
+        { icon: "♥", title: "Caring", text: "We care about every reader" }
+      ] },
+      darkmode: { position: "bottom-right" },
+      aeo: { title: "Article Summary", style: "card" },
+      toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
+      related: { heading: "Related Posts", count: 4, columns: 2, showImage: true },
+      progress: { height: 3, color: "primary" },
+      notfound: { template: "minimal", heading: "404", sub: "Sorry — Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
+    } : {
       header: { logoText: "MyBlog", menuItems: [
         { id: "m1", type: "home",   label: "หน้าแรก", url: "/" },
         { id: "m2", type: "search", label: "บทความ",  url: "/search" },
@@ -365,7 +399,7 @@
       case "image":
         return '<div style="padding:24px 32px"><div style="aspect-ratio:' + (p.ratio || "16/9") + ';background:#e8eaf2;border-radius:' + r + ';display:grid;place-items:center;color:#9aa">🖼 ' + esc(p.alt) + "</div>" + (p.caption ? '<p style="text-align:center;color:#9aa;font-size:13px;margin-top:8px">' + esc(p.caption) + "</p>" : "") + "</div>";
       case "ad":
-        return '<div style="padding:16px 32px"><div style="min-height:90px;border:1px dashed #ccd;border-radius:8px;display:grid;place-items:center;color:#aab;font-size:13px;background:#fafbff">ช่องโฆษณา — ' + esc(p.slot) + (p.label ? ' <span style="margin-left:6px;font-size:11px;color:#bbc">(โฆษณา)</span>' : "") + "</div></div>";
+        return '<div style="padding:16px 32px"><div style="min-height:90px;border:1px dashed #ccd;border-radius:8px;display:grid;place-items:center;color:#aab;font-size:13px;background:#fafbff">' + tpl("ช่องโฆษณา","Ad Slot") + ' — ' + esc(p.slot) + (p.label ? ' <span style="margin-left:6px;font-size:11px;color:#bbc">(' + tpl("โฆษณา","Ad") + ')</span>' : "") + "</div></div>";
       case "newsletter":
         var nlbg = p.bg === "gradient" ? "linear-gradient(120deg," + pr + "," + ac + ")" : p.bg === "dark" ? "#0f172a" : "linear-gradient(120deg," + pr + "0d," + ac + "1a)";
         var nlfg = p.bg === "dark" ? "#fff" : "#1e2333";
@@ -375,7 +409,7 @@
           + '<h2 style="font-family:' + fontStack(d.font) + ';font-size:26px;margin:0;color:' + nlfg + '">' + esc(p.heading) + '</h2>'
           + '<p style="font-size:15px;margin:12px auto 0;max-width:440px;color:' + (p.bg === "dark" ? "rgba(255,255,255,.75)" : "#4a5063") + '">' + esc(p.sub) + '</p>'
           + '<div style="display:flex;gap:10px;max-width:400px;margin:22px auto 0;flex-wrap:wrap;justify-content:center">'
-          + '<input type="email" placeholder="อีเมลของคุณ" style="flex:1;min-width:180px;padding:12px 16px;border:1px solid ' + (p.bg === "dark" ? "rgba(255,255,255,.2)" : "#dde") + ';border-radius:' + r + ';font-size:14px;background:' + (p.bg === "dark" ? "rgba(255,255,255,.1)" : "#fff") + ';color:' + nlfg + '">'
+          + '<input type="email" placeholder="' + tpl("อีเมลของคุณ","Your email") + '" style="flex:1;min-width:180px;padding:12px 16px;border:1px solid ' + (p.bg === "dark" ? "rgba(255,255,255,.2)" : "#dde") + ';border-radius:' + r + ';font-size:14px;background:' + (p.bg === "dark" ? "rgba(255,255,255,.1)" : "#fff") + ';color:' + nlfg + '">'
           + '<button style="background:' + nlbtnbg + ';color:' + nlbtnfg + ';padding:12px 20px;border:0;border-radius:' + r + ';font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap">' + esc(p.btnText) + '</button>'
           + '</div></div>';
       case "share":
@@ -383,7 +417,7 @@
           p.facebook && { label: "Facebook", color: "#1877f2" },
           p.twitter && { label: "X (Twitter)", color: "#000" },
           p.line && { label: "LINE", color: "#06c755" },
-          p.copy && { label: "คัดลอกลิงก์", color: "#6366f1" }
+          p.copy && { label: tpl("คัดลอกลิงก์","Copy link"), color: "#6366f1" }
         ].filter(Boolean);
         return '<div style="padding:28px 32px;text-align:center">'
           + (p.label ? '<div style="font-size:13px;color:#828aa0;margin-bottom:14px">' + esc(p.label) + '</div>' : '')
@@ -397,12 +431,12 @@
           + [0,1,2].map(function() { return '<div style="border:1px solid #eef;border-radius:' + r + ';padding:14px;background:#fff"><div style="height:8px;width:72%;background:#e8eaf2;border-radius:3px;margin-bottom:8px"></div><div style="height:6px;width:90%;background:#f1f2f9;border-radius:3px;margin-bottom:5px"></div><div style="height:6px;width:55%;background:#f1f2f9;border-radius:3px"></div></div>'; }).join("")
           + '</div>';
         var sbAside = '<div style="display:flex;flex-direction:column;gap:10px">'
-          + (p.showSearch ? '<div style="border:1px solid #e8eaf2;padding:10px 12px;border-radius:' + r + ';background:#f7f8fc;font-size:12.5px;color:#aab;display:flex;gap:8px;align-items:center">' + svg(IC.search, 2) + ' ค้นหา…</div>' : '')
-          + (p.showCategories ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc"><div style="font-size:11px;font-weight:700;color:#1e2333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">ป้ายกำกับ</div><div style="display:flex;flex-wrap:wrap;gap:5px">' + ["SEO","บทความ","แนะนำ"].map(function(l){return '<span style="background:' + pr + '22;color:' + pr + ';font-size:11px;padding:2px 9px;border-radius:20px">' + l + '</span>';}).join("") + '</div></div>' : '')
-          + (p.showArchive ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc"><div style="font-size:11px;font-weight:700;color:#1e2333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">คลังบทความ</div><div style="font-size:12.5px;color:#828aa0;display:flex;flex-direction:column;gap:5px"><span>มกราคม 2026 (12)</span><span>ธันวาคม 2025 (8)</span><span>พฤศจิกายน 2025 (5)</span></div></div>' : '')
-          + (p.showAbout ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc;display:flex;gap:10px;align-items:center"><div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div><div style="font-size:12.5px;color:#4a5063">เกี่ยวกับผู้เขียน</div></div>' : '')
+          + (p.showSearch ? '<div style="border:1px solid #e8eaf2;padding:10px 12px;border-radius:' + r + ';background:#f7f8fc;font-size:12.5px;color:#aab;display:flex;gap:8px;align-items:center">' + svg(IC.search, 2) + ' ' + tpl("ค้นหา…","Search…") + '</div>' : '')
+          + (p.showCategories ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc"><div style="font-size:11px;font-weight:700;color:#1e2333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">' + tpl("ป้ายกำกับ","Labels") + '</div><div style="display:flex;flex-wrap:wrap;gap:5px">' + (BL === "en" ? ["SEO","Posts","Tips"] : ["SEO","บทความ","แนะนำ"]).map(function(l){return '<span style="background:' + pr + '22;color:' + pr + ';font-size:11px;padding:2px 9px;border-radius:20px">' + l + '</span>';}).join("") + '</div></div>' : '')
+          + (p.showArchive ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc"><div style="font-size:11px;font-weight:700;color:#1e2333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">' + tpl("คลังบทความ","Archive") + '</div><div style="font-size:12.5px;color:#828aa0;display:flex;flex-direction:column;gap:5px">' + (BL === "en" ? "<span>January 2026 (12)</span><span>December 2025 (8)</span><span>November 2025 (5)</span>" : "<span>มกราคม 2026 (12)</span><span>ธันวาคม 2025 (8)</span><span>พฤศจิกายน 2025 (5)</span>") + '</div></div>' : '')
+          + (p.showAbout ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc;display:flex;gap:10px;align-items:center"><div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div><div style="font-size:12.5px;color:#4a5063">' + tpl("เกี่ยวกับผู้เขียน","About author") + '</div></div>' : '')
           + '</div>';
-        return '<div style="padding:20px 32px;background:#f7f8fc"><div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#aab;margin-bottom:12px;display:flex;align-items:center;gap:8px">' + svg(IC.sidebar, 1.5) + ' Sidebar Layout — ' + (p.position === "left" ? "ไซด์บาร์ซ้าย" : "ไซด์บาร์ขวา") + '</div>'
+        return '<div style="padding:20px 32px;background:#f7f8fc"><div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#aab;margin-bottom:12px;display:flex;align-items:center;gap:8px">' + svg(IC.sidebar, 1.5) + ' Sidebar Layout — ' + tpl(p.position === "left" ? "ไซด์บาร์ซ้าย" : "ไซด์บาร์ขวา", p.position === "left" ? "Left sidebar" : "Right sidebar") + '</div>'
           + '<div style="display:grid;grid-template-columns:' + sbGridCols + ';gap:16px">'
           + (p.position === "left" ? sbAside + sbMain : sbMain + sbAside)
           + '</div></div>';
@@ -413,7 +447,7 @@
       case "darkmode":
         var dmPos = p.position || "bottom-right";
         var dmPosStyle = (dmPos.indexOf("bottom") >= 0 ? "bottom:12px" : "top:12px") + ";" + (dmPos.indexOf("right") >= 0 ? "right:12px" : "left:12px");
-        return '<div style="position:relative;padding:28px 32px;background:#f7f8fc;min-height:80px;display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:#aab;font-size:13px"><b style="color:#828aa0">Dark Mode Toggle</b><br><small>ปุ่มลอยตัว — ติดขอบจอทุกหน้า</small></div>'
+        return '<div style="position:relative;padding:28px 32px;background:#f7f8fc;min-height:80px;display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:#aab;font-size:13px"><b style="color:#828aa0">Dark Mode Toggle</b><br><small>' + tpl("ปุ่มลอยตัว — ติดขอบจอทุกหน้า","Floating button — stays on screen") + '</small></div>'
           + '<div style="position:absolute;' + dmPosStyle + ';width:40px;height:40px;border-radius:50%;background:' + pr + ';color:#fff;display:grid;place-items:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.2)">🌙</div></div>';
       case "aeo":
         var aeoSt = p.style === "highlight"
@@ -422,15 +456,15 @@
           : "border:1px solid " + pr + "33;background:" + pr + "08;padding:16px 20px;border-radius:" + r;
         return '<div style="padding:16px 32px"><aside style="' + aeoSt + '">'
           + '<div style="font-size:11px;font-weight:700;color:' + pr + ';text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">&#128214; ' + esc(p.title || "สรุปบทความ") + '</div>'
-          + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">สรุปเนื้อหาบทความอัตโนมัติจาก snippet — เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา</p>'
+          + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("สรุปเนื้อหาบทความอัตโนมัติจาก snippet — เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา","Article summary auto-pulled from snippet — improves chances for Google & AI to show in search results") + '</p>'
           + '</aside></div>';
       case "toc":
         return '<div style="padding:16px 32px"><nav style="padding:14px 16px;background:#f7f8fc;border-radius:' + r + ';border:1px solid #eef">'
           + '<div style="font-size:11px;font-weight:700;color:' + pr + ';text-transform:uppercase;letter-spacing:.07em;margin-bottom:9px">&#128209; ' + esc(p.title || "สารบัญ") + '</div>'
           + '<ol style="padding-left:18px;margin:0;font-size:13px;color:#4a5063;line-height:1.9">'
-          + '<li>หัวข้อที่ 1 (h2)</li>'
-          + '<li>หัวข้อที่ 2<ol style="padding-left:14px;margin:0"><li style="font-size:12px">หัวข้อย่อย (h3)</li></ol></li>'
-          + '<li>หัวข้อที่ 3</li>'
+          + '<li>' + tpl("หัวข้อที่ 1 (h2)","Heading 1 (h2)") + '</li>'
+          + '<li>' + tpl("หัวข้อที่ 2","Heading 2") + '<ol style="padding-left:14px;margin:0"><li style="font-size:12px">' + tpl("หัวข้อย่อย (h3)","Subheading (h3)") + '</li></ol></li>'
+          + '<li>' + tpl("หัวข้อที่ 3","Heading 3") + '</li>'
           + '</ol></nav></div>';
       case "related":
         var rCols = p.columns || 2, rCards = "";
@@ -441,7 +475,7 @@
         return '<div style="padding:20px 32px"><div style="background:#f7f8fc;border-radius:' + r + ';padding:16px">'
           + '<div style="width:100%;height:' + (p.height || 3) + 'px;background:#e8eaf2;border-radius:9px;overflow:hidden;margin-bottom:10px">'
           + '<div style="width:55%;height:100%;background:' + pClrPrev + ';border-radius:9px"></div></div>'
-          + '<div style="font-size:12px;color:#aab;text-align:center">Reading Progress Bar — ติดด้านบนทุกหน้า</div>'
+          + '<div style="font-size:12px;color:#aab;text-align:center">Reading Progress Bar — ' + tpl("ติดด้านบนทุกหน้า","fixed to top on all pages") + '</div>'
           + '</div></div>';
       case "notfound":
         var nfTpl = p.template || "minimal";
@@ -456,13 +490,13 @@
         var nfInputBd = nfTpl === "minimal" ? "#dde" : "rgba(255,255,255,.3)";
         var nfInputClr = nfTpl === "minimal" ? "#1e2333" : "#fff";
         return '<div style="padding:64px 32px;text-align:center;background:' + nfBg + ';min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center">'
-          + '<div style="font-size:11px;font-weight:700;color:' + (nfTpl === "minimal" ? pr : "rgba(255,255,255,.55)") + ';text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">ตัวอย่าง หน้า 404</div>'
+          + '<div style="font-size:11px;font-weight:700;color:' + (nfTpl === "minimal" ? pr : "rgba(255,255,255,.55)") + ';text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">' + tpl("ตัวอย่าง หน้า 404","Preview: 404 Page") + '</div>'
           + '<div style="font-size:52px;margin-bottom:4px">' + nfIcon + '</div>'
           + '<div style="font-size:88px;font-weight:900;line-height:1;color:' + nfCodeClr + ';font-family:' + fontStack(d.font) + ';letter-spacing:-.04em">' + esc(p.heading || "404") + '</div>'
           + '<h2 style="font-size:20px;font-weight:700;color:' + nfFg + ';margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + esc(p.sub || "ขออภัย — ไม่พบหน้านี้") + '</h2>'
           + '<p style="font-size:14px;color:' + nfDescClr + ';margin:8px auto 0;max-width:400px;line-height:1.6">' + esc(p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง") + '</p>'
           + '<a style="display:inline-block;margin-top:22px;padding:12px 26px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';font-weight:600;border-radius:' + r + ';text-decoration:none;font-size:14px">' + esc(p.btnText || "กลับหน้าแรก") + '</a>'
-          + (p.showSearch !== false ? '<div style="margin-top:18px;display:flex;gap:0;max-width:340px;margin-left:auto;margin-right:auto"><input type="text" placeholder="ค้นหาในบล็อก…" style="flex:1;padding:10px 13px;border:1px solid ' + nfInputBd + ';border-radius:' + r + ' 0 0 ' + r + ';font-size:13px;background:' + nfInputBg + ';color:' + nfInputClr + ';outline:none"><button style="padding:10px 14px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';border:0;border-radius:0 ' + r + ' ' + r + ' 0;cursor:pointer">🔍</button></div>' : '')
+          + (p.showSearch !== false ? '<div style="margin-top:18px;display:flex;gap:0;max-width:340px;margin-left:auto;margin-right:auto"><input type="text" placeholder="' + tpl("ค้นหาในบล็อก…","Search blog…") + '" style="flex:1;padding:10px 13px;border:1px solid ' + nfInputBd + ';border-radius:' + r + ' 0 0 ' + r + ';font-size:13px;background:' + nfInputBg + ';color:' + nfInputClr + ';outline:none"><button style="padding:10px 14px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';border:0;border-radius:0 ' + r + ' ' + r + ' 0;cursor:pointer">🔍</button></div>' : '')
           + '</div>';
       case "footer":
         var fLinks = footerLinksOf(p);
@@ -498,16 +532,16 @@
     return '<div style="padding:48px 32px;max-width:1080px;margin:0 auto">' + (heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:26px;margin:0 0 24px;color:#1e2333">' + esc(heading) + "</h2>" : "") + inner + "</div>";
   }
   function postCard(img, exc, d, ac) {
-    return '<div style="border:1px solid #eef;border-radius:' + d.radius + 'px;overflow:hidden;background:#fff">' + (img ? '<div style="aspect-ratio:16/9;background:linear-gradient(120deg,#e8eaf2,#f1f2f9)"></div>' : "") + '<div style="padding:16px"><span style="font-size:11px;color:' + ac + ';font-weight:700">หมวดหมู่</span><h3 style="font-size:17px;margin:6px 0 0;color:#1e2333;line-height:1.3">หัวข้อบทความตัวอย่างที่น่าสนใจ</h3>' + (exc ? '<p style="color:#828aa0;font-size:13.5px;margin:8px 0 0;line-height:1.55">สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวม…</p>' : "") + "</div></div>";
+    return '<div style="border:1px solid #eef;border-radius:' + d.radius + 'px;overflow:hidden;background:#fff">' + (img ? '<div style="aspect-ratio:16/9;background:linear-gradient(120deg,#e8eaf2,#f1f2f9)"></div>' : "") + '<div style="padding:16px"><span style="font-size:11px;color:' + ac + ';font-weight:700">' + tpl("หมวดหมู่","Category") + '</span><h3 style="font-size:17px;margin:6px 0 0;color:#1e2333;line-height:1.3">' + tpl("หัวข้อบทความตัวอย่างที่น่าสนใจ","Sample Article Heading") + '</h3>' + (exc ? '<p style="color:#828aa0;font-size:13.5px;margin:8px 0 0;line-height:1.55">' + tpl("สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวม…","Brief article summary for readers…") + '</p>' : "") + "</div></div>";
   }
   function postRow(img, d, ac) {
-    return '<div style="display:flex;gap:16px;align-items:center;border-bottom:1px solid #eef;padding-bottom:16px">' + (img ? '<div style="width:120px;aspect-ratio:4/3;background:linear-gradient(120deg,#e8eaf2,#f1f2f9);border-radius:' + d.radius + 'px;flex:none"></div>' : "") + '<div><span style="font-size:11px;color:' + ac + ';font-weight:700">หมวดหมู่</span><h3 style="font-size:18px;margin:5px 0;color:#1e2333">หัวข้อบทความในรายการอ่านต่อ</h3><p style="color:#828aa0;font-size:13.5px;margin:0">สรุปเนื้อหาสั้นๆ ของบทความนี้…</p></div></div>';
+    return '<div style="display:flex;gap:16px;align-items:center;border-bottom:1px solid #eef;padding-bottom:16px">' + (img ? '<div style="width:120px;aspect-ratio:4/3;background:linear-gradient(120deg,#e8eaf2,#f1f2f9);border-radius:' + d.radius + 'px;flex:none"></div>' : "") + '<div><span style="font-size:11px;color:' + ac + ';font-weight:700">' + tpl("หมวดหมู่","Category") + '</span><h3 style="font-size:18px;margin:5px 0;color:#1e2333">' + tpl("หัวข้อบทความในรายการอ่านต่อ","Article Heading in List") + '</h3><p style="color:#828aa0;font-size:13.5px;margin:0">' + tpl("สรุปเนื้อหาสั้นๆ ของบทความนี้…","Brief article content summary…") + '</p></div></div>';
   }
 
   function renderCanvas() {
     var f = $("#frame");
     if (!S.blocks.length) {
-      f.innerHTML = '<div class="canvas-empty">' + svg(IC.cursor, 1.5) + "<b>ลากองค์ประกอบมาวางที่นี่</b><span>เลือกจากแผงด้านซ้าย ลากมาวางเพื่อเริ่มออกแบบหน้าเว็บของคุณ</span></div>";
+      f.innerHTML = '<div class="canvas-empty">' + svg(IC.cursor, 1.5) + "<b>" + tr("ลากองค์ประกอบมาวางที่นี่") + "</b><span>" + tr("เลือกจากแผงด้านซ้าย ลากมาวางเพื่อเริ่มออกแบบหน้าเว็บของคุณ") + "</span></div>";
       // make empty a dropzone
       f.firstChild.classList.add("dropzone");
       f.firstChild.dataset.idx = "0";
@@ -535,7 +569,9 @@
   }
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
-    var m = { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", notfound: "หน้า 404" };
+    var m = BL === "en"
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -625,7 +661,7 @@
     var f = fieldsFor(b);
     c.innerHTML = '<div class="sec-title">' + blkLabel(b.type) + "</div>" + f
       + '<div class="sec-divider"></div>'
-      + '<div class="sec-title collapsed">เงื่อนไขการแสดงผล (ขั้นสูง)</div>'
+      + '<div class="sec-title collapsed">' + tr("เงื่อนไขการแสดงผล (ขั้นสูง)") + '</div>'
       + condEditor(b);
     bindFields(b, c);
     bindCond(b, c);
@@ -649,11 +685,11 @@
     var hm = c.querySelector('[data-k="__hideMobile"]');
     if (hm) hm.addEventListener("change", function () { v.hideMobile = hm.checked; renderCanvas(); save(); });
   }
-  function txt(key, label, val, hint) { return '<div class="field"><label>' + label + '</label><input class="inp" data-k="' + key + '" value="' + esc(val) + '">' + (hint ? '<div class="hint">' + hint + "</div>" : "") + "</div>"; }
-  function area(key, label, val, rich) { return '<div class="field"><label>' + label + (rich ? ' <span style="font-size:10px;font-weight:400;color:var(--brand-2);opacity:.8">B I U 🔗</span>' : '') + '</label><textarea class="ta" data-k="' + key + '"' + (rich ? ' data-rich="1"' : '') + '>' + esc(val) + "</textarea></div>"; }
-  function seg(key, label, val, opts) { return '<div class="field"><label>' + label + '</label><div class="seg" data-seg="' + key + '">' + opts.map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === val ? ' class="on"' : "") + ">" + o[1] + "</button>"; }).join("") + "</div></div>"; }
-  function tog(key, label, val, sub) { return '<label class="tg"><span class="lbl">' + label + (sub ? "<small>" + sub + "</small>" : "") + '</span><input type="checkbox" data-k="' + key + '"' + (val ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
-  function num(key, label, val, mn, mx) { return '<div class="field"><label>' + label + ' — ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
+  function txt(key, label, val, hint) { return '<div class="field"><label>' + tr(label) + '</label><input class="inp" data-k="' + key + '" value="' + esc(val) + '">' + (hint ? '<div class="hint">' + hint + "</div>" : "") + "</div>"; }
+  function area(key, label, val, rich) { return '<div class="field"><label>' + tr(label) + (rich ? ' <span style="font-size:10px;font-weight:400;color:var(--brand-2);opacity:.8">B I U 🔗</span>' : '') + '</label><textarea class="ta" data-k="' + key + '"' + (rich ? ' data-rich="1"' : '') + '>' + esc(val) + "</textarea></div>"; }
+  function seg(key, label, val, opts) { return '<div class="field"><label>' + tr(label) + '</label><div class="seg" data-seg="' + key + '">' + opts.map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === val ? ' class="on"' : "") + ">" + tr(o[1]) + "</button>"; }).join("") + "</div></div>"; }
+  function tog(key, label, val, sub) { return '<label class="tg"><span class="lbl">' + tr(label) + (sub ? "<small>" + tr(sub) + "</small>" : "") + '</span><input type="checkbox" data-k="' + key + '"' + (val ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
+  function num(key, label, val, mn, mx) { return '<div class="field"><label>' + tr(label) + ' — ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
   function menuEditor(p) {
     var items = menuItemsOf(p);
     // linked URL set for checklist
@@ -1382,9 +1418,9 @@
     // it in the same widget causes a silent parse failure that prevents the entire widget from rendering.
     var nextprevIncludable =
       "<b:includable id='nextprev'>\n" +
-      "<nav class='blog-pager' id='blog-pager' aria-label='การนำทางหน้าบทความ'>\n" +
-      "<b:if cond='data:newerPageUrl'><a class='blog-pager-newer-link' expr:href='data:newerPageUrl' rel='prev'>&#8592; ใหม่กว่า</a></b:if>\n" +
-      "<b:if cond='data:olderPageUrl'><a class='blog-pager-older-link' expr:href='data:olderPageUrl' rel='next'>เก่ากว่า &#8594;</a></b:if>\n" +
+      "<nav class='blog-pager' id='blog-pager' aria-label='" + tpl("การนำทางหน้าบทความ","Post navigation") + "'>\n" +
+      "<b:if cond='data:newerPageUrl'><a class='blog-pager-newer-link' expr:href='data:newerPageUrl' rel='prev'>&#8592; " + tpl("ใหม่กว่า","Newer") + "</a></b:if>\n" +
+      "<b:if cond='data:olderPageUrl'><a class='blog-pager-older-link' expr:href='data:olderPageUrl' rel='next'>" + tpl("เก่ากว่า","Older") + " &#8594;</a></b:if>\n" +
       "</nav>\n" +
       "</b:includable>\n";
 
@@ -1607,7 +1643,7 @@ schema + "\n" +
 "<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
 "</head>\n" +
 "<body>\n" +
-"<a class='skip' href='#main'>ข้ามไปยังเนื้อหา</a>\n" +
+"<a class='skip' href='#main'>" + tpl("ข้ามไปยังเนื้อหา","Skip to content") + "</a>\n" +
 bodyHTML + "\n" +
 "</body>\n</html>";
     return xml;
@@ -1827,12 +1863,12 @@ skinVariables(d),
       case "sidebar":
         var sWidgets = "";
         if (p.showSearch) sWidgets += "<b:widget id='BlogSearch1' type='BlogSearch' title='ค้นหา' version='1' visible='true'/>\n";
-        if (p.showCategories) sWidgets += "<b:widget id='Label1' type='Label' title='ป้ายกำกับ' version='1' visible='true'>\n<b:widget-settings><b:widget-setting name='sorting'>ALPHA</b:widget-setting><b:widget-setting name='display'>list</b:widget-setting><b:widget-setting name='showFreqNumbers'>true</b:widget-setting></b:widget-settings></b:widget>\n";
-        if (p.showArchive) sWidgets += "<b:widget id='BlogArchive1' type='BlogArchive' title='คลังบทความ' version='2' visible='true'>\n<b:widget-settings><b:widget-setting name='pageType'>MONTHLY</b:widget-setting><b:widget-setting name='showPostCount'>true</b:widget-setting></b:widget-settings></b:widget>\n";
-        if (p.showAbout) sWidgets += "<b:widget id='Profile1' type='Profile' title='เกี่ยวกับฉัน' version='1' visible='true'/>\n";
+        if (p.showCategories) sWidgets += "<b:widget id='Label1' type='Label' title='" + tpl("ป้ายกำกับ","Labels") + "' version='1' visible='true'>\n<b:widget-settings><b:widget-setting name='sorting'>ALPHA</b:widget-setting><b:widget-setting name='display'>list</b:widget-setting><b:widget-setting name='showFreqNumbers'>true</b:widget-setting></b:widget-settings></b:widget>\n";
+        if (p.showArchive) sWidgets += "<b:widget id='BlogArchive1' type='BlogArchive' title='" + tpl("คลังบทความ","Archive") + "' version='2' visible='true'>\n<b:widget-settings><b:widget-setting name='pageType'>MONTHLY</b:widget-setting><b:widget-setting name='showPostCount'>true</b:widget-setting></b:widget-settings></b:widget>\n";
+        if (p.showAbout) sWidgets += "<b:widget id='Profile1' type='Profile' title='" + tpl("เกี่ยวกับฉัน","About me") + "' version='1' visible='true'/>\n";
         return "<b:section id='sidebar' class='bxb-sidebar-col' mobile='yes' showaddelement='yes' preferred='yes'>\n" + sWidgets + "</b:section>";
       case "search":
-        return "<section style='padding:16px 20px'><div class='wrap'>" + (p.heading ? "<h3 style='font-size:16px;margin-bottom:10px'>" + esc(p.heading) + "</h3>" : "") + "<form action='/search' method='get' role='search'><div style='display:flex;max-width:420px'><input name='q' type='search' placeholder='" + esc(p.placeholder || "ค้นหาในบล็อก…") + "' style='flex:1;padding:12px 16px;border:1px solid #dde;border-radius:var(--radius) 0 0 var(--radius);font-size:14px'/><button type='submit' style='padding:12px 16px;background:var(--primary);color:#fff;border:0;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer'>🔍</button></div></form></div></section>";
+        return "<section style='padding:16px 20px'><div class='wrap'>" + (p.heading ? "<h3 style='font-size:16px;margin-bottom:10px'>" + esc(p.heading) + "</h3>" : "") + "<form action='/search' method='get' role='search'><div style='display:flex;max-width:420px'><input name='q' type='search' placeholder='" + esc(p.placeholder || tpl("ค้นหาในบล็อก…","Search blog…")) + "' style='flex:1;padding:12px 16px;border:1px solid #dde;border-radius:var(--radius) 0 0 var(--radius);font-size:14px'/><button type='submit' style='padding:12px 16px;background:var(--primary);color:#fff;border:0;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer'>🔍</button></div></form></div></section>";
       case "footer":
         var sfLinks = footerLinksOf(p);
         var sfSocials = socialLinksOf(p);
@@ -1864,7 +1900,7 @@ skinVariables(d),
           + ".bxb-dm-btn{position:fixed;" + dmPosCSS + ";z-index:9999;width:44px;height:44px;border-radius:50%;background:#f7f8fc;border:1px solid #e8eaf2;cursor:pointer;display:grid;place-items:center;font-size:20px;box-shadow:0 2px 10px rgba(0,0,0,.12);transition:transform .2s,background .2s}"
           + "[data-theme=dark] .bxb-dm-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}"
           + ".bxb-dm-btn:hover{transform:scale(1.1)}</style>"
-          + "<button class='bxb-dm-btn' id='bxbDmBtn' aria-label='สลับธีมสว่าง/มืด'>🌙</button>"
+          + "<button class='bxb-dm-btn' id='bxbDmBtn' aria-label='" + tpl("สลับธีมสว่าง/มืด","Toggle light/dark theme") + "'>🌙</button>"
           + "<script>/*<![CDATA[*/(function(){"
           + "if(document.getElementById('bxbDmBtn2'))return;"
           + "var b=document.getElementById('bxbDmBtn');"
@@ -1968,7 +2004,7 @@ skinVariables(d),
         var prgColor = p.color === "accent" ? "var(--accent)" : p.color === "gradient" ? "linear-gradient(90deg,var(--primary),var(--accent))" : "var(--primary)";
         var prgH = (p.height || 3) + "px";
         return "<style>#bxbProg{position:fixed;top:0;left:0;width:0%;height:" + prgH + ";background:" + prgColor + ";z-index:10000;pointer-events:none;will-change:width}</style>"
-          + "<div id='bxbProg' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='0' aria-label='ความคืบหน้าการอ่าน'></div>"
+          + "<div id='bxbProg' role='progressbar' aria-valuemin='0' aria-valuemax='100' aria-valuenow='0' aria-label='" + tpl("ความคืบหน้าการอ่าน","Reading progress") + "'></div>"
           + "<script>/*<![CDATA[*/(function(){"
           + "var b=document.getElementById('bxbProg');if(!b)return;"
           + "function u(){var h=document.documentElement.scrollHeight-window.innerHeight;var p=h>0?Math.min(100,window.scrollY/h*100):0;b.style.width=p+'%';b.setAttribute('aria-valuenow',Math.round(p));}"
@@ -1989,7 +2025,7 @@ skinVariables(d),
         }
         var nfsSearch = p.showSearch !== false
           ? "<form class='bxb404-search' action='/' method='get'>"
-            + "<input type='text' name='q' placeholder='ค้นหาในบล็อก…' aria-label='ค้นหา'/>"
+            + "<input type='text' name='q' placeholder='" + tpl("ค้นหาในบล็อก…","Search blog…") + "' aria-label='" + tpl("ค้นหา","Search") + "'/>"
             + "<button type='submit'>&#128269;</button></form>"
           : "";
         var nfsHTML = "<style>"
@@ -2003,7 +2039,7 @@ skinVariables(d),
           + ".bxb404-search input{flex:1;padding:11px 14px;border:1px solid " + nfsInputBd + ";border-radius:var(--radius) 0 0 var(--radius);font-size:14px;background:" + nfsInputBg + ";color:" + nfsInputClr + ";outline:none}"
           + ".bxb404-search button{padding:11px 16px;background:" + nfsBtnBg + ";color:" + nfsBtnFg + ";border:0;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer;font-size:15px}"
           + "</style>"
-          + "<section class='bxb404' aria-label='หน้าไม่พบ'>"
+          + "<section class='bxb404' aria-label='" + tpl("หน้าไม่พบ","Page not found") + "'>"
           + "<h1 class='bxb404-code'>" + esc(p.heading || "404") + "</h1>"
           + "<h2 class='bxb404-h'>" + esc(p.sub || "ขออภัย — ไม่พบหน้านี้") + "</h2>"
           + "<p class='bxb404-p'>" + esc(p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง") + "</p>"
@@ -2542,9 +2578,37 @@ skinVariables(d),
     "เลือกแม่แบบเริ่มต้น": "Choose a starting template",
     "วิธีสมัคร Blogger ทีละขั้น": "How to sign up for Blogger, step by step",
     "← กลับ": "← Back", "ทั้งหมด": "All", "บล็อก": "Blog", "ธุรกิจ": "Business",
-    "ข่าว/นิตยสาร": "News/Magazine", "การศึกษา": "Education", "Affiliate": "Affiliate"
+    "ข่าว/นิตยสาร": "News/Magazine", "การศึกษา": "Education", "Affiliate": "Affiliate",
+    // library group
+    "เลย์เอาต์": "Layout", "หน้าพิเศษ": "Special Pages",
+    // library items
+    "หน้า 404": "404 Page", "ออกแบบ Page Not Found": "Design 404 Page",
+    // field labels
+    "แม่แบบ": "Template", "มืด": "Dark", "ลิงก์ปุ่ม": "Button link",
+    "แสดงช่องค้นหา": "Show search box", "ตัวเลข/ข้อความหลัก": "Main text / number",
+    "หัวข้อรอง": "Subtitle", "คำอธิบาย": "Description",
+    "คลังบทความ": "Archive",
+    // visibility / condition editor
+    "เงื่อนไขการแสดงผล (ขั้นสูง)": "Visibility (advanced)",
+    "แสดงองค์ประกอบนี้ในหน้า": "Show on page",
+    "ทุกหน้า": "All pages", "หน้าแรก": "Home", "บทความ": "Post",
+    "เพจ": "Page", "ป้ายกำกับ": "Label",
+    "ซ่อนบนมือถือ": "Hide on mobile",
+    "ซ่อนองค์ประกอบนี้บนหน้าจอเล็ก (≤768px)": "Hide on small screens (≤768px)",
+    // canvas empty
+    "ลากองค์ประกอบมาวางที่นี่": "Drag elements here",
+    "เลือกจากแผงด้านซ้าย ลากมาวางเพื่อเริ่มออกแบบหน้าเว็บของคุณ": "Pick from the left panel and drag to start designing",
+    // start screen subtext + buttons
+    "ก่อนสร้างธีม — คุณมีบล็อกบน Blogger (blogspot.com) แล้วหรือยัง?": "Before building a theme — do you already have a blog on Blogger (blogspot.com)?",
+    "ฉันมีบล็อก blogspot.com พร้อมแล้ว ไปเลือกแม่แบบเพื่อเริ่มออกแบบ": "I have a blogspot.com blog ready — go choose a template to start designing",
+    "ฉันยังไม่มีบล็อก ดูวิธีสมัคร Blogger แบบละเอียดทีละขั้น": "I don't have a blog yet — show me how to sign up for Blogger step by step",
+    "ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย": "Takes about 10 minutes — follow these steps then come back to start designing",
+    "เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า — ปรับต่อได้ทุกอย่าง": "Choose a website type to start from a ready-made template, or start blank — customize everything",
+    "สมัครเสร็จแล้ว — ไปเลือกแม่แบบ →": "Done signing up — go pick a template →",
+    "หรือเริ่มจากหน้าเปล่า →": "Or start from blank →"
   };
   function tr(s) { s = (s == null ? "" : String(s)).trim(); return (BL === "en" && DICT[s]) ? DICT[s] : s; }
+  function tpl(th, en) { return BL === "en" ? en : th; }
   // translate a single leaf element's textContent if it fully matches the dict
   function trLeaf(elm) { var t = elm.textContent.trim(); if (DICT[t]) elm.textContent = DICT[t]; }
   // translate the leading text node of an element (keeps child <small>/<svg>)
@@ -2556,6 +2620,8 @@ skinVariables(d),
     if (BL !== "en") return; // base = Thai
     // leaf structural labels
     $$(".lib-group h4, .sec-title, .p-head, label, .seg button, .tg .lbl, .p-tabs button, .gc-t, .cat-tab, .start h1, .lib-item .nm > small").forEach(trLeaf);
+    // start screen subtext, descriptions, and buttons
+    $$(".start .sub, .gc-d, .start-foot button, .ob-back").forEach(trLeaf);
     // elements with leading text + child nodes
     $$(".lib-item .nm, .mob-switch button, #restartBtn, #exportBtn").forEach(trLeadText);
     // save dot
@@ -2563,13 +2629,18 @@ skinVariables(d),
   }
   function applyBuilderLang(lang) {
     BL = lang; localStorage.setItem("bxb_lang", lang);
-    document.querySelectorAll("#blLang button").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
+    if (S) { S.lang = lang; save(); }
+    // sync all lang toggle buttons (topbar + start screen)
+    document.querySelectorAll("[data-bl]").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
     var mlb = document.getElementById("mobLangBtn"); if (mlb) mlb.textContent = lang.toUpperCase();
     buildLib(); setupLibDrag(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
+    if (S) renderCanvas();
     translateChrome();
   }
   var blEl = $("#blLang");
   if (blEl) blEl.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) applyBuilderLang(b.dataset.bl); });
+  var startLangEl = $(".start-lang");
+  if (startLangEl) startLangEl.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b && b.dataset.bl) applyBuilderLang(b.dataset.bl); });
 
   var mobLangBtn = $("#mobLangBtn");
   if (mobLangBtn) {
