@@ -1544,7 +1544,8 @@
     }
 
     // Assemble body in document order; drop the Blog widget in at the first post block's spot.
-    var parts = [], placed = false;
+    // Footer is always moved to the very end so it sits below the 404 block on error pages.
+    var parts = [], footerParts = [], placed = false;
     S.blocks.forEach(function (b, i) {
       if (POST_BLOCKS[b.type]) {
         if (i === firstPostIdx) {
@@ -1554,9 +1555,12 @@
         return; // other post blocks already inside the widget
       }
       if (b.type === "sidebar") return; // already handled inside blogOrLayout
+      if (b.type === "footer") { footerParts.push(condWrap(renderBlockStatic(b), b)); return; }
       parts.push(condWrap(renderBlockStatic(b), b));
     });
     if (!placed) parts.push("<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>");
+    // Append footer after all other blocks (including 404 block) so it's always at page bottom
+    footerParts.forEach(function (f) { parts.push(f); });
     var bodyHTML = parts.join("\n");
 
     // label robots logic
