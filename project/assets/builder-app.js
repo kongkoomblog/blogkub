@@ -462,12 +462,12 @@
           + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("สรุปเนื้อหาบทความอัตโนมัติจาก snippet — เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา","Article summary auto-pulled from snippet — improves chances for Google & AI to show in search results") + '</p>'
           + '</aside></div>';
       case "toc":
-        return '<div style="padding:16px 32px"><nav style="background:#f7f8fc;border-radius:' + r + ';border:1px solid #eef;overflow:hidden">'
-          + '<div style="display:flex;align-items:center;padding:11px 16px;font-size:11px;font-weight:700;color:' + pr + ';text-transform:uppercase;letter-spacing:.07em;cursor:pointer">&#128209; ' + esc(p.title || "สารบัญ") + '<span style="margin-left:auto;font-size:10px;color:#828aa0">&#9660;</span></div>'
-          + '<div style="padding:0 16px"><ol style="padding-left:18px;margin:6px 0 12px;font-size:13px;color:#4a5063;line-height:1.9">'
-          + '<li>' + tpl("หัวข้อที่ 1 (h2)","Heading 1 (h2)") + '</li>'
-          + '<li>' + tpl("หัวข้อที่ 2","Heading 2") + '<ol style="padding-left:14px;margin:0"><li style="font-size:12px">' + tpl("หัวข้อย่อย (h3)","Subheading (h3)") + '</li></ol></li>'
-          + '<li>' + tpl("หัวข้อที่ 3","Heading 3") + '</li>'
+        return '<div style="padding:16px 32px"><nav style="background:#f7f8fc;border-radius:' + r + ';border:1px solid rgba(0,0,0,.07);overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06)">'
+          + '<div style="display:flex;align-items:center;padding:10px 16px;font-size:11px;font-weight:700;color:#4a5063;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid rgba(0,0,0,.07);cursor:pointer">&#128209; ' + esc(p.title || "สารบัญ") + '<span style="margin-left:auto;font-size:10px;transform:rotate(-90deg);display:inline-block">&#9660;</span></div>'
+          + '<div style="padding:0 16px"><ol style="padding-left:18px;margin:8px 0 10px;font-size:13px;color:#1e2333;line-height:1.85">'
+          + '<li><a style="color:inherit;text-decoration:none">' + tpl("หัวข้อที่ 1 (h2)","Heading 1 (h2)") + '</a></li>'
+          + '<li><a style="color:inherit;text-decoration:none">' + tpl("หัวข้อที่ 2","Heading 2") + '</a><ol style="padding-left:16px;margin:0"><li style="font-size:12px;color:#4a5063"><a style="color:inherit;text-decoration:none">' + tpl("หัวข้อย่อย (h3)","Subheading (h3)") + '</a></li></ol></li>'
+          + '<li><a style="color:inherit;text-decoration:none">' + tpl("หัวข้อที่ 3","Heading 3") + '</a></li>'
           + '</ol></div></nav></div>';
       case "related":
         var rCols = p.columns || 2, rCards = "";
@@ -1380,6 +1380,11 @@
     // data:post.* is not reliably available outside Blog widget includables.
     var blogPostingSchema = "";
 
+    // TOC block is injected inline right after the post title inside postIncludable,
+    // so it always appears before the post body regardless of block order in the palette.
+    var tocBlock = S.blocks.find(function (b) { return b.type === "toc"; });
+    var inlineTocHtml = tocBlock ? genTocHtml(tocBlock.props || {}, true) : "";
+
     // Post includable body — clean and simple. JSON-LD is in mainIncludable's loop
     // (before <b:include name='post'/>) to keep data:post.* scope without risking
     // a nested b:if/b:eval runtime abort inside this includable.
@@ -1390,8 +1395,9 @@
           "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
         "</div></b:if>" +
         "<h1 class='post-title' style='font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.2;margin:0 0 16px'><data:post.title/></h1>" +
+        inlineTocHtml +
         "<b:if cond='data:view.isPost'>" +
-          "<div class='post-meta' style='display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:#828aa0;margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid #eef'>" +
+          "<div class='post-meta' style='display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--text-subtle);margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)'>" +
             "<span><data:post.author.name/></span><span><data:post.date/></span>" +
           "</div>" +
         "</b:if>" +
@@ -1594,6 +1600,7 @@
         return; // other post blocks already inside the widget
       }
       if (b.type === "sidebar") return; // already handled inside blogOrLayout
+      if (b.type === "toc") return; // injected inline inside postIncludable, after <h1>
       if (b.type === "footer") { footerParts.push(condWrap(renderBlockStatic(b), b)); return; }
       parts.push(condWrap(renderBlockStatic(b), b));
     });
@@ -1769,8 +1776,64 @@ skinVariables(d),
 ".footer-link{color:rgba(255,255,255,.65);font-size:14px;text-decoration:none;transition:color .2s;display:block}",
 ".footer-link:hover{color:#fff}",
 ".footer-bottom{text-align:center;color:rgba(255,255,255,.35);font-size:12.5px;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);max-width:980px;margin-left:auto;margin-right:auto}",
-"@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}"
+"@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}",
+"#bxbToc{margin:20px 0;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--radius,8px);overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.06)}",
+"#bxbTocHead{display:flex;align-items:center;padding:10px 16px;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;background:none;border:none;border-bottom:1px solid var(--border);width:100%;text-align:left;cursor:pointer;transition:background .15s}",
+"#bxbTocHead:hover{background:var(--hover-bg)}",
+"#bxbTocChev{margin-left:auto;font-size:10px;transition:transform .25s}",
+"#bxbTocBody{overflow:hidden}",
+"#bxbTocList{margin:8px 0 10px;padding-left:20px;font-size:14px;line-height:1.85;color:var(--text-main)}",
+"#bxbTocList a{color:inherit;text-decoration:none;transition:color .15s}",
+"#bxbTocList a:hover{color:var(--primary)}",
+"#bxbTocList .toc-h3{padding-left:16px;font-size:13px;color:var(--text-muted)}"
     ].join("\n");
+  }
+
+  /* TOC HTML generator — call with inline=true to omit the b:if wrapper (for postIncludable injection) */
+  function genTocHtml(p, inline) {
+    var tocTitle = esc(p.title || "สารบัญ");
+    var tocDepth = parseInt(p.maxDepth || 3, 10);
+    var tocSel = tocDepth >= 3 ? "'h2,h3'" : "'h2'";
+    var tocListStyle = p.numbered !== false ? "'decimal'" : "'disc'";
+    var inner =
+      "<nav id='bxbToc' aria-label='" + tocTitle + "'>" +
+      "<button type='button' id='bxbTocHead' aria-expanded='false' aria-controls='bxbTocBody'>&#128209; " + tocTitle + "<span id='bxbTocChev' aria-hidden='true' style='margin-left:auto;font-size:10px;transition:transform .25s;transform:rotate(-90deg)'>&#9660;</span></button>" +
+      "<div id='bxbTocBody' style='max-height:0;overflow:hidden'><ul id='bxbTocList'></ul></div>" +
+      "</nav>" +
+      "<script>/*<![CDATA[*/(function(){" +
+      "var toc=document.getElementById('bxbToc');" +
+      "var list=document.getElementById('bxbTocList');" +
+      "var content=document.querySelector('.post-body,.entry-content');" +
+      "if(!toc||!list||!content)return;" +
+      "var hs=Array.prototype.slice.call(content.querySelectorAll(" + tocSel + "));" +
+      "if(hs.length<2){toc.remove();return;}" +
+      "var numRe=/^\\s*\\d+[.)。]\\s+/;" +
+      "var hasNums=hs.some(function(h){return numRe.test(h.textContent.trim());});" +
+      "list.style.listStyle=hasNums?'none':" + tocListStyle + ";" +
+      "if(hasNums)list.style.paddingLeft='4px';" +
+      "hs.forEach(function(h,i){" +
+      "h.id='bxb-h'+i;" +
+      "var li=document.createElement('li');" +
+      (tocDepth >= 3 ? "if(h.tagName==='H3')li.className='toc-h3';" : "") +
+      "var a=document.createElement('a');" +
+      "a.href='#bxb-h'+i;" +
+      "a.textContent=h.textContent.trim();" +
+      "li.appendChild(a);list.appendChild(li);" +
+      "});" +
+      "var head=document.getElementById('bxbTocHead');" +
+      "var chev=document.getElementById('bxbTocChev');" +
+      "var bodyEl=document.getElementById('bxbTocBody');" +
+      "var fullH=bodyEl.scrollHeight;" +
+      "function tocToggle(){" +
+      "var open=head.getAttribute('aria-expanded')==='true';" +
+      "head.setAttribute('aria-expanded',open?'false':'true');" +
+      "bodyEl.style.transition='max-height .35s ease';" +
+      "bodyEl.style.maxHeight=open?'0':fullH+'px';" +
+      "chev.style.transform=open?'rotate(-90deg)':'';" +
+      "}" +
+      "head.addEventListener('click',tocToggle);" +
+      "})();/*]]>*/<\/script>";
+    return inline ? inner : "<b:if cond='data:view.isSingleItem'>" + inner + "</b:if>";
   }
 
   /* static (server-rendered) markup for the theme body — semantic HTML5 */
@@ -1856,12 +1919,15 @@ skinVariables(d),
           + "<button type='submit' style='background:var(--primary);color:#fff;padding:12px 20px;border:0;border-radius:var(--radius);font-weight:600;cursor:pointer'>" + esc(p.btnText) + "</button>"
           + "</form></div></section>";
       case "share":
+        var copyDone = tpl("คัดลอกแล้ว!","Copied!");
+        var copyLabel = tpl("คัดลอกลิงก์","Copy link");
         return "<section style='padding:28px 20px;text-align:center'><div class='wrap'>"
-          + (p.label ? "<div style='font-size:13px;color:#828aa0;margin-bottom:14px'>" + esc(p.label) + "</div>" : "")
+          + (p.label ? "<div style='font-size:13px;color:var(--text-subtle);margin-bottom:14px'>" + esc(p.label) + "</div>" : "")
           + "<b:if cond='data:view.isSingleItem'><div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap'>"
           + (p.facebook ? "<a expr:href='\"https://www.facebook.com/sharer/sharer.php?u=\" + data:post.url' target='_blank' rel='noopener noreferrer' style='padding:10px 18px;background:#1877f2;color:#fff;border-radius:var(--radius);font-weight:600;font-size:13px'>Facebook</a>" : "")
           + (p.twitter ? "<a expr:href='\"https://twitter.com/intent/tweet?url=\" + data:post.url + \"&amp;text=\" + data:post.title' target='_blank' rel='noopener noreferrer' style='padding:10px 18px;background:#000;color:#fff;border-radius:var(--radius);font-weight:600;font-size:13px'>X (Twitter)</a>" : "")
           + (p.line ? "<a expr:href='\"https://social-plugins.line.me/lineit/share?url=\" + data:post.url' target='_blank' rel='noopener noreferrer' style='padding:10px 18px;background:#06c755;color:#fff;border-radius:var(--radius);font-weight:600;font-size:13px'>LINE</a>" : "")
+          + (p.copy ? "<button onclick='var u=this,t=u.textContent;navigator.clipboard&amp;&amp;navigator.clipboard.writeText(window.location.href).then(function(){u.textContent=u.dataset.done;setTimeout(function(){u.textContent=t},2000)})' data-done='" + copyDone + "' style='padding:10px 18px;background:#6366f1;color:#fff;border:0;border-radius:var(--radius);font-weight:600;font-size:13px;cursor:pointer'>" + copyLabel + "</button>" : "")
           + "</div></b:if></div></section>";
       case "sidebar":
         var sWidgets = "";
@@ -1938,63 +2004,7 @@ skinVariables(d),
           + "<p style='font-size:15px;line-height:1.7;margin:0'><data:post.snippet/></p>"
           + "</aside></b:if>";
       case "toc":
-        var tocTitle = esc(p.title || "สารบัญ");
-        var tocDepth = parseInt(p.maxDepth || 3, 10);
-        var tocSel = tocDepth >= 3 ? "'h2,h3'" : "'h2'";
-        var tocListStyle = p.numbered !== false ? "'decimal'" : "'disc'";
-        return "<b:if cond='data:view.isSingleItem'>"
-          + "<style>"
-          + "#bxbToc{margin:20px 0;background:var(--bg-surface);border-radius:var(--radius,8px);border:1px solid var(--border);overflow:hidden}"
-          + "#bxbTocHead{display:flex;align-items:center;gap:8px;padding:11px 16px;font-size:11.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.07em;background:none;border:none;width:100%;text-align:left;cursor:pointer}"
-          + "#bxbTocHead:hover{background:var(--hover-bg)}"
-          + "#bxbTocChev{margin-left:auto;font-size:11px;color:var(--text-muted);transition:transform .25s}"
-          + "#bxbTocBody{overflow:hidden;padding:0 16px}"
-          + "#bxbTocList{margin:6px 0 12px;padding-left:20px;font-size:14px;line-height:1.9;color:var(--text-main)}"
-          + "#bxbTocList .toc-h3{padding-left:14px;font-size:13px}"
-          + "#bxbTocList a{color:var(--text-muted);text-decoration:none}"
-          + "#bxbTocList a:hover{color:var(--primary)}"
-          + "</style>"
-          + "<nav id='bxbToc' aria-label='" + tocTitle + "'>"
-          + "<button type='button' id='bxbTocHead' aria-expanded='true' aria-controls='bxbTocBody'>&#128209; " + tocTitle + "<span id='bxbTocChev' aria-hidden='true'>&#9660;</span></button>"
-          + "<div id='bxbTocBody'><ul id='bxbTocList'></ul></div>"
-          + "</nav>"
-          + "<script>/*<![CDATA[*/(function(){"
-          + "var toc=document.getElementById('bxbToc');"
-          + "var list=document.getElementById('bxbTocList');"
-          + "var content=document.querySelector('.post-body,.entry-content');"
-          + "if(!toc||!list||!content)return;"
-          + "var hs=Array.prototype.slice.call(content.querySelectorAll(" + tocSel + "));"
-          + "if(hs.length<2){toc.remove();return;}"
-          + "var numRe=/^\\s*\\d+[.)。]\\s+/;"
-          + "var hasNums=hs.some(function(h){return numRe.test(h.textContent.trim());});"
-          + "list.style.listStyle=hasNums?'none':" + tocListStyle + ";"
-          + "if(hasNums)list.style.paddingLeft='4px';"
-          + "hs.forEach(function(h,i){"
-          + "h.id='bxb-h'+i;"
-          + "var li=document.createElement('li');"
-          + (tocDepth >= 3 ? "if(h.tagName==='H3')li.className='toc-h3';" : "")
-          + "var a=document.createElement('a');"
-          + "a.href='#bxb-h'+i;"
-          + "a.textContent=h.textContent.trim();"
-          + "li.appendChild(a);list.appendChild(li);"
-          + "});"
-          + "var head=document.getElementById('bxbTocHead');"
-          + "var chev=document.getElementById('bxbTocChev');"
-          + "var bodyEl=document.getElementById('bxbTocBody');"
-          + "var fullH=bodyEl.scrollHeight;"
-          + "bodyEl.style.maxHeight='0';"
-          + "void bodyEl.offsetHeight;"
-          + "bodyEl.style.transition='max-height .35s ease';"
-          + "head.setAttribute('aria-expanded','false');"
-          + "chev.style.transform='rotate(-90deg)';"
-          + "head.addEventListener('click',function(){"
-          + "var open=head.getAttribute('aria-expanded')==='true';"
-          + "head.setAttribute('aria-expanded',open?'false':'true');"
-          + "bodyEl.style.maxHeight=open?'0':fullH+'px';"
-          + "chev.style.transform=open?'rotate(-90deg)':'';"
-          + "});"
-          + "})();/*]]>*/<\/script>"
-          + "</b:if>";
+        return genTocHtml(p, false);
       case "related":
         var relHeading = esc(p.heading || "บทความที่เกี่ยวข้อง");
         var relCount = p.count || 4;
