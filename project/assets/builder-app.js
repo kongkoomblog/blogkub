@@ -445,10 +445,13 @@
           + (p.heading ? '<h3 style="font-family:' + fontStack(d.font) + ';font-size:16px;color:#1e2333;margin-bottom:10px">' + esc(p.heading) + '</h3>' : '')
           + '<div style="display:flex;gap:0;max-width:420px"><input type="text" placeholder="' + esc(p.placeholder || "ค้นหาในบล็อก…") + '" style="flex:1;padding:12px 16px;border:1px solid #dde;border-radius:' + r + ' 0 0 ' + r + ';font-size:14px;color:#1e2333;background:#fff;outline:none"><button style="padding:12px 16px;background:' + pr + ';color:#fff;border:0;border-radius:0 ' + r + ' ' + r + ' 0;cursor:pointer;font-size:15px">🔍</button></div></div>';
       case "darkmode":
-        var dmPos = p.position || "bottom-right";
-        var dmPosStyle = (dmPos.indexOf("bottom") >= 0 ? "bottom:12px" : "top:12px") + ";" + (dmPos.indexOf("right") >= 0 ? "right:12px" : "left:12px");
-        return '<div style="position:relative;padding:28px 32px;background:#f7f8fc;min-height:80px;display:flex;align-items:center;justify-content:center"><div style="text-align:center;color:#aab;font-size:13px"><b style="color:#828aa0">Dark Mode Toggle</b><br><small>' + tpl("ปุ่มลอยตัว — ติดขอบจอทุกหน้า","Floating button — stays on screen") + '</small></div>'
-          + '<div style="position:absolute;' + dmPosStyle + ';width:40px;height:40px;border-radius:50%;background:' + pr + ';color:#fff;display:grid;place-items:center;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.2)">🌙</div></div>';
+        return '<div style="position:relative;padding:16px 32px;background:#f7f8fc;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px">'
+          + '<div style="color:#aab;font-size:13px"><b style="color:#828aa0">Dark Mode Toggle</b><br><small>' + tpl("ฝังในแถบ Header — มือถือ: ก่อนปุ่ม ☰ | Desktop: หลังช่องค้นหา","In header bar — mobile: before ☰ | desktop: after search") + '</small></div>'
+          + '<div style="display:flex;align-items:center;gap:8px;opacity:.55;font-size:12px;color:#828aa0">'
+          + '<div style="width:38px;height:38px;border-radius:8px;border:1px solid rgba(0,0,0,.15);display:grid;place-items:center;font-size:17px;background:#fff">🌙</div>'
+          + '<span>|</span>'
+          + '<div style="width:38px;height:38px;border-radius:8px;border:1px solid rgba(0,0,0,.1);display:flex;flex-direction:column;justify-content:center;gap:4px;padding:0 9px"><span style="display:block;height:2px;background:#1e2333;border-radius:2px"></span><span style="display:block;height:2px;background:#1e2333;border-radius:2px"></span><span style="display:block;height:2px;background:#1e2333;border-radius:2px"></span></div>'
+          + '</div></div>';
       case "aeo":
         var aeoSt = p.style === "highlight"
           ? "border-left:4px solid " + pr + ";background:" + pr + "0d;padding:16px 20px;border-radius:0 " + r + " " + r + " 0"
@@ -822,8 +825,7 @@
       case "share": return txt("label", "ข้อความนำ", p.label) + tog("facebook", "Facebook", p.facebook) + tog("twitter", "X (Twitter)", p.twitter) + tog("line", "LINE", p.line) + tog("copy", "คัดลอกลิงก์", p.copy);
       case "sidebar": return seg("position", "ตำแหน่ง Sidebar", p.position || "right", [["right", "ขวา ◨"], ["left", "◧ ซ้าย"]]) + txt("width", "ความกว้าง Sidebar", p.width || "280px") + tog("showSearch", "ช่องค้นหา", p.showSearch) + tog("showCategories", "ป้ายกำกับ / หมวดหมู่", p.showCategories) + tog("showArchive", "คลังบทความ", p.showArchive) + tog("showAbout", "เกี่ยวกับผู้เขียน", p.showAbout) + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ใส่ Sidebar ไว้ใกล้กลุ่มบทความ (postgrid/postlist/featured) — ระบบจะวาง Sidebar ข้างเนื้อหาหลักอัตโนมัติตอน Export XML</div></div>';
       case "search": return txt("heading", "หัวข้อ (เว้นว่าง = ซ่อน)", p.heading || "") + txt("placeholder", "Placeholder", p.placeholder || "ค้นหาในบล็อก…");
-      case "darkmode": return seg("position", "ตำแหน่งปุ่ม", p.position || "bottom-right", [["bottom-right", "ขวาล่าง"], ["bottom-left", "ซ้ายล่าง"], ["top-right", "ขวาบน"], ["top-left", "ซ้ายบน"]])
-        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ปุ่ม Dark Mode จดจำการตั้งค่าใน localStorage และรองรับ <code>prefers-color-scheme</code> อัตโนมัติ</div></div>';
+      case "darkmode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ปุ่มฝังใน Header โดยอัตโนมัติ — <b>มือถือ</b>: วางก่อนปุ่มเมนู ☰ | <b>Desktop</b>: วางหลังช่องค้นหา 🔍<br>หากไม่มีบล็อก Header จะลอยตัวมุมขวาล่างแทน<br><small>รองรับ <code>prefers-color-scheme</code> + จดจำใน localStorage</small></div></div>';
       case "aeo": return txt("title", "หัวข้อกล่องสรุป", p.title || "สรุปบทความ")
         + seg("style", "สไตล์", p.style || "card", [["card", "การ์ด"], ["highlight", "ไฮไลท์"], ["minimal", "เรียบ"]])
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ใช้ <code>.qt-aeo-summary</code> ซึ่งเชื่อมกับ SpeakableSpecification ใน Schema — ช่วยให้ Google Assistant และ AI อ่านสรุปบทความได้</div></div>';
@@ -1894,17 +1896,22 @@ skinVariables(d),
           "<div class='footer-bottom'>" + esc(p.copyright) + "</div>" +
           "</div></footer>";
       case "darkmode":
-        var dmPosCSS = (p.position && p.position.indexOf("top") >= 0 ? "top:72px" : "bottom:24px") + ";" + (p.position && p.position.indexOf("left") >= 0 ? "left:24px" : "right:24px");
         return "<style>[data-theme=dark]{background:#0f172a !important;color:#e2e8f0 !important}"
           + "[data-theme=dark] .site-header,[data-theme=dark] header{background:#1e293b !important;border-color:#334155 !important}"
           + "[data-theme=dark] .post-body a,[data-theme=dark] a{color:#818cf8}"
-          + ".bxb-dm-btn{position:fixed;" + dmPosCSS + ";z-index:9999;width:44px;height:44px;border-radius:50%;background:#f7f8fc;border:1px solid #e8eaf2;cursor:pointer;display:grid;place-items:center;font-size:20px;box-shadow:0 2px 10px rgba(0,0,0,.12);transition:transform .2s,background .2s}"
-          + "[data-theme=dark] .bxb-dm-btn{background:#1e293b;border-color:#334155;color:#e2e8f0}"
-          + ".bxb-dm-btn:hover{transform:scale(1.1)}</style>"
-          + "<button class='bxb-dm-btn' id='bxbDmBtn' aria-label='" + tpl("สลับธีมสว่าง/มืด","Toggle light/dark theme") + "'>🌙</button>"
+          + ".bxb-dm-btn{width:38px;height:38px;border-radius:8px;background:transparent;border:1px solid rgba(0,0,0,.1);cursor:pointer;display:grid;place-items:center;font-size:18px;flex:none;padding:0;transition:background .15s,border-color .15s}"
+          + ".bxb-dm-btn:hover{background:rgba(0,0,0,.05)}"
+          + "[data-theme=dark] .bxb-dm-btn{border-color:rgba(255,255,255,.2);color:#e2e8f0}"
+          + "[data-theme=dark] .bxb-dm-btn:hover{background:rgba(255,255,255,.08)}"
+          + ".bxb-dm-btn--float{position:fixed !important;bottom:24px !important;right:24px !important;z-index:9999;border-radius:50% !important;width:44px !important;height:44px !important;background:#f7f8fc !important;border:1px solid #e8eaf2 !important;box-shadow:0 2px 10px rgba(0,0,0,.12)}"
+          + "[data-theme=dark] .bxb-dm-btn--float{background:#1e293b !important;border-color:#334155 !important}"
+          + "</style>"
           + "<script>/*<![CDATA[*/(function(){"
-          + "if(document.getElementById('bxbDmBtn2'))return;"
-          + "var b=document.getElementById('bxbDmBtn');"
+          + "if(document.getElementById('bxbDmBtn'))return;"
+          + "var b=document.createElement('button');"
+          + "b.id='bxbDmBtn';"
+          + "b.className='bxb-dm-btn';"
+          + "b.setAttribute('aria-label','" + tpl("สลับธีมสว่าง/มืด","Toggle light/dark theme") + "');"
           + "var k='bxb-theme';"
           + "var t=localStorage.getItem(k)||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');"
           + "document.documentElement.dataset.theme=t;"
@@ -1915,6 +1922,13 @@ skinVariables(d),
           + "localStorage.setItem(k,n);"
           + "b.textContent=n==='dark'?'☀️':'🌙';"
           + "});"
+          + "function place(){"
+          + "var bar=document.querySelector('.site-bar');"
+          + "var burger=bar&&bar.querySelector('.nav-burger');"
+          + "if(burger){bar.insertBefore(b,burger);}"
+          + "else{b.classList.add('bxb-dm-btn--float');document.body.appendChild(b);}"
+          + "}"
+          + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',place);}else{place();}"
           + "})();/*]]>*/<\/script>";
       case "aeo":
         var aeoTitle = esc(p.title || "สรุปบทความ");
