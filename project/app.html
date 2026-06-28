@@ -381,7 +381,9 @@ button{font-family:inherit;cursor:pointer;}
 @media(max-width:1000px){
   .workspace{grid-template-columns:1fr;}
   /* panels become full-width bottom sheets that slide up */
-  .panel.left,.panel.right{display:none;position:fixed;left:0;right:0;bottom:54px;top:auto;width:100%;max-width:100%;max-height:72vh;z-index:30;border:0;border-top:1px solid var(--border-2);border-radius:18px 18px 0 0;box-shadow:0 -16px 50px rgba(0,0,0,.55);animation:sheetUp .26s cubic-bezier(.22,1,.36,1);}
+  /* dvh = dynamic viewport height — shrinks when virtual keyboard opens (Chrome 108+, Safari 16+) */
+  /* Without dvh support: 72vh fallback (good enough for resize-viewport browsers) */
+  .panel.left,.panel.right{display:none;position:fixed;left:0;right:0;bottom:54px;top:auto;width:100%;max-width:100%;max-height:72vh;max-height:calc(100dvh - 108px);min-height:calc(100dvh - 108px);z-index:30;border:0;border-top:1px solid var(--border-2);border-radius:18px 18px 0 0;box-shadow:0 -16px 50px rgba(0,0,0,.55);animation:sheetUp .26s cubic-bezier(.22,1,.36,1);}
   .panel.left::before,.panel.right::before{content:"";display:block;width:38px;height:4px;border-radius:3px;background:var(--border-2);margin:9px auto 2px;flex:none;}
   .sheet-close{display:flex !important;position:absolute;top:8px;right:10px;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);background:var(--surface-2);color:var(--ink);align-items:center;justify-content:center;font-size:16px;z-index:5;}
   body.show-left .panel.left{display:flex;} body.show-right .panel.right{display:flex;}

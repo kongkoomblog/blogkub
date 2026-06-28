@@ -969,7 +969,7 @@
 
     c.innerHTML = topHTML + detailHTML + '<div class="sec-divider"></div>'
       + '<div class="sec-title collapsed">ตัวอย่างผลการค้นหา (SERP Preview)</div>'
-      + serpPreviewHTML(seo)
+      + '<div id="serpPreviewWrap">' + serpPreviewHTML(seo) + '</div>'
       + '<div class="sec-divider"></div>'
       + '<div class="seo-key-card">'
       + txt2("blogTitle", "ชื่อบล็อก", seo.blogTitle)
@@ -1087,10 +1087,14 @@
   var seoT;
   function renderSeoScoreOnly() {
     var foc = document.activeElement;
-    // Skip full re-render while user is typing in a SEO field — prevents keyboard dismissal on mobile
+    // While user is typing in a SEO field: only update SERP preview in-place to avoid keyboard dismissal
     if (foc && foc.dataset && foc.dataset.sk) {
       var rtSeo = $("#rtSeo");
-      if (rtSeo && rtSeo.contains(foc)) return;
+      if (rtSeo && rtSeo.contains(foc)) {
+        var serpWrap = $("#serpPreviewWrap");
+        if (serpWrap) serpWrap.innerHTML = serpPreviewHTML(S.seo);
+        return;
+      }
     }
     var k = foc && foc.dataset ? foc.dataset.sk : null;
     renderSeo();
@@ -2809,29 +2813,6 @@ skinVariables(d),
     var saved = localStorage.getItem(KEY);
     if (saved) { S = JSON.parse(saved); if (S && S.blocks) { enterBuilder(); } }
   } catch (e) {}
-
-  // Keep bottom-sheet panels above virtual keyboard on mobile
-  if (window.visualViewport) {
-    window.visualViewport.addEventListener("resize", function () {
-      if (!window.matchMedia("(max-width:1000px)").matches) return;
-      var vv = window.visualViewport;
-      var kbH = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
-      $$(".panel.left, .panel.right").forEach(function (p) {
-        if (kbH > 80) {
-          // Keyboard open: fill from below topbar all the way down to just above keyboard
-          p.style.top = "54px";
-          p.style.bottom = (kbH + 54) + "px";
-          p.style.maxHeight = "";
-          p.style.borderRadius = "0";
-        } else {
-          p.style.top = "";
-          p.style.bottom = "";
-          p.style.maxHeight = "";
-          p.style.borderRadius = "";
-        }
-      });
-    });
-  }
 
   // expose minimal for debugging
   window.BXBApp = { genXML: function () { return genXML(); }, state: function () { return S; } };
