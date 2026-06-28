@@ -1390,20 +1390,24 @@
     // Post includable body — clean and simple. JSON-LD is in mainIncludable's loop
     // (before <b:include name='post'/>) to keep data:post.* scope without risking
     // a nested b:if/b:eval runtime abort inside this includable.
+    // NOTE: article uses class 'bxb-post-article' (not 'post-body') to avoid colliding
+    // with the inner .post-body content div that genTocHtml's script targets.
     var postIncludableBody =
-      "<article class='post-body entry-content' expr:id='&quot;post-body-&quot; + data:post.id'>" +
+      "<article class='bxb-post-article' expr:id='&quot;post-body-&quot; + data:post.id'>" +
       "<div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
         "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
           "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
         "</div></b:if>" +
         "<h1 class='post-title' style='font-size:clamp(26px,4vw,38px);font-weight:700;line-height:1.2;margin:0 0 16px'><data:post.title/></h1>" +
-        inlineTocHtml +
         "<b:if cond='data:view.isPost'>" +
           "<div class='post-meta' style='display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--text-subtle);margin-bottom:28px;padding-bottom:20px;border-bottom:1px solid var(--border)'>" +
             "<span><data:post.author.name/></span><span><data:post.date/></span>" +
           "</div>" +
         "</b:if>" +
-        "<div class='post-body entry-content' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
+        "<div class='post-body entry-content' style='font-size:16px;line-height:1.8'>" +
+          inlineTocHtml +
+          "<data:post.body/>" +
+        "</div>" +
       "</div></article>";
 
     // Multiple-items (homepage/label/search) branch — post grid/list blocks or fallback loop
@@ -1779,7 +1783,7 @@ skinVariables(d),
 ".footer-link:hover{color:#fff}",
 ".footer-bottom{text-align:center;color:rgba(255,255,255,.35);font-size:12.5px;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);max-width:980px;margin-left:auto;margin-right:auto}",
 "@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}",
-"#bxbToc{margin:24px 0 32px;border-left:3px solid var(--primary);border-radius:0 var(--radius,8px) var(--radius,8px) 0;background:var(--bg-surface);overflow:hidden}",
+"#bxbToc{margin:0 0 24px;border-left:3px solid var(--primary);border-radius:0 var(--radius,8px) var(--radius,8px) 0;background:var(--bg-surface);overflow:hidden}",
 "#bxbTocHead{display:flex;align-items:center;gap:7px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;background:none;border:none;width:100%;text-align:left;cursor:pointer;transition:background .15s}",
 "#bxbTocHead:hover{background:var(--hover-bg)}",
 "#bxbTocChev{margin-left:auto;font-size:10px;transition:transform .25s}",
@@ -1936,27 +1940,43 @@ skinVariables(d),
         var copyDone = tpl("คัดลอกแล้ว ✓","Copied ✓");
         var copyLabel = tpl("คัดลอกลิงก์","Copy link");
         var shareHtml =
-          "<b:if cond='data:view.isSingleItem'>" +
+          "<b:if cond='data:view.isPost'>" +
           "<section class='bxb-share' style='padding:28px 20px;text-align:center'><div class='wrap'>" +
           (p.label ? "<div style='font-size:13px;color:var(--text-subtle);margin-bottom:14px'>" + esc(p.label) + "</div>" : "") +
           "<div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap'>" +
-          (p.facebook ? "<a expr:href='&quot;https://www.facebook.com/sharer/sharer.php?u=&quot; + encodeURIComponent(data:view.url.canonical)' target='_blank' rel='noopener noreferrer' class='bxb-share-btn' style='background:#1877f2'>Facebook</a>" : "") +
-          (p.twitter ? "<a expr:href='&quot;https://twitter.com/intent/tweet?url=&quot; + encodeURIComponent(data:view.url.canonical) + &quot;&amp;text=&quot; + encodeURIComponent(data:view.title)' target='_blank' rel='noopener noreferrer' class='bxb-share-btn' style='background:#000'>X (Twitter)</a>" : "") +
-          (p.line ? "<a expr:href='&quot;https://social-plugins.line.me/lineit/share?url=&quot; + encodeURIComponent(data:view.url.canonical)' target='_blank' rel='noopener noreferrer' class='bxb-share-btn' style='background:#06c755'>LINE</a>" : "") +
+          (p.facebook ? "<a href='#' data-share='facebook' rel='noopener noreferrer' class='bxb-share-btn' style='background:#1877f2'>Facebook</a>" : "") +
+          (p.twitter ? "<a href='#' data-share='twitter' rel='noopener noreferrer' class='bxb-share-btn' style='background:#000'>X (Twitter)</a>" : "") +
+          (p.line ? "<a href='#' data-share='line' rel='noopener noreferrer' class='bxb-share-btn' style='background:#06c755'>LINE</a>" : "") +
           (p.copy ? "<button type='button' class='bxb-share-btn bxb-copy-btn' data-done='" + copyDone + "' style='background:var(--primary);border:0;cursor:pointer'>" + copyLabel + "</button>" : "") +
           "</div></div></section>" +
+          "<script>/*<![CDATA[*/(function(){" +
+          "function bxbShareInit(){" +
+          "var btns=document.querySelectorAll('[data-share]');" +
+          "for(var i=0;i<btns.length;i++){(function(a){" +
+          "a.addEventListener('click',function(e){" +
+          "e.preventDefault();" +
+          "var u=encodeURIComponent(window.location.href);" +
+          "var t=encodeURIComponent(document.title);" +
+          "var src=a.getAttribute('data-share');" +
+          "var url='';" +
+          "if(src==='facebook')url='https://www.facebook.com/sharer/sharer.php?u='+u;" +
+          "else if(src==='twitter')url='https://twitter.com/intent/tweet?url='+u+'&text='+t;" +
+          "else if(src==='line')url='https://social-plugins.line.me/lineit/share?url='+u;" +
+          "if(url)window.open(url,'_blank','width=600,height=500,noopener,noreferrer');" +
+          "});})(btns[i]);}" +
           (p.copy ?
-            "<script>/*<![CDATA[*/(function(){" +
-            "var bs=document.querySelectorAll('.bxb-copy-btn');" +
-            "for(var i=0;i<bs.length;i++){(function(b){" +
+            "var cbs=document.querySelectorAll('.bxb-copy-btn');" +
+            "for(var j=0;j<cbs.length;j++){(function(b){" +
             "var orig=b.textContent;" +
             "b.addEventListener('click',function(){" +
             "var url=window.location.href;" +
             "var done=function(){b.textContent=b.dataset.done;setTimeout(function(){b.textContent=orig;},2000);};" +
             "if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,function(){window.prompt('',url);});}" +
-            "else{var t=document.createElement('textarea');t.value=url;document.body.appendChild(t);t.select();try{document.execCommand('copy');done();}catch(e){window.prompt('',url);}document.body.removeChild(t);}" +
-            "});})(bs[i]);}" +
-            "})();/*]]>*/<\/script>" : "") +
+            "else{var tx=document.createElement('textarea');tx.value=url;document.body.appendChild(tx);tx.select();try{document.execCommand('copy');done();}catch(ex){window.prompt('',url);}document.body.removeChild(tx);}" +
+            "});})(cbs[j]);}" : "") +
+          "}" +
+          "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',bxbShareInit);}else{bxbShareInit();}" +
+          "})();/*]]>*/<\/script>" +
           "</b:if>";
         return shareHtml;
       case "sidebar":
@@ -2215,6 +2235,7 @@ skinVariables(d),
       "<meta content='1200' property='og:image:width'/>",
       "<meta content='630' property='og:image:height'/>",
       "<meta expr:content='resizeImage(data:view.firstImageUrl, 1200, \"1200:630\")' name='twitter:image'/>",
+      (seo.logoUrl ? "<b:else/><meta content='" + esc(seo.logoUrl) + "' property='og:image'/><meta name='twitter:image' content='" + esc(seo.logoUrl) + "'/>" : ""),
       "</b:if>",
       "<meta content='summary_large_image' name='twitter:card'/>",
       "<meta expr:content='data:view.title.escaped' name='twitter:title'/>",
