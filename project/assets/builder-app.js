@@ -1317,6 +1317,12 @@
     if (v.hideMobile) html = "<div class='hide-mobile'>" + html + "</div>";
     var condMap = { home: "data:view.isHomepage", item: "data:view.isSingleItem", page: "data:view.isPage", label: "data:view.isLabelSearch" };
     if (v.scope && condMap[v.scope]) html = "<b:if cond='" + condMap[v.scope] + "'>\n" + html + "\n</b:if>";
+    // Blocks with a specific page-scope already won't show on 404.
+    // Blocks shown on "all pages" need explicit 404 exclusion — except navigation/utility/404 blocks.
+    var SHOW_ON_ERROR = { header: 1, footer: 1, darkmode: 1, notfound: 1 };
+    if (!SHOW_ON_ERROR[b.type] && (!v.scope || !condMap[v.scope])) {
+      html = "<b:if cond='!data:view.isError'>\n" + html + "\n</b:if>";
+    }
     return html;
   }
   var POST_BLOCKS = { postgrid: 1, postlist: 1, featured: 1 };
@@ -1541,13 +1547,16 @@
     var parts = [], placed = false;
     S.blocks.forEach(function (b, i) {
       if (POST_BLOCKS[b.type]) {
-        if (i === firstPostIdx) { parts.push(blogOrLayout); placed = true; }
+        if (i === firstPostIdx) {
+          parts.push("<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>");
+          placed = true;
+        }
         return; // other post blocks already inside the widget
       }
       if (b.type === "sidebar") return; // already handled inside blogOrLayout
       parts.push(condWrap(renderBlockStatic(b), b));
     });
-    if (!placed) parts.push(blogOrLayout); // ensure exactly one Blog widget always exists
+    if (!placed) parts.push("<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>");
     var bodyHTML = parts.join("\n");
 
     // label robots logic
