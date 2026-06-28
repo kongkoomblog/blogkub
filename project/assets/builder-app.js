@@ -1293,11 +1293,12 @@
         "</b:if>"
       : "";
 
-    // Post includable body — rendered inside <b:includable id='post' var='post'>.
-    // data:post.* is valid here because Blogger scopes it from the b:loop in 'main'.
+    // Post includable body — clean and simple. JSON-LD is in mainIncludable's loop
+    // (before <b:include name='post'/>) to keep data:post.* scope without risking
+    // a nested b:if/b:eval runtime abort inside this includable.
     var postIncludableBody =
-      blogPostingSchema +
-      "<article class='bxb-post-single'><div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
+      "<article class='post-body entry-content' expr:id='&quot;post-body-&quot; + data:post.id'>" +
+      "<div class='wrap' style='max-width:780px;padding:40px 20px 64px'>" +
         "<b:if cond='data:post.labels'><div class='post-cats' style='margin-bottom:12px'>" +
           "<b:loop values='data:post.labels' var='label'><a expr:href='data:label.url' class='post-cat'><data:label.name/></a></b:loop>" +
         "</div></b:if>" +
@@ -1307,8 +1308,8 @@
             "<span><data:post.author.name/></span><span><data:post.date/></span>" +
           "</div>" +
         "</b:if>" +
-        "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,1200,\"auto\")' expr:alt='data:post.title' style='width:100%;height:auto;border-radius:var(--radius);margin-bottom:28px;display:block' loading='eager'/></b:if>" +
-        "<div class='post-body' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
+        "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,1200)' expr:alt='data:post.title' style='width:100%;height:auto;border-radius:var(--radius);margin-bottom:28px;display:block' loading='lazy'/></b:if>" +
+        "<div class='post-body entry-content' style='font-size:16px;line-height:1.8'><data:post.body/></div>" +
       "</div></article>";
 
     // Multiple-items (homepage/label/search) branch — post grid/list blocks or fallback loop
@@ -1317,11 +1318,14 @@
       : "<b:loop values='data:posts' var='post'><article class='bxb-post'><h2><a expr:href='data:post.url'><data:post.title/></a></h2><div class='post-body'><data:post.body/></div></article></b:loop><b:include name='nextprev'/>";
 
     // main includable: routes between single-item view and multiple-items view.
-    // Single post/page → b:loop calls <b:include name='post'/> → post includable renders body.
-    // This two-includable pattern matches working Blogger v2 templates.
+    // BlogPosting JSON-LD is emitted inside the b:loop (before post include) so
+    // data:post.* is in scope and isolated from the post includable rendering.
     var mainIncludable =
       "<b:if cond='data:view.isPost or data:view.isPage'>\n" +
-      "<b:loop values='data:posts' var='post'><b:include data='post' name='post'/></b:loop>\n" +
+      "<b:loop values='data:posts' var='post'>\n" +
+      blogPostingSchema + "\n" +
+      "<b:include data='post' name='post'/>\n" +
+      "</b:loop>\n" +
       "<b:else/>\n" +
       multipleItemsHtml + "\n" +
       "</b:if>";
@@ -1605,10 +1609,10 @@ skinVariables(d),
         return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:24px'>" + esc(p.heading) + "</h2><div class='grid' style='display:grid;grid-template-columns:repeat(" + p.columns + ",1fr);gap:20px'>" +
-          "<b:loop values='data:posts' var='post'><article style='border:1px solid #eef;border-radius:var(--radius);overflow:hidden'>" + (p.showImage ? "<b:if cond='data:post.featuredImage'><img expr:src='data:post.featuredImage' expr:alt='data:post.title' loading='lazy' width='400' height='225'/></b:if>" : "") + "<div style='padding:16px'><h3 style='font-size:17px'><a expr:href='data:post.url'><data:post.title/></a></h3>" + (p.showExcerpt ? "<p style='color:#828aa0;font-size:14px;margin-top:8px'><data:post.snippet/></p>" : "") + "</div></article></b:loop>" +
+          "<b:loop values='data:posts' var='post'><article style='border:1px solid #eef;border-radius:var(--radius);overflow:hidden'>" + (p.showImage ? "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/></b:if>" : "") + "<div style='padding:16px'><h3 style='font-size:17px'><a expr:href='data:post.url'><data:post.title/></a></h3>" + (p.showExcerpt ? "<b:if cond='data:post.snippet'><p style='color:#828aa0;font-size:14px;margin-top:8px'><data:post.snippet/></p></b:if>" : "") + "</div></article></b:loop>" +
           "</div></div></section>";
       case "postlist":
-        return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' var='post'><article style='display:flex;gap:16px;border-bottom:1px solid #eef;padding:16px 0'>" + (p.showImage ? "<b:if cond='data:post.featuredImage'><img expr:src='data:post.featuredImage' expr:alt='data:post.title' loading='lazy' width='120' height='90' style='border-radius:var(--radius)'/></b:if>" : "") + "<div><h3 style='font-size:18px'><a expr:href='data:post.url'><data:post.title/></a></h3><p style='color:#828aa0;font-size:14px;margin-top:4px'><data:post.snippet/></p></div></article></b:loop></div></section>";
+        return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' var='post'><article style='display:flex;gap:16px;border-bottom:1px solid #eef;padding:16px 0'>" + (p.showImage ? "<b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='120' height='90' style='border-radius:var(--radius);object-fit:cover;flex:none'/></b:if>" : "") + "<div><h3 style='font-size:18px'><a expr:href='data:post.url'><data:post.title/></a></h3><b:if cond='data:post.snippet'><p style='color:#828aa0;font-size:14px;margin-top:4px'><data:post.snippet/></p></b:if></div></article></b:loop></div></section>";
       case "featured":
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' index='i' var='post'><b:if cond='data:i == 0'><article style='border-radius:var(--radius);overflow:hidden;background:linear-gradient(120deg,var(--primary),var(--accent));padding:32px;color:#fff'><h3 style='font-size:26px'><a expr:href='data:post.url' style='color:#fff'><data:post.title/></a></h3></article></b:if></b:loop></div></section>";
       case "about":
