@@ -115,6 +115,9 @@
       ["related", "บทความที่เกี่ยวข้อง", "JSON Feed API"],
       ["progress", "Progress Bar", "แถบความคืบหน้าการอ่าน"],
       ["darkmode", "Dark Mode Toggle", "ปุ่มสลับธีมมืด/สว่าง"]
+    ]],
+    ["หน้าพิเศษ", [
+      ["notfound", "หน้า 404", "ออกแบบ Page Not Found"]
     ]]
   ];
 
@@ -152,7 +155,8 @@
       aeo: { title: "สรุปบทความ", style: "card" },
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
       related: { heading: "บทความที่เกี่ยวข้อง", count: 4, columns: 2, showImage: true },
-      progress: { height: 3, color: "primary" }
+      progress: { height: 3, color: "primary" },
+      notfound: { template: "minimal", heading: "404", sub: "ขออภัย — ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
   }
@@ -439,6 +443,27 @@
           + '<div style="width:55%;height:100%;background:' + pClrPrev + ';border-radius:9px"></div></div>'
           + '<div style="font-size:12px;color:#aab;text-align:center">Reading Progress Bar — ติดด้านบนทุกหน้า</div>'
           + '</div></div>';
+      case "notfound":
+        var nfTpl = p.template || "minimal";
+        var nfBg = nfTpl === "dark" ? "#0f172a" : nfTpl === "space" ? "linear-gradient(160deg," + pr + "," + ac + ")" : "#f7f8fc";
+        var nfFg = nfTpl === "minimal" ? "#1e2333" : "#fff";
+        var nfCodeClr = nfTpl === "minimal" ? pr : "rgba(255,255,255,.22)";
+        var nfDescClr = nfTpl === "minimal" ? "#828aa0" : "rgba(255,255,255,.75)";
+        var nfBtnBg = nfTpl === "minimal" ? pr : nfTpl === "space" ? "#fff" : pr;
+        var nfBtnFg = nfTpl === "minimal" ? "#fff" : nfTpl === "space" ? pr : "#fff";
+        var nfIcon = nfTpl === "space" ? "🚀" : nfTpl === "dark" ? "🌌" : "🔍";
+        var nfInputBg = nfTpl === "minimal" ? "#fff" : "rgba(255,255,255,.18)";
+        var nfInputBd = nfTpl === "minimal" ? "#dde" : "rgba(255,255,255,.3)";
+        var nfInputClr = nfTpl === "minimal" ? "#1e2333" : "#fff";
+        return '<div style="padding:64px 32px;text-align:center;background:' + nfBg + ';min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center">'
+          + '<div style="font-size:11px;font-weight:700;color:' + (nfTpl === "minimal" ? pr : "rgba(255,255,255,.55)") + ';text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">ตัวอย่าง หน้า 404</div>'
+          + '<div style="font-size:52px;margin-bottom:4px">' + nfIcon + '</div>'
+          + '<div style="font-size:88px;font-weight:900;line-height:1;color:' + nfCodeClr + ';font-family:' + fontStack(d.font) + ';letter-spacing:-.04em">' + esc(p.heading || "404") + '</div>'
+          + '<h2 style="font-size:20px;font-weight:700;color:' + nfFg + ';margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + esc(p.sub || "ขออภัย — ไม่พบหน้านี้") + '</h2>'
+          + '<p style="font-size:14px;color:' + nfDescClr + ';margin:8px auto 0;max-width:400px;line-height:1.6">' + esc(p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง") + '</p>'
+          + '<a style="display:inline-block;margin-top:22px;padding:12px 26px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';font-weight:600;border-radius:' + r + ';text-decoration:none;font-size:14px">' + esc(p.btnText || "กลับหน้าแรก") + '</a>'
+          + (p.showSearch !== false ? '<div style="margin-top:18px;display:flex;gap:0;max-width:340px;margin-left:auto;margin-right:auto"><input type="text" placeholder="ค้นหาในบล็อก…" style="flex:1;padding:10px 13px;border:1px solid ' + nfInputBd + ';border-radius:' + r + ' 0 0 ' + r + ';font-size:13px;background:' + nfInputBg + ';color:' + nfInputClr + ';outline:none"><button style="padding:10px 14px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';border:0;border-radius:0 ' + r + ' ' + r + ' 0;cursor:pointer">🔍</button></div>' : '')
+          + '</div>';
       case "footer":
         var fLinks = footerLinksOf(p);
         var fSocials = socialLinksOf(p);
@@ -510,7 +535,7 @@
   }
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
-    var m = { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar" };
+    var m = { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -776,6 +801,14 @@
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ดึงบทความผ่าน Blogger JSON Feed API ตามป้ายกำกับแรกของโพสต์ — ทำงานบนหน้าบทความเท่านั้น</div></div>';
       case "progress": return seg("color", "สีแถบ", p.color || "primary", [["primary", "สีหลัก"], ["accent", "สีเน้น"], ["gradient", "ไล่สี"]])
         + num("height", "ความสูง (px)", p.height || 3, 2, 6);
+      case "notfound": return seg("template", "แม่แบบ", p.template || "minimal", [["minimal", "เรียบ"], ["space", "ไล่สี"], ["dark", "มืด"]])
+        + txt("heading", "ตัวเลข/ข้อความหลัก", p.heading || "404")
+        + txt("sub", "หัวข้อรอง", p.sub || "ขออภัย — ไม่พบหน้านี้")
+        + area("desc", "คำอธิบาย", p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง")
+        + txt("btnText", "ข้อความปุ่ม", p.btnText || "กลับหน้าแรก")
+        + txt("btnUrl", "ลิงก์ปุ่ม", p.btnUrl || "/")
+        + tog("showSearch", "แสดงช่องค้นหา", p.showSearch !== false)
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>บล็อกนี้แสดงเฉพาะเมื่อ Blogger ตรวจพบหน้า 404 (<code>data:view.isError</code>) อัตโนมัติ — ไม่ต้องตั้งค่าเพิ่มเติม</div></div>';
     }
     return "";
   }
@@ -1563,7 +1596,6 @@ schema + "\n" +
 "<body>\n" +
 "<a class='skip' href='#main'>ข้ามไปยังเนื้อหา</a>\n" +
 bodyHTML + "\n" +
-"<b:if cond='data:view.isError'><script>/*<![CDATA[*/setTimeout(function(){window.location.replace('/');},3000);/*]]>*/</script></b:if>\n" +
 "</body>\n</html>";
     return xml;
   }
@@ -1929,6 +1961,43 @@ skinVariables(d),
           + "function u(){var h=document.documentElement.scrollHeight-window.innerHeight;var p=h>0?Math.min(100,window.scrollY/h*100):0;b.style.width=p+'%';b.setAttribute('aria-valuenow',Math.round(p));}"
           + "window.addEventListener('scroll',u,{passive:true});u();"
           + "})();/*]]>*/<\/script>";
+      case "notfound":
+        var nfsTpl = p.template || "minimal";
+        var nfsBg, nfsFg, nfsCodeClr, nfsDescClr, nfsBtnBg, nfsBtnFg, nfsInputBg, nfsInputBd, nfsInputClr, nfsLabelClr;
+        if (nfsTpl === "dark") {
+          nfsBg = "#0f172a"; nfsFg = "#fff"; nfsCodeClr = "rgba(255,255,255,.15)"; nfsDescClr = "rgba(255,255,255,.65)";
+          nfsBtnBg = "var(--primary)"; nfsBtnFg = "#fff"; nfsInputBg = "rgba(255,255,255,.1)"; nfsInputBd = "rgba(255,255,255,.2)"; nfsInputClr = "#fff"; nfsLabelClr = "var(--primary)";
+        } else if (nfsTpl === "space") {
+          nfsBg = "linear-gradient(160deg,var(--primary),var(--accent))"; nfsFg = "#fff"; nfsCodeClr = "rgba(255,255,255,.2)"; nfsDescClr = "rgba(255,255,255,.8)";
+          nfsBtnBg = "#fff"; nfsBtnFg = "var(--primary)"; nfsInputBg = "rgba(255,255,255,.2)"; nfsInputBd = "rgba(255,255,255,.35)"; nfsInputClr = "#fff"; nfsLabelClr = "rgba(255,255,255,.7)";
+        } else {
+          nfsBg = "#f7f8fc"; nfsFg = "#1e2333"; nfsCodeClr = "var(--primary)"; nfsDescClr = "#828aa0";
+          nfsBtnBg = "var(--primary)"; nfsBtnFg = "#fff"; nfsInputBg = "#fff"; nfsInputBd = "#dde"; nfsInputClr = "#1e2333"; nfsLabelClr = "var(--primary)";
+        }
+        var nfsSearch = p.showSearch !== false
+          ? "<form class='bxb404-search' action='/' method='get'>"
+            + "<input type='text' name='q' placeholder='ค้นหาในบล็อก…' aria-label='ค้นหา'/>"
+            + "<button type='submit'>&#128269;</button></form>"
+          : "";
+        var nfsHTML = "<style>"
+          + ".bxb404{min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;background:" + nfsBg + "}"
+          + ".bxb404-code{font-size:clamp(80px,12vw,128px);font-weight:900;line-height:1;letter-spacing:-.03em;color:" + nfsCodeClr + ";margin:0;font-family:inherit}"
+          + ".bxb404-h{font-size:clamp(18px,3vw,26px);font-weight:700;color:" + nfsFg + ";margin:14px 0 0;font-family:inherit}"
+          + ".bxb404-p{font-size:15px;color:" + nfsDescClr + ";margin:10px auto 0;max-width:440px;line-height:1.65}"
+          + ".bxb404-btn{display:inline-block;margin-top:26px;padding:13px 30px;background:" + nfsBtnBg + ";color:" + nfsBtnFg + ";font-weight:600;border-radius:var(--radius);text-decoration:none;font-size:15px;transition:opacity .2s}"
+          + ".bxb404-btn:hover{opacity:.88}"
+          + ".bxb404-search{margin-top:22px;display:flex;width:100%;max-width:380px}"
+          + ".bxb404-search input{flex:1;padding:11px 14px;border:1px solid " + nfsInputBd + ";border-radius:var(--radius) 0 0 var(--radius);font-size:14px;background:" + nfsInputBg + ";color:" + nfsInputClr + ";outline:none}"
+          + ".bxb404-search button{padding:11px 16px;background:" + nfsBtnBg + ";color:" + nfsBtnFg + ";border:0;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer;font-size:15px}"
+          + "</style>"
+          + "<section class='bxb404' aria-label='หน้าไม่พบ'>"
+          + "<h1 class='bxb404-code'>" + esc(p.heading || "404") + "</h1>"
+          + "<h2 class='bxb404-h'>" + esc(p.sub || "ขออภัย — ไม่พบหน้านี้") + "</h2>"
+          + "<p class='bxb404-p'>" + esc(p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง") + "</p>"
+          + "<a class='bxb404-btn' href='" + esc(absUrl(p.btnUrl || "/")) + "'>" + esc(p.btnText || "กลับหน้าแรก") + "</a>"
+          + nfsSearch
+          + "</section>";
+        return "<b:if cond='data:view.isError'>\n" + nfsHTML + "\n</b:if>";
     }
     return "";
   }
