@@ -656,7 +656,7 @@
   /* ---------- properties panel ---------- */
   function renderProps() {
     var c = $("#rtProps");
-    if (!SEL) { c.innerHTML = '<div class="props-empty">' + svg(IC.cursor, 1.5) + "<div>เลือกองค์ประกอบบนหน้าเว็บ<br>เพื่อปรับแต่งคุณสมบัติ</div></div>"; return; }
+    if (!SEL) { c.innerHTML = '<div class="props-empty">' + svg(IC.cursor, 1.5) + "<div>" + tr("เลือกองค์ประกอบบนหน้าเว็บ") + "<br>" + tr("เพื่อปรับแต่งคุณสมบัติ") + "</div></div>"; return; }
     var b = S.blocks.find(function (x) { return x.id === SEL; }); if (!b) { c.innerHTML = ""; return; }
     var f = fieldsFor(b);
     c.innerHTML = '<div class="sec-title">' + blkLabel(b.type) + "</div>" + f
@@ -1037,16 +1037,16 @@
     });
 
     c.innerHTML = topHTML + detailHTML + '<div class="sec-divider"></div>'
-      + '<div class="sec-title collapsed">ตัวอย่างผลการค้นหา (SERP Preview)</div>'
+      + '<div class="sec-title collapsed">' + tr("ตัวอย่างผลการค้นหา (SERP Preview)") + '</div>'
       + '<div id="serpPreviewWrap">' + serpPreviewHTML(seo) + '</div>'
       + '<div class="sec-divider"></div>'
       + '<div class="seo-key-card">'
       + txt2("blogTitle", "ชื่อบล็อก", seo.blogTitle)
       + txt2("title", "Title (เว้นว่าง = ใช้ชื่อบล็อก)", seo.title)
-      + area2("desc", "Meta description", seo.desc, (seo.desc || "").length + "/160 ตัวอักษร")
+      + area2("desc", "Meta description", seo.desc, (seo.desc || "").length + tpl("/160 ตัวอักษร", "/160 chars"))
       + '</div>'
       + '<div class="sec-divider"></div>'
-      + '<div class="sec-title">ป้ายกำกับ (Labels)</div>'
+      + '<div class="sec-title">' + tr("ป้ายกำกับ (Labels)") + '</div>'
       + tog2("labelIndex", "อนุญาตให้ทำดัชนีหน้าป้ายกำกับ", seo.labelIndex, "ให้ Google เก็บหน้า Label เป็นหน้าหมวดหมู่")
       + labelNote(seo.labelIndex)
       + '<div class="sec-divider"></div>'
@@ -1063,15 +1063,15 @@
     if (window.__bxbAccordion) window.__bxbAccordion(c);
     if (BL === "en") translateChrome();
   }
-  function txt2(k, l, v) { return '<div class="field"><label>' + l + '</label><input class="inp" data-sk="' + k + '" value="' + esc(v) + '"></div>'; }
-  function area2(k, l, v, hint) { return '<div class="field"><label>' + l + '</label><textarea class="ta" data-sk="' + k + '">' + esc(v) + "</textarea>" + (hint ? '<div class="hint" data-cnt="' + k + '">' + hint + "</div>" : "") + "</div>"; }
-  function tog2(k, l, v, sub) { return '<label class="tg"><span class="lbl">' + l + (sub ? "<small>" + sub + "</small>" : "") + '</span><input type="checkbox" data-sk="' + k + '"' + (v ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
+  function txt2(k, l, v) { return '<div class="field"><label>' + tr(l) + '</label><input class="inp" data-sk="' + k + '" value="' + esc(v) + '"></div>'; }
+  function area2(k, l, v, hint) { return '<div class="field"><label>' + tr(l) + '</label><textarea class="ta" data-sk="' + k + '">' + esc(v) + "</textarea>" + (hint ? '<div class="hint" data-cnt="' + k + '">' + hint + "</div>" : "") + "</div>"; }
+  function tog2(k, l, v, sub) { return '<label class="tg"><span class="lbl">' + tr(l) + (sub ? "<small>" + tr(sub) + "</small>" : "") + '</span><input type="checkbox" data-sk="' + k + '"' + (v ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
   function labelNote(on) {
-    if (on) return '<div class="note warn">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div><b>กฎสำคัญ: 1 บทความ ต่อ 1 ป้ายกำกับเท่านั้น</b><br>เมื่อเปิดให้ทำดัชนี Label ได้ ให้ติดป้ายกำกับ <b>เพียงป้ายเดียว</b> ต่อบทความ มิฉะนั้นบทความเดียวจะไปโผล่หลายหน้า Label → เกิดเนื้อหาซ้ำ (duplicate) และถูกมองว่าเป็น <b>หน้าขยะ/thin content</b> ระบบจะสร้าง CollectionPage + Breadcrumb ให้หน้า Label อัตโนมัติเพื่อให้มีคุณภาพพอ</div></div>';
-    return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) — กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้</div></div>';
+    if (on) return '<div class="note warn">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>กฎสำคัญ: 1 บทความ ต่อ 1 ป้ายกำกับเท่านั้น</b><br>เมื่อเปิดให้ทำดัชนี Label ได้ ให้ติดป้ายกำกับ <b>เพียงป้ายเดียว</b> ต่อบทความ มิฉะนั้นบทความเดียวจะไปโผล่หลายหน้า Label → เกิดเนื้อหาซ้ำ (duplicate) และถูกมองว่าเป็น <b>หน้าขยะ/thin content</b> ระบบจะสร้าง CollectionPage + Breadcrumb ให้หน้า Label อัตโนมัติเพื่อให้มีคุณภาพพอ', '<b>Important: 1 article → 1 label only</b><br>With label indexing enabled, each article must use <b>only one label</b>. Multiple labels cause duplicate content across label pages, flagged as <b>thin content</b>. The builder auto-generates CollectionPage + Breadcrumb for label pages to maintain quality.') + '</div></div>';
+    return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) — กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้', 'Label pages are set to <b>noindex, follow</b> (recommended) — prevents duplicate content while still passing internal link equity.') + '</div></div>';
   }
   function googleBox(seo) {
-    return '<div class="sec-title collapsed">ข้อมูลสำหรับ Google (Knowledge Graph)</div>'
+    return '<div class="sec-title collapsed">' + tr("ข้อมูลสำหรับ Google (Knowledge Graph)") + '</div>'
       + '<div class="seo-key-card">'
       + seg("orgType", "ประเภทเว็บไซต์", seo.orgType, [["Organization", "องค์กร"], ["Person", "บุคคล"], ["LocalBusiness", "ร้านค้า"]])
       + txt2("siteUrl", "URL เว็บไซต์", seo.siteUrl)
@@ -1079,12 +1079,12 @@
       + area2b("sameAs", "ลิงก์โซเชียล (บรรทัดละ 1 ลิงก์)", seo.sameAs, "Facebook, X, YouTube, LINE — ช่วยให้ Google ยืนยันตัวตนเว็บ")
       + '</div>'
       + tog2("schemaSoftwareApp", "SoftwareApplication Schema", seo.schemaSoftwareApp, "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ — ช่วยให้ AI knowledge graphs จดจำได้")
-      + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ข้อมูลนี้จะถูกสร้างเป็น <b>@graph (Organization + WebSite)</b> ในส่วน head ของทุกหน้า — ตัวช่วยให้ Google เข้าใจว่าใครเป็นเจ้าของเว็บ (E-E-A-T)</div></div>';
+      + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl('ข้อมูลนี้จะถูกสร้างเป็น <b>@graph (Organization + WebSite)</b> ในส่วน head ของทุกหน้า — ตัวช่วยให้ Google เข้าใจว่าใครเป็นเจ้าของเว็บ (E-E-A-T)', 'This data generates a <b>@graph (Organization + WebSite)</b> in the &lt;head&gt; of every page — helps Google understand who owns the site (E-E-A-T).') + '</div></div>';
   }
-  function area2b(k, l, v, hint) { return '<div class="field"><label>' + l + '</label><textarea class="ta" data-sk="' + k + '" style="min-height:74px">' + esc(v) + "</textarea>" + (hint ? '<div class="hint">' + hint + "</div>" : "") + "</div>"; }
+  function area2b(k, l, v, hint) { return '<div class="field"><label>' + tr(l) + '</label><textarea class="ta" data-sk="' + k + '" style="min-height:74px">' + esc(v) + "</textarea>" + (hint ? '<div class="hint">' + tr(hint) + "</div>" : "") + "</div>"; }
   function socialPreviewHTML(seo) {
-    var title = esc(seo.title || seo.blogTitle || "ชื่อบทความ");
-    var desc = esc(seo.desc || "คำอธิบายบทความจะแสดงตรงนี้ ควรยาว 120–160 ตัวอักษรเพื่อแสดงผลครบ");
+    var title = esc(seo.title || seo.blogTitle || tpl("ชื่อบทความ", "Article title"));
+    var desc = esc(seo.desc || tpl("คำอธิบายบทความจะแสดงตรงนี้ ควรยาว 120–160 ตัวอักษรเพื่อแสดงผลครบ", "Article description appears here. Keep it 120–160 characters for best display."));
     var domain = (seo.siteUrl || "yourblog.blogspot.com").replace(/^https?:\/\//, "").replace(/\/$/, "");
     var shortDesc = desc.length > 120 ? desc.slice(0, 117) + "…" : desc;
     var shortTitle = title.length > 65 ? title.slice(0, 62) + "…" : title;
@@ -1117,23 +1117,23 @@
   }
   function serpPreviewHTML(seo) {
     var domain = (seo.siteUrl || "yourblog.blogspot.com").replace(/^https?:\/\//, "").replace(/\/$/, "");
-    var titleVal = (seo.title ? seo.title + " | " + (seo.blogTitle || "Blog") : seo.blogTitle) || "ชื่อบล็อก";
-    var descVal = seo.desc || "คำอธิบายเว็บไซต์จะแสดงที่นี่ เพิ่ม meta description เพื่อเพิ่มโอกาสให้ผู้ใช้คลิก";
+    var titleVal = (seo.title ? seo.title + " | " + (seo.blogTitle || "Blog") : seo.blogTitle) || tr("ชื่อบล็อก");
+    var descVal = seo.desc || tpl("คำอธิบายเว็บไซต์จะแสดงที่นี่ เพิ่ม meta description เพื่อเพิ่มโอกาสให้ผู้ใช้คลิก", "Website description appears here. Add a meta description to improve click-through rate.");
     var titleTrunc = titleVal.length > 60;
     var descTrunc = descVal.length > 160;
     var tDisp = esc(titleTrunc ? titleVal.slice(0, 57) + "…" : titleVal);
     var dDisp = esc(descTrunc ? descVal.slice(0, 157) + "…" : descVal);
     var tColor = titleTrunc ? "#ea4335" : "#1a0dab";
-    var dNote = descTrunc ? '<span style="color:#ea4335;font-size:11px;margin-left:4px">⚠ ยาวเกิน 160</span>' : (descVal.length < 120 ? '<span style="color:#f59e0b;font-size:11px;margin-left:4px">⚠ สั้นเกินไป</span>' : '');
+    var dNote = descTrunc ? '<span style="color:#ea4335;font-size:11px;margin-left:4px">⚠ ' + tpl("ยาวเกิน 160", "over 160 chars") + '</span>' : (descVal.length < 120 ? '<span style="color:#f59e0b;font-size:11px;margin-left:4px">⚠ ' + tpl("สั้นเกินไป", "too short") + '</span>' : '');
     return '<div style="padding:0 16px 14px">'
       + '<div style="background:#fff;border-radius:10px;border:1px solid #dde3ec;padding:16px 18px;font-family:Arial,sans-serif">'
       + '<div style="font-size:13px;color:#202124;line-height:1.3;margin-bottom:4px;display:flex;align-items:center;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#e8eaf2;flex:none"></div>' + esc(domain) + ' › …</div>'
-      + '<div style="font-size:18px;line-height:1.3;margin-bottom:4px;color:' + tColor + '">' + tDisp + (titleTrunc ? '<span style="font-size:11px;margin-left:6px;vertical-align:middle">⚠ ยาวเกิน 60</span>' : '') + '</div>'
+      + '<div style="font-size:18px;line-height:1.3;margin-bottom:4px;color:' + tColor + '">' + tDisp + (titleTrunc ? '<span style="font-size:11px;margin-left:6px;vertical-align:middle">⚠ ' + tpl("ยาวเกิน 60", "over 60 chars") + '</span>' : '') + '</div>'
       + '<div style="font-size:13.5px;color:#4d5156;line-height:1.5">' + dDisp + dNote + '</div>'
       + '</div>'
       + '<div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:var(--ink-3)">'
-      + '<span>ชื่อ: <b style="color:' + (titleTrunc ? "var(--bad)" : "var(--ok)") + '">' + titleVal.length + '/60</b></span>'
-      + '<span>คำอธิบาย: <b style="color:' + (descVal.length < 120 ? "var(--warn)" : descTrunc ? "var(--bad)" : "var(--ok)") + '">' + descVal.length + '/160</b></span>'
+      + '<span>' + tpl("ชื่อ: ", "Title: ") + '<b style="color:' + (titleTrunc ? "var(--bad)" : "var(--ok)") + '">' + titleVal.length + '/60</b></span>'
+      + '<span>' + tpl("คำอธิบาย: ", "Description: ") + '<b style="color:' + (descVal.length < 120 ? "var(--warn)" : descTrunc ? "var(--bad)" : "var(--ok)") + '">' + descVal.length + '/160</b></span>'
       + '</div></div>';
   }
   function bindSeo(c) {
@@ -1145,7 +1145,7 @@
       });
       else inp.addEventListener("input", function () {
         S.seo[k] = inp.value; save();
-        if (k === "desc") { var h = c.querySelector('[data-cnt="desc"]'); if (h) h.textContent = inp.value.length + "/160 ตัวอักษร"; }
+        if (k === "desc") { var h = c.querySelector('[data-cnt="desc"]'); if (h) h.textContent = inp.value.length + tpl("/160 ตัวอักษร", "/160 chars"); }
         if (k === "blogTitle") renderCanvas();
         clearTimeout(seoT); seoT = setTimeout(renderSeoScoreOnly, 400);
       });
@@ -1175,40 +1175,41 @@
     var t = seo.title || seo.blogTitle || "", d = seo.desc || "";
     var imgBlks = S.blocks.filter(function (b) { return b.type === "image"; });
     var allAlt = imgBlks.length === 0 || imgBlks.every(function (b) { return b.props && (b.props.alt || "").trim().length > 2; });
+    var chars = tpl(" ตัวอักษร", " chars"), pics = tpl(" รูป", " images");
     var cats = [
       { key: "tech", label: "Technical SEO", color: "#0ea5e9", checks: [
-        { pass: t.length >= 10 && t.length <= 60, label: "Title ความยาวเหมาะสม (10–60)", tip: t.length + " ตัวอักษร" },
-        { pass: d.length >= 70 && d.length <= 160, label: "Meta description (70–160)", tip: d.length + " ตัวอักษร" },
-        { pass: true, label: "Canonical URL อัตโนมัติ", ok: true },
+        { pass: t.length >= 10 && t.length <= 60, label: tr("Title ความยาวเหมาะสม (10–60)"), tip: t.length + chars },
+        { pass: d.length >= 70 && d.length <= 160, label: "Meta description (70–160)", tip: d.length + chars },
+        { pass: true, label: tr("Canonical URL อัตโนมัติ"), ok: true },
         { pass: true, label: "Viewport meta ✓", ok: true },
-        { pass: !!seo.siteUrl, label: "URL เว็บไซต์ตั้งค่าแล้ว", tip: "จำเป็นสำหรับ Schema & Canonical" }
+        { pass: !!seo.siteUrl, label: tr("URL เว็บไซต์ตั้งค่าแล้ว"), tip: tr("จำเป็นสำหรับ Schema & Canonical") }
       ]},
-      { key: "struct", label: "โครงสร้างหน้า", color: "#8b5cf6", checks: [
-        { pass: S.blocks.some(function (b) { return b.type === "header"; }), label: "Header (ส่วนหัว)" },
-        { pass: S.blocks.some(function (b) { return b.type === "footer"; }), label: "Footer (ส่วนท้าย)" },
-        { pass: S.blocks.some(function (b) { return b.type === "about"; }), label: "About / ผู้เขียน (E-E-A-T)" },
-        { pass: S.blocks.some(function (b) { return /post|featured/.test(b.type); }), label: "ส่วนแสดงบทความ" },
-        { pass: allAlt, label: "รูปภาพมี ALT text ครบ", tip: imgBlks.length ? imgBlks.length + " รูป" : "ไม่มีบล็อกรูป" }
+      { key: "struct", label: tr("โครงสร้างหน้า"), color: "#8b5cf6", checks: [
+        { pass: S.blocks.some(function (b) { return b.type === "header"; }), label: tr("Header (ส่วนหัว)") },
+        { pass: S.blocks.some(function (b) { return b.type === "footer"; }), label: tr("Footer (ส่วนท้าย)") },
+        { pass: S.blocks.some(function (b) { return b.type === "about"; }), label: tr("About / ผู้เขียน (E-E-A-T)") },
+        { pass: S.blocks.some(function (b) { return /post|featured/.test(b.type); }), label: tr("ส่วนแสดงบทความ") },
+        { pass: allAlt, label: tr("รูปภาพมี ALT text ครบ"), tip: imgBlks.length ? imgBlks.length + pics : tr("ไม่มีบล็อกรูป") }
       ]},
       { key: "schema", label: "Schema & Markup", color: "#10b981", checks: [
-        { pass: !!seo.schema, label: "Schema JSON-LD เปิดอยู่" },
+        { pass: !!seo.schema, label: tr("Schema JSON-LD เปิดอยู่") },
         { pass: !!(seo.schema && seo.siteUrl), label: "WebSite URL (Schema)" },
         { pass: !!(seo.schema && seo.logoUrl), label: "Logo URL (Organization.logo)" },
         { pass: !!(seo.schema && seo.sameAs && seo.sameAs.trim()), label: "Social sameAs links" },
         { pass: !!(seo.schema && seo.siteUrl), label: "WebPage @id fragments (Schema)" }
       ]},
       { key: "social", label: "Social & Sharing", color: "#f59e0b", checks: [
-        { pass: !!seo.og, label: "Open Graph เปิดอยู่" },
-        { pass: !!seo.og, label: "Twitter Card เปิดอยู่" },
-        { pass: !!seo.blogTitle && seo.blogTitle.length > 2, label: "ชื่อบล็อกตั้งค่าแล้ว" },
-        { pass: d.length > 50, label: "Description ยาวพอ (og:description)" }
+        { pass: !!seo.og, label: tr("Open Graph เปิดอยู่") },
+        { pass: !!seo.og, label: tr("Twitter Card เปิดอยู่") },
+        { pass: !!seo.blogTitle && seo.blogTitle.length > 2, label: tr("ชื่อบล็อกตั้งค่าแล้ว") },
+        { pass: d.length > 50, label: tr("Description ยาวพอ (og:description)") }
       ]},
       { key: "ai", label: "AI Readiness", color: "#a855f7", checks: [
-        { pass: !!seo.siteUrl, label: "Entity @id (siteUrl ตั้งค่าแล้ว)", tip: "จำเป็นสำหรับ @graph @id fragments ให้ AI จดจำเว็บ" },
-        { pass: !!seo.logoUrl, label: "Logo URL (Organisation entity)", tip: "ช่วย AI knowledge graphs สร้าง entity ที่สมบูรณ์" },
-        { pass: !!(seo.sameAs && seo.sameAs.trim()), label: "sameAs links (ยืนยันตัวตน)", tip: "Facebook, YouTube, X ฯลฯ เพิ่มความน่าเชื่อถือ" },
+        { pass: !!seo.siteUrl, label: tr("Entity @id (siteUrl ตั้งค่าแล้ว)"), tip: tr("จำเป็นสำหรับ @graph @id fragments ให้ AI จดจำเว็บ") },
+        { pass: !!seo.logoUrl, label: "Logo URL (Organisation entity)", tip: tr("ช่วย AI knowledge graphs สร้าง entity ที่สมบูรณ์") },
+        { pass: !!(seo.sameAs && seo.sameAs.trim()), label: tr("sameAs links (ยืนยันตัวตน)"), tip: tr("Facebook, YouTube, X ฯลฯ เพิ่มความน่าเชื่อถือ") },
         { pass: S.blocks.some(function (b) { return b.type === "about"; }), label: "About block (E-E-A-T / Authorship)" },
-        { pass: d.length >= 50, label: "Meta description ≥ 50 ตัวอักษร (AI snippet)", tip: d.length + " ตัวอักษร" },
+        { pass: d.length >= 50, label: tr("Meta description ≥ 50 ตัวอักษร (AI snippet)"), tip: d.length + chars },
         { pass: !!seo.schema, label: "Schema JSON-LD (BreadcrumbList + speakable)" }
       ]}
     ];
@@ -1220,7 +1221,7 @@
     var totalAll = cats.reduce(function (s, c) { return s + c.checks.length; }, 0);
     var overall = Math.round(totalPass / totalAll * 100);
     var color = overall >= 80 ? "#22c55e" : overall >= 55 ? "#f59e0b" : "#ef4444";
-    var label = overall >= 80 ? "ดีมาก พร้อมเผยแพร่" : overall >= 55 ? "ดี ปรับเพิ่มได้" : "ควรปรับปรุง";
+    var label = overall >= 80 ? tr("ดีมาก พร้อมเผยแพร่") : overall >= 55 ? tr("ดี ปรับเพิ่มได้") : tr("ควรปรับปรุง");
     return { overall: overall, color: color, label: label, cats: cats };
   }
 
@@ -1253,17 +1254,17 @@
     var c = $("#rtDesign"), d = S && S.design;
     if (!d) { if (c) c.innerHTML = ""; return; }
     c.innerHTML =
-      '<div class="sec-title">ชุดสี</div><div class="field"><div class="swatches" id="palSw">' +
+      '<div class="sec-title">' + tr("ชุดสี") + '</div><div class="field"><div class="swatches" id="palSw">' +
       PALETTES.map(function (pl, i) { return '<div class="sw' + (pl[0] === d.primary ? " on" : "") + '" data-p="' + pl[0] + '" data-a="' + pl[1] + '" style="background:linear-gradient(120deg,' + pl[0] + "," + pl[1] + ')"></div>'; }).join("") + "</div></div>" +
       '<div class="row2" style="padding:0 16px 14px">' +
-        '<div><label style="font-size:12px;font-weight:600;color:var(--ink-2)">สีหลัก</label><input class="inp" type="color" value="' + d.primary + '" data-dk="primary" style="height:38px;padding:3px"></div>' +
-        '<div><label style="font-size:12px;font-weight:600;color:var(--ink-2)">สีเน้น</label><input class="inp" type="color" value="' + d.accent + '" data-dk="accent" style="height:38px;padding:3px"></div>' +
+        '<div><label style="font-size:12px;font-weight:600;color:var(--ink-2)">' + tr("สีหลัก") + '</label><input class="inp" type="color" value="' + d.primary + '" data-dk="primary" style="height:38px;padding:3px"></div>' +
+        '<div><label style="font-size:12px;font-weight:600;color:var(--ink-2)">' + tr("สีเน้น") + '</label><input class="inp" type="color" value="' + d.accent + '" data-dk="accent" style="height:38px;padding:3px"></div>' +
       '</div>' +
       contrastNote(d.primary) +
-      '<div class="sec-divider"></div><div class="sec-title">ตัวอักษร</div>' +
+      '<div class="sec-divider"></div><div class="sec-title">' + tr("ตัวอักษร") + '</div>' +
       '<div class="field"><div class="seg" data-dseg="font">' + [["sans", "Sans"], ["serif", "Serif"], ["mono", "Mono"]].map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === d.font ? ' class="on"' : "") + ">" + o[1] + "</button>"; }).join("") + "</div></div>" +
-      '<div class="sec-divider"></div><div class="sec-title">ความมนขอบ</div>' +
-      '<div class="field"><label>มุมโค้ง — ' + d.radius + 'px</label><input class="inp" type="range" min="0" max="24" value="' + d.radius + '" data-dk="radius" data-num="1"></div>';
+      '<div class="sec-divider"></div><div class="sec-title">' + tr("ความมนขอบ") + '</div>' +
+      '<div class="field"><label>' + tr("มุมโค้ง") + ' — ' + d.radius + 'px</label><input class="inp" type="range" min="0" max="24" value="' + d.radius + '" data-dk="radius" data-num="1"></div>';
     bindDesign(c);
     if (window.__bxbAccordion) window.__bxbAccordion(c);
     if (BL === "en") translateChrome();
@@ -1274,16 +1275,16 @@
   function contrastNote(primary) {
     var r = contrastRatio(primary, "#ffffff");
     var ratio = r.toFixed(2);
-    if (r >= 4.5) return '<div class="note ok" style="margin:0 16px 14px">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>คอนทราสต์ตัวอักษรขาวบนปุ่มสีหลัก <b>' + ratio + ':1</b> — ผ่านมาตรฐาน WCAG AA ✓</div></div>';
-    if (r >= 3) return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>คอนทราสต์ <b>' + ratio + ':1</b> — ผ่านเฉพาะข้อความขนาดใหญ่ ควรเข้มขึ้นเพื่ออ่านง่ายทุกขนาด</div></div>';
-    return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div><b>คอนทราสต์ต่ำ ' + ratio + ':1</b> — ข้อความขาวบนสีนี้อ่านยาก ไม่ผ่าน WCAG ควรเลือกสีเข้มขึ้น</div></div>';
+    if (r >= 4.5) return '<div class="note ok" style="margin:0 16px 14px">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl('คอนทราสต์ตัวอักษรขาวบนปุ่มสีหลัก <b>' + ratio + ':1</b> — ผ่านมาตรฐาน WCAG AA ✓', 'White text on primary button contrast <b>' + ratio + ':1</b> — passes WCAG AA ✓') + '</div></div>';
+    if (r >= 3) return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('คอนทราสต์ <b>' + ratio + ':1</b> — ผ่านเฉพาะข้อความขนาดใหญ่ ควรเข้มขึ้นเพื่ออ่านง่ายทุกขนาด', 'Contrast <b>' + ratio + ':1</b> — passes for large text only. Use a darker color for all text sizes.') + '</div></div>';
+    return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>คอนทราสต์ต่ำ ' + ratio + ':1</b> — ข้อความขาวบนสีนี้อ่านยาก ไม่ผ่าน WCAG ควรเลือกสีเข้มขึ้น', '<b>Low contrast ' + ratio + ':1</b> — white text is hard to read on this color. Fails WCAG — choose a darker shade.') + '</div></div>';
   }
   function bindDesign(c) {
     $$(".sw", c).forEach(function (s) { s.addEventListener("click", function () { S.design.primary = s.dataset.p; S.design.accent = s.dataset.a; renderDesign(); renderCanvas(); save(); }); });
     $$('[data-dk]', c).forEach(function (inp) {
       inp.addEventListener("input", function () {
         var k = inp.dataset.dk; S.design[k] = inp.dataset.num ? parseInt(inp.value, 10) : inp.value;
-        if (inp.dataset.num) { var lb = inp.previousElementSibling; if (lb) lb.textContent = "มุมโค้ง — " + inp.value + "px"; }
+        if (inp.dataset.num) { var lb = inp.previousElementSibling; if (lb) lb.textContent = tr("มุมโค้ง") + " — " + inp.value + "px"; }
         renderCanvas(); save();
       });
     });
@@ -2569,9 +2570,47 @@ skinVariables(d),
     "คะแนน SEO": "SEO Score", "วิเคราะห์แบบเรียลไทม์ขณะออกแบบ": "Analyzed live as you design",
     "ชื่อบล็อก": "Blog title", "ป้ายกำกับ (Labels)": "Labels",
     "อนุญาตให้ทำดัชนีหน้าป้ายกำกับ": "Allow label pages to be indexed",
+    "ให้ Google เก็บหน้า Label เป็นหน้าหมวดหมู่": "Let Google index labels as categories",
     "ใส่ Schema (JSON-LD) อัตโนมัติ": "Auto Schema (JSON-LD)", "Open Graph + Twitter Card": "Open Graph + Twitter Card",
+    "การ์ดแชร์สวยบน Facebook / LINE / X": "Share cards on Facebook / LINE / X",
+    "ตัวอย่างผลการค้นหา (SERP Preview)": "Search Result Preview (SERP)",
+    "Title (เว้นว่าง = ใช้ชื่อบล็อก)": "Title (blank = use blog name)",
+    // googleBox
+    "ข้อมูลสำหรับ Google (Knowledge Graph)": "Data for Google (Knowledge Graph)",
+    "ประเภทเว็บไซต์": "Website type",
+    "องค์กร": "Organization", "บุคคล": "Person", "ร้านค้า": "Business",
+    "URL เว็บไซต์": "Website URL",
+    "URL โลโก้ (แนะนำ 512×512)": "Logo URL (512×512 recommended)",
+    "ลิงก์โซเชียล (บรรทัดละ 1 ลิงก์)": "Social links (one per line)",
+    "Facebook, X, YouTube, LINE — ช่วยให้ Google ยืนยันตัวตนเว็บ": "Facebook, X, YouTube, LINE — helps Google verify site identity",
+    "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ — ช่วยให้ AI knowledge graphs จดจำได้": "Schema for blog / software — helps AI knowledge graphs recognize you",
+    // seoAudit labels
+    "โครงสร้างหน้า": "Page structure",
+    "Title ความยาวเหมาะสม (10–60)": "Title length OK (10–60)",
+    "Canonical URL อัตโนมัติ": "Canonical URL (auto)",
+    "URL เว็บไซต์ตั้งค่าแล้ว": "Website URL set",
+    "จำเป็นสำหรับ Schema & Canonical": "Required for Schema & Canonical",
+    "Header (ส่วนหัว)": "Header block", "Footer (ส่วนท้าย)": "Footer block",
+    "About / ผู้เขียน (E-E-A-T)": "About / Author (E-E-A-T)",
+    "ส่วนแสดงบทความ": "Post section present",
+    "รูปภาพมี ALT text ครบ": "All images have ALT", "ไม่มีบล็อกรูป": "No image blocks",
+    "Schema JSON-LD เปิดอยู่": "Schema JSON-LD enabled",
+    "Open Graph เปิดอยู่": "Open Graph enabled",
+    "Twitter Card เปิดอยู่": "Twitter Card enabled",
+    "ชื่อบล็อกตั้งค่าแล้ว": "Blog name set",
+    "Description ยาวพอ (og:description)": "Description long enough (og:description)",
+    "Entity @id (siteUrl ตั้งค่าแล้ว)": "Entity @id (siteUrl set)",
+    "จำเป็นสำหรับ @graph @id fragments ให้ AI จดจำเว็บ": "Required for @graph @id fragments",
+    "ช่วย AI knowledge graphs สร้าง entity ที่สมบูรณ์": "Helps AI knowledge graphs build a complete entity",
+    "sameAs links (ยืนยันตัวตน)": "sameAs links (identity verification)",
+    "Facebook, YouTube, X ฯลฯ เพิ่มความน่าเชื่อถือ": "Facebook, YouTube, X etc. — builds authority",
+    "Meta description ≥ 50 ตัวอักษร (AI snippet)": "Meta description ≥ 50 chars (AI snippet)",
+    // seoAudit score labels
+    "ดีมาก พร้อมเผยแพร่": "Excellent — ready to publish",
+    "ดี ปรับเพิ่มได้": "Good — room to improve",
+    "ควรปรับปรุง": "Needs improvement",
     // design
-    "ชุดสี": "Color palette", "ตัวอักษร": "Typography", "ความมนขอบ": "Corner radius", "สีหลัก": "Primary", "สีเน้น": "Accent",
+    "ชุดสี": "Color palette", "ตัวอักษร": "Typography", "ความมนขอบ": "Corner radius", "มุมโค้ง": "Radius", "สีหลัก": "Primary", "สีเน้น": "Accent",
     // onboarding
     "เริ่มต้นใช้งาน BloggerXMLBuilder": "Get started with BloggerXMLBuilder",
     "สมัครแล้ว": "I have one", "ยังไม่สมัคร": "Not yet",
