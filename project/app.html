@@ -137,8 +137,16 @@ button{font-family:inherit;cursor:pointer;}
 .field label{display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin-bottom:6px;}
 .field .hint{font-size:11px;color:var(--ink-3);font-weight:400;margin-top:5px;line-height:1.5;}
 .inp,.sel,.ta{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--ink);font-family:var(--fb);font-size:13px;padding:9px 11px;border-radius:8px;transition:.15s;}
-.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--brand);background:var(--surface-2);}
+.inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--brand);background:var(--surface-2);box-shadow:0 0 0 3px rgba(99,102,241,.1);}
 .ta{resize:vertical;min-height:64px;line-height:1.5;}
+/* SEO panel key-fields card */
+.seo-key-card{margin:0 12px 16px;background:var(--surface);border:1px solid var(--border-2);border-radius:14px;overflow:hidden;}
+.seo-key-card .field{padding:14px 14px 0;}
+.seo-key-card .field:last-child{padding-bottom:14px;}
+.seo-key-card .field label{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.seo-key-card .field label::before{content:"";width:3px;height:14px;border-radius:2px;background:var(--grad);display:inline-block;flex:none;}
+.seo-key-card .inp,.seo-key-card .ta{font-size:16px;padding:11px 13px;border-radius:10px;background:var(--panel);border-color:var(--border-2);}
+.seo-key-card .hint{font-size:12px;margin-top:7px;margin-bottom:2px;}
 .sel{cursor:pointer;}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .seg{display:flex;gap:3px;background:var(--surface);padding:3px;border-radius:8px;border:1px solid var(--border);}
@@ -426,6 +434,9 @@ button{font-family:inherit;cursor:pointer;}
   #dlBxb,#dlJson{display:none;}
 }
 @keyframes sheetUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+/* Once the slide-up animation has played, lock it so keyboard resize won't re-trigger */
+body.sheet-settled .panel.left,
+body.sheet-settled .panel.right{animation:none;}
 
 /* Command Palette */
 .cmd-pal{position:fixed;inset:0;z-index:180;display:none;align-items:flex-start;justify-content:center;padding-top:12vh;}

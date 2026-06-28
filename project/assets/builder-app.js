@@ -964,9 +964,11 @@
       + '<div class="sec-title collapsed">ตัวอย่างผลการค้นหา (SERP Preview)</div>'
       + serpPreviewHTML(seo)
       + '<div class="sec-divider"></div>'
+      + '<div class="seo-key-card">'
       + txt2("blogTitle", "ชื่อบล็อก", seo.blogTitle)
       + txt2("title", "Title (เว้นว่าง = ใช้ชื่อบล็อก)", seo.title)
       + area2("desc", "Meta description", seo.desc, (seo.desc || "").length + "/160 ตัวอักษร")
+      + '</div>'
       + '<div class="sec-divider"></div>'
       + '<div class="sec-title">ป้ายกำกับ (Labels)</div>'
       + tog2("labelIndex", "อนุญาตให้ทำดัชนีหน้าป้ายกำกับ", seo.labelIndex, "ให้ Google เก็บหน้า Label เป็นหน้าหมวดหมู่")
@@ -994,10 +996,12 @@
   }
   function googleBox(seo) {
     return '<div class="sec-title collapsed">ข้อมูลสำหรับ Google (Knowledge Graph)</div>'
+      + '<div class="seo-key-card">'
       + seg("orgType", "ประเภทเว็บไซต์", seo.orgType, [["Organization", "องค์กร"], ["Person", "บุคคล"], ["LocalBusiness", "ร้านค้า"]])
       + txt2("siteUrl", "URL เว็บไซต์", seo.siteUrl)
       + txt2("logoUrl", "URL โลโก้ (แนะนำ 512×512)", seo.logoUrl)
       + area2b("sameAs", "ลิงก์โซเชียล (บรรทัดละ 1 ลิงก์)", seo.sameAs, "Facebook, X, YouTube, LINE — ช่วยให้ Google ยืนยันตัวตนเว็บ")
+      + '</div>'
       + tog2("schemaSoftwareApp", "SoftwareApplication Schema", seo.schemaSoftwareApp, "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ — ช่วยให้ AI knowledge graphs จดจำได้")
       + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ข้อมูลนี้จะถูกสร้างเป็น <b>@graph (Organization + WebSite)</b> ในส่วน head ของทุกหน้า — ตัวช่วยให้ Google เข้าใจว่าใครเป็นเจ้าของเว็บ (E-E-A-T)</div></div>';
   }
@@ -1076,6 +1080,11 @@
   var seoT;
   function renderSeoScoreOnly() {
     var foc = document.activeElement;
+    // Skip full re-render while user is typing in a SEO field — prevents keyboard dismissal on mobile
+    if (foc && foc.dataset && foc.dataset.sk) {
+      var rtSeo = $("#rtSeo");
+      if (rtSeo && rtSeo.contains(foc)) return;
+    }
     var k = foc && foc.dataset ? foc.dataset.sk : null;
     renderSeo();
     if (k) { var n = $('[data-sk="' + k + '"]'); if (n && n.setSelectionRange) { n.focus(); n.setSelectionRange(n.value.length, n.value.length); } }
@@ -1227,11 +1236,17 @@
   });
 
   /* ---------- mobile switch ---------- */
+  var _sheetSettleT;
   function showMob(which) {
-    document.body.classList.remove("show-left", "show-right");
+    document.body.classList.remove("show-left", "show-right", "sheet-settled");
     if (which === "left") document.body.classList.add("show-left");
     if (which === "right") document.body.classList.add("show-right");
     $$("#mobSwitch button").forEach(function (b) { b.classList.toggle("on", b.dataset.mob === which); });
+    // After the slide-up animation finishes, disable it so keyboard-resize won't re-trigger it
+    clearTimeout(_sheetSettleT);
+    if (which === "left" || which === "right") {
+      _sheetSettleT = setTimeout(function () { document.body.classList.add("sheet-settled"); }, 300);
+    }
   }
   $("#mobSwitch").addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) showMob(b.dataset.mob); });
   $$("[data-sheet-close]").forEach(function (btn) { btn.addEventListener("click", function () { showMob("canvas"); }); });
@@ -2786,6 +2801,24 @@ skinVariables(d),
     var saved = localStorage.getItem(KEY);
     if (saved) { S = JSON.parse(saved); if (S && S.blocks) { enterBuilder(); } }
   } catch (e) {}
+
+  // Keep bottom-sheet panels above virtual keyboard on mobile (pan-viewport browsers like Android Chrome)
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener("resize", function () {
+      if (!window.matchMedia("(max-width:1000px)").matches) return;
+      var vv = window.visualViewport;
+      var kbH = Math.max(0, window.innerHeight - vv.height - vv.offsetTop);
+      $$(".panel.left, .panel.right").forEach(function (p) {
+        if (kbH > 80) {
+          p.style.bottom = (kbH + 54) + "px";
+          p.style.maxHeight = (vv.height - 60) + "px";
+        } else {
+          p.style.bottom = "";
+          p.style.maxHeight = "";
+        }
+      });
+    });
+  }
 
   // expose minimal for debugging
   window.BXBApp = { genXML: function () { return genXML(); }, state: function () { return S; } };
