@@ -2644,7 +2644,9 @@ skinVariables(d),
     "ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย": "Takes about 10 minutes — follow these steps then come back to start designing",
     "เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า — ปรับต่อได้ทุกอย่าง": "Choose a website type to start from a ready-made template, or start blank — customize everything",
     "สมัครเสร็จแล้ว — ไปเลือกแม่แบบ →": "Done signing up — go pick a template →",
-    "หรือเริ่มจากหน้าเปล่า →": "Or start from blank →"
+    "หรือเริ่มจากหน้าเปล่า →": "Or start from blank →",
+    // export modal
+    "รายงาน": "Report", "📖 คู่มือ": "📖 Guide", "คัดลอก": "Copy", "ดาวน์โหลด .xml": "Download .xml"
   };
   function tr(s) { s = (s == null ? "" : String(s)).trim(); return (BL === "en" && DICT[s]) ? DICT[s] : s; }
   function tpl(th, en) { return BL === "en" ? en : th; }
@@ -2656,15 +2658,36 @@ skinVariables(d),
     if (tn && DICT[tn.textContent.trim()]) tn.textContent = (elm.classList.contains("mob-btn") ? " " : "") + DICT[tn.textContent.trim()];
   }
   function translateChrome() {
-    if (BL !== "en") return; // base = Thai
-    // leaf structural labels
-    $$(".lib-group h4, .sec-title, .p-head, label, .seg button, .tg .lbl, .p-tabs button, .gc-t, .cat-tab, .start h1, .lib-item .nm > small").forEach(trLeaf);
-    // start screen subtext, descriptions, and buttons
-    $$(".start .sub, .gc-d, .start-foot button, .ob-back").forEach(trLeaf);
-    // elements with leading text + child nodes
-    $$(".lib-item .nm, .mob-switch button, #restartBtn, #exportBtn").forEach(trLeadText);
-    // save dot
-    var sd = document.querySelector("#saveDot span"); if (sd && DICT[sd.textContent.trim()]) sd.textContent = DICT[sd.textContent.trim()];
+    if (BL === "en") {
+      // TH → EN: translate static elements that render functions don't rebuild
+      $$(".lib-group h4, .sec-title, .p-head, label, .seg button, .tg .lbl, .p-tabs button, .gc-t, .cat-tab, .start h1, .lib-item .nm > small").forEach(trLeaf);
+      $$(".start .sub, .gc-d, .start-foot button, .ob-back").forEach(trLeaf);
+      $$(".lib-item .nm, .mob-switch button, #restartBtn, #exportBtn, #toggleReport, #toggleGuide, #copyXml, #dlXml").forEach(trLeadText);
+      var sd = document.querySelector("#saveDot span"); if (sd && DICT[sd.textContent.trim()]) sd.textContent = DICT[sd.textContent.trim()];
+    } else {
+      // EN → TH: restore elements not rebuilt by renderProps/renderSeo/renderDesign/buildLib
+      // mob-switch (bottom mobile nav)
+      var mobMap = { left: "องค์ประกอบ", canvas: "หน้าเว็บ", right: "ปรับแต่ง" };
+      $$(".mob-switch button[data-mob]").forEach(function(btn) {
+        var th = mobMap[btn.dataset.mob]; if (!th) return;
+        var tn = [].filter.call(btn.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0];
+        if (tn) tn.textContent = th;
+      });
+      // right panel tabs
+      var rtMap = { props: "คุณสมบัติ", design: "ดีไซน์" };
+      $$(".p-tabs button[data-rt]").forEach(function(btn) { var th = rtMap[btn.dataset.rt]; if (th) btn.textContent = th; });
+      // left panel tab
+      var libTab = document.querySelector('.p-tabs button[data-lt="lib"]'); if (libTab) libTab.textContent = "องค์ประกอบ";
+      // topbar restart btn
+      var rb = document.getElementById("restartBtn"); if (rb) { var rtn = [].filter.call(rb.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0]; if (rtn) rtn.textContent = "เริ่มใหม่"; }
+      // save dot
+      var sd = document.querySelector("#saveDot span"); if (sd) { var sdt = sd.textContent.trim(); if (sdt === "Saved") sd.textContent = "บันทึกแล้ว"; else if (sdt === "Saving…") sd.textContent = "กำลังบันทึก…"; }
+      // export modal buttons
+      var tr1 = document.getElementById("toggleReport"); if (tr1) { var tn1 = [].filter.call(tr1.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0]; if (tn1) tn1.textContent = "รายงาน"; }
+      var tg1 = document.getElementById("toggleGuide"); if (tg1) { var tn2 = [].filter.call(tg1.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0]; if (tn2) tn2.textContent = "📖 คู่มือ"; }
+      var cx1 = document.getElementById("copyXml"); if (cx1) { var tn3 = [].filter.call(cx1.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0]; if (tn3) tn3.textContent = "คัดลอก"; }
+      var dx1 = document.getElementById("dlXml"); if (dx1) { var tn4 = [].filter.call(dx1.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0]; if (tn4) tn4.textContent = "ดาวน์โหลด .xml"; }
+    }
   }
   function applyBuilderLang(lang) {
     BL = lang; localStorage.setItem("bxb_lang", lang);
