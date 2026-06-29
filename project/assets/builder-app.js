@@ -366,6 +366,23 @@
           '<nav style="display:flex;gap:22px;margin:0 auto;align-items:center">' + menu + "</nav>" +
           (p.showSearch ? '<div style="width:34px;height:34px;border-radius:50%;background:#f1f2f9;display:grid;place-items:center">🔍</div>' : "") + "</div>";
       case "hero":
+        if (S && S.templateId === "sidebar-blog") {
+          var sbHeroTags = BL === "en"
+            ? ["Blog", "Tutorials", "Tips & Tricks"]
+            : ["บล็อก", "บทสอน", "เคล็ดลับ"];
+          var sbTagsHtml = sbHeroTags.map(function(t) {
+            return '<span style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;color:' + pr + ';border:1.5px solid ' + pr + '">' + t + '</span>';
+          }).join("");
+          return '<div style="padding:60px 32px;background:#fff;border-top:4px solid ' + pr + '">' +
+            '<div style="max-width:820px;margin:0 auto">' +
+              '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:14px">✦ Classic Blog</div>' +
+              '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#0f172a;margin:0 0 14px">' + esc(p.title) + '</h1>' +
+              '<p style="font-size:16px;color:#64748b;line-height:1.65;margin:0 0 22px;max-width:500px">' + esc(p.subtitle) + '</p>' +
+              '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px">' + sbTagsHtml + '</div>' +
+              '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
+            '</div>' +
+          '</div>';
+        }
         if (S && S.templateId === "review") {
           return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
             '<div style="max-width:860px;margin:0 auto">' +
@@ -462,6 +479,32 @@
           '<p style="font-size:18px;margin:18px auto 0;max-width:560px;opacity:.9;' + (p.align === "center" ? "" : "margin-left:0;margin-right:0") + '">' + esc(p.subtitle) + "</p>" +
           '<a style="display:inline-block;margin-top:28px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 26px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
       case "postgrid":
+        if (S && S.templateId === "sidebar-blog") {
+          var sbGCols = VIEW === "mobile" ? 1 : (p.columns || 2);
+          var sbGCards = "";
+          var sbGCats = BL === "en"
+            ? ["Technology", "Lifestyle", "Travel", "Food", "Health", "Tips"]
+            : ["เทคโนโลยี", "ไลฟ์สไตล์", "ท่องเที่ยว", "อาหาร", "สุขภาพ", "เคล็ดลับ"];
+          var sbGDate = tpl("24 มิ.ย. 2569", "Jun 24, 2026");
+          for (var sbgi = 0; sbgi < (p.count || 4); sbgi++) {
+            sbGCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;border:1px solid #e8eaf2">' +
+              (p.showImage ? '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,' + pr + '12,' + ac + '25)"></div>' : '') +
+              '<div style="padding:14px 16px 16px">' +
+                '<div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:' + pr + ';margin-bottom:5px">' + sbGCats[sbgi % 6] + '</div>' +
+                '<h3 style="font-family:' + fontStack(d.font) + ';font-size:17px;font-weight:700;line-height:1.35;margin:0 0 7px;color:#0f172a">' + tpl("หัวข้อบทความที่ ", "Article #") + (sbgi + 1) + '</h3>' +
+                (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 10px">' + tpl("คำโปรยบทความสั้นๆ แสดงก่อนคลิกอ่านบทความฉบับเต็ม...", "A short excerpt giving readers a preview before reading the full post...") + '</p>' : '') +
+                '<div style="display:flex;align-items:center;justify-content:space-between">' +
+                  '<span style="font-size:12px;color:#94a3b8">' + sbGDate + '</span>' +
+                  '<a style="font-size:13px;font-weight:600;color:' + pr + ';text-decoration:none">' + tpl("อ่านต่อ →", "Read more →") + '</a>' +
+                '</div>' +
+              '</div>' +
+            '</article>';
+          }
+          return '<section style="padding:36px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:20px;font-weight:800;margin:0 0 18px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            '<div style="display:grid;grid-template-columns:repeat(' + sbGCols + ',1fr);gap:18px">' + sbGCards + '</div>' +
+          '</div></section>';
+        }
         if (S && S.templateId === "review") {
           var rvCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
           var rvCats = BL === "en"
@@ -2436,7 +2479,30 @@ skinVariables(d),
 ".rv-about-trust-num{font-size:22px;font-weight:800;color:var(--primary);line-height:1;font-family:var(--font)}",
 ".rv-about-trust-label{font-size:11px;color:var(--text-muted);margin-top:3px}",
 ".rv-about-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--primary);padding:5px 12px;border-radius:20px;border:1.5px solid var(--primary)}",
-"@media(max-width:640px){.rv-hero{padding:60px 20px}.rv-about-inner{gap:24px}.rv-about-avatar{width:80px;height:80px}}"
+"@media(max-width:640px){.rv-hero{padding:60px 20px}.rv-about-inner{gap:24px}.rv-about-avatar{width:80px;height:80px}}",
+".sb-hero{padding:60px 20px;background:#fff;border-top:4px solid var(--primary)}",
+".sb-hero .wrap{max-width:860px}",
+".sb-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}",
+".sb-hero-title{font-size:clamp(26px,4.5vw,46px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--text-main);margin:0 0 14px;font-family:var(--font)}",
+".sb-hero-sub{font-size:16px;color:var(--text-muted);line-height:1.65;margin:0 0 22px;max-width:500px}",
+".sb-hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}",
+".sb-hero-tag{font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;color:var(--primary);border:1.5px solid var(--primary)}",
+".sb-hero-btn{display:inline-block;background:var(--primary);color:#fff;font-weight:700;padding:12px 26px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".sb-posts{padding:40px 20px}",
+".sb-grid{display:grid;gap:18px}",
+".sb-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);border:1px solid var(--border);transition:box-shadow .2s}",
+".sb-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}",
+".sb-card-img{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)12,var(--accent)25)}",
+".sb-card-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}",
+".sb-card-body{padding:14px 16px 16px}",
+".sb-card-cat{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--primary);margin-bottom:5px}",
+".sb-card-title{font-size:17px;font-weight:700;color:var(--text-main);margin:0 0 8px;line-height:1.35}",
+".sb-card-title a{color:inherit;text-decoration:none}",
+".sb-card-title a:hover{color:var(--primary)}",
+".sb-card-excerpt{font-size:13px;color:var(--text-muted);line-height:1.55;margin:0 0 10px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}",
+".sb-card-meta{display:flex;align-items:center;justify-content:space-between;font-size:12px;color:var(--text-muted)}",
+".sb-card-read{font-size:13px;font-weight:600;color:var(--primary);text-decoration:none}",
+".sb-card-read:hover{text-decoration:underline}"
     ].join("\n");
   }
 
@@ -2541,6 +2607,20 @@ skinVariables(d),
             "});" +
           "}());/*]]>*/<\/script>";
       case "hero":
+        if (S && S.templateId === "sidebar-blog") {
+          var sbStaticTags = BL === "en"
+            ? ["Blog", "Tutorials", "Tips &amp; Tricks"]
+            : ["บล็อก", "บทสอน", "เคล็ดลับ"];
+          return "<section class='sb-hero'><div class='wrap'>" +
+            "<div class='sb-hero-eyebrow'>✦ Classic Blog</div>" +
+            "<h1 class='sb-hero-title'>" + esc(p.title) + "</h1>" +
+            "<p class='sb-hero-sub'>" + esc(p.subtitle) + "</p>" +
+            "<div class='sb-hero-tags'>" +
+              sbStaticTags.map(function(t) { return "<span class='sb-hero-tag'>" + t + "</span>"; }).join("") +
+            "</div>" +
+            "<a href='#main' class='sb-hero-btn'>" + esc(p.btnText) + "</a>" +
+          "</div></section>";
+        }
         if (S && S.templateId === "review") {
           return "<section class='rv-hero'><div class='wrap'>" +
             "<div class='rv-hero-eyebrow'>🏆 " + tpl("รีวิวสินค้า", "Product Reviews") + "</div>" +
@@ -2618,6 +2698,36 @@ skinVariables(d),
         }
         return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
+        if (S && S.templateId === "sidebar-blog") {
+          return "<section class='sb-posts' id='main'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:20px;font-weight:800;margin:0 0 18px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<div class='sb-grid' style='grid-template-columns:repeat(" + (p.columns || 2) + ",1fr)'>" +
+              "<b:loop values='data:posts' var='post'>" +
+                "<article class='sb-card'>" +
+                  (p.showImage ?
+                    "<div class='sb-card-img'>" +
+                      "<b:if cond='data:post.featuredImage'>" +
+                      "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0'/>" +
+                      "<b:elseif cond='data:post.firstImageUrl'/>" +
+                      "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0'/>" +
+                      "</b:if>" +
+                    "</div>" : "") +
+                  "<div class='sb-card-body'>" +
+                    "<b:if cond='data:post.labels'>" +
+                    "<b:loop values='data:post.labels' index='sbl' var='label'>" +
+                    "<b:if cond='data:sbl == 0'><div class='sb-card-cat'><data:label.name/></div></b:if>" +
+                    "</b:loop></b:if>" +
+                    "<h3 class='sb-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
+                    (p.showExcerpt ? "<p class='sb-card-excerpt'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 160, links: false, linebreaks: false, ellipsis: true }'/></b:if></p>" : "") +
+                    "<div class='sb-card-meta'>" +
+                      "<span><data:post.date/></span>" +
+                      "<a expr:href='data:post.url' class='sb-card-read'>" + tpl("อ่านต่อ →", "Read more →") + "</a>" +
+                    "</div>" +
+                  "</div>" +
+                "</article>" +
+              "</b:loop>" +
+            "</div></div></section>";
+        }
         if (S && S.templateId === "review") {
           return "<section class='rv-reviews' id='main'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:22px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
@@ -3589,6 +3699,13 @@ skinVariables(d),
         + '<div style="height:8px;background:#fff;width:26%;border-radius:2px"></div>'
         + '<div style="height:8px;background:rgba(255,255,255,.35);width:22%;border-radius:2px;border:1px solid rgba(255,255,255,.5)"></div>'
         + '</div></div>';
+    } else if (t.id === "sidebar-blog") {
+      heroHtml = '<div class="t-hero-sec" style="background:#fff;border-top:3px solid ' + c1 + ';padding:4px 8px">'
+        + '<div style="height:2px;background:' + c1 + ';width:35%;border-radius:1px;margin-bottom:3px"></div>'
+        + '<div style="height:4px;background:#1e2333;width:62%;border-radius:1px;margin-bottom:2px"></div>'
+        + '<div style="height:2px;background:#e2e8f0;width:50%;border-radius:1px;margin-bottom:4px"></div>'
+        + '<div style="height:7px;background:' + c1 + ';width:26%;border-radius:2px"></div>'
+        + '</div>';
     } else if (t.id === "review") {
       heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + ',' + c2 + ');padding:5px 8px;display:flex;flex-direction:column;justify-content:flex-end">'
         + '<div style="height:2px;background:rgba(255,255,255,.6);width:22%;border-radius:1px;margin-bottom:4px"></div>'
@@ -3629,6 +3746,20 @@ skinVariables(d),
       bodyHtml = '<div class="t-list-row"></div><div class="t-list-row ts"></div>';
     }
 
+    if (t.id === "sidebar-blog") {
+      bodyHtml = '<div style="display:grid;grid-template-columns:2fr 1fr;gap:4px">'
+        + '<div style="display:flex;flex-direction:column;gap:3px">'
+        + '<div class="tgc"><div class="tgc-img" style="background:' + c1 + '28"></div><div class="tgc-body"></div></div>'
+        + '<div class="tgc"><div class="tgc-img" style="background:' + c1 + '28"></div><div class="tgc-body"></div></div>'
+        + '</div>'
+        + '<div style="display:flex;flex-direction:column;gap:3px;padding-top:2px">'
+        + '<div style="height:9px;background:' + c1 + '28;border-radius:2px;margin-bottom:2px"></div>'
+        + '<div style="height:4px;background:#e2e8f0;border-radius:1px;width:85%"></div>'
+        + '<div style="height:4px;background:#e2e8f0;border-radius:1px;width:65%"></div>'
+        + '<div style="height:4px;background:#e2e8f0;border-radius:1px;width:75%"></div>'
+        + '</div>'
+        + '</div>';
+    }
     return '<div class="t-mini">'
       + '<div class="t-chrome"><span class="tc-r"></span><span class="tc-y"></span><span class="tc-g"></span><div class="tc-url"></div></div>'
       + '<div class="t-site-hdr" style="background:' + c1 + '">'
