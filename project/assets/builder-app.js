@@ -196,16 +196,23 @@
   }
 
   /* ---------- template presets ---------- */
-  var CATS = ["ทั้งหมด", "บล็อก", "ธุรกิจ", "ข่าว/นิตยสาร", "การศึกษา", "Affiliate"];
+  var CATS = [
+    { val: "ทั้งหมด", th: "ทั้งหมด", en: "All" },
+    { val: "บล็อก", th: "บล็อก", en: "Blog" },
+    { val: "ธุรกิจ", th: "ธุรกิจ", en: "Business" },
+    { val: "ข่าว/นิตยสาร", th: "ข่าว/นิตยสาร", en: "News / Magazine" },
+    { val: "การศึกษา", th: "การศึกษา", en: "Education" },
+    { val: "Affiliate", th: "Affiliate", en: "Affiliate" }
+  ];
   var TEMPLATES = [
-    { id: "personal", cat: "บล็อก", name: "Personal Blog", desc: "บล็อกส่วนตัว อ่านง่าย", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 } },
-    { id: "travel", cat: "บล็อก", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
-    { id: "tech", cat: "บล็อก", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
-    { id: "sidebar-blog", cat: "บล็อก", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
-    { id: "magazine", cat: "ข่าว/นิตยสาร", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
-    { id: "company", cat: "ธุรกิจ", name: "Company", desc: "เว็บบริษัทมืออาชีพ", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
-    { id: "course", cat: "การศึกษา", name: "Online Course", desc: "คอร์สเรียนออนไลน์", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
-    { id: "review", cat: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
+    { id: "personal", cat: "บล็อก", catEn: "Blog", name: "Personal Blog", desc: "บล็อกส่วนตัว อ่านง่าย", descEn: "Clean personal blog layout", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 } },
+    { id: "travel", cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
+    { id: "tech", cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
+    { id: "sidebar-blog", cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
+    { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
+    { id: "company", cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
+    { id: "course", cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
+    { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
   ];
 
   /* ---------- STATE ---------- */
@@ -352,7 +359,7 @@
             (p.mobileSide === "left" ? burger : "") +
             '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:18px;color:' + pr + ';' + (p.mobileSide === "left" ? "" : "margin-right:auto") + '">' + esc(p.logoText) + "</div>" +
             (p.mobileSide === "left" ? '<div style="margin-left:auto"></div>' : burger) +
-            '</div><div style="margin-top:10px;border-top:1px dashed #e8eaf2;padding-top:8px;font-size:12px;color:#9aa;text-align:' + p.mobileSide + '">เมนูเด้งจากด้าน' + (p.mobileSide === "left" ? "ซ้าย" : "ขวา") + ' ▾</div></div>';
+            '</div><div style="margin-top:10px;border-top:1px dashed #e8eaf2;padding-top:8px;font-size:12px;color:#9aa;text-align:' + p.mobileSide + '">' + tpl("เมนูเด้งจากด้าน" + (p.mobileSide === "left" ? "ซ้าย" : "ขวา"), "Drawer slides from the " + p.mobileSide) + ' ▾</div></div>';
         }
         return '<div style="display:flex;align-items:center;gap:24px;padding:18px 32px;background:#fff;border-bottom:1px solid #eef">' +
           '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:21px;color:' + pr + '">' + esc(p.logoText) + "</div>" +
@@ -398,16 +405,19 @@
         if (S && S.templateId === "travel") {
           var tbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
           var tbCards = "";
-          var tbLocs = ["เชียงใหม่", "ภูเก็ต", "กรุงเทพฯ", "เกาะสมุย", "พัทยา", "กาญจนบุรี"];
+          var tbLocs = BL === "en"
+            ? ["Chiang Mai", "Phuket", "Bangkok", "Koh Samui", "Pattaya", "Kanchanaburi"]
+            : ["เชียงใหม่", "ภูเก็ต", "กรุงเทพฯ", "เกาะสมุย", "พัทยา", "กาญจนบุรี"];
+          var tbDateLabel = tpl("24 มิ.ย. 2569", "Jun 24, 2026");
           for (var ti = 0; ti < (p.count || 6); ti++) {
             tbCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)">' +
               '<div style="aspect-ratio:4/3;background:linear-gradient(' + (ti % 2 === 0 ? '135deg,' + pr + ',' + ac : '135deg,' + ac + ',' + pr) + ');position:relative">' +
                 '<div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px">📍 ' + tbLocs[ti % 6] + '</div>' +
               '</div>' +
               '<div style="padding:14px 16px 17px">' +
-                '<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">24 มิ.ย. 2569</div>' +
-                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 9px;color:#0f172a">ที่เที่ยวน่าไป #' + (ti + 1) + '</h3>' +
-                '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">Explore →</a>' +
+                '<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">' + tbDateLabel + '</div>' +
+                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 9px;color:#0f172a">' + tpl("ที่เที่ยวน่าไป #", "Places to Visit #") + (ti + 1) + '</h3>' +
+                '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + tpl("สำรวจ →", "Explore →") + '</a>' +
               '</div>' +
             '</article>';
           }
@@ -419,13 +429,14 @@
         if (S && S.templateId === "personal") {
           var pbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
           var pbCards = "";
+          var pbDateLabel = tpl("24 มิ.ย. 2569", "Jun 24, 2026");
           for (var pi = 0; pi < (p.count || 6); pi++) {
             pbCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07)">' +
               (p.showImage ? '<div style="height:160px;background:linear-gradient(120deg,' + pr + '18,' + ac + '28)"></div>' : '') +
               '<div style="padding:15px 17px 18px">' +
-                '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">24 มิ.ย. 2569</div>' +
-                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 6px;color:#0f172a">หัวข้อบทความที่ ' + (pi + 1) + '</h3>' +
-                (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 9px">คำโปรยบทความแสดงตัวอย่างเนื้อหาสั้นๆ...</p>' : '') +
+                '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">' + pbDateLabel + '</div>' +
+                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 6px;color:#0f172a">' + tpl("หัวข้อบทความที่ ", "Article #") + (pi + 1) + '</h3>' +
+                (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 9px">' + tpl("คำโปรยบทความแสดงตัวอย่างเนื้อหาสั้นๆ...", "A short excerpt giving readers a preview before they click to read more...") + '</p>' : '') +
                 '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + tpl("อ่านต่อ →", "Read more →") + '</a>' +
               '</div>' +
             '</article>';
@@ -446,9 +457,9 @@
       case "featured":
         if (S && S.templateId === "travel") {
           var tbDestinations = [
-            { bg: pr, label: "📍 จุดหมายหลัก", size: "20px" },
-            { bg: ac, label: "📍 ที่เที่ยว 2", size: "15px" },
-            { bg: pr + "cc", label: "📍 ที่เที่ยว 3", size: "15px" }
+            { bg: pr, label: tpl("📍 จุดหมายหลัก", "📍 Top Destination"), title: tpl("บทความท่องเที่ยวเด่น", "Featured Travel Story"), size: "20px" },
+            { bg: ac, label: tpl("📍 ที่เที่ยว 2", "📍 Destination 2"), title: tpl("บทความ 2", "Story 2"), size: "15px" },
+            { bg: pr + "cc", label: tpl("📍 ที่เที่ยว 3", "📍 Destination 3"), title: tpl("บทความ 3", "Story 3"), size: "15px" }
           ];
           var tbFeatCards = tbDestinations.map(function (dest, idx) {
             var isMain = idx === 0;
@@ -456,7 +467,7 @@
               '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 55%)"></div>' +
               '<div style="position:relative;padding:' + (isMain ? '16px 18px' : '10px 14px') + ';color:#fff">' +
                 '<div style="font-size:10px;font-weight:700;letter-spacing:.07em;opacity:.85;margin-bottom:3px">' + dest.label + '</div>' +
-                '<h3 style="font-size:' + dest.size + ';font-weight:700;margin:0;font-family:' + fontStack(d.font) + '">หัวข้อบทความ' + (isMain ? 'เด่น' : ' ' + (idx + 1)) + '</h3>' +
+                '<h3 style="font-size:' + dest.size + ';font-weight:700;margin:0;font-family:' + fontStack(d.font) + '">' + dest.title + '</h3>' +
               '</div>' +
             '</div>';
           });
@@ -465,7 +476,7 @@
             '<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:14px">' + tbFeatCards.join("") + '</div>' +
           '</div></section>';
         }
-        return section(p.heading, d, '<div style="position:relative;border-radius:' + r + ';overflow:hidden;aspect-ratio:21/9;background:linear-gradient(120deg,' + pr + ',' + ac + ');display:flex;align-items:flex-end;padding:28px"><div><span style="background:#fff;color:' + pr + ';font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px">บทความเด่น</span><h3 style="color:#fff;font-size:26px;margin:12px 0 0;font-family:' + fontStack(d.font) + '">หัวข้อบทความแนะนำที่น่าสนใจที่สุด</h3></div></div>');
+        return section(p.heading, d, '<div style="position:relative;border-radius:' + r + ';overflow:hidden;aspect-ratio:21/9;background:linear-gradient(120deg,' + pr + ',' + ac + ');display:flex;align-items:flex-end;padding:28px"><div><span style="background:#fff;color:' + pr + ';font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px">' + tpl("บทความเด่น", "Featured") + '</span><h3 style="color:#fff;font-size:26px;margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + tpl("หัวข้อบทความแนะนำที่น่าสนใจที่สุด", "The Most Recommended Article This Week") + '</h3></div></div>');
       case "about":
         if (S && S.templateId === "personal") {
           return '<div style="padding:52px 32px;background:#f8fafc">' +
@@ -474,7 +485,7 @@
                 '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none">' +
                 '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>' : '') +
               '<div style="flex:1;min-width:200px">' +
-                '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">เกี่ยวกับผู้เขียน</div>' +
+                '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">' + tpl("เกี่ยวกับผู้เขียน", "About the Author") + '</div>' +
                 '<h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px;line-height:1.2">' + esc(p.name) + '</h3>' +
                 '<p style="color:#64748b;font-size:15px;line-height:1.7;margin:0">' + richHTML(p.bio) + '</p>' +
               '</div>' +
@@ -483,7 +494,7 @@
         }
         return '<div style="padding:56px 32px;background:#f7f8fc;display:flex;gap:24px;align-items:center;max-width:820px;margin:0 auto">' +
           (p.showAvatar ? '<div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div>' : "") +
-          '<div><div style="font-size:13px;color:' + pr + ';font-weight:700;text-transform:uppercase;letter-spacing:.08em">เกี่ยวกับ</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;margin:6px 0 8px">' + esc(p.name) + '</h3><p style="color:#4a5063;font-size:15px;line-height:1.65;margin:0">' + richHTML(p.bio) + '</p></div></div>';
+          '<div><div style="font-size:13px;color:' + pr + ';font-weight:700;text-transform:uppercase;letter-spacing:.08em">' + tpl("เกี่ยวกับ", "About") + '</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;margin:6px 0 8px">' + esc(p.name) + '</h3><p style="color:#4a5063;font-size:15px;line-height:1.65;margin:0">' + richHTML(p.bio) + '</p></div></div>';
       case "text":
         return '<div style="padding:40px 32px;text-align:' + p.align + ';max-width:760px;margin:0 auto"><h2 style="font-family:' + fontStack(d.font) + ';font-size:28px;margin:0 0 12px">' + esc(p.heading) + '</h2><p style="color:#4a5063;font-size:16px;line-height:1.7;margin:0">' + richHTML(p.body) + '</p></div>';
       case "columns":
@@ -2182,7 +2193,7 @@ skinVariables(d),
               "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>" +
               "</div></div>" : "") +
             "<div style='flex:1;min-width:200px'>" +
-              "<div class='pb-about-eyebrow'>เกี่ยวกับผู้เขียน</div>" +
+              "<div class='pb-about-eyebrow'>" + tpl("เกี่ยวกับผู้เขียน", "About the Author") + "</div>" +
               "<h2 class='pb-about-name'>" + esc(p.name) + "</h2>" +
               "<p class='pb-about-bio'>" + richHTML(p.bio) + "</p>" +
             "</div>" +
@@ -2634,11 +2645,11 @@ skinVariables(d),
       // strip Blogger-only tags so it renders as a normal page in the popup
       .replace(/<b:loop[^>]*>/g, "").replace(/<\/b:loop>/g, "")
       .replace(/<b:if[^>]*>/g, "").replace(/<b:else\/>/g, "").replace(/<\/b:if>/g, "")
-      .replace(/<data:post\.title\/>/g, "หัวข้อบทความตัวอย่างที่น่าสนใจ")
-      .replace(/<data:post\.snippet\/>/g, "สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…")
-      .replace(/<data:post\.metaDescription\/>/g, "สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…")
-      .replace(/<b:eval expr='data:post\.body snippet[^']*'\/>/g, "สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…")
-      .replace(/<data:post\.timestamp\/>/g, "28 มิ.ย. 2026")
+      .replace(/<data:post\.title\/>/g, tpl("หัวข้อบทความตัวอย่างที่น่าสนใจ", "An Interesting Sample Article Title"))
+      .replace(/<data:post\.snippet\/>/g, tpl("สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…", "A short excerpt giving readers an overview before they click to read more…"))
+      .replace(/<data:post\.metaDescription\/>/g, tpl("สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…", "A short excerpt giving readers an overview before they click to read more…"))
+      .replace(/<b:eval expr='data:post\.body snippet[^']*'\/>/g, tpl("สรุปเนื้อหาบทความสั้นๆ ให้ผู้อ่านเห็นภาพรวมก่อนคลิกอ่านต่อ…", "A short excerpt giving readers an overview before they click to read more…"))
+      .replace(/<data:post\.timestamp\/>/g, tpl("28 มิ.ย. 2569", "Jun 28, 2026"))
       .replace(/expr:src='data:post\.featuredImage'/g, "src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"225\"><rect width=\"400\" height=\"225\" fill=\"%23e8eaf2\"/></svg>'")
       .replace(/expr:alt='data:post\.title'/g, "alt='ตัวอย่างรูปภาพ'")
       .replace(/expr:href='data:post\.url'/g, "href='#'");
@@ -2735,7 +2746,7 @@ skinVariables(d),
   $("#restartBtn").addEventListener("click", function () { if (confirm("เริ่มใหม่? โปรเจกต์ปัจจุบันจะถูกล้าง")) { localStorage.removeItem(KEY); location.reload(); } });
 
   /* ---------- start screen ---------- */
-  var curCat = "ทั้งหมด";
+  var curCat = "ทั้งหมด"; // uses CATS[*].val as internal key
 
   function tplThumb(t) {
     var c1 = t.c[0], c2 = t.c[1];
@@ -2796,13 +2807,18 @@ skinVariables(d),
   }
 
   function renderStart() {
-    $("#catTabs").innerHTML = CATS.map(function (c) { return '<button class="cat-tab' + (c === curCat ? " on" : "") + '" data-c="' + c + '">' + c + "</button>"; }).join("");
+    var isEn = BL === "en";
+    $("#catTabs").innerHTML = CATS.map(function (c) {
+      return '<button class="cat-tab' + (c.val === curCat ? " on" : "") + '" data-c="' + c.val + '">' + (isEn ? c.en : c.th) + "</button>";
+    }).join("");
     var list = TEMPLATES.filter(function (t) { return curCat === "ทั้งหมด" || t.cat === curCat; });
     $("#startGrid").innerHTML = list.map(function (t) {
+      var tDesc = isEn ? (t.descEn || t.desc) : t.desc;
+      var tCat  = isEn ? (t.catEn  || t.cat)  : t.cat;
       return '<div class="tpl-card" data-tpl="' + t.id + '">'
         + '<div class="thumb">' + tplThumb(t) + '</div>'
-        + '<div class="meta"><h4>' + t.name + '</h4><p>' + t.desc + '</p>'
-        + '<span class="tpl-cat-badge">' + t.cat + '</span></div>'
+        + '<div class="meta"><h4>' + t.name + '</h4><p>' + tDesc + '</p>'
+        + '<span class="tpl-cat-badge">' + tCat + '</span></div>'
         + '</div>';
     }).join("");
     $$("#catTabs .cat-tab").forEach(function (b) { b.addEventListener("click", function () { curCat = b.dataset.c; renderStart(); }); });
@@ -3100,7 +3116,7 @@ skinVariables(d),
     document.querySelectorAll("[data-bl]").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
     var mlb = document.getElementById("mobLangBtn"); if (mlb) mlb.textContent = lang.toUpperCase();
     buildLib(); setupLibDrag(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
-    if (S) renderCanvas();
+    if (S) renderCanvas(); else renderStart();
     translateChrome();
   }
   var blEl = $("#blLang");
