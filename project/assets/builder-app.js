@@ -1950,26 +1950,34 @@ skinVariables(d),
           (p.copy ? "<button type='button' class='bxb-share-btn bxb-copy-btn' data-done='" + copyDone + "' style='background:var(--primary);border:0;cursor:pointer'>" + copyLabel + "</button>" : "") +
           "</div></div></section>" +
           "<script>/*<![CDATA[*/(function(){" +
+          "function getCleanUrl(){" +
+          "var link=document.querySelector('link[rel=\"canonical\"]');" +
+          "var url=link?link.href:window.location.href;" +
+          "url=url.replace(/([?&])m=[01](&|$)/g,function(_,p1,p2){return p2==='&'?p1:'';});" +
+          "url=url.replace(/[?&]$/,'');" +
+          "url=url.split('#')[0];" +
+          "return url;" +
+          "}" +
           "function bxbShareInit(){" +
           "var btns=document.querySelectorAll('[data-share]');" +
           "for(var i=0;i<btns.length;i++){(function(a){" +
           "a.addEventListener('click',function(e){" +
           "e.preventDefault();" +
-          "var u=encodeURIComponent(window.location.href);" +
+          "var u=encodeURIComponent(getCleanUrl());" +
           "var t=encodeURIComponent(document.title);" +
           "var src=a.getAttribute('data-share');" +
           "var url='';" +
           "if(src==='facebook')url='https://www.facebook.com/sharer/sharer.php?u='+u;" +
-          "else if(src==='twitter')url='https://twitter.com/intent/tweet?url='+u+'&text='+t;" +
+          "else if(src==='twitter')url='https://x.com/intent/post?url='+u+'&text='+t;" +
           "else if(src==='line')url='https://social-plugins.line.me/lineit/share?url='+u;" +
-          "if(url)window.open(url,'_blank','width=600,height=500,noopener,noreferrer');" +
+          "if(url){var win=window.open(url,'_blank','noopener,noreferrer');if(!win)window.location.href=url;}" +
           "});})(btns[i]);}" +
           (p.copy ?
             "var cbs=document.querySelectorAll('.bxb-copy-btn');" +
             "for(var j=0;j<cbs.length;j++){(function(b){" +
             "var orig=b.textContent;" +
             "b.addEventListener('click',function(){" +
-            "var url=window.location.href;" +
+            "var url=getCleanUrl();" +
             "var done=function(){b.textContent=b.dataset.done;setTimeout(function(){b.textContent=orig;},2000);};" +
             "if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,function(){window.prompt('',url);});}" +
             "else{var tx=document.createElement('textarea');tx.value=url;document.body.appendChild(tx);tx.select();try{document.execCommand('copy');done();}catch(ex){window.prompt('',url);}document.body.removeChild(tx);}" +
