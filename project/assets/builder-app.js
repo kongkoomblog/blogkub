@@ -3647,6 +3647,11 @@ skinVariables(d),
   $("#projName").addEventListener("input", function () { S.name = this.value; save(); });
   $("#undoBtn").addEventListener("click", function () { if (HISTORY.length > 1) { HISTORY.pop(); S.blocks = JSON.parse(HISTORY[HISTORY.length - 1].snap); SEL = null; renderCanvas(); renderProps(); renderSeo(); save(); toast("ย้อนกลับแล้ว"); } });
   $("#restartBtn").addEventListener("click", function () { if (confirm("เริ่มใหม่? โปรเจกต์ปัจจุบันจะถูกล้าง")) { localStorage.removeItem(KEY); location.reload(); } });
+  var tplChipEl = $("#tplChip");
+  if (tplChipEl) tplChipEl.addEventListener("click", function () {
+    var msg = BL === "th" ? "เปลี่ยน Template? โปรเจกต์ปัจจุบันจะถูกล้าง" : "Change template? Current project will be cleared.";
+    if (confirm(msg)) { localStorage.removeItem(KEY); location.reload(); }
+  });
 
   /* ---------- start screen ---------- */
   var curCat = "ทั้งหมด"; // uses CATS[*].val as internal key
@@ -3832,6 +3837,11 @@ skinVariables(d),
   function enterBuilder() {
     $("#startScreen").style.display = "none";
     $("#projName").value = S.name;
+    var tplLbl = $("#tplChipLabel");
+    if (tplLbl) {
+      var tpl = TEMPLATES.find(function (t) { return t.id === S.templateId; });
+      tplLbl.textContent = tpl ? tpl.name : (BL === "th" ? "กำหนดเอง" : "Custom");
+    }
     HISTORY = []; pushHistory();
     setView(VIEW); renderProps(); renderSeo(); renderDesign(); setupLibDrag(); save();
   }

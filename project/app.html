@@ -21,6 +21,7 @@
   --ink:#f4f5fb; --ink-2:#a6a8bd; --ink-3:#6e7088;
   --ok:#22c55e; --warn:#f59e0b; --bad:#ef4444;
   --nav-h:54px;
+  --foot-h:38px;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html,body{height:100%;}
@@ -66,8 +67,19 @@ button{font-family:inherit;cursor:pointer;}
 .icon-btn svg{width:16px;height:16px;}
 .sheet-close{display:none;}
 
+/* ---------- template chip ---------- */
+.tpl-chip{display:flex;align-items:center;gap:5px;padding:4px 9px 4px 8px;border:1px solid var(--border);background:var(--surface);border-radius:20px;font-family:var(--fd);font-weight:500;font-size:12px;color:var(--ink-2);cursor:pointer;transition:.15s;white-space:nowrap;flex:none;}
+.tpl-chip:hover{border-color:var(--brand);background:rgba(99,102,241,.1);color:var(--brand);}
+.tpl-chip svg{width:13px;height:13px;flex:none;}
+
+/* ---------- builder footer ---------- */
+.builder-foot{height:var(--foot-h);display:flex;align-items:center;justify-content:space-between;padding:0 16px;background:var(--panel);border-top:1px solid var(--border);font-size:12px;color:var(--ink-3);font-family:var(--fd);flex-shrink:0;}
+.builder-foot a{color:var(--ink-2);text-decoration:none;display:inline-flex;align-items:center;gap:5px;transition:.15s;}
+.builder-foot a:hover{color:var(--brand);}
+.builder-foot a svg{width:13px;height:13px;}
+
 /* ---------- workspace ---------- */
-.workspace{display:grid;grid-template-columns:248px 1fr 312px;height:calc(100vh - var(--nav-h));}
+.workspace{display:grid;grid-template-columns:248px 1fr 312px;height:calc(100vh - var(--nav-h) - var(--foot-h));}
 .panel{background:var(--panel);overflow-y:auto;display:flex;flex-direction:column;}
 .panel.left{border-right:1px solid var(--border);}
 .panel.right{border-left:1px solid var(--border);}
@@ -422,6 +434,10 @@ button{font-family:inherit;cursor:pointer;}
   .tb-views button{width:44px;height:34px;}
   /* keep only essentials on the right */
   #popoutBtn,#restartBtn,#importBtn,#historyBtn{display:none;}
+  :root{--foot-h:0px;}
+  .builder-foot{display:none;}
+  .tpl-chip .tpl-chip-lbl,.tpl-chip .tpl-chip-arr{display:none;}
+  .tpl-chip{width:32px;height:32px;padding:0;justify-content:center;border-radius:8px;}
   .tpl-grid{grid-template-columns:repeat(2,1fr);}
   /* backdrop behind bottom sheet — covers canvas so nothing shows through */
   #mobScrim{display:none;position:fixed;inset:54px 0 54px 0;background:rgba(0,0,0,.55);z-index:29;backdrop-filter:blur(2px);}
@@ -532,10 +548,15 @@ body.sheet-settled .panel.right{animation:none;}
 
 <!-- ===== TOP BAR ===== -->
 <div class="topbar">
-  <a class="tb-brand" href="th/index.html"><span class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-4 6 4 6"/><path d="M16 6l4 6-4 6"/></svg></span>BloggerXMLBuilder</a>
+  <a class="tb-brand" href="./" title="กลับหน้าแรก"><span class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>BloggerXMLBuilder</a>
   <div class="tb-proj">
     <input id="projName" value="เว็บไซต์ของฉัน" spellcheck="false">
     <span class="save-dot" id="saveDot"><i></i><span>บันทึกแล้ว</span></span>
+    <button class="tpl-chip" id="tplChip" title="เปลี่ยน Template">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span class="tpl-chip-lbl" id="tplChipLabel">Template</span>
+      <svg class="tpl-chip-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
   </div>
   <div class="lang-toggle" id="blLang">
     <button data-bl="th" class="on">TH</button>
@@ -591,6 +612,19 @@ body.sheet-settled .panel.right{animation:none;}
     <div id="rtDesign" style="display:none"></div>
   </aside>
 </div>
+<!-- ===== BUILDER FOOTER ===== -->
+<footer class="builder-foot">
+  <a href="./">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    หน้าแรก
+  </a>
+  <span>BloggerXMLBuilder &copy; 2026</span>
+  <a href="https://github.com/kongkoomblog/bloggerxmlbuilder" target="_blank" rel="noopener noreferrer">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/></svg>
+    GitHub
+  </a>
+</footer>
+
 <div id="mobScrim"></div>
 
 <!-- mobile switch -->
