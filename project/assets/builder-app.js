@@ -378,6 +378,22 @@
             '</div>' +
           '</div>';
         }
+        if (S && S.templateId === "company") {
+          return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff;position:relative;overflow:hidden">' +
+            '<div style="max-width:860px;margin:0 auto;position:relative;z-index:1">' +
+              '<div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px">' +
+                '<span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block"></span>' +
+                tpl("บริษัทของเรา", "Our Company") +
+              '</div>' +
+              '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 18px">' + esc(p.title) + '</h1>' +
+              '<p style="font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 32px;max-width:500px">' + esc(p.subtitle) + '</p>' +
+              '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
+                '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:13px 28px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
+                '<a style="display:inline-block;background:transparent;color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px;border:2px solid rgba(255,255,255,.45)">' + tpl("เรียนรู้เพิ่มเติม", "Learn More") + '</a>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }
         if (S && S.templateId === "tech") {
           return '<div style="padding:68px 32px;background:#0f172a;color:#e2e8f0">' +
             '<div style="max-width:760px;margin:0 auto">' +
@@ -596,6 +612,34 @@
         }
         return section(p.heading, d, '<div style="position:relative;border-radius:' + r + ';overflow:hidden;aspect-ratio:21/9;background:linear-gradient(120deg,' + pr + ',' + ac + ');display:flex;align-items:flex-end;padding:28px"><div><span style="background:#fff;color:' + pr + ';font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px">' + tpl("บทความเด่น", "Featured") + '</span><h3 style="color:#fff;font-size:26px;margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + tpl("หัวข้อบทความแนะนำที่น่าสนใจที่สุด", "The Most Recommended Article This Week") + '</h3></div></div>');
       case "about":
+        if (S && S.templateId === "company") {
+          var corpStats = BL === "en"
+            ? [{ n: "10+", l: "Years" }, { n: "500+", l: "Clients" }, { n: "99%", l: "Satisfaction" }]
+            : [{ n: "10+", l: "ปีประสบการณ์" }, { n: "500+", l: "ลูกค้า" }, { n: "99%", l: "ความพึงพอใจ" }];
+          var statsHtml = corpStats.map(function (s) {
+            return '<div>' +
+              '<div style="font-family:' + fontStack(d.font) + ';font-size:30px;font-weight:800;color:' + pr + ';line-height:1">' + s.n + '</div>' +
+              '<div style="font-size:12px;color:#64748b;margin-top:5px">' + s.l + '</div>' +
+            '</div>';
+          }).join("");
+          var visualHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
+            '<div style="border-radius:' + r + ';aspect-ratio:1;background:linear-gradient(135deg,' + pr + ',' + ac + ')"></div>' +
+            '<div style="border-radius:' + r + ';aspect-ratio:1;background:linear-gradient(135deg,' + pr + '18,' + ac + '28)"></div>' +
+            '<div style="border-radius:' + r + ';aspect-ratio:1;background:linear-gradient(135deg,' + ac + ',' + pr + ')"></div>' +
+            '<div style="border-radius:' + r + ';aspect-ratio:1;background:linear-gradient(135deg,' + ac + '18,' + pr + '18)"></div>' +
+          '</div>';
+          return '<div style="padding:72px 32px">' +
+            '<div style="max-width:1020px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center">' +
+              '<div>' +
+                '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:16px">' + tpl("เกี่ยวกับเรา", "About Us") + '</div>' +
+                '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(22px,3.5vw,36px);font-weight:800;line-height:1.15;color:#0f172a;margin:0 0 18px">' + esc(p.name) + '</h2>' +
+                '<p style="font-size:16px;color:#64748b;line-height:1.7;margin:0 0 32px">' + richHTML(p.bio) + '</p>' +
+                '<div style="display:flex;gap:28px;flex-wrap:wrap">' + statsHtml + '</div>' +
+              '</div>' +
+              visualHtml +
+            '</div>' +
+          '</div>';
+        }
         if (S && S.templateId === "personal") {
           return '<div style="padding:52px 32px;background:#f8fafc">' +
             '<div style="max-width:780px;margin:0 auto;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">' +
@@ -621,6 +665,13 @@
         var cells = its.map(function (it) { return '<div style="text-align:center;padding:8px"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,' + pr + ',' + ac + ');color:#fff;display:grid;place-items:center;font-size:24px;margin:0 auto 14px">' + esc(it.icon || "\u2605") + '</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:18px;margin:0 0 7px;color:#1e2333">' + esc(it.title) + '</h3><p style="color:#828aa0;font-size:14px;line-height:1.55;margin:0">' + esc(it.text) + '</p></div>'; }).join("");
         return section(p.heading, d, '<div style="display:grid;grid-template-columns:' + colsCols + ';gap:24px">' + cells + '</div>');
       case "cta":
+        if (S && S.templateId === "company") {
+          return '<div style="padding:84px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');text-align:center;color:#fff">' +
+            '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(24px,4.5vw,42px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px">' + esc(p.title) + '</h2>' +
+            '<p style="font-size:17px;color:rgba(255,255,255,.8);margin:0 auto 32px;max-width:480px;line-height:1.6">' + tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?") + '</p>' +
+            '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:14px 34px;border-radius:' + r + ';text-decoration:none;font-size:16px">' + esc(p.btnText) + '</a>' +
+          '</div>';
+        }
         var cb = p.bg === "soft" ? "#f1f2f9" : "linear-gradient(120deg," + pr + "," + ac + ")";
         var cf = p.bg === "soft" ? "#1e2333" : "#fff";
         return '<div style="margin:32px;padding:48px 32px;text-align:center;border-radius:' + r + ';background:' + cb + ';color:' + cf + '"><h2 style="font-family:' + fontStack(d.font) + ';font-size:30px;margin:0">' + esc(p.title) + '</h2><a style="display:inline-block;margin-top:20px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 28px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
@@ -2147,7 +2198,34 @@ skinVariables(d),
 ".mag-news-title{font-size:15px;font-weight:600;color:var(--text-main);text-decoration:none;flex:1;min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;line-height:1.35;font-family:var(--font);transition:color .15s}",
 ".mag-news-title:hover{color:var(--primary)}",
 ".mag-news-date{font-size:12px;color:var(--text-muted);white-space:nowrap;flex:none}",
-"@media(max-width:640px){.mag-feat-grid{grid-template-columns:1fr}.mag-side{flex-direction:row}.mag-side-item{min-height:130px}.mag-news-date{display:none}}"
+"@media(max-width:640px){.mag-feat-grid{grid-template-columns:1fr}.mag-side{flex-direction:row}.mag-side-item{min-height:130px}.mag-news-date{display:none}}",
+".corp-hero{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;position:relative;overflow:hidden}",
+".corp-hero .wrap{max-width:900px;position:relative;z-index:1}",
+".corp-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px}",
+".corp-hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block}",
+".corp-hero-title{font-size:clamp(30px,5vw,54px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 20px;font-family:var(--font)}",
+".corp-hero-sub{font-size:17px;color:rgba(255,255,255,.8);line-height:1.65;margin:0 0 34px;max-width:520px}",
+".corp-hero-actions{display:flex;gap:14px;flex-wrap:wrap}",
+".corp-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:13px 30px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".corp-hero-btn-out{display:inline-block;background:transparent;color:#fff;font-weight:600;padding:12px 28px;border-radius:var(--radius);text-decoration:none;font-size:15px;border:2px solid rgba(255,255,255,.45)}",
+".corp-about{padding:80px 20px;background:var(--bg-base)}",
+".corp-about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1060px}",
+".corp-about-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:16px}",
+".corp-about-title{font-size:clamp(24px,4vw,38px);font-weight:800;line-height:1.15;color:var(--text-main);margin:0 0 18px;font-family:var(--font)}",
+".corp-about-body{font-size:16px;color:var(--text-muted);line-height:1.7;margin:0 0 34px}",
+".corp-stats{display:flex;gap:28px;flex-wrap:wrap}",
+".corp-stat-num{font-size:32px;font-weight:800;color:var(--primary);line-height:1;font-family:var(--font)}",
+".corp-stat-label{font-size:12px;color:var(--text-muted);margin-top:5px}",
+".corp-visual{display:grid;grid-template-columns:1fr 1fr;gap:12px}",
+".corp-visual-block{border-radius:var(--radius);aspect-ratio:1;background:linear-gradient(135deg,var(--primary)18,var(--accent)30)}",
+".corp-visual-block:nth-child(1){background:linear-gradient(135deg,var(--primary),var(--accent))}",
+".corp-visual-block:nth-child(3){background:linear-gradient(135deg,var(--accent),var(--primary))}",
+".corp-cta{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));text-align:center;color:#fff}",
+".corp-cta-title{font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px;font-family:var(--font)}",
+".corp-cta-sub{font-size:17px;color:rgba(255,255,255,.8);margin:0 0 34px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}",
+".corp-cta-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:15px 36px;border-radius:var(--radius);text-decoration:none;font-size:16px}",
+"@media(max-width:768px){.corp-about-grid{grid-template-columns:1fr;gap:40px}.corp-visual{display:none}}",
+"@media(max-width:640px){.corp-hero{padding:64px 20px}.corp-cta{padding:64px 20px}}"
     ].join("\n");
   }
 
@@ -2252,6 +2330,17 @@ skinVariables(d),
             "});" +
           "}());/*]]>*/<\/script>";
       case "hero":
+        if (S && S.templateId === "company") {
+          return "<section class='corp-hero'><div class='wrap'>" +
+            "<div class='corp-hero-eyebrow'><span class='corp-hero-eyebrow-dot'></span>" + tpl("บริษัทของเรา", "Our Company") + "</div>" +
+            "<h1 class='corp-hero-title'>" + esc(p.title) + "</h1>" +
+            "<p class='corp-hero-sub'>" + esc(p.subtitle) + "</p>" +
+            "<div class='corp-hero-actions'>" +
+              "<a href='#main' class='corp-hero-btn'>" + esc(p.btnText) + "</a>" +
+              "<a href='#about' class='corp-hero-btn-out'>" + tpl("เรียนรู้เพิ่มเติม", "Learn More") + "</a>" +
+            "</div>" +
+          "</div></section>";
+        }
         if (S && S.templateId === "tech") {
           return "<section class='tech-hero'><div class='wrap'>" +
             "<div class='tech-hero-eyebrow'>&gt;_ Tech Blog</div>" +
@@ -2517,6 +2606,28 @@ skinVariables(d),
         }
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' index='i' var='post'><b:if cond='data:i == 0'><article style='border-radius:var(--radius);overflow:hidden;background:linear-gradient(120deg,var(--primary),var(--accent));padding:32px;color:#fff'><h3 style='font-size:26px'><a expr:href='data:post.url' style='color:#fff'><data:post.title/></a></h3></article></b:if></b:loop></div></section>";
       case "about":
+        if (S && S.templateId === "company") {
+          return "<section class='corp-about' id='about'><div class='wrap'>" +
+            "<div class='corp-about-grid'>" +
+              "<div>" +
+                "<div class='corp-about-eyebrow'>" + tpl("เกี่ยวกับเรา", "About Us") + "</div>" +
+                "<h2 class='corp-about-title'>" + esc(p.name) + "</h2>" +
+                "<p class='corp-about-body'>" + richHTML(p.bio) + "</p>" +
+                "<div class='corp-stats'>" +
+                  "<div><div class='corp-stat-num'>10+</div><div class='corp-stat-label'>" + tpl("ปีประสบการณ์", "Years") + "</div></div>" +
+                  "<div><div class='corp-stat-num'>500+</div><div class='corp-stat-label'>" + tpl("ลูกค้า", "Clients") + "</div></div>" +
+                  "<div><div class='corp-stat-num'>99%</div><div class='corp-stat-label'>" + tpl("ความพึงพอใจ", "Satisfaction") + "</div></div>" +
+                "</div>" +
+              "</div>" +
+              "<div class='corp-visual'>" +
+                "<div class='corp-visual-block'></div>" +
+                "<div class='corp-visual-block'></div>" +
+                "<div class='corp-visual-block'></div>" +
+                "<div class='corp-visual-block'></div>" +
+              "</div>" +
+            "</div>" +
+          "</div></section>";
+        }
         if (S && S.templateId === "personal") {
           return "<section class='pb-about'><div class='wrap pb-about-inner'>" +
             (p.showAvatar ?
@@ -2539,6 +2650,15 @@ skinVariables(d),
         var ccells = cits.map(function (it) { return "<div style='text-align:center;padding:8px'><div style='width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff;display:grid;place-items:center;font-size:24px;margin:0 auto 14px'>" + esc(it.icon || "\u2605") + "</div><h3 style='font-size:18px;margin:0 0 7px'>" + esc(it.title) + "</h3><p style='color:#828aa0;font-size:14px'>" + esc(it.text) + "</p></div>"; }).join("");
         return "<section style='padding:48px 0'><div class='wrap'>" + (p.heading ? "<h2 style='font-size:26px;margin-bottom:24px;text-align:center'>" + esc(p.heading) + "</h2>" : "") + "<div class='grid' style='display:grid;grid-template-columns:repeat(" + ccn + ",1fr);gap:24px'>" + ccells + "</div></div></section>";
       case "cta":
+        if (S && S.templateId === "company") {
+          return "<section class='corp-cta'>" +
+            "<div class='wrap' style='text-align:center'>" +
+              "<h2 class='corp-cta-title'>" + esc(p.title) + "</h2>" +
+              "<p class='corp-cta-sub'>" + tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?") + "</p>" +
+              "<a href='#' class='corp-cta-btn'>" + esc(p.btnText) + "</a>" +
+            "</div>" +
+          "</section>";
+        }
         return "<section style='padding:20px'><div class='wrap'><div style='padding:48px 20px;text-align:center;border-radius:var(--radius);background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><h2 style='font-size:30px'>" + esc(p.title) + "</h2><p style='margin-top:18px'><a href='#' style='background:#fff;color:var(--primary);padding:13px 28px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></div></section>";
       case "image":
         return "<figure style='padding:24px 20px;margin:0'><div class='wrap'><div style='aspect-ratio:" + p.ratio + ";background:#e8eaf2;border-radius:var(--radius)'></div>" + (p.caption ? "<figcaption style='text-align:center;color:#9aa;font-size:13px;margin-top:8px'>" + esc(p.caption) + "</figcaption>" : "") + "</div></figure>";
@@ -3113,6 +3233,15 @@ skinVariables(d),
         + '<div style="height:2px;background:rgba(255,255,255,.35);width:80%;border-radius:1px;margin-bottom:4px"></div>'
         + '<div style="height:7px;background:' + c1 + ';width:28%;border-radius:2px"></div>'
         + '</div>';
+    } else if (t.id === "company") {
+      heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + ',' + c2 + ');padding:6px 8px;display:flex;flex-direction:column;justify-content:flex-end">'
+        + '<div style="height:2px;background:rgba(255,255,255,.5);width:30%;border-radius:1px;margin-bottom:4px"></div>'
+        + '<div style="height:5px;background:#fff;width:70%;border-radius:1px;margin-bottom:3px"></div>'
+        + '<div style="height:2px;background:rgba(255,255,255,.6);width:55%;border-radius:1px;margin-bottom:6px"></div>'
+        + '<div style="display:flex;gap:4px">'
+        + '<div style="height:8px;background:#fff;width:26%;border-radius:2px"></div>'
+        + '<div style="height:8px;background:rgba(255,255,255,.35);width:22%;border-radius:2px;border:1px solid rgba(255,255,255,.5)"></div>'
+        + '</div></div>';
     } else if (t.id === "magazine") {
       heroHtml = '<div class="t-feat-sec" style="display:grid;grid-template-columns:2fr 1fr;gap:3px;padding:5px 6px;background:#f8f9fb;border-bottom:2px solid ' + c1 + '">'
         + '<div style="background:linear-gradient(135deg,' + c1 + ',' + c2 + ');border-radius:2px;position:relative;display:flex;align-items:flex-end;padding:4px 5px">'
