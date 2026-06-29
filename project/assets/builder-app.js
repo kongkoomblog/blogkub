@@ -4087,6 +4087,23 @@ skinVariables(d),
       var dx1 = document.getElementById("dlXml"); if (dx1) { var tn4 = [].filter.call(dx1.childNodes, function(n) { return n.nodeType === 3 && n.textContent.trim(); })[0]; if (tn4) tn4.textContent = "ดาวน์โหลด .xml"; }
     }
   }
+  function updateTips() {
+    document.querySelectorAll("[data-tip-th],[data-tip-en]").forEach(function (el) {
+      var tip = BL === "en" ? (el.dataset.tipEn || el.dataset.tipTh || "") : (el.dataset.tipTh || el.dataset.tipEn || "");
+      if (tip) el.setAttribute("data-tip", tip); else el.removeAttribute("data-tip");
+    });
+  }
+  // Mobile touch tooltips — tap shows tooltip, auto-dismisses after 1.6s
+  (function () {
+    var activeEl = null, timer = null;
+    function clearTip() { if (activeEl) { activeEl.classList.remove("tip-show"); activeEl = null; } clearTimeout(timer); }
+    document.addEventListener("touchstart", function (e) {
+      clearTip();
+      var el = e.target.closest("[data-tip]");
+      if (el) { activeEl = el; el.classList.add("tip-show"); timer = setTimeout(clearTip, 1600); }
+    }, { passive: true });
+  })();
+
   function applyBuilderLang(lang) {
     BL = lang; localStorage.setItem("bxb_lang", lang);
     if (S) { S.lang = lang; save(); }
@@ -4096,6 +4113,7 @@ skinVariables(d),
     buildLib(); setupLibDrag(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
     if (S) renderCanvas(); else renderStart();
     translateChrome();
+    updateTips();
   }
   var blEl = $("#blLang");
   if (blEl) blEl.addEventListener("click", function (e) { var b = e.target.closest("button"); if (b) applyBuilderLang(b.dataset.bl); });
@@ -4420,6 +4438,7 @@ skinVariables(d),
   /* ---------- init ---------- */
   buildLib();
   renderStart();
+  updateTips();
   if (BL === "en") applyBuilderLang("en");
   // resume saved project?
   try {

@@ -54,6 +54,11 @@ button{font-family:inherit;cursor:pointer;}
 .tb-views button svg{width:17px;height:17px;}
 .tb-views button.on{background:var(--surface-2);color:var(--ink);}
 
+/* ---------- tooltips (hover + mobile tap) ---------- */
+[data-tip]{position:relative;}
+[data-tip]::after{content:attr(data-tip);position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(4px);background:rgba(8,8,18,.97);border:1px solid rgba(255,255,255,.15);color:var(--ink);font-size:11px;font-family:var(--fd);font-weight:500;white-space:nowrap;padding:5px 10px;border-radius:7px;pointer-events:none;opacity:0;transition:opacity .13s,transform .13s;z-index:999;box-shadow:0 4px 16px rgba(0,0,0,.6);}
+[data-tip]:hover::after,[data-tip].tip-show::after{opacity:1;transform:translateX(-50%) translateY(0);}
+
 .tb-right{display:flex;align-items:center;gap:8px;}
 .btn{font-family:var(--fd);font-weight:600;font-size:13px;border-radius:8px;padding:8px 14px;border:1px solid transparent;transition:.16s;display:inline-flex;align-items:center;gap:7px;white-space:nowrap;}
 .btn svg{width:15px;height:15px;}
@@ -434,10 +439,12 @@ button{font-family:inherit;cursor:pointer;}
   .tb-views button{width:44px;height:34px;}
   /* keep only essentials on the right */
   #popoutBtn,#restartBtn,#importBtn,#historyBtn{display:none;}
+  #cmdBtn .cmd-kbd{display:none;}
   :root{--foot-h:0px;}
   .builder-foot{display:none;}
   .tpl-chip .tpl-chip-lbl,.tpl-chip .tpl-chip-arr{display:none;}
   .tpl-chip{width:32px;height:32px;padding:0;justify-content:center;border-radius:8px;}
+  [data-tip]::after{font-size:12px;padding:6px 12px;}
   .tpl-grid{grid-template-columns:repeat(2,1fr);}
   /* backdrop behind bottom sheet — covers canvas so nothing shows through */
   #mobScrim{display:none;position:fixed;inset:54px 0 54px 0;background:rgba(0,0,0,.55);z-index:29;backdrop-filter:blur(2px);}
@@ -548,11 +555,11 @@ body.sheet-settled .panel.right{animation:none;}
 
 <!-- ===== TOP BAR ===== -->
 <div class="topbar">
-  <a class="tb-brand" href="./" title="กลับหน้าแรก"><span class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>BloggerXMLBuilder</a>
+  <a class="tb-brand" href="./" data-tip-th="กลับหน้าแรก" data-tip-en="Home"><span class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>BloggerXMLBuilder</a>
   <div class="tb-proj">
     <input id="projName" value="เว็บไซต์ของฉัน" spellcheck="false">
     <span class="save-dot" id="saveDot"><i></i><span>บันทึกแล้ว</span></span>
-    <button class="tpl-chip" id="tplChip" title="เปลี่ยน Template">
+    <button class="tpl-chip" id="tplChip" data-tip-th="เปลี่ยน Template" data-tip-en="Change Template">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
       <span class="tpl-chip-lbl" id="tplChipLabel">Template</span>
       <svg class="tpl-chip-arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
@@ -563,19 +570,19 @@ body.sheet-settled .panel.right{animation:none;}
     <button data-bl="en">EN</button>
   </div>
   <div class="tb-views" id="viewTabs">
-    <button data-vw="desktop" class="on" title="เดสก์ท็อป"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
-    <button data-vw="tablet" title="แท็บเล็ต"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M11 18h2"/></svg></button>
-    <button data-vw="mobile" title="มือถือ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></button>
+    <button data-vw="desktop" class="on" data-tip-th="เดสก์ท็อป" data-tip-en="Desktop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></button>
+    <button data-vw="tablet" data-tip-th="แท็บเล็ต" data-tip-en="Tablet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><path d="M11 18h2"/></svg></button>
+    <button data-vw="mobile" data-tip-th="มือถือ" data-tip-en="Mobile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></button>
   </div>
   <div class="tb-right">
     <input type="file" id="importFile" accept=".json" style="display:none">
-    <button class="icon-btn" id="importBtn" title="โหลดโปรเจกต์ (.json)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></button>
-    <button class="icon-btn" id="historyBtn" title="Version History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></button>
-    <button class="icon-btn" id="popoutBtn" title="เปิดพรีวิวหน้าต่างใหม่"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/></svg></button>
-    <button class="icon-btn" id="undoBtn" title="ย้อนกลับ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 015 5v0a5 5 0 01-5 5H9"/></svg></button>
-    <button class="btn btn-ghost btn-sm" id="restartBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9 9 0 00-9 9z"/><path d="M3 3v6h6"/></svg>เริ่มใหม่</button>
-    <button class="btn btn-ghost btn-sm" id="cmdBtn" title="Command Palette (Ctrl+K)" style="gap:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span style="font-family:var(--fm);font-size:11px;opacity:.7">⌘K</span></button>
-    <button class="btn btn-primary btn-sm" id="exportBtn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export XML</button>
+    <button class="icon-btn" id="importBtn" data-tip-th="นำเข้าโปรเจกต์ (.json)" data-tip-en="Import Project (.json)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></button>
+    <button class="icon-btn" id="historyBtn" data-tip-th="ประวัติการแก้ไข" data-tip-en="Version History"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></button>
+    <button class="icon-btn" id="popoutBtn" data-tip-th="พรีวิวหน้าต่างใหม่" data-tip-en="Preview in New Window"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M10 14L21 3M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/></svg></button>
+    <button class="icon-btn" id="undoBtn" data-tip-th="ย้อนกลับ (Ctrl+Z)" data-tip-en="Undo (Ctrl+Z)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 015 5v0a5 5 0 01-5 5H9"/></svg></button>
+    <button class="btn btn-ghost btn-sm" id="restartBtn" data-tip-th="เริ่มต้นใหม่ — เลือก Template ใหม่" data-tip-en="Start over — pick a new Template"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9 9 0 00-9 9z"/><path d="M3 3v6h6"/></svg>เริ่มใหม่</button>
+    <button class="btn btn-ghost btn-sm" id="cmdBtn" data-tip-th="ค้นหาคำสั่ง (Ctrl+K)" data-tip-en="Command Palette (Ctrl+K)" style="gap:6px"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><span class="cmd-kbd" style="font-family:var(--fm);font-size:11px;opacity:.7">⌘K</span></button>
+    <button class="btn btn-primary btn-sm" id="exportBtn" data-tip-th="สร้างและดาวน์โหลด Blogger XML" data-tip-en="Generate and download Blogger XML"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>Export XML</button>
   </div>
 </div>
 
