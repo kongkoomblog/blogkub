@@ -378,6 +378,16 @@
             '</div>' +
           '</div>';
         }
+        if (S && S.templateId === "tech") {
+          return '<div style="padding:68px 32px;background:#0f172a;color:#e2e8f0">' +
+            '<div style="max-width:760px;margin:0 auto">' +
+              '<div style="font-family:monospace;font-size:13px;color:' + pr + ';font-weight:700;letter-spacing:.05em;margin-bottom:18px">&gt;_ Tech Blog</div>' +
+              '<h1 style="font-family:' + fontStack(d.font) + ';font-size:40px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px">' + esc(p.title) + '</h1>' +
+              '<p style="font-size:17px;color:#94a3b8;line-height:1.65;margin:0 0 28px;max-width:480px">' + esc(p.subtitle) + '</p>' +
+              '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
+            '</div>' +
+          '</div>';
+        }
         if (S && S.templateId === "personal") {
           return '<div style="padding:60px 32px;background:#fff;border-bottom:1px solid #f0f0f8">' +
             '<div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:40px;flex-wrap:wrap">' +
@@ -402,6 +412,29 @@
           '<p style="font-size:18px;margin:18px auto 0;max-width:560px;opacity:.9;' + (p.align === "center" ? "" : "margin-left:0;margin-right:0") + '">' + esc(p.subtitle) + "</p>" +
           '<a style="display:inline-block;margin-top:28px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 26px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
       case "postgrid":
+        if (S && S.templateId === "tech") {
+          var techGCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
+          var techGCards = "";
+          var techGTags = ["JavaScript", "Python", "CSS", "Go", "Linux", "DevOps"];
+          for (var tgi = 0; tgi < (p.count || 6); tgi++) {
+            var gTag = techGTags[tgi % 6];
+            techGCards += '<article style="border-radius:' + r + ';overflow:hidden;border:1px solid #e8eaf2;background:#fff">' +
+              '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,' + pr + '18,' + ac + '28);position:relative">' +
+                '<div style="position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:' + pr + ';color:#fff">' + gTag + '</div>' +
+              '</div>' +
+              '<div style="padding:15px 17px 19px">' +
+                '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">' + tpl("24 มิ.ย. 2569", "Jun 24, 2026") + '</div>' +
+                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 8px;color:#0f172a">' + tpl("หัวข้อบทความที่ ", "Article #") + (tgi + 1) + '</h3>' +
+                (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 9px">' + tpl("คำอธิบายบทความสั้นๆ ก่อนคลิกอ่านเพิ่มเติม...", "Short description before clicking to read more...") + '</p>' : '') +
+                '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + tpl("อ่านต่อ →", "Read more →") + '</a>' +
+              '</div>' +
+            '</article>';
+          }
+          return '<section style="padding:48px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;margin:0 0 24px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            '<div style="display:grid;grid-template-columns:repeat(' + techGCols + ',1fr);gap:20px">' + techGCards + '</div>' +
+          '</div></section>';
+        }
         if (S && S.templateId === "travel") {
           var tbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
           var tbCards = "";
@@ -451,6 +484,27 @@
         for (var i = 0; i < (p.count || 6); i++) cards += postCard(p.showImage, p.showExcerpt, d, ac);
         return section(p.heading, d, '<div style="display:grid;grid-template-columns:repeat(' + pgCols + ',1fr);gap:20px">' + cards + "</div>");
       case "postlist":
+        if (S && S.templateId === "tech") {
+          var techListTags = ["JavaScript", "Python", "CSS", "Go", "Linux"];
+          var techListRows = "";
+          for (var tli = 0; tli < (p.count || 5); tli++) {
+            var tliTag = techListTags[tli % 5];
+            techListRows += '<div style="border-bottom:1px solid #e8eaf2;padding:18px 0;display:flex;gap:14px;align-items:flex-start">' +
+              '<div style="font-family:monospace;font-size:12px;color:#94a3b8;padding-top:3px;flex:none;width:28px">' + (tli + 1 < 10 ? "0" : "") + (tli + 1) + '</div>' +
+              '<div style="flex:1;min-width:0">' +
+                '<div style="display:flex;gap:6px;margin-bottom:8px">' +
+                  '<span style="font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:20px;background:' + pr + '18;color:' + pr + '">' + tliTag + '</span>' +
+                '</div>' +
+                '<div style="font-size:17px;font-weight:700;line-height:1.35;color:#0f172a;margin-bottom:5px">' + tpl("หัวข้อบทความที่ ", "Article #") + (tli + 1) + '</div>' +
+                '<div style="font-size:12px;color:#94a3b8">' + tpl("24 มิ.ย. 2569 · 5 นาที", "Jun 24, 2026 · 5 min read") + '</div>' +
+              '</div>' +
+            '</div>';
+          }
+          return '<section style="padding:40px 0"><div style="max-width:800px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;margin:0 0 4px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            techListRows +
+          '</div></section>';
+        }
         var rows = "";
         for (var j = 0; j < (p.count || 5); j++) rows += postRow(p.showImage, d, ac);
         return section(p.heading, d, '<div style="display:flex;flex-direction:column;gap:16px">' + rows + "</div>");
@@ -1961,7 +2015,37 @@ skinVariables(d),
 ".tb-card-title a{color:var(--text-main);text-decoration:none}",
 ".tb-card-title a:hover{color:var(--primary)}",
 ".tb-card-btn{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
-"@media(max-width:640px){.tb-feat-grid{grid-template-columns:1fr}.tb-feat-item:first-child{min-height:220px;grid-row:auto}.tb-hero-content{padding:36px 20px}}"
+"@media(max-width:640px){.tb-feat-grid{grid-template-columns:1fr}.tb-feat-item:first-child{min-height:220px;grid-row:auto}.tb-hero-content{padding:36px 20px}}",
+".tech-hero{padding:72px 20px;background:#0f172a;color:#e2e8f0}",
+".tech-hero .wrap{max-width:820px}",
+".tech-hero-eyebrow{font-family:monospace;font-size:13px;color:var(--primary);font-weight:700;letter-spacing:.05em;margin-bottom:18px}",
+".tech-hero-title{font-size:clamp(28px,5vw,46px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px;font-family:var(--font)}",
+".tech-hero-sub{font-size:17px;color:#94a3b8;line-height:1.65;margin:0 0 30px;max-width:500px}",
+".tech-hero-btn{display:inline-block;background:var(--primary);color:#fff;font-weight:700;padding:12px 28px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".tech-list{padding:56px 0}",
+".tech-list-row{border-bottom:1px solid var(--border);padding:20px 0;display:flex;gap:14px;align-items:flex-start}",
+".tech-list-num{font-family:monospace;font-size:12px;color:var(--text-muted);padding-top:3px;flex:none;width:28px}",
+".tech-list-body{flex:1;min-width:0}",
+".tech-list-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}",
+".tech-tag{font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:20px;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary)}",
+".tech-list-title{font-size:17px;font-weight:700;line-height:1.35;color:var(--text-main);text-decoration:none;display:block;margin-bottom:5px;transition:color .15s}",
+".tech-list-title:hover{color:var(--primary)}",
+".tech-list-meta{font-size:12px;color:var(--text-muted)}",
+".tech-grid{display:grid;gap:22px}",
+".tech-card{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--bg-surface);transition:border-color .2s,box-shadow .2s}",
+".tech-card:hover{border-color:var(--primary);box-shadow:0 8px 24px rgba(0,0,0,.08)}",
+".tech-card-img{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)20,var(--accent)30)}",
+".tech-card-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;transition:transform .4s}",
+".tech-card:hover .tech-card-img img{transform:scale(1.04)}",
+".tech-card-tag{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;letter-spacing:.04em;padding:3px 9px;border-radius:20px;background:var(--primary);color:#fff}",
+".tech-card-body{padding:16px 18px 20px}",
+".tech-card-date{font-size:11.5px;color:var(--text-muted);margin-bottom:5px}",
+".tech-card-title{font-size:16px;font-weight:700;line-height:1.35;margin:0 0 8px}",
+".tech-card-title a{color:var(--text-main);text-decoration:none}",
+".tech-card-title a:hover{color:var(--primary)}",
+".tech-card-excerpt{font-size:13.5px;color:var(--text-muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin:0 0 10px}",
+".tech-card-read{font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
+"@media(max-width:640px){.tech-hero{padding:52px 20px}.tech-list-row{flex-direction:column;gap:6px}}"
     ].join("\n");
   }
 
@@ -2066,6 +2150,14 @@ skinVariables(d),
             "});" +
           "}());/*]]>*/<\/script>";
       case "hero":
+        if (S && S.templateId === "tech") {
+          return "<section class='tech-hero'><div class='wrap'>" +
+            "<div class='tech-hero-eyebrow'>&gt;_ Tech Blog</div>" +
+            "<h1 class='tech-hero-title'>" + esc(p.title) + "</h1>" +
+            "<p class='tech-hero-sub'>" + esc(p.subtitle) + "</p>" +
+            "<a href='#main' class='tech-hero-btn'>" + esc(p.btnText) + " →</a>" +
+          "</div></section>";
+        }
         if (S && S.templateId === "travel") {
           return "<section class='tb-hero'>" +
             "<div class='tb-hero-bg'></div>" +
@@ -2098,6 +2190,33 @@ skinVariables(d),
         }
         return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
+        if (S && S.templateId === "tech") {
+          return "<section style='padding:52px 0'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<div class='tech-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
+              "<b:loop values='data:posts' var='post'>" +
+                "<article class='tech-card'>" +
+                  "<div class='tech-card-img'>" +
+                    "<b:if cond='data:post.featuredImage'>" +
+                    "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<b:elseif cond='data:post.firstImageUrl'/>" +
+                    "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "</b:if>" +
+                    "<b:if cond='data:post.labels'>" +
+                    "<b:loop values='data:post.labels' index='tcl' var='label'>" +
+                    "<b:if cond='data:tcl == 0'><span class='tech-card-tag'><data:label.name/></span></b:if>" +
+                    "</b:loop></b:if>" +
+                  "</div>" +
+                  "<div class='tech-card-body'>" +
+                    "<div class='tech-card-date'><data:post.date/></div>" +
+                    "<h3 class='tech-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
+                    (p.showExcerpt ? "<p class='tech-card-excerpt'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 160, links: false, linebreaks: false, ellipsis: true }'/></b:if></p>" : "") +
+                    "<a expr:href='data:post.url' class='tech-card-read'>" + tpl("อ่านต่อ →", "Read more →") + "</a>" +
+                  "</div>" +
+                "</article>" +
+              "</b:loop>" +
+            "</div></div></section>";
+        }
         if (S && S.templateId === "travel") {
           return "<section style='padding:52px 0'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
@@ -2157,6 +2276,26 @@ skinVariables(d),
           "</div></article></b:loop>" +
           "</div></div></section>";
       case "postlist":
+        if (S && S.templateId === "tech") {
+          return "<section class='tech-list'><div class='wrap' style='max-width:800px'>" +
+            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 8px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<b:loop values='data:posts' index='tli' var='post'>" +
+              "<div class='tech-list-row'>" +
+                "<div class='tech-list-num'><b:eval expr='data:tli + 1'/></div>" +
+                "<div class='tech-list-body'>" +
+                  "<div class='tech-list-tags'>" +
+                    "<b:if cond='data:post.labels'>" +
+                    "<b:loop values='data:post.labels' index='tll' var='label'>" +
+                    "<b:if cond='data:tll == 0'><span class='tech-tag'><data:label.name/></span></b:if>" +
+                    "</b:loop></b:if>" +
+                  "</div>" +
+                  "<a expr:href='data:post.url' class='tech-list-title'><data:post.title/></a>" +
+                  "<div class='tech-list-meta'><data:post.date/></div>" +
+                "</div>" +
+              "</div>" +
+            "</b:loop>" +
+          "</div></section>";
+        }
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' var='post'><article style='display:flex;gap:16px;border-bottom:1px solid #eef;padding:16px 0'>" +
           (p.showImage ? "<a expr:href='data:post.url' style='flex:none'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/></b:if></a>" : "") +
           "<div style='min-width:0'><h3 style='font-size:17px;margin:0 0 6px'><a expr:href='data:post.url'><data:post.title/></a></h3><p class='post-snippet' style='color:#828aa0;font-size:13px;margin:4px 0 0;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 170, links: false, linebreaks: false, ellipsis: true }'/></b:if></p></div></article></b:loop></div></section>";
@@ -2773,6 +2912,13 @@ skinVariables(d),
         + '<div style="height:7px;background:' + c1 + ';width:30%;border-radius:2px"></div></div>'
         + '<div style="width:22px;height:22px;border-radius:50%;padding:2px;background:linear-gradient(135deg,' + c1 + ',' + c2 + ');flex:none">'
         + '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc"></div></div>'
+        + '</div>';
+    } else if (t.id === "tech") {
+      heroHtml = '<div class="t-hero-sec" style="background:#0f172a;padding:5px 8px">'
+        + '<div style="font-size:5px;font-family:monospace;color:' + c1 + ';margin-bottom:3px">&gt;_</div>'
+        + '<div style="height:4px;background:#f8fafc;width:65%;border-radius:1px;margin-bottom:2px"></div>'
+        + '<div style="height:2px;background:rgba(255,255,255,.35);width:80%;border-radius:1px;margin-bottom:4px"></div>'
+        + '<div style="height:7px;background:' + c1 + ';width:28%;border-radius:2px"></div>'
         + '</div>';
     } else if (hasHero) {
       heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + "," + c2 + ')">'
