@@ -2079,6 +2079,18 @@
     // label robots logic
     var labelRobotsVal = seo.labelIndex ? "index,follow,max-image-preview:large" : "noindex,follow";
     var labelRobots = "<b:if cond='data:view.isLabelSearch'><meta content='" + labelRobotsVal + "' name='robots'/><meta content='" + labelRobotsVal + "' name='googlebot'/><meta content='" + labelRobotsVal + "' name='bingbot'/></b:if>";
+    var siteDescEsc = esc(seo.desc || "");
+    // Label pages: all-head-content does NOT output description on /search/label/* — safe to add here
+    var labelDesc = siteDescEsc ? (
+      "<b:if cond='data:blog.searchLabel'>\n" +
+      "<b:switch var='data:blog.searchLabel'>\n" +
+      "<b:default/>\n" +
+      "<meta content='" + siteDescEsc + "' name='description'/>\n" +
+      "<meta content='" + siteDescEsc + "' property='og:description'/>\n" +
+      "<b:if cond='data:view.description'><meta expr:content='data:view.description.escaped' name='twitter:description'/><b:else/><meta content='" + siteDescEsc + "' name='twitter:description'/></b:if>\n" +
+      "</b:switch>\n" +
+      "</b:if>\n"
+    ) : "";
     var schema = seo.schema ? schemaGraph(seo) : "";
     var og = seo.og ? ogTags(seo) : "";
 
@@ -2089,8 +2101,6 @@
 "<b:include data='blog' name='all-head-content'/>\n" +
 "<link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>\n" +
 "<meta content='width=device-width, initial-scale=1' name='viewport'/>\n" +
-"<title>" + titleExpr + "</title>\n" +
-"<link expr:href='data:view.url.canonical' rel='canonical'/>\n" +
 "<b:if cond='data:view.isHomepage'><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='robots'/><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='googlebot'/><meta content='index,follow,max-image-preview:large' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isSingleItem'><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='robots'/><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='googlebot'/><meta content='index,follow,max-image-preview:large' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isMultipleItems'><b:if cond='!data:view.isHomepage'><b:if cond='!data:view.isLabelSearch'><meta content='noindex,follow' name='robots'/><meta content='noindex,follow' name='googlebot'/><meta content='noindex,follow' name='bingbot'/></b:if></b:if></b:if>\n" +
@@ -2098,7 +2108,7 @@ labelRobots + "\n" +
 "<b:if cond='data:view.isSearch'><meta content='noindex,follow' name='robots'/><meta content='noindex,follow' name='googlebot'/><meta content='noindex,follow' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isError'><meta content='noindex,nofollow' name='robots'/></b:if>\n" +
 "<b:if cond='data:view.isArchive'><meta content='noindex,follow' name='robots'/></b:if>\n" +
-"<meta expr:content='data:view.description.escaped' name='description'/>\n" +
+labelDesc +
 og + "\n" +
 "<link rel='dns-prefetch' href='//1.bp.blogspot.com'/>\n" +
 "<link rel='dns-prefetch' href='//2.bp.blogspot.com'/>\n" +
@@ -3411,27 +3421,21 @@ skinVariables(d),
   function ogTags(seo) {
     var sn = esc(seo.blogTitle || "MyBlog");
     var lines = [
-      "<meta expr:content='data:view.title.escaped' property='og:title'/>",
-      "<meta expr:content='data:view.description.escaped' property='og:description'/>",
-      "<meta expr:content='data:view.url.canonical' property='og:url'/>",
+      // og:title, og:description, og:url omitted — all-head-content outputs these already
       "<meta content='" + sn + "' property='og:site_name'/>",
       "<meta expr:content='data:view.isPost ? &quot;article&quot; : &quot;website&quot;' property='og:type'/>",
       "<meta expr:content='data:blog.locale' property='og:locale'/>",
+      // og:image omitted — all-head-content outputs it; we add only twitter:image with resizeImage 1200:630
       "<b:if cond='data:view.featuredImage'>",
-      "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' property='og:image'/>",
-      "<meta content='1200' property='og:image:width'/>",
-      "<meta content='630' property='og:image:height'/>",
       "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' name='twitter:image'/>",
       "<b:elseif cond='data:view.firstImageUrl'/>",
-      "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.firstImageUrl, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' property='og:image'/>",
-      "<meta content='1200' property='og:image:width'/>",
-      "<meta content='630' property='og:image:height'/>",
       "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.firstImageUrl, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' name='twitter:image'/>",
-      (seo.logoUrl ? "<b:else/><meta content='" + esc(seo.logoUrl) + "' property='og:image'/><meta name='twitter:image' content='" + esc(seo.logoUrl) + "'/>" : ""),
+      (seo.logoUrl ? "<b:else/><meta name='twitter:image' content='" + esc(seo.logoUrl) + "'/>" : ""),
       "</b:if>",
       "<meta content='summary_large_image' name='twitter:card'/>",
       "<meta expr:content='data:view.title.escaped' name='twitter:title'/>",
-      "<meta expr:content='data:view.description.escaped' name='twitter:description'/>",
+      // twitter:description — b:if with site description fallback (questthai.net pattern)
+      "<b:if cond='data:view.description'><meta expr:content='data:view.description.escaped' name='twitter:description'/><b:else/><meta content='" + esc(seo.desc || "") + "' name='twitter:description'/></b:if>",
       // Article-specific OG + Twitter meta (like both reference files)
       "<b:if cond='data:view.isPost'>",
       "<meta expr:content='data:view.publishDate' property='article:published_time'/>",
