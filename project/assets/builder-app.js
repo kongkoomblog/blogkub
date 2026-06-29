@@ -2090,7 +2090,6 @@
 "<link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>\n" +
 "<meta content='width=device-width, initial-scale=1' name='viewport'/>\n" +
 "<title>" + titleExpr + "</title>\n" +
-"<link expr:href='data:view.url.canonical' rel='canonical'/>\n" +
 "<b:if cond='data:view.isHomepage'><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='robots'/><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='googlebot'/><meta content='index,follow,max-image-preview:large' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isSingleItem'><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='robots'/><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='googlebot'/><meta content='index,follow,max-image-preview:large' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isMultipleItems'><b:if cond='!data:view.isHomepage'><b:if cond='!data:view.isLabelSearch'><meta content='noindex,follow' name='robots'/><meta content='noindex,follow' name='googlebot'/><meta content='noindex,follow' name='bingbot'/></b:if></b:if></b:if>\n" +
@@ -2098,7 +2097,6 @@ labelRobots + "\n" +
 "<b:if cond='data:view.isSearch'><meta content='noindex,follow' name='robots'/><meta content='noindex,follow' name='googlebot'/><meta content='noindex,follow' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isError'><meta content='noindex,nofollow' name='robots'/></b:if>\n" +
 "<b:if cond='data:view.isArchive'><meta content='noindex,follow' name='robots'/></b:if>\n" +
-"<meta expr:content='data:view.description.escaped' name='description'/>\n" +
 og + "\n" +
 "<link rel='dns-prefetch' href='//1.bp.blogspot.com'/>\n" +
 "<link rel='dns-prefetch' href='//2.bp.blogspot.com'/>\n" +
@@ -3411,9 +3409,7 @@ skinVariables(d),
   function ogTags(seo) {
     var sn = esc(seo.blogTitle || "MyBlog");
     var lines = [
-      "<meta expr:content='data:view.title.escaped' property='og:title'/>",
-      "<meta expr:content='data:view.description.escaped' property='og:description'/>",
-      "<meta expr:content='data:view.url.canonical' property='og:url'/>",
+      // og:title, og:description, og:url — all-head-content already emits these (questthai.net pattern)
       "<meta content='" + sn + "' property='og:site_name'/>",
       "<meta expr:content='data:view.isPost ? &quot;article&quot; : &quot;website&quot;' property='og:type'/>",
       "<meta expr:content='data:blog.locale' property='og:locale'/>",
@@ -3431,7 +3427,8 @@ skinVariables(d),
       "</b:if>",
       "<meta content='summary_large_image' name='twitter:card'/>",
       "<meta expr:content='data:view.title.escaped' name='twitter:title'/>",
-      "<meta expr:content='data:view.description.escaped' name='twitter:description'/>",
+      // twitter:description — b:if with site-desc fallback (questthai.net pattern; twitter:* never emitted by all-head-content)
+      "<b:if cond='data:view.description'><meta expr:content='data:view.description.escaped' name='twitter:description'/><b:else/><meta content='" + esc(seo.desc || "") + "' name='twitter:description'/></b:if>",
       // Article-specific OG + Twitter meta (like both reference files)
       "<b:if cond='data:view.isPost'>",
       "<meta expr:content='data:view.publishDate' property='article:published_time'/>",
