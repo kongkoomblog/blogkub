@@ -221,6 +221,7 @@
   var VIEW = "desktop";
   var HISTORY = [];
   var KEY = "bxb_project_v1";
+  var DOCS_BASE = "/docs/";
 
   function freshProject(name, design) {
     return {
@@ -229,7 +230,7 @@
       templateId: null,
       design: design || { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 },
       seo: { title: "", desc: "", blogTitle: "MyBlog", labelIndex: false, schema: true, og: true,
-             orgType: "Organization", logoUrl: "", siteUrl: "", sameAs: "", schemaSoftwareApp: false },
+             orgType: "Organization", logoUrl: "", siteUrl: "", sameAs: "", schemaSoftwareApp: false, siteWww: false },
       blocks: []
     };
   }
@@ -1574,9 +1575,47 @@
   function txt2(k, l, v) { return '<div class="field"><label>' + tr(l) + '</label><input class="inp" data-sk="' + k + '" value="' + esc(v) + '"></div>'; }
   function area2(k, l, v, hint) { return '<div class="field"><label>' + tr(l) + '</label><textarea class="ta" data-sk="' + k + '">' + esc(v) + "</textarea>" + (hint ? '<div class="hint" data-cnt="' + k + '">' + hint + "</div>" : "") + "</div>"; }
   function tog2(k, l, v, sub) { return '<label class="tg"><span class="lbl">' + tr(l) + (sub ? "<small>" + tr(sub) + "</small>" : "") + '</span><input type="checkbox" data-sk="' + k + '"' + (v ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
+  function robotsTxtContent(rawUrl, useWww) {
+    var url = (rawUrl || '').trim().replace(/^https?:\/\//, '').replace(/\/+$/, '');
+    if (!url) return '';
+    var isCustom = !/\.blogspot\.com$/i.test(url);
+    if (isCustom && useWww && !/^www\./i.test(url)) url = 'www.' + url;
+    return 'User-agent: Mediapartners-Google\nDisallow:\n\nUser-agent: *\nDisallow: /search?q=\nDisallow: /share-widget\nAllow: /search/\nAllow: /\n\nSitemap: https://' + url + '/sitemap.xml';
+  }
   function labelNote(on) {
-    if (on) return '<div class="note warn">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>กฎสำคัญ: 1 บทความ ต่อ 1 ป้ายกำกับเท่านั้น</b><br>เมื่อเปิดให้ทำดัชนี Label ได้ ให้ติดป้ายกำกับ <b>เพียงป้ายเดียว</b> ต่อบทความ มิฉะนั้นบทความเดียวจะไปโผล่หลายหน้า Label → เกิดเนื้อหาซ้ำ (duplicate) และถูกมองว่าเป็น <b>หน้าขยะ/thin content</b> ระบบจะสร้าง CollectionPage + Breadcrumb ให้หน้า Label อัตโนมัติเพื่อให้มีคุณภาพพอ', '<b>Important: 1 article → 1 label only</b><br>With label indexing enabled, each article must use <b>only one label</b>. Multiple labels cause duplicate content across label pages, flagged as <b>thin content</b>. The builder auto-generates CollectionPage + Breadcrumb for label pages to maintain quality.') + '</div></div>';
-    return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) — กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้', 'Label pages are set to <b>noindex, follow</b> (recommended) — prevents duplicate content while still passing internal link equity.') + '</div></div>';
+    var infoNote = '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) — กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้', 'Label pages are set to <b>noindex, follow</b> (recommended) — prevents duplicate content while still passing internal link equity.') + '</div></div>';
+    if (!on) return infoNote;
+    var warnNote = '<div class="note warn">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>กฎสำคัญ: 1 บทความ ต่อ 1 ป้ายกำกับเท่านั้น</b><br>เมื่อเปิดให้ทำดัชนี Label ได้ ให้ติดป้ายกำกับ <b>เพียงป้ายเดียว</b> ต่อบทความ มิฉะนั้นบทความเดียวจะไปโผล่หลายหน้า Label → เกิดเนื้อหาซ้ำ (duplicate) และถูกมองว่าเป็น <b>หน้าขยะ/thin content</b> ระบบจะสร้าง CollectionPage + Breadcrumb ให้หน้า Label อัตโนมัติเพื่อให้มีคุณภาพพอ', '<b>Important: 1 article → 1 label only</b><br>With label indexing enabled, each article must use <b>only one label</b>. Multiple labels cause duplicate content across label pages, flagged as <b>thin content</b>. The builder auto-generates CollectionPage + Breadcrumb for label pages to maintain quality.') + '</div></div>';
+    var learnMore = '<div style="padding:4px 16px 12px"><a href="' + esc(DOCS_BASE + 'label-indexing') + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 อ่านคู่มือแบบละเอียด', '📖 Read the full guide') + ' →</a></div>';
+    var stepData = [
+      tpl('เปิด <a href="https://www.blogger.com" target="_blank" rel="noopener" style="color:var(--brand)"><b>Blogger.com</b></a> → เลือกบล็อกของคุณ', 'Open <a href="https://www.blogger.com" target="_blank" rel="noopener" style="color:var(--brand)"><b>Blogger.com</b></a> → select your blog'),
+      tpl('กดเมนู <b>☰</b> มุมซ้ายบน', 'Click <b>☰</b> menu (top-left corner)'),
+      tpl('กด <b>ตั้งค่า</b> (Settings)', 'Click <b>Settings</b>'),
+      tpl('เลื่อนหาหัวข้อ <b>Crawler และการจัดทำดัชนี</b>', 'Scroll to <b>Crawler and Indexing</b>'),
+      tpl('เปิดใช้งาน <b>robots.txt ที่กำหนดเอง</b> แล้ววางโค้ดที่สร้างด้านล่าง', 'Enable <b>Custom robots.txt</b> then paste the generated code below'),
+    ];
+    var stepsHtml = '<div class="rtx-steps">' + stepData.map(function (s, i) {
+      return '<div class="rtx-step"><span class="rtx-n">' + (i + 1) + '</span><span>' + s + '</span></div>';
+    }).join('') + '</div>';
+    var siteUrl = (S.seo && S.seo.siteUrl) || '';
+    var siteWww = !!(S.seo && S.seo.siteWww);
+    var rawDomain = siteUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+    var isCustom = !!rawDomain && !/\.blogspot\.com$/i.test(rawDomain);
+    var rtxTxt = robotsTxtContent(siteUrl, siteWww);
+    var wwwQ = '<div class="rtx-www-q"' + (isCustom ? '' : ' style="display:none"') + '>'
+      + '<label class="tg" style="padding:8px 0 4px"><span class="lbl">' + tpl('Redirect ไป www.yourdomain.com', 'Redirect to www.yourdomain.com') + '<small>' + tpl('โดเมนของคุณ Redirect ไป www หรือไม่?', 'Does your domain redirect to www?') + '</small></span>'
+      + '<input type="checkbox" id="rtxWww"' + (siteWww ? ' checked' : '') + '><span class="sw-tg"></span></label>'
+      + '</div>';
+    var genHtml = '<div class="rtx-gen">'
+      + '<div class="field"><label>' + tpl('URL เว็บไซต์ของคุณ', 'Your website URL') + '</label>'
+      + '<input class="inp" id="rtxUrlInp" value="' + esc(siteUrl) + '" placeholder="' + tpl('yourblog.blogspot.com หรือ yourdomain.com', 'yourblog.blogspot.com or yourdomain.com') + '"></div>'
+      + wwwQ
+      + '<pre class="rtx-pre" id="rtxPre">' + esc(rtxTxt || tpl('กรอก URL เพื่อดูตัวอย่าง…', 'Enter URL to preview…')) + '</pre>'
+      + '<div style="padding:0 0 14px"><button class="btn-rtx-copy" id="rtxCopyBtn">' + tpl('📋 คัดลอก robots.txt', '📋 Copy robots.txt') + '</button></div>'
+      + '</div>';
+    return warnNote + learnMore + '<div class="sec-divider"></div>'
+      + '<div class="rtx-section-title">' + tpl('⚙️ ตั้งค่า robots.txt ใน Blogger (5 ขั้นตอน)', '⚙️ Set up robots.txt in Blogger (5 steps)') + '</div>'
+      + stepsHtml + genHtml;
   }
   function googleBox(seo) {
     return '<div class="sec-title collapsed">' + tr("ข้อมูลสำหรับ Google (Knowledge Graph)") + '</div>'
@@ -1660,6 +1699,50 @@
     });
     var ot = c.querySelector('[data-seg="orgType"]');
     if (ot) ot.addEventListener("click", function (e) { var btn = e.target.closest("button"); if (!btn) return; S.seo.orgType = btn.dataset.v; $$("button", ot).forEach(function (x) { x.classList.toggle("on", x === btn); }); save(); });
+    // robots.txt generator bindings
+    var rtxUrlInp = c.querySelector('#rtxUrlInp');
+    var rtxWwwInp = c.querySelector('#rtxWww');
+    var rtxPre = c.querySelector('#rtxPre');
+    var rtxCopyBtn = c.querySelector('#rtxCopyBtn');
+    function updateRtxPre() {
+      if (!rtxPre) return;
+      var rawUrl = rtxUrlInp ? rtxUrlInp.value : (S.seo.siteUrl || '');
+      var useWww = rtxWwwInp ? rtxWwwInp.checked : !!(S.seo && S.seo.siteWww);
+      var domain = rawUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+      var isCustom = !!domain && !/\.blogspot\.com$/i.test(domain);
+      var wwwQ = c.querySelector('.rtx-www-q');
+      if (wwwQ) wwwQ.style.display = isCustom ? '' : 'none';
+      var txt = robotsTxtContent(rawUrl, useWww);
+      rtxPre.textContent = txt || tpl('กรอก URL เพื่อดูตัวอย่าง…', 'Enter URL to preview…');
+    }
+    if (rtxUrlInp) {
+      rtxUrlInp.addEventListener('input', function () {
+        S.seo.siteUrl = rtxUrlInp.value; save();
+        var kgUrl = c.querySelector('[data-sk="siteUrl"]');
+        if (kgUrl && kgUrl !== rtxUrlInp) kgUrl.value = rtxUrlInp.value;
+        updateRtxPre();
+      });
+    }
+    if (rtxWwwInp) {
+      rtxWwwInp.addEventListener('change', function () {
+        if (!S.seo) S.seo = {};
+        S.seo.siteWww = rtxWwwInp.checked; save();
+        updateRtxPre();
+      });
+    }
+    if (rtxCopyBtn) {
+      rtxCopyBtn.addEventListener('click', function () {
+        var txt = rtxPre ? rtxPre.textContent : '';
+        var placeholder = tpl('กรอก URL เพื่อดูตัวอย่าง…', 'Enter URL to preview…');
+        if (!txt || txt === placeholder) return;
+        var lbl = tpl('📋 คัดลอก robots.txt', '📋 Copy robots.txt');
+        var done = tpl('✓ คัดลอกแล้ว!', '✓ Copied!');
+        function onCopied() { rtxCopyBtn.textContent = done; setTimeout(function () { rtxCopyBtn.textContent = lbl; }, 2000); }
+        if (navigator.clipboard) { navigator.clipboard.writeText(txt).then(onCopied).catch(function () { fallbackCopy(txt); onCopied(); }); }
+        else { fallbackCopy(txt); onCopied(); }
+        function fallbackCopy(t) { var ta = document.createElement('textarea'); ta.value = t; ta.style.position = 'fixed'; ta.style.opacity = '0'; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); }
+      });
+    }
   }
   var seoT;
   function renderSeoScoreOnly() {
