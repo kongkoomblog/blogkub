@@ -2090,7 +2090,6 @@
 "<link expr:href='data:blog.blogspotFaviconUrl' rel='icon' type='image/x-icon'/>\n" +
 "<meta content='width=device-width, initial-scale=1' name='viewport'/>\n" +
 "<title>" + titleExpr + "</title>\n" +
-"<link expr:href='data:view.url.canonical' rel='canonical'/>\n" +
 "<b:if cond='data:view.isHomepage'><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='robots'/><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='googlebot'/><meta content='index,follow,max-image-preview:large' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isSingleItem'><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='robots'/><meta content='index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1' name='googlebot'/><meta content='index,follow,max-image-preview:large' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isMultipleItems'><b:if cond='!data:view.isHomepage'><b:if cond='!data:view.isLabelSearch'><meta content='noindex,follow' name='robots'/><meta content='noindex,follow' name='googlebot'/><meta content='noindex,follow' name='bingbot'/></b:if></b:if></b:if>\n" +
@@ -2098,7 +2097,13 @@ labelRobots + "\n" +
 "<b:if cond='data:view.isSearch'><meta content='noindex,follow' name='robots'/><meta content='noindex,follow' name='googlebot'/><meta content='noindex,follow' name='bingbot'/></b:if>\n" +
 "<b:if cond='data:view.isError'><meta content='noindex,nofollow' name='robots'/></b:if>\n" +
 "<b:if cond='data:view.isArchive'><meta content='noindex,follow' name='robots'/></b:if>\n" +
+"<b:if cond='data:view.description'>\n" +
 "<meta expr:content='data:view.description.escaped' name='description'/>\n" +
+"<meta expr:content='data:view.description.escaped' property='og:description'/>\n" +
+"<b:else/>\n" +
+"<meta expr:content='data:blog.metaDescription ? data:blog.metaDescription.escaped : data:blog.title.escaped' name='description'/>\n" +
+"<meta expr:content='data:blog.metaDescription ? data:blog.metaDescription.escaped : data:blog.title.escaped' property='og:description'/>\n" +
+"</b:if>\n" +
 og + "\n" +
 "<link rel='dns-prefetch' href='//1.bp.blogspot.com'/>\n" +
 "<link rel='dns-prefetch' href='//2.bp.blogspot.com'/>\n" +
@@ -3412,7 +3417,6 @@ skinVariables(d),
     var sn = esc(seo.blogTitle || "MyBlog");
     var lines = [
       "<meta expr:content='data:view.title.escaped' property='og:title'/>",
-      "<meta expr:content='data:view.description.escaped' property='og:description'/>",
       "<meta expr:content='data:view.url.canonical' property='og:url'/>",
       "<meta content='" + sn + "' property='og:site_name'/>",
       "<meta expr:content='data:view.isPost ? &quot;article&quot; : &quot;website&quot;' property='og:type'/>",
