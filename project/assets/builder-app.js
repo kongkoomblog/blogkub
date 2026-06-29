@@ -218,7 +218,7 @@
   /* ---------- STATE ---------- */
   var S = null;
   var SEL = null;        // selected block id
-  var VIEW = "desktop";
+  var VIEW = window.innerWidth <= 1000 ? "mobile" : "desktop";
   var HISTORY = [];
   var KEY = "bxb_project_v1";
   var DOCS_BASE = "/docs/";
