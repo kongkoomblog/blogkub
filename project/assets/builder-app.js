@@ -219,6 +219,7 @@
     return {
       name: name || "เว็บไซต์ของฉัน",
       lang: "th",
+      templateId: null,
       design: design || { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 },
       seo: { title: "", desc: "", blogTitle: "MyBlog", labelIndex: false, schema: true, og: true,
              orgType: "Organization", logoUrl: "", siteUrl: "", sameAs: "", schemaSoftwareApp: false },
@@ -358,6 +359,23 @@
           '<nav style="display:flex;gap:22px;margin:0 auto;align-items:center">' + menu + "</nav>" +
           (p.showSearch ? '<div style="width:34px;height:34px;border-radius:50%;background:#f1f2f9;display:grid;place-items:center">🔍</div>' : "") + "</div>";
       case "hero":
+        if (S && S.templateId === "personal") {
+          return '<div style="padding:60px 32px;background:#fff;border-bottom:1px solid #f0f0f8">' +
+            '<div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:40px;flex-wrap:wrap">' +
+              '<div style="flex:1;min-width:220px">' +
+                '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">✦ Personal Blog</div>' +
+                '<h1 style="font-family:' + fontStack(d.font) + ';font-size:38px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#0f172a;margin:0 0 14px">' + esc(p.title) + '</h1>' +
+                '<p style="font-size:16px;color:#64748b;line-height:1.65;margin:0 0 24px;max-width:380px">' + esc(p.subtitle) + '</p>' +
+                '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
+              '</div>' +
+              '<div style="flex:none">' +
+                '<div style="width:150px;height:150px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ')">' +
+                  '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:52px">👤</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }
         var bg = p.bg === "gradient" ? "linear-gradient(120deg," + pr + "," + ac + ")" : p.bg === "dark" ? "#0f172a" : "#f7f8fc";
         var fg = (p.bg === "soft") ? "#1e2333" : "#fff";
         return '<div style="padding:84px 32px;text-align:' + p.align + ';background:' + bg + ';color:' + fg + '">' +
@@ -365,6 +383,25 @@
           '<p style="font-size:18px;margin:18px auto 0;max-width:560px;opacity:.9;' + (p.align === "center" ? "" : "margin-left:0;margin-right:0") + '">' + esc(p.subtitle) + "</p>" +
           '<a style="display:inline-block;margin-top:28px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 26px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
       case "postgrid":
+        if (S && S.templateId === "personal") {
+          var pbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
+          var pbCards = "";
+          for (var pi = 0; pi < (p.count || 6); pi++) {
+            pbCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07)">' +
+              (p.showImage ? '<div style="height:160px;background:linear-gradient(120deg,' + pr + '18,' + ac + '28)"></div>' : '') +
+              '<div style="padding:15px 17px 18px">' +
+                '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">24 มิ.ย. 2569</div>' +
+                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 6px;color:#0f172a">หัวข้อบทความที่ ' + (pi + 1) + '</h3>' +
+                (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 9px">คำโปรยบทความแสดงตัวอย่างเนื้อหาสั้นๆ...</p>' : '') +
+                '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + tpl("อ่านต่อ →", "Read more →") + '</a>' +
+              '</div>' +
+            '</article>';
+          }
+          return '<section style="padding:48px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;margin:0 0 24px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            '<div style="display:grid;grid-template-columns:repeat(' + pbCols + ',1fr);gap:20px">' + pbCards + '</div>' +
+            '</div></section>';
+        }
         var cols = p.columns || 3, cards = "";
         var pgCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? Math.min(cols, 2) : cols;
         for (var i = 0; i < (p.count || 6); i++) cards += postCard(p.showImage, p.showExcerpt, d, ac);
@@ -376,6 +413,20 @@
       case "featured":
         return section(p.heading, d, '<div style="position:relative;border-radius:' + r + ';overflow:hidden;aspect-ratio:21/9;background:linear-gradient(120deg,' + pr + ',' + ac + ');display:flex;align-items:flex-end;padding:28px"><div><span style="background:#fff;color:' + pr + ';font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px">บทความเด่น</span><h3 style="color:#fff;font-size:26px;margin:12px 0 0;font-family:' + fontStack(d.font) + '">หัวข้อบทความแนะนำที่น่าสนใจที่สุด</h3></div></div>');
       case "about":
+        if (S && S.templateId === "personal") {
+          return '<div style="padding:52px 32px;background:#f8fafc">' +
+            '<div style="max-width:780px;margin:0 auto;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">' +
+              (p.showAvatar ?
+                '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none">' +
+                '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>' : '') +
+              '<div style="flex:1;min-width:200px">' +
+                '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">เกี่ยวกับผู้เขียน</div>' +
+                '<h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px;line-height:1.2">' + esc(p.name) + '</h3>' +
+                '<p style="color:#64748b;font-size:15px;line-height:1.7;margin:0">' + richHTML(p.bio) + '</p>' +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        }
         return '<div style="padding:56px 32px;background:#f7f8fc;display:flex;gap:24px;align-items:center;max-width:820px;margin:0 auto">' +
           (p.showAvatar ? '<div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div>' : "") +
           '<div><div style="font-size:13px;color:' + pr + ';font-weight:700;text-transform:uppercase;letter-spacing:.08em">เกี่ยวกับ</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;margin:6px 0 8px">' + esc(p.name) + '</h3><p style="color:#4a5063;font-size:15px;line-height:1.65;margin:0">' + richHTML(p.bio) + '</p></div></div>';
@@ -1787,7 +1838,33 @@ skinVariables(d),
 "#bxbTocList a:hover{color:var(--primary)}",
 "#bxbTocList .toc-h3{padding-left:14px;font-size:13px;color:var(--text-muted)}",
 ".bxb-share-btn{padding:10px 18px;color:#fff;border-radius:var(--radius);font-weight:600;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;transition:transform .15s,opacity .15s}",
-".bxb-share-btn:hover{transform:translateY(-2px);opacity:.92}"
+".bxb-share-btn:hover{transform:translateY(-2px);opacity:.92}",
+".pb-hero{padding:64px 20px;background:var(--bg-base);border-bottom:1px solid var(--border)}",
+".pb-hero .wrap{display:flex;align-items:center;gap:48px;flex-wrap:wrap;max-width:900px}",
+".pb-eyebrow{font-size:11px;color:var(--primary);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px}",
+".pb-avatar-ring{width:180px;height:180px;border-radius:50%;padding:6px;background:linear-gradient(135deg,var(--primary),var(--accent));flex:none}",
+".pb-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg-base);display:flex;align-items:center;justify-content:center}",
+".pb-grid{display:grid;gap:24px}",
+".pb-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);box-shadow:0 1px 4px rgba(0,0,0,.06);transition:transform .2s,box-shadow .2s}",
+".pb-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(0,0,0,.1)}",
+".pb-card-img{height:180px;overflow:hidden;background:var(--hover-bg)}",
+".pb-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}",
+".pb-card:hover .pb-card-img img{transform:scale(1.05)}",
+".pb-card-body{padding:16px 18px 20px}",
+".pb-card-date{font-size:11.5px;color:var(--text-muted);margin-bottom:5px}",
+".pb-card-title{font-size:17px;font-weight:700;line-height:1.35;margin:0 0 7px}",
+".pb-card-title a{color:var(--text-main);text-decoration:none}",
+".pb-card-title a:hover{color:var(--primary)}",
+".pb-card-excerpt{font-size:13.5px;color:var(--text-muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin:0 0 10px}",
+".pb-card-read{font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
+".pb-about{padding:56px 20px;background:var(--bg-surface)}",
+".pb-about .wrap{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;max-width:800px}",
+".pb-about-avatar{width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,var(--primary),var(--accent));flex:none}",
+".pb-about-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg-surface);display:flex;align-items:center;justify-content:center}",
+".pb-about-eyebrow{font-size:11px;color:var(--primary);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}",
+".pb-about-name{font-size:24px;font-weight:800;color:var(--text-main);margin:0 0 10px;line-height:1.2;font-family:var(--font)}",
+".pb-about-bio{font-size:15px;color:var(--text-muted);line-height:1.7;margin:0}",
+"@media(max-width:640px){.pb-hero .wrap{flex-direction:column-reverse;text-align:center}.pb-avatar-ring{width:130px;height:130px}.pb-about .wrap{flex-direction:column;align-items:center;text-align:center}}"
     ].join("\n");
   }
 
@@ -1892,8 +1969,51 @@ skinVariables(d),
             "});" +
           "}());/*]]>*/<\/script>";
       case "hero":
+        if (S && S.templateId === "personal") {
+          return "<section class='pb-hero'>" +
+            "<div class='wrap pb-hero-inner'>" +
+              "<div class='pb-hero-text'>" +
+                "<div class='pb-eyebrow'>✦ Personal Blog</div>" +
+                "<h1 style='font-size:clamp(30px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--text-main);margin:0 0 16px;font-family:var(--font)'>" + esc(p.title) + "</h1>" +
+                "<p style='font-size:17px;color:var(--text-muted);line-height:1.65;margin:0 0 28px;max-width:400px'>" + esc(p.subtitle) + "</p>" +
+                "<a href='#main' style='display:inline-block;background:var(--primary);color:#fff;font-weight:600;padding:13px 28px;border-radius:var(--radius);text-decoration:none'>" + esc(p.btnText) + "</a>" +
+              "</div>" +
+              "<div class='pb-avatar-ring'>" +
+                "<div class='pb-avatar-inner'>" +
+                  "<svg width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'>" +
+                  "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>" +
+                "</div>" +
+              "</div>" +
+            "</div>" +
+          "</section>";
+        }
         return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
+        if (S && S.templateId === "personal") {
+          return "<section style='padding:52px 0'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<div class='pb-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
+              "<b:loop values='data:posts' var='post'>" +
+                "<article class='pb-card'>" +
+                  (p.showImage ?
+                    "<a expr:href='data:post.url' class='pb-card-img' style='display:block'>" +
+                    "<b:if cond='data:post.featuredImage'>" +
+                    "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<b:elseif cond='data:post.firstImageUrl'/>" +
+                    "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<b:else/>" +
+                    "<div style='height:180px;background:linear-gradient(120deg,var(--primary)12,var(--accent)25)'></div>" +
+                    "</b:if></a>" : "") +
+                  "<div class='pb-card-body'>" +
+                    "<div class='pb-card-date'><data:post.date/></div>" +
+                    "<h3 class='pb-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
+                    (p.showExcerpt ? "<p class='pb-card-excerpt'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 160, links: false, linebreaks: false, ellipsis: true }'/></b:if></p>" : "") +
+                    "<a expr:href='data:post.url' class='pb-card-read'>" + tpl("อ่านต่อ →", "Read more →") + "</a>" +
+                  "</div>" +
+                "</article>" +
+              "</b:loop>" +
+            "</div></div></section>";
+        }
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:24px'>" + esc(p.heading) + "</h2><div class='grid' style='display:grid;grid-template-columns:repeat(" + p.columns + ",1fr);gap:20px'>" +
           "<b:loop values='data:posts' var='post'><article style='border:1px solid #eef;border-radius:var(--radius);overflow:hidden'>" +
           (p.showImage ? "<a expr:href='data:post.url'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/></b:if></a>" : "") +
@@ -1908,6 +2028,20 @@ skinVariables(d),
       case "featured":
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' index='i' var='post'><b:if cond='data:i == 0'><article style='border-radius:var(--radius);overflow:hidden;background:linear-gradient(120deg,var(--primary),var(--accent));padding:32px;color:#fff'><h3 style='font-size:26px'><a expr:href='data:post.url' style='color:#fff'><data:post.title/></a></h3></article></b:if></b:loop></div></section>";
       case "about":
+        if (S && S.templateId === "personal") {
+          return "<section class='pb-about'><div class='wrap pb-about-inner'>" +
+            (p.showAvatar ?
+              "<div class='pb-about-avatar'><div class='pb-about-avatar-inner'>" +
+              "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'>" +
+              "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>" +
+              "</div></div>" : "") +
+            "<div style='flex:1;min-width:200px'>" +
+              "<div class='pb-about-eyebrow'>เกี่ยวกับผู้เขียน</div>" +
+              "<h2 class='pb-about-name'>" + esc(p.name) + "</h2>" +
+              "<p class='pb-about-bio'>" + richHTML(p.bio) + "</p>" +
+            "</div>" +
+          "</div></section>";
+        }
         return "<section style='padding:56px 20px;background:#f7f8fc'><div class='wrap' style='display:flex;gap:24px;align-items:center;max-width:820px'>" + (p.showAvatar ? "<div style='width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,var(--primary),var(--accent));flex:none'></div>" : "") + "<div><h2 style='font-size:24px'>" + esc(p.name) + "</h2><p style='color:#4a5063;margin-top:8px'>" + richHTML(p.bio) + "</p></div></div></section>";
       case "text":
         return "<section style='padding:40px 20px'><div class='wrap' style='max-width:760px;text-align:" + p.align + "'><h2 style='font-size:28px;margin-bottom:12px'>" + esc(p.heading) + "</h2><p style='color:#4a5063;font-size:16px'>" + richHTML(p.body) + "</p></div></section>";
@@ -2467,7 +2601,15 @@ skinVariables(d),
     var hasSide = bl.indexOf("sidebar") >= 0;
 
     var heroHtml = "";
-    if (hasHero) {
+    if (t.id === "personal") {
+      heroHtml = '<div class="t-hero-sec" style="background:#fff;border-bottom:1px solid #f0f0f8;display:flex;align-items:center;padding:5px 8px;gap:5px">'
+        + '<div style="flex:1"><div style="height:3px;background:' + c1 + ';width:55%;border-radius:1px;margin-bottom:3px"></div>'
+        + '<div style="height:2px;background:#e2e8f0;width:78%;border-radius:1px;margin-bottom:4px"></div>'
+        + '<div style="height:7px;background:' + c1 + ';width:30%;border-radius:2px"></div></div>'
+        + '<div style="width:22px;height:22px;border-radius:50%;padding:2px;background:linear-gradient(135deg,' + c1 + ',' + c2 + ');flex:none">'
+        + '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc"></div></div>'
+        + '</div>';
+    } else if (hasHero) {
       heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + "," + c2 + ')">'
         + '<div class="th1"></div><div class="th2"></div><div class="tbtn"></div></div>';
     } else if (hasFeat) {
@@ -2515,6 +2657,7 @@ skinVariables(d),
   function startFromTemplate(id) {
     var t = TEMPLATES.find(function (x) { return x.id === id; });
     S = freshProject(t.name, JSON.parse(JSON.stringify(t.design)));
+    S.templateId = id;
     S.seo.blogTitle = t.name;
     S.blocks = t.blocks.map(function (type) { return { id: uid(), type: type, props: blockDefaults(type) }; });
     enterBuilder();
