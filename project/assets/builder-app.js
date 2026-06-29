@@ -1968,7 +1968,7 @@ skinVariables(d),
           "var src=a.getAttribute('data-share');" +
           "var url='';" +
           "if(src==='facebook')url='https://www.facebook.com/sharer/sharer.php?u='+u;" +
-          "else if(src==='twitter')url='https://x.com/intent/post?url='+u+'&text='+t;" +
+          "else if(src==='twitter')url='https://twitter.com/intent/tweet?text='+t+'%20'+u;" +
           "else if(src==='line')url='https://social-plugins.line.me/lineit/share?url='+u;" +
           "if(url){var win=window.open(url,'_blank','noopener,noreferrer');if(!win)window.location.href=url;}" +
           "});})(btns[i]);}" +
@@ -2234,15 +2234,15 @@ skinVariables(d),
       "<meta expr:content='data:view.isPost ? &quot;article&quot; : &quot;website&quot;' property='og:type'/>",
       "<meta expr:content='data:blog.locale' property='og:locale'/>",
       "<b:if cond='data:view.featuredImage'>",
-      "<meta expr:content='resizeImage(data:view.featuredImage, 1200, \"1200:630\")' property='og:image'/>",
+      "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' property='og:image'/>",
       "<meta content='1200' property='og:image:width'/>",
       "<meta content='630' property='og:image:height'/>",
-      "<meta expr:content='resizeImage(data:view.featuredImage, 1200, \"1200:630\")' name='twitter:image'/>",
+      "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.featuredImage, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' name='twitter:image'/>",
       "<b:elseif cond='data:view.firstImageUrl'/>",
-      "<meta expr:content='resizeImage(data:view.firstImageUrl, 1200, \"1200:630\")' property='og:image'/>",
+      "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.firstImageUrl, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' property='og:image'/>",
       "<meta content='1200' property='og:image:width'/>",
       "<meta content='630' property='og:image:height'/>",
-      "<meta expr:content='resizeImage(data:view.firstImageUrl, 1200, \"1200:630\")' name='twitter:image'/>",
+      "<meta expr:content='&quot;https:&quot; + resizeImage(data:view.firstImageUrl, 1200, &quot;1200:630&quot;).replace(&quot;https:&quot;,&quot;&quot;).replace(&quot;http:&quot;,&quot;&quot;)' name='twitter:image'/>",
       (seo.logoUrl ? "<b:else/><meta content='" + esc(seo.logoUrl) + "' property='og:image'/><meta name='twitter:image' content='" + esc(seo.logoUrl) + "'/>" : ""),
       "</b:if>",
       "<meta content='summary_large_image' name='twitter:card'/>",
