@@ -137,10 +137,10 @@
       postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true },
       postlist: { heading: "Read More", count: 5, showImage: true },
       featured: { heading: "Featured", count: 1 },
-      about: { name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true },
+      about: { name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
       text: { heading: "Your Heading", body: "Write your content here. Add the text you want readers to see.", align: "left" },
       cta: { title: "Ready to get started?", btnText: "Get Started", bg: "soft" },
-      image: { alt: "Image description", caption: "", ratio: "16/9" },
+      image: { alt: "Image description", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "Below header", label: true },
       newsletter: { heading: "Get Updates First", sub: "Enter your email to receive new posts instantly — free, no spam", btnText: "Subscribe", bg: "soft" },
       share: { label: "Share this article", facebook: true, twitter: true, line: true, copy: true },
@@ -171,10 +171,10 @@
       postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true },
       postlist: { heading: "อ่านต่อ", count: 5, showImage: true },
       featured: { heading: "บทความแนะนำ", count: 1 },
-      about: { name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true },
+      about: { name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true, avatarUrl: "" },
       text: { heading: "หัวข้อของคุณ", body: "เขียนเนื้อหาตรงนี้ ใส่ข้อความที่ต้องการให้ผู้อ่านเห็น", align: "left" },
       cta: { title: "พร้อมเริ่มต้นแล้วหรือยัง?", btnText: "เริ่มเลย", bg: "soft" },
-      image: { alt: "คำอธิบายรูปภาพ", caption: "", ratio: "16/9" },
+      image: { alt: "คำอธิบายรูปภาพ", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "ใต้ส่วนหัว", label: true },
       newsletter: { heading: "รับข่าวสารก่อนใคร", sub: "กรอกอีเมลเพื่อรับบทความใหม่ทันที ฟรี ไม่มีสแปม", btnText: "สมัครเลย", bg: "soft" },
       share: { label: "แชร์บทความนี้ให้เพื่อน", facebook: true, twitter: true, line: true, copy: true },
@@ -766,7 +766,9 @@
           }).join("");
           return '<section style="padding:60px 32px;background:#f8fafc">' +
             '<div style="max-width:780px;margin:0 auto;display:flex;gap:36px;align-items:center;flex-wrap:wrap">' +
-              '<div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,' + pr + ',' + ac + ');display:flex;align-items:center;justify-content:center;font-size:38px;flex:none">👤</div>' +
+              (p.avatarUrl
+                ? '<div style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex:none"><img src="' + esc(p.avatarUrl) + '" alt="' + esc(p.name) + '" style="width:100%;height:100%;object-fit:cover"></div>'
+                : '<div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,' + pr + ',' + ac + ');display:flex;align-items:center;justify-content:center;font-size:38px;flex:none">👤</div>') +
               '<div style="flex:1;min-width:200px">' +
                 '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:6px">' + tpl("นักรีวิวสินค้า", "Product Reviewer") + '</div>' +
                 '<h2 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px">' + esc(p.name) + '</h2>' +
@@ -809,8 +811,10 @@
           return '<div style="padding:52px 32px;background:#f8fafc">' +
             '<div style="max-width:780px;margin:0 auto;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">' +
               (p.showAvatar ?
-                '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none">' +
-                '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>' : '') +
+                (p.avatarUrl
+                  ? '<div style="width:110px;height:110px;border-radius:50%;overflow:hidden;flex:none"><img src="' + esc(p.avatarUrl) + '" alt="' + esc(p.name) + '" style="width:100%;height:100%;object-fit:cover"></div>'
+                  : '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none"><div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>')
+                : '') +
               '<div style="flex:1;min-width:200px">' +
                 '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">' + tpl("เกี่ยวกับผู้เขียน", "About the Author") + '</div>' +
                 '<h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px;line-height:1.2">' + esc(p.name) + '</h3>' +
@@ -820,7 +824,7 @@
           '</div>';
         }
         return '<div style="padding:56px 32px;background:#f7f8fc;display:flex;gap:24px;align-items:center;max-width:820px;margin:0 auto">' +
-          (p.showAvatar ? '<div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div>' : "") +
+          (p.showAvatar ? (p.avatarUrl ? '<div style="width:84px;height:84px;border-radius:50%;overflow:hidden;flex:none"><img src="' + esc(p.avatarUrl) + '" alt="' + esc(p.name) + '" style="width:100%;height:100%;object-fit:cover"></div>' : '<div style="width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div>') : "") +
           '<div><div style="font-size:13px;color:' + pr + ';font-weight:700;text-transform:uppercase;letter-spacing:.08em">' + tpl("เกี่ยวกับ", "About") + '</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;margin:6px 0 8px">' + esc(p.name) + '</h3><p style="color:#4a5063;font-size:15px;line-height:1.65;margin:0">' + richHTML(p.bio) + '</p></div></div>';
       case "text":
         return '<div style="padding:40px 32px;text-align:' + p.align + ';max-width:760px;margin:0 auto"><h2 style="font-family:' + fontStack(d.font) + ';font-size:28px;margin:0 0 12px">' + esc(p.heading) + '</h2><p style="color:#4a5063;font-size:16px;line-height:1.7;margin:0">' + richHTML(p.body) + '</p></div>';
@@ -858,7 +862,9 @@
         var cf = p.bg === "soft" ? "#1e2333" : "#fff";
         return '<div style="margin:32px;padding:48px 32px;text-align:center;border-radius:' + r + ';background:' + cb + ';color:' + cf + '"><h2 style="font-family:' + fontStack(d.font) + ';font-size:30px;margin:0">' + esc(p.title) + '</h2><a style="display:inline-block;margin-top:20px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 28px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
       case "image":
-        return '<div style="padding:24px 32px"><div style="aspect-ratio:' + (p.ratio || "16/9") + ';background:#e8eaf2;border-radius:' + r + ';display:grid;place-items:center;color:#9aa">🖼 ' + esc(p.alt) + "</div>" + (p.caption ? '<p style="text-align:center;color:#9aa;font-size:13px;margin-top:8px">' + esc(p.caption) + "</p>" : "") + "</div>";
+        return '<div style="padding:24px 32px"><div style="aspect-ratio:' + (p.ratio || "16/9") + ';background:#e8eaf2;border-radius:' + r + ';overflow:hidden;display:grid;place-items:center;color:#9aa">' +
+          (p.src ? '<img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" style="width:100%;height:100%;object-fit:cover">' : '🖼 ' + esc(p.alt)) +
+          "</div>" + (p.caption ? '<p style="text-align:center;color:#9aa;font-size:13px;margin-top:8px">' + esc(p.caption) + "</p>" : "") + "</div>";
       case "ad":
         return '<div style="padding:16px 32px"><div style="min-height:90px;border:1px dashed #ccd;border-radius:8px;display:grid;place-items:center;color:#aab;font-size:13px;background:#fafbff">' + tpl("ช่องโฆษณา","Ad Slot") + ' — ' + esc(p.slot) + (p.label ? ' <span style="margin-left:6px;font-size:11px;color:#bbc">(' + tpl("โฆษณา","Ad") + ')</span>' : "") + "</div></div>";
       case "newsletter":
@@ -1156,6 +1162,24 @@
   function seg(key, label, val, opts) { return '<div class="field"><label>' + tr(label) + '</label><div class="seg" data-seg="' + key + '">' + opts.map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === val ? ' class="on"' : "") + ">" + tr(o[1]) + "</button>"; }).join("") + "</div></div>"; }
   function tog(key, label, val, sub) { return '<label class="tg"><span class="lbl">' + tr(label) + (sub ? "<small>" + tr(sub) + "</small>" : "") + '</span><input type="checkbox" data-k="' + key + '"' + (val ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
   function num(key, label, val, mn, mx) { return '<div class="field"><label>' + tr(label) + ' — ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
+  function imgUrl(key, label, val) {
+    val = val || "";
+    var pvw = '<div class="img-pvw" data-img-for="' + key + '"' + (val ? '' : ' style="display:none"') + '>' +
+      '<img class="img-pvw-img" src="' + esc(val) + '" alt="">' +
+      '<div class="img-pvw-st"></div>' +
+      '</div>';
+    var guide = '<details class="img-guide"><summary>' + tpl('📸 วิธีได้ URL รูปจาก Blogger', '📸 How to get image URL from Blogger') + '</summary>' +
+      '<ol class="img-guide-steps">' +
+      '<li>' + tpl('เปิด Blogger → สร้างโพสต์ใหม่', 'Open Blogger → Create new post') + '</li>' +
+      '<li>' + tpl('กด <b>แทรกรูปภาพ</b> → อัปโหลดรูป', 'Click <b>Insert Image</b> → Upload') + '</li>' +
+      '<li>' + tpl('กด ✏️ <b>HTML View</b>', 'Click ✏️ <b>HTML View</b>') + '</li>' +
+      '<li>' + tpl('หาโค้ด <code>&lt;img src="https://blogger.googleusercontent.com/..."&gt;</code>', 'Find <code>&lt;img src="https://blogger.googleusercontent.com/..."&gt;</code>') + '</li>' +
+      '<li>' + tpl('คัดลอก URL ใน <code>src="..."</code>', 'Copy the URL inside <code>src="..."</code>') + '</li>' +
+      '</ol>' +
+      '<div class="img-guide-note">' + tpl('รองรับ: blogger.googleusercontent.com · Cloudinary · Imgur · GitHub/jsDelivr · Cloudflare R2 · และ URL รูปภาพ .jpg .png .webp .gif .avif', 'Supports: blogger.googleusercontent.com · Cloudinary · Imgur · GitHub/jsDelivr · Cloudflare R2 · and direct image URLs (.jpg .png .webp .gif .avif)') + '</div>' +
+      '</details>';
+    return '<div class="field"><label>' + tr(label) + '</label><input class="inp img-url-inp" data-k="' + key + '" data-img-key="' + key + '" value="' + esc(val) + '" placeholder="https://...">' + pvw + guide + '</div>';
+  }
   function menuEditor(p) {
     var items = menuItemsOf(p);
     // linked URL set for checklist
@@ -1278,11 +1302,11 @@
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt);
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading);
-      case "about": return txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar);
+      case "about": return txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
       case "columns": return columnsFields(b, p);
       case "cta": return txt("title", "หัวข้อ", p.title) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["soft", "อ่อน"]]);
-      case "image": return txt("alt", "ข้อความ ALT (SEO)", p.alt, "สำคัญต่อ SEO และการเข้าถึง") + txt("caption", "คำบรรยายใต้ภาพ", p.caption) + seg("ratio", "สัดส่วน", p.ratio, [["16/9", "16:9"], ["4/3", "4:3"], ["1/1", "1:1"]]);
+      case "image": return imgUrl("src", "URL รูปภาพ", p.src || "") + txt("alt", "ข้อความ ALT (SEO)", p.alt, "สำคัญต่อ SEO และการเข้าถึง") + txt("caption", "คำบรรยายใต้ภาพ", p.caption) + seg("ratio", "สัดส่วน", p.ratio, [["16/9", "16:9"], ["4/3", "4:3"], ["1/1", "1:1"]]);
       case "ad": return seg("slot", "ตำแหน่ง", p.slot, [["ใต้ส่วนหัว", "บน"], ["ในบทความ", "กลาง"], ["ไซด์บาร์", "ข้าง"]]) + tog("label", 'แสดงป้าย "โฆษณา"', p.label, "แนะนำตามนโยบาย AdSense");
       case "newsletter": return txt("heading", "หัวข้อ", p.heading) + area("sub", "คำโปรย", p.sub) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg || "soft", [["soft", "อ่อน"], ["gradient", "ไล่สี"], ["dark", "เข้ม"]]);
       case "share": return txt("label", "ข้อความนำ", p.label) + tog("facebook", "Facebook", p.facebook) + tog("twitter", "X (Twitter)", p.twitter) + tog("line", "LINE", p.line) + tog("copy", "คัดลอกลิงก์", p.copy);
@@ -1445,6 +1469,25 @@
     $$("[data-ci]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = b.props.items || []; arr[+inp.dataset.idx][inp.dataset.ci] = inp.value; b.props.items = arr; renderCanvas(); save(); }); });
     $$("[data-cdel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = b.props.items || []; arr.splice(+btn.dataset.cdel, 1); b.props.items = arr; if (b.props.cols > arr.length) b.props.cols = Math.max(1, arr.length); commit(); renderProps(); }); });
     var cadd = c.querySelector("[data-cadd]"); if (cadd) cadd.addEventListener("click", function () { var arr = b.props.items || []; if (arr.length >= 4) return; arr.push({ icon: "★", title: "หัวข้อใหม่", text: "คำอธิบายสั้นๆ" }); b.props.items = arr; commit(); renderProps(); });
+    // image URL preview bindings
+    $$(".img-url-inp", c).forEach(function (inp) {
+      var key = inp.dataset.imgKey;
+      function updateImgPvw(url) {
+        var pvw = c.querySelector('.img-pvw[data-img-for="' + key + '"]');
+        if (!pvw) return;
+        var img = pvw.querySelector(".img-pvw-img");
+        var st = pvw.querySelector(".img-pvw-st");
+        if (!url) { pvw.style.display = "none"; return; }
+        pvw.style.display = "";
+        st.className = "img-pvw-st loading";
+        st.textContent = tpl("กำลังโหลด…", "Loading…");
+        img.onload = function () { st.className = "img-pvw-st ok"; st.textContent = tpl("✓ โหลดสำเร็จ", "✓ Loaded"); };
+        img.onerror = function () { st.className = "img-pvw-st err"; st.textContent = tpl("✕ ไม่พบรูป / URL ไม่ถูกต้อง", "✕ Image not found / invalid URL"); };
+        img.src = url;
+      }
+      inp.addEventListener("input", function () { updateImgPvw(inp.value.trim()); });
+      if (inp.value) updateImgPvw(inp.value.trim());
+    });
   }
   function columnsFields(b, p) {
     var items = p.items || [];
@@ -3028,8 +3071,9 @@ skinVariables(d),
         if (S && S.templateId === "review") {
           return "<section class='rv-about'><div class='rv-about-inner'>" +
             "<div class='rv-about-avatar'>" +
-              "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:#fff;opacity:.75'>" +
-              "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>" +
+              (p.avatarUrl
+                ? "<img src='" + esc(p.avatarUrl) + "' alt='" + esc(p.name) + "' style='width:100%;height:100%;object-fit:cover;border-radius:50%' loading='lazy' decoding='async'>"
+                : "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:#fff;opacity:.75'><circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>") +
             "</div>" +
             "<div class='rv-about-body'>" +
               "<div class='rv-about-role'>" + tpl("นักรีวิวสินค้า", "Product Reviewer") + "</div>" +
@@ -3070,8 +3114,9 @@ skinVariables(d),
           return "<section class='pb-about'><div class='wrap pb-about-inner'>" +
             (p.showAvatar ?
               "<div class='pb-about-avatar'><div class='pb-about-avatar-inner'>" +
-              "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'>" +
-              "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>" +
+              (p.avatarUrl
+                ? "<img src='" + esc(p.avatarUrl) + "' alt='" + esc(p.name) + "' style='width:100%;height:100%;object-fit:cover;border-radius:50%' loading='lazy' decoding='async'>"
+                : "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'><circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>") +
               "</div></div>" : "") +
             "<div style='flex:1;min-width:200px'>" +
               "<div class='pb-about-eyebrow'>" + tpl("เกี่ยวกับผู้เขียน", "About the Author") + "</div>" +
@@ -3080,7 +3125,7 @@ skinVariables(d),
             "</div>" +
           "</div></section>";
         }
-        return "<section style='padding:56px 20px;background:#f7f8fc'><div class='wrap' style='display:flex;gap:24px;align-items:center;max-width:820px'>" + (p.showAvatar ? "<div style='width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,var(--primary),var(--accent));flex:none'></div>" : "") + "<div><h2 style='font-size:24px'>" + esc(p.name) + "</h2><p style='color:#4a5063;margin-top:8px'>" + richHTML(p.bio) + "</p></div></div></section>";
+        return "<section style='padding:56px 20px;background:#f7f8fc'><div class='wrap' style='display:flex;gap:24px;align-items:center;max-width:820px'>" + (p.showAvatar ? (p.avatarUrl ? "<img src='" + esc(p.avatarUrl) + "' alt='" + esc(p.name) + "' style='width:84px;height:84px;border-radius:50%;object-fit:cover;flex:none' loading='lazy' decoding='async'>" : "<div style='width:84px;height:84px;border-radius:50%;background:linear-gradient(120deg,var(--primary),var(--accent));flex:none'></div>") : "") + "<div><h2 style='font-size:24px'>" + esc(p.name) + "</h2><p style='color:#4a5063;margin-top:8px'>" + richHTML(p.bio) + "</p></div></div></section>";
       case "text":
         return "<section style='padding:40px 20px'><div class='wrap' style='max-width:760px;text-align:" + p.align + "'><h2 style='font-size:28px;margin-bottom:12px'>" + esc(p.heading) + "</h2><p style='color:#4a5063;font-size:16px'>" + richHTML(p.body) + "</p></div></section>";
       case "columns":
@@ -3113,7 +3158,12 @@ skinVariables(d),
         }
         return "<section style='padding:20px'><div class='wrap'><div style='padding:48px 20px;text-align:center;border-radius:var(--radius);background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><h2 style='font-size:30px'>" + esc(p.title) + "</h2><p style='margin-top:18px'><a href='#' style='background:#fff;color:var(--primary);padding:13px 28px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></div></section>";
       case "image":
-        return "<figure style='padding:24px 20px;margin:0'><div class='wrap'><div style='aspect-ratio:" + p.ratio + ";background:#e8eaf2;border-radius:var(--radius)'></div>" + (p.caption ? "<figcaption style='text-align:center;color:#9aa;font-size:13px;margin-top:8px'>" + esc(p.caption) + "</figcaption>" : "") + "</div></figure>";
+        return "<figure style='padding:24px 20px;margin:0'><div class='wrap'>" +
+          (p.src
+            ? "<img src='" + esc(p.src) + "' alt='" + esc(p.alt) + "' style='width:100%;border-radius:var(--radius)' loading='lazy' decoding='async'>"
+            : "<div style='aspect-ratio:" + p.ratio + ";background:#e8eaf2;border-radius:var(--radius)'></div>") +
+          (p.caption ? "<figcaption style='text-align:center;color:#9aa;font-size:13px;margin-top:8px'>" + esc(p.caption) + "</figcaption>" : "") +
+          "</div></figure>";
       case "ad":
         var adH = p.size === "rect" ? "280px" : p.size === "banner" ? "90px" : "250px";
         return "<aside aria-label='โฆษณา' style='padding:16px 20px'><div class='wrap'>" + (p.label ? "<div style='text-align:center;font-size:11px;color:#bbc;margin-bottom:4px'>โฆษณา</div>" : "") + "<div style='min-height:" + adH + ";display:grid;place-items:center;background:#fafbff;border:1px dashed #ccd;border-radius:8px'><!-- AdSense slot: " + esc(p.slot) + " --></div></div></aside>";
