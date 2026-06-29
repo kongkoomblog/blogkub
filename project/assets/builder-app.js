@@ -378,6 +378,25 @@
             '</div>' +
           '</div>';
         }
+        if (S && S.templateId === "course") {
+          var eduChips = BL === "en"
+            ? ["Expert Instructors", "Certificate Included", "Lifetime Access"]
+            : ["สอนโดยผู้เชี่ยวชาญ", "รับใบประกาศนียบัตร", "เข้าถึงได้ตลอดชีพ"];
+          var chipsHtml = eduChips.map(function (c) {
+            return '<div style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.9)">' +
+              '<span style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:10px;flex:none">✓</span>' + c +
+            '</div>';
+          }).join("");
+          return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
+            '<div style="max-width:860px;margin:0 auto">' +
+              '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px">📚 ' + tpl("คอร์สออนไลน์", "Online Course") + '</div>' +
+              '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px">' + esc(p.title) + '</h1>' +
+              '<p style="font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 22px;max-width:520px">' + esc(p.subtitle) + '</p>' +
+              '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px">' + chipsHtml + '</div>' +
+              '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:13px 30px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
+            '</div>' +
+          '</div>';
+        }
         if (S && S.templateId === "company") {
           return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff;position:relative;overflow:hidden">' +
             '<div style="max-width:860px;margin:0 auto;position:relative;z-index:1">' +
@@ -561,6 +580,38 @@
         for (var j = 0; j < (p.count || 5); j++) rows += postRow(p.showImage, d, ac);
         return section(p.heading, d, '<div style="display:flex;flex-direction:column;gap:16px">' + rows + "</div>");
       case "featured":
+        if (S && S.templateId === "course") {
+          var eduGCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : 3;
+          var eduSubjects = BL === "en"
+            ? ["Web Development", "Data Science", "UI/UX Design"]
+            : ["พัฒนาเว็บไซต์", "วิทยาศาสตร์ข้อมูล", "UI/UX Design"];
+          var eduCards = eduSubjects.map(function (subj, idx) {
+            var rating = (4.7 + idx * 0.1).toFixed(1);
+            var students = BL === "en" ? (1200 + idx * 300) + " students" : (1200 + idx * 300) + " นักเรียน";
+            var price = BL === "en" ? "Free" : "ฟรี";
+            return '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.07)">' +
+              '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,' + (idx % 2 === 0 ? pr + ',' + ac : ac + ',' + pr) + ');position:relative">' +
+                '<span style="position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.95);color:' + pr + '">' + subj + '</span>' +
+              '</div>' +
+              '<div style="padding:15px 17px 4px">' +
+                '<h3 style="font-family:' + fontStack(d.font) + ';font-size:16px;font-weight:700;line-height:1.35;margin:0 0 8px;color:#0f172a">' + tpl("คอร์ส: ", "Course: ") + subj + '</h3>' +
+                '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">' +
+                  '<span style="color:#f59e0b;font-size:12px;letter-spacing:1px">★★★★★</span>' +
+                  '<span style="font-size:12px;font-weight:700;color:#0f172a">' + rating + '</span>' +
+                '</div>' +
+                '<div style="font-size:12px;color:#94a3b8;margin-bottom:12px">' + students + '</div>' +
+              '</div>' +
+              '<div style="border-top:1px solid #eef;padding:10px 17px;display:flex;justify-content:space-between;align-items:center">' +
+                '<span style="font-size:18px;font-weight:800;color:' + pr + '">' + price + '</span>' +
+                '<a style="font-size:13px;font-weight:700;color:#fff;background:' + pr + ';padding:7px 16px;border-radius:8px;text-decoration:none">' + tpl("ลงทะเบียน", "Enroll") + '</a>' +
+              '</div>' +
+            '</article>';
+          });
+          return '<section style="padding:60px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;margin:0 0 26px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            '<div style="display:grid;grid-template-columns:repeat(' + eduGCols + ',1fr);gap:20px">' + eduCards.join("") + '</div>' +
+          '</div></section>';
+        }
         if (S && S.templateId === "magazine") {
           var magCats = BL === "en" ? ["Breaking", "Politics", "Economy"] : ["ข่าวด่วน", "การเมือง", "เศรษฐกิจ"];
           var magMain = '<div style="position:relative;border-radius:' + r + ';overflow:hidden;background:linear-gradient(135deg,' + pr + ',' + ac + ');min-height:340px;display:flex;align-items:flex-end">' +
@@ -665,6 +716,23 @@
         var cells = its.map(function (it) { return '<div style="text-align:center;padding:8px"><div style="width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,' + pr + ',' + ac + ');color:#fff;display:grid;place-items:center;font-size:24px;margin:0 auto 14px">' + esc(it.icon || "\u2605") + '</div><h3 style="font-family:' + fontStack(d.font) + ';font-size:18px;margin:0 0 7px;color:#1e2333">' + esc(it.title) + '</h3><p style="color:#828aa0;font-size:14px;line-height:1.55;margin:0">' + esc(it.text) + '</p></div>'; }).join("");
         return section(p.heading, d, '<div style="display:grid;grid-template-columns:' + colsCols + ';gap:24px">' + cells + '</div>');
       case "cta":
+        if (S && S.templateId === "course") {
+          var eduTrust = BL === "en"
+            ? [{n:"20,000+", l:"Students"}, {n:"50+", l:"Courses"}, {n:"100+", l:"Instructors"}]
+            : [{n:"20,000+", l:"นักเรียน"}, {n:"50+", l:"คอร์ส"}, {n:"100+", l:"ผู้สอน"}];
+          var eduTrustHtml = eduTrust.map(function(t) {
+            return '<div style="text-align:center">' +
+              '<div style="font-family:' + fontStack(d.font) + ';font-size:28px;font-weight:800;color:#fff;line-height:1">' + t.n + '</div>' +
+              '<div style="font-size:12px;color:rgba(255,255,255,.72);margin-top:5px">' + t.l + '</div>' +
+            '</div>';
+          }).join("");
+          return '<div style="padding:84px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');text-align:center;color:#fff">' +
+            '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(24px,4.5vw,42px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px">' + esc(p.title) + '</h2>' +
+            '<p style="font-size:17px;color:rgba(255,255,255,.82);margin:0 auto 32px;max-width:480px;line-height:1.6">' + tpl("เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น", "Start learning today. No hidden fees.") + '</p>' +
+            '<div style="display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-bottom:36px">' + eduTrustHtml + '</div>' +
+            '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:14px 34px;border-radius:' + r + ';text-decoration:none;font-size:16px">' + esc(p.btnText) + '</a>' +
+          '</div>';
+        }
         if (S && S.templateId === "company") {
           return '<div style="padding:84px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');text-align:center;color:#fff">' +
             '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(24px,4.5vw,42px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px">' + esc(p.title) + '</h2>' +
@@ -2225,7 +2293,40 @@ skinVariables(d),
 ".corp-cta-sub{font-size:17px;color:rgba(255,255,255,.8);margin:0 0 34px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}",
 ".corp-cta-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:15px 36px;border-radius:var(--radius);text-decoration:none;font-size:16px}",
 "@media(max-width:768px){.corp-about-grid{grid-template-columns:1fr;gap:40px}.corp-visual{display:none}}",
-"@media(max-width:640px){.corp-hero{padding:64px 20px}.corp-cta{padding:64px 20px}}"
+"@media(max-width:640px){.corp-hero{padding:64px 20px}.corp-cta{padding:64px 20px}}",
+".edu-hero{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}",
+".edu-hero .wrap{max-width:900px}",
+".edu-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:20px}",
+".edu-hero-title{font-size:clamp(30px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px;font-family:var(--font)}",
+".edu-hero-sub{font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 24px;max-width:540px}",
+".edu-hero-chips{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:32px}",
+".edu-hero-chip{font-size:13px;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:7px}",
+".edu-hero-chip-check{width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:10px;flex:none}",
+".edu-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:13px 30px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".edu-courses{padding:64px 20px}",
+".edu-grid{display:grid;gap:22px}",
+".edu-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s}",
+".edu-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.12)}",
+".edu-card-thumb{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)25,var(--accent)50)}",
+".edu-card-thumb img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}",
+".edu-card-badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.95);color:var(--primary)}",
+".edu-card-body{padding:16px 18px 4px}",
+".edu-card-title{font-size:17px;font-weight:700;color:var(--text-main);margin:0 0 10px;line-height:1.35}",
+".edu-card-rating{display:flex;align-items:center;gap:7px;margin-bottom:7px}",
+".edu-card-stars{color:#f59e0b;font-size:13px;letter-spacing:1px}",
+".edu-card-score{font-size:12px;font-weight:700;color:var(--text-main)}",
+".edu-card-meta{font-size:12px;color:var(--text-muted);margin-bottom:14px}",
+".edu-card-foot{border-top:1px solid var(--border);padding:12px 18px;display:flex;justify-content:space-between;align-items:center}",
+".edu-card-price{font-size:19px;font-weight:800;color:var(--primary);font-family:var(--font)}",
+".edu-card-enroll{font-size:13px;font-weight:700;color:#fff;background:var(--primary);padding:7px 16px;border-radius:calc(var(--radius)*0.7);text-decoration:none;display:inline-block}",
+".edu-cta{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));text-align:center;color:#fff}",
+".edu-cta-title{font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px;font-family:var(--font)}",
+".edu-cta-sub{font-size:17px;color:rgba(255,255,255,.82);margin:0 auto 34px;max-width:500px;line-height:1.6}",
+".edu-trust{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-bottom:38px}",
+".edu-trust-num{font-size:30px;font-weight:800;color:#fff;line-height:1;font-family:var(--font)}",
+".edu-trust-label{font-size:13px;color:rgba(255,255,255,.72);margin-top:5px}",
+".edu-cta-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:14px 34px;border-radius:var(--radius);text-decoration:none;font-size:16px}",
+"@media(max-width:640px){.edu-hero{padding:64px 20px}.edu-cta{padding:64px 20px}.edu-trust{gap:28px}}"
     ].join("\n");
   }
 
@@ -2330,6 +2431,19 @@ skinVariables(d),
             "});" +
           "}());/*]]>*/<\/script>";
       case "hero":
+        if (S && S.templateId === "course") {
+          return "<section class='edu-hero'><div class='wrap'>" +
+            "<div class='edu-hero-eyebrow'>📚 " + tpl("คอร์สออนไลน์", "Online Course") + "</div>" +
+            "<h1 class='edu-hero-title'>" + esc(p.title) + "</h1>" +
+            "<p class='edu-hero-sub'>" + esc(p.subtitle) + "</p>" +
+            "<div class='edu-hero-chips'>" +
+              "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + tpl("สอนโดยผู้เชี่ยวชาญ", "Expert Instructors") + "</div>" +
+              "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + tpl("รับใบประกาศนียบัตร", "Certificate Included") + "</div>" +
+              "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + tpl("เข้าถึงได้ตลอดชีพ", "Lifetime Access") + "</div>" +
+            "</div>" +
+            "<a href='#main' class='edu-hero-btn'>" + esc(p.btnText) + "</a>" +
+          "</div></section>";
+        }
         if (S && S.templateId === "company") {
           return "<section class='corp-hero'><div class='wrap'>" +
             "<div class='corp-hero-eyebrow'><span class='corp-hero-eyebrow-dot'></span>" + tpl("บริษัทของเรา", "Our Company") + "</div>" +
@@ -2534,6 +2648,39 @@ skinVariables(d),
           (p.showImage ? "<a expr:href='data:post.url' style='flex:none'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/></b:if></a>" : "") +
           "<div style='min-width:0'><h3 style='font-size:17px;margin:0 0 6px'><a expr:href='data:post.url'><data:post.title/></a></h3><p class='post-snippet' style='color:#828aa0;font-size:13px;margin:4px 0 0;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 170, links: false, linebreaks: false, ellipsis: true }'/></b:if></p></div></article></b:loop></div></section>";
       case "featured":
+        if (S && S.templateId === "course") {
+          return "<section class='edu-courses' id='main'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<div class='edu-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
+              "<b:loop values='data:posts' index='ei' var='post'>" +
+                "<b:if cond='data:ei &lt; " + (p.count || 3) + "'>" +
+                  "<article class='edu-card'>" +
+                    "<div class='edu-card-thumb'>" +
+                      "<b:if cond='data:post.featuredImage'>" +
+                      "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0'/>" +
+                      "<b:elseif cond='data:post.firstImageUrl'/>" +
+                      "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0'/>" +
+                      "</b:if>" +
+                      "<b:if cond='data:post.labels'>" +
+                      "<b:loop values='data:post.labels' index='el' var='label'>" +
+                      "<b:if cond='data:el == 0'><span class='edu-card-badge'><data:label.name/></span></b:if>" +
+                      "</b:loop></b:if>" +
+                    "</div>" +
+                    "<div class='edu-card-body'>" +
+                      "<h3 class='edu-card-title'><a expr:href='data:post.url' style='color:inherit;text-decoration:none'><data:post.title/></a></h3>" +
+                      "<div class='edu-card-rating'><span class='edu-card-stars'>★★★★★</span><span class='edu-card-score'>5.0</span></div>" +
+                      "<div class='edu-card-meta'><data:post.date/></div>" +
+                    "</div>" +
+                    "<div class='edu-card-foot'>" +
+                      "<span class='edu-card-price'>" + tpl("ฟรี", "Free") + "</span>" +
+                      "<a expr:href='data:post.url' class='edu-card-enroll'>" + tpl("ลงทะเบียน", "Enroll") + "</a>" +
+                    "</div>" +
+                  "</article>" +
+                "</b:if>" +
+              "</b:loop>" +
+            "</div>" +
+          "</div></section>";
+        }
         if (S && S.templateId === "magazine") {
           return "<section class='mag-feat'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-left:4px solid var(--primary);padding-left:12px;margin:0 0 18px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
@@ -2650,6 +2797,20 @@ skinVariables(d),
         var ccells = cits.map(function (it) { return "<div style='text-align:center;padding:8px'><div style='width:54px;height:54px;border-radius:14px;background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff;display:grid;place-items:center;font-size:24px;margin:0 auto 14px'>" + esc(it.icon || "\u2605") + "</div><h3 style='font-size:18px;margin:0 0 7px'>" + esc(it.title) + "</h3><p style='color:#828aa0;font-size:14px'>" + esc(it.text) + "</p></div>"; }).join("");
         return "<section style='padding:48px 0'><div class='wrap'>" + (p.heading ? "<h2 style='font-size:26px;margin-bottom:24px;text-align:center'>" + esc(p.heading) + "</h2>" : "") + "<div class='grid' style='display:grid;grid-template-columns:repeat(" + ccn + ",1fr);gap:24px'>" + ccells + "</div></div></section>";
       case "cta":
+        if (S && S.templateId === "course") {
+          return "<section class='edu-cta'>" +
+            "<div class='wrap'>" +
+              "<h2 class='edu-cta-title'>" + esc(p.title) + "</h2>" +
+              "<p class='edu-cta-sub'>" + tpl("เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น", "Start learning today. No hidden fees.") + "</p>" +
+              "<div class='edu-trust'>" +
+                "<div><div class='edu-trust-num'>20,000+</div><div class='edu-trust-label'>" + tpl("นักเรียน", "Students") + "</div></div>" +
+                "<div><div class='edu-trust-num'>50+</div><div class='edu-trust-label'>" + tpl("คอร์ส", "Courses") + "</div></div>" +
+                "<div><div class='edu-trust-num'>100+</div><div class='edu-trust-label'>" + tpl("ผู้สอน", "Instructors") + "</div></div>" +
+              "</div>" +
+              "<a href='#' class='edu-cta-btn'>" + esc(p.btnText) + "</a>" +
+            "</div>" +
+          "</section>";
+        }
         if (S && S.templateId === "company") {
           return "<section class='corp-cta'>" +
             "<div class='wrap' style='text-align:center'>" +
@@ -3232,6 +3393,16 @@ skinVariables(d),
         + '<div style="height:4px;background:#f8fafc;width:65%;border-radius:1px;margin-bottom:2px"></div>'
         + '<div style="height:2px;background:rgba(255,255,255,.35);width:80%;border-radius:1px;margin-bottom:4px"></div>'
         + '<div style="height:7px;background:' + c1 + ';width:28%;border-radius:2px"></div>'
+        + '</div>';
+    } else if (t.id === "course") {
+      heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + ',' + c2 + ');padding:6px 8px;display:flex;flex-direction:column;justify-content:flex-end">'
+        + '<div style="height:2px;background:rgba(255,255,255,.5);width:22%;border-radius:1px;margin-bottom:4px"></div>'
+        + '<div style="height:5px;background:#fff;width:72%;border-radius:1px;margin-bottom:3px"></div>'
+        + '<div style="display:flex;gap:3px;margin-bottom:5px">'
+        + '<div style="height:5px;background:rgba(255,255,255,.85);width:20%;border-radius:1px;display:flex;align-items:center;padding-left:2px"><div style="width:4px;height:4px;border-radius:50%;background:#fff"></div></div>'
+        + '<div style="height:5px;background:rgba(255,255,255,.85);width:22%;border-radius:1px"></div>'
+        + '</div>'
+        + '<div style="height:8px;background:#fff;width:30%;border-radius:2px"></div>'
         + '</div>';
     } else if (t.id === "company") {
       heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + ',' + c2 + ');padding:6px 8px;display:flex;flex-direction:column;justify-content:flex-end">'
