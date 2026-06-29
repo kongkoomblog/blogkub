@@ -359,6 +359,18 @@
           '<nav style="display:flex;gap:22px;margin:0 auto;align-items:center">' + menu + "</nav>" +
           (p.showSearch ? '<div style="width:34px;height:34px;border-radius:50%;background:#f1f2f9;display:grid;place-items:center">🔍</div>' : "") + "</div>";
       case "hero":
+        if (S && S.templateId === "travel") {
+          return '<div style="position:relative;min-height:380px;overflow:hidden;display:flex;align-items:flex-end">' +
+            '<div style="position:absolute;inset:0;background:linear-gradient(135deg,' + pr + ',' + ac + ')"></div>' +
+            '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.2) 55%,transparent 100%)"></div>' +
+            '<div style="position:relative;z-index:1;padding:44px 32px;color:#fff;max-width:740px">' +
+              '<div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.88;margin-bottom:12px">✈ Travel Blog</div>' +
+              '<h1 style="font-family:' + fontStack(d.font) + ';font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.02em;margin:0 0 16px">' + esc(p.title) + '</h1>' +
+              '<p style="font-size:16px;opacity:.88;margin:0 0 22px;max-width:460px;line-height:1.6">' + esc(p.subtitle) + '</p>' +
+              '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + ' →</a>' +
+            '</div>' +
+          '</div>';
+        }
         if (S && S.templateId === "personal") {
           return '<div style="padding:60px 32px;background:#fff;border-bottom:1px solid #f0f0f8">' +
             '<div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:40px;flex-wrap:wrap">' +
@@ -383,6 +395,27 @@
           '<p style="font-size:18px;margin:18px auto 0;max-width:560px;opacity:.9;' + (p.align === "center" ? "" : "margin-left:0;margin-right:0") + '">' + esc(p.subtitle) + "</p>" +
           '<a style="display:inline-block;margin-top:28px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 26px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
       case "postgrid":
+        if (S && S.templateId === "travel") {
+          var tbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
+          var tbCards = "";
+          var tbLocs = ["เชียงใหม่", "ภูเก็ต", "กรุงเทพฯ", "เกาะสมุย", "พัทยา", "กาญจนบุรี"];
+          for (var ti = 0; ti < (p.count || 6); ti++) {
+            tbCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)">' +
+              '<div style="aspect-ratio:4/3;background:linear-gradient(' + (ti % 2 === 0 ? '135deg,' + pr + ',' + ac : '135deg,' + ac + ',' + pr) + ');position:relative">' +
+                '<div style="position:absolute;top:10px;left:10px;background:rgba(0,0,0,.5);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px">📍 ' + tbLocs[ti % 6] + '</div>' +
+              '</div>' +
+              '<div style="padding:14px 16px 17px">' +
+                '<div style="font-size:11px;color:#94a3b8;margin-bottom:4px">24 มิ.ย. 2569</div>' +
+                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 9px;color:#0f172a">ที่เที่ยวน่าไป #' + (ti + 1) + '</h3>' +
+                '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">Explore →</a>' +
+              '</div>' +
+            '</article>';
+          }
+          return '<section style="padding:48px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;margin:0 0 22px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            '<div style="display:grid;grid-template-columns:repeat(' + tbCols + ',1fr);gap:18px">' + tbCards + '</div>' +
+          '</div></section>';
+        }
         if (S && S.templateId === "personal") {
           var pbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
           var pbCards = "";
@@ -411,6 +444,27 @@
         for (var j = 0; j < (p.count || 5); j++) rows += postRow(p.showImage, d, ac);
         return section(p.heading, d, '<div style="display:flex;flex-direction:column;gap:16px">' + rows + "</div>");
       case "featured":
+        if (S && S.templateId === "travel") {
+          var tbDestinations = [
+            { bg: pr, label: "📍 จุดหมายหลัก", size: "20px" },
+            { bg: ac, label: "📍 ที่เที่ยว 2", size: "15px" },
+            { bg: pr + "cc", label: "📍 ที่เที่ยว 3", size: "15px" }
+          ];
+          var tbFeatCards = tbDestinations.map(function (dest, idx) {
+            var isMain = idx === 0;
+            return '<div style="position:relative;border-radius:' + r + ';overflow:hidden;background:linear-gradient(135deg,' + dest.bg + ',' + ac + ');' + (isMain ? 'grid-row:span 2;min-height:320px' : 'min-height:130px') + ';display:flex;align-items:flex-end">' +
+              '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 55%)"></div>' +
+              '<div style="position:relative;padding:' + (isMain ? '16px 18px' : '10px 14px') + ';color:#fff">' +
+                '<div style="font-size:10px;font-weight:700;letter-spacing:.07em;opacity:.85;margin-bottom:3px">' + dest.label + '</div>' +
+                '<h3 style="font-size:' + dest.size + ';font-weight:700;margin:0;font-family:' + fontStack(d.font) + '">หัวข้อบทความ' + (isMain ? 'เด่น' : ' ' + (idx + 1)) + '</h3>' +
+              '</div>' +
+            '</div>';
+          });
+          return '<section style="padding:40px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
+            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;margin:0 0 20px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            '<div style="display:grid;grid-template-columns:1.6fr 1fr;gap:14px">' + tbFeatCards.join("") + '</div>' +
+          '</div></section>';
+        }
         return section(p.heading, d, '<div style="position:relative;border-radius:' + r + ';overflow:hidden;aspect-ratio:21/9;background:linear-gradient(120deg,' + pr + ',' + ac + ');display:flex;align-items:flex-end;padding:28px"><div><span style="background:#fff;color:' + pr + ';font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px">บทความเด่น</span><h3 style="color:#fff;font-size:26px;margin:12px 0 0;font-family:' + fontStack(d.font) + '">หัวข้อบทความแนะนำที่น่าสนใจที่สุด</h3></div></div>');
       case "about":
         if (S && S.templateId === "personal") {
@@ -1864,7 +1918,39 @@ skinVariables(d),
 ".pb-about-eyebrow{font-size:11px;color:var(--primary);font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px}",
 ".pb-about-name{font-size:24px;font-weight:800;color:var(--text-main);margin:0 0 10px;line-height:1.2;font-family:var(--font)}",
 ".pb-about-bio{font-size:15px;color:var(--text-muted);line-height:1.7;margin:0}",
-"@media(max-width:640px){.pb-hero .wrap{flex-direction:column-reverse;text-align:center}.pb-avatar-ring{width:130px;height:130px}.pb-about .wrap{flex-direction:column;align-items:center;text-align:center}}"
+"@media(max-width:640px){.pb-hero .wrap{flex-direction:column-reverse;text-align:center}.pb-avatar-ring{width:130px;height:130px}.pb-about .wrap{flex-direction:column;align-items:center;text-align:center}}",
+".tb-hero{position:relative;min-height:500px;overflow:hidden;display:flex;align-items:flex-end}",
+".tb-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--accent))}",
+".tb-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.2) 55%,transparent 100%)}",
+".tb-hero-content{position:relative;z-index:1;padding:52px 32px;color:#fff;max-width:820px}",
+".tb-hero-tag{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.88;margin-bottom:14px}",
+".tb-hero-title{font-size:clamp(30px,6vw,54px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin:0 0 22px;font-family:var(--font)}",
+".tb-hero-sub{font-size:17px;opacity:.88;margin:0 0 26px;max-width:500px;line-height:1.6}",
+".tb-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:13px 28px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".tb-feat{padding:52px 0}",
+".tb-feat-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}",
+".tb-feat-item{position:relative;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,var(--primary),var(--accent));display:block;text-decoration:none;min-height:180px}",
+".tb-feat-item:first-child{grid-row:1/3;min-height:380px}",
+".tb-feat-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}",
+".tb-feat-item:hover img{transform:scale(1.05)}",
+".tb-feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.68) 0%,transparent 55%)}",
+".tb-feat-info{position:absolute;bottom:0;left:0;right:0;padding:16px 20px;color:#fff}",
+".tb-feat-loc{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;opacity:.85;margin-bottom:4px}",
+".tb-feat-title{font-weight:700;line-height:1.25;color:#fff;text-decoration:none}",
+".tb-grid{display:grid;gap:20px}",
+".tb-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);box-shadow:0 2px 8px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s}",
+".tb-card:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(0,0,0,.12)}",
+".tb-card-img{aspect-ratio:4/3;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary),var(--accent))}",
+".tb-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;position:absolute;inset:0}",
+".tb-card:hover .tb-card-img img{transform:scale(1.07)}",
+".tb-card-loc{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.52);color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:20px;backdrop-filter:blur(4px)}",
+".tb-card-body{padding:15px 17px 18px}",
+".tb-card-date{font-size:11.5px;color:var(--text-muted);margin-bottom:5px}",
+".tb-card-title{font-size:16px;font-weight:700;line-height:1.35;margin:0 0 10px}",
+".tb-card-title a{color:var(--text-main);text-decoration:none}",
+".tb-card-title a:hover{color:var(--primary)}",
+".tb-card-btn{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
+"@media(max-width:640px){.tb-feat-grid{grid-template-columns:1fr}.tb-feat-item:first-child{min-height:220px;grid-row:auto}.tb-hero-content{padding:36px 20px}}"
     ].join("\n");
   }
 
@@ -1969,6 +2055,18 @@ skinVariables(d),
             "});" +
           "}());/*]]>*/<\/script>";
       case "hero":
+        if (S && S.templateId === "travel") {
+          return "<section class='tb-hero'>" +
+            "<div class='tb-hero-bg'></div>" +
+            "<div class='tb-hero-overlay'></div>" +
+            "<div class='wrap tb-hero-content'>" +
+              "<div class='tb-hero-tag'>✈ Travel Blog</div>" +
+              "<h1 class='tb-hero-title'>" + esc(p.title) + "</h1>" +
+              "<p class='tb-hero-sub'>" + esc(p.subtitle) + "</p>" +
+              "<a href='#main' class='tb-hero-btn'>" + esc(p.btnText) + " →</a>" +
+            "</div>" +
+          "</section>";
+        }
         if (S && S.templateId === "personal") {
           return "<section class='pb-hero'>" +
             "<div class='wrap pb-hero-inner'>" +
@@ -1989,6 +2087,32 @@ skinVariables(d),
         }
         return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
+        if (S && S.templateId === "travel") {
+          return "<section style='padding:52px 0'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<div class='tb-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
+              "<b:loop values='data:posts' var='post'>" +
+                "<article class='tb-card'>" +
+                  "<div class='tb-card-img'>" +
+                    "<b:if cond='data:post.featuredImage'>" +
+                    "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;4:3&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='450' style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<b:elseif cond='data:post.firstImageUrl'/>" +
+                    "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;4:3&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='450' style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "</b:if>" +
+                    "<b:if cond='data:post.labels'>" +
+                    "<b:loop values='data:post.labels' index='li' var='label'>" +
+                    "<b:if cond='data:li == 0'><div class='tb-card-loc'>📍 <data:label.name/></div></b:if>" +
+                    "</b:loop></b:if>" +
+                  "</div>" +
+                  "<div class='tb-card-body'>" +
+                    "<div class='tb-card-date'><data:post.date/></div>" +
+                    "<h3 class='tb-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
+                    "<a expr:href='data:post.url' class='tb-card-btn'>Explore →</a>" +
+                  "</div>" +
+                "</article>" +
+              "</b:loop>" +
+            "</div></div></section>";
+        }
         if (S && S.templateId === "personal") {
           return "<section style='padding:52px 0'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
@@ -2026,6 +2150,28 @@ skinVariables(d),
           (p.showImage ? "<a expr:href='data:post.url' style='flex:none'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,200,&quot;1:1&quot;)' expr:alt='data:post.title' loading='lazy' width='100' height='100' style='border-radius:var(--radius);object-fit:cover;display:block'/></b:if></a>" : "") +
           "<div style='min-width:0'><h3 style='font-size:17px;margin:0 0 6px'><a expr:href='data:post.url'><data:post.title/></a></h3><p class='post-snippet' style='color:#828aa0;font-size:13px;margin:4px 0 0;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 170, links: false, linebreaks: false, ellipsis: true }'/></b:if></p></div></article></b:loop></div></section>";
       case "featured":
+        if (S && S.templateId === "travel") {
+          return "<section class='tb-feat'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            "<div class='tb-feat-grid'>" +
+              "<b:loop values='data:posts' index='fi' var='post'>" +
+                "<b:if cond='data:fi &lt; 3'>" +
+                  "<a expr:href='data:post.url' class='tb-feat-item'>" +
+                    "<b:if cond='data:post.featuredImage'>" +
+                    "<img expr:src='resizeImage(data:post.featuredImage,800,&quot;4:3&quot;)' expr:alt='data:post.title' loading='eager' style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<b:elseif cond='data:post.firstImageUrl'/>" +
+                    "<img expr:src='resizeImage(data:post.firstImageUrl,800,&quot;4:3&quot;)' expr:alt='data:post.title' loading='eager' style='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "</b:if>" +
+                    "<div class='tb-feat-overlay'></div>" +
+                    "<div class='tb-feat-info'>" +
+                      "<div class='tb-feat-loc'>📍 <data:post.date/></div>" +
+                      "<div class='tb-feat-title'><data:post.title/></div>" +
+                    "</div>" +
+                  "</a>" +
+                "</b:if>" +
+              "</b:loop>" +
+            "</div></div></section>";
+        }
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:20px'>" + esc(p.heading) + "</h2><b:loop values='data:posts' index='i' var='post'><b:if cond='data:i == 0'><article style='border-radius:var(--radius);overflow:hidden;background:linear-gradient(120deg,var(--primary),var(--accent));padding:32px;color:#fff'><h3 style='font-size:26px'><a expr:href='data:post.url' style='color:#fff'><data:post.title/></a></h3></article></b:if></b:loop></div></section>";
       case "about":
         if (S && S.templateId === "personal") {
@@ -2601,7 +2747,15 @@ skinVariables(d),
     var hasSide = bl.indexOf("sidebar") >= 0;
 
     var heroHtml = "";
-    if (t.id === "personal") {
+    if (t.id === "travel") {
+      heroHtml = '<div class="t-hero-sec" style="background:linear-gradient(135deg,' + c1 + ',' + c2 + ');position:relative;display:flex;align-items:flex-end">'
+        + '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 60%)"></div>'
+        + '<div style="position:relative;padding:4px 6px">'
+        + '<div style="height:2px;background:rgba(255,255,255,.6);width:36%;border-radius:1px;margin-bottom:2px"></div>'
+        + '<div style="height:4px;background:#fff;width:72%;border-radius:1px;margin-bottom:3px"></div>'
+        + '<div style="height:8px;background:#fff;width:30%;border-radius:3px"></div>'
+        + '</div></div>';
+    } else if (t.id === "personal") {
       heroHtml = '<div class="t-hero-sec" style="background:#fff;border-bottom:1px solid #f0f0f8;display:flex;align-items:center;padding:5px 8px;gap:5px">'
         + '<div style="flex:1"><div style="height:3px;background:' + c1 + ';width:55%;border-radius:1px;margin-bottom:3px"></div>'
         + '<div style="height:2px;background:#e2e8f0;width:78%;border-radius:1px;margin-bottom:4px"></div>'
