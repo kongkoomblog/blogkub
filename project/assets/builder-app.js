@@ -230,7 +230,7 @@
       templateId: null,
       design: design || { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 },
       seo: { title: "", desc: "", blogTitle: "MyBlog", labelIndex: false, schema: true, og: true,
-             orgType: "Organization", logoUrl: "", siteUrl: "", sameAs: "", schemaSoftwareApp: false, siteWww: false },
+             orgType: "Organization", logoUrl: "", favUrl: "", siteUrl: "", sameAs: "", schemaSoftwareApp: false, siteWww: false },
       blocks: []
     };
   }
@@ -354,16 +354,23 @@
           }
           return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none">' + esc(m.label) + "</a>";
         }).join("");
+        var hdrLogoUrl = S.seo && S.seo.logoUrl;
+        var hdrLogoDesktop = hdrLogoUrl
+          ? '<img src="' + esc(hdrLogoUrl) + '" alt="' + esc(p.logoText) + '" style="height:36px;width:auto;max-width:160px;object-fit:contain">'
+          : '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:21px;color:' + pr + '">' + esc(p.logoText) + '</div>';
+        var hdrLogoMobile = hdrLogoUrl
+          ? '<img src="' + esc(hdrLogoUrl) + '" alt="' + esc(p.logoText) + '" style="height:28px;width:auto;max-width:140px;object-fit:contain' + (p.mobileSide === "left" ? "" : ";margin-right:auto") + '">'
+          : '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:18px;color:' + pr + ';' + (p.mobileSide === "left" ? "" : "margin-right:auto") + '">' + esc(p.logoText) + '</div>';
         if (isMob) {
           var burger = '<div style="width:34px;height:34px;display:grid;place-items:center;font-size:20px;color:' + pr + '">☰</div>';
           return '<div style="padding:14px 18px;background:#fff;border-bottom:1px solid #eef"><div style="display:flex;align-items:center;gap:12px">' +
             (p.mobileSide === "left" ? burger : "") +
-            '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:18px;color:' + pr + ';' + (p.mobileSide === "left" ? "" : "margin-right:auto") + '">' + esc(p.logoText) + "</div>" +
+            hdrLogoMobile +
             (p.mobileSide === "left" ? '<div style="margin-left:auto"></div>' : burger) +
             '</div><div style="margin-top:10px;border-top:1px dashed #e8eaf2;padding-top:8px;font-size:12px;color:#9aa;text-align:' + p.mobileSide + '">' + tpl("เมนูเด้งจากด้าน" + (p.mobileSide === "left" ? "ซ้าย" : "ขวา"), "Drawer slides from the " + p.mobileSide) + ' ▾</div></div>';
         }
         return '<div style="display:flex;align-items:center;gap:24px;padding:18px 32px;background:#fff;border-bottom:1px solid #eef">' +
-          '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:21px;color:' + pr + '">' + esc(p.logoText) + "</div>" +
+          hdrLogoDesktop +
           '<nav style="display:flex;gap:22px;margin:0 auto;align-items:center">' + menu + "</nav>" +
           (p.showSearch ? '<div style="width:34px;height:34px;border-radius:50%;background:#f1f2f9;display:grid;place-items:center">🔍</div>' : "") + "</div>";
       case "hero":
@@ -987,10 +994,15 @@
         var fGridStyle = VIEW === "mobile"
           ? "display:flex;flex-direction:column;gap:24px"
           : "display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start";
+        var fLogoUrl = S.seo && S.seo.logoUrl;
+        var fLogoPart = (fLogoUrl
+          ? '<img src="' + esc(fLogoUrl) + '" alt="' + esc(S.seo.blogTitle || "MyBlog") + '" style="height:32px;width:auto;max-width:160px;object-fit:contain;display:block;margin-bottom:8px">'
+          : '')
+          + '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:#fff;margin-bottom:12px">' + esc(S.seo.blogTitle || "MyBlog") + '</div>';
         return '<div style="background:#0f172a;color:#fff;padding:48px 32px 24px">' +
           '<div style="' + fGridStyle + ';max-width:980px;margin:0 auto">' +
           '<div>' +
-            '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:#fff;margin-bottom:12px">' + esc(S.seo.blogTitle || "MyBlog") + '</div>' +
+            fLogoPart +
             '<p style="color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.65;margin:0 0 18px;max-width:320px">' + esc(p.about) + '</p>' +
             (fSocials.length ? '<div style="display:flex;gap:8px;flex-wrap:wrap">' + fSocialHtml + '</div>' : '') +
           '</div>' +
@@ -1181,6 +1193,25 @@
       '</details>';
     return '<div class="field"><label>' + tr(label) + '</label><input class="inp img-url-inp" data-k="' + key + '" data-img-key="' + key + '" value="' + esc(val) + '" placeholder="https://...">' + pvw + guide + '</div>';
   }
+  function imgUrlSeo(key, label, val) {
+    val = val || "";
+    var pvwKey = "seo-" + key;
+    var pvw = '<div class="img-pvw" data-img-for="' + pvwKey + '"' + (val ? '' : ' style="display:none"') + '>' +
+      '<img class="img-pvw-img" src="' + esc(val) + '" alt="">' +
+      '<div class="img-pvw-st"></div>' +
+      '</div>';
+    var guide = '<details class="img-guide"><summary>' + tpl('📸 วิธีได้ URL รูปจาก Blogger', '📸 How to get image URL from Blogger') + '</summary>' +
+      '<ol class="img-guide-steps">' +
+      '<li>' + tpl('เปิด Blogger → สร้างโพสต์ใหม่', 'Open Blogger → Create new post') + '</li>' +
+      '<li>' + tpl('กด <b>แทรกรูปภาพ</b> → อัปโหลดโลโก้', 'Click <b>Insert Image</b> → Upload your logo') + '</li>' +
+      '<li>' + tpl('กด ✏️ <b>HTML View</b>', 'Click ✏️ <b>HTML View</b>') + '</li>' +
+      '<li>' + tpl('หาโค้ด <code>&lt;img src="https://blogger.googleusercontent.com/..."&gt;</code>', 'Find <code>&lt;img src="https://blogger.googleusercontent.com/..."&gt;</code>') + '</li>' +
+      '<li>' + tpl('คัดลอก URL ใน <code>src="..."</code>', 'Copy the URL inside <code>src="..."</code>') + '</li>' +
+      '</ol>' +
+      '<div class="img-guide-note">' + tpl('รองรับ: blogger.googleusercontent.com · Cloudinary · Imgur · GitHub/jsDelivr · Cloudflare R2 · และ URL รูปภาพ .jpg .png .webp', 'Supports: blogger.googleusercontent.com · Cloudinary · Imgur · GitHub/jsDelivr · Cloudflare R2 · and image URLs (.jpg .png .webp)') + '</div>' +
+      '</details>';
+    return '<div class="field"><label>' + tr(label) + '</label><input class="inp img-url-inp" data-sk="' + key + '" data-img-key="' + pvwKey + '" value="' + esc(val) + '" placeholder="https://...">' + pvw + guide + '</div>';
+  }
   function menuEditor(p) {
     var items = menuItemsOf(p);
     // linked URL set for checklist
@@ -1297,7 +1328,10 @@
   function fieldsFor(b) {
     var p = b.props;
     switch (b.type) {
-      case "header": return txt("logoText", "ข้อความโลโก้", p.logoText) + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
+      case "header": return imgUrlSeo("logoUrl", "URL รูปโลโก้ (Header & Footer & Schema)", S.seo && S.seo.logoUrl || "")
+        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB — ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB — synced with Knowledge Graph "Logo URL"') + '</div></div>'
+        + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
+        + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
       case "hero": return txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]);
       case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt);
@@ -1343,7 +1377,15 @@
       var k = inp.dataset.k;
       if (inp.type === "checkbox") inp.addEventListener("change", function () { b.props[k] = inp.checked; commit(); });
       else if (inp.dataset.num) inp.addEventListener("input", function () { b.props[k] = parseInt(inp.value, 10); renderCanvas(); save(); var lb = inp.previousElementSibling; if (lb) lb.textContent = lb.textContent.replace(/—.*/, "— " + inp.value); });
-      else inp.addEventListener("input", function () { b.props[k] = inp.value; renderCanvas(); save(); });
+      else inp.addEventListener("input", function () {
+        b.props[k] = inp.value; renderCanvas(); save();
+        if (k === "logoText" && b.type === "header") {
+          S.seo.blogTitle = inp.value;
+          var btDisp = document.querySelector(".blog-title-display");
+          if (btDisp) btDisp.textContent = inp.value || "MyBlog";
+          clearTimeout(seoT); seoT = setTimeout(renderSeoScoreOnly, 400);
+        }
+      });
     });
     $$("[data-seg]", c).forEach(function (sg) {
       sg.addEventListener("click", function (e) { var btn = e.target.closest("button"); if (!btn) return; var v = btn.dataset.v; if (sg.dataset.seg === "cols") v = parseInt(v, 10); b.props[sg.dataset.seg] = v; $$("button", sg).forEach(function (x) { x.classList.toggle("on", x === btn); }); commit(); });
@@ -1489,6 +1531,11 @@
       inp.addEventListener("input", function () { updateImgPvw(inp.value.trim()); });
       if (inp.value) updateImgPvw(inp.value.trim());
     });
+    // data-sk fields inside block props panel — write to S.seo[k] and re-render canvas
+    $$("[data-sk]", c).forEach(function (inp) {
+      var k = inp.dataset.sk;
+      inp.addEventListener("input", function () { S.seo[k] = inp.value; renderCanvas(); save(); });
+    });
   }
   function columnsFields(b, p) {
     var items = p.items || [];
@@ -1547,10 +1594,11 @@
 
     c.innerHTML = topHTML + detailHTML + '<div class="sec-divider"></div>'
       + '<div class="sec-title collapsed">' + tr("ตัวอย่างผลการค้นหา (SERP Preview)") + '</div>'
+      + '<div class="seo-key-card">' + favField(seo) + '</div>'
       + '<div id="serpPreviewWrap">' + serpPreviewHTML(seo) + '</div>'
       + '<div class="sec-divider"></div>'
       + '<div class="seo-key-card">'
-      + txt2("blogTitle", "ชื่อบล็อก", seo.blogTitle)
+      + '<div class="field"><label>' + tr("ชื่อบล็อก") + '</label><div class="blog-title-display" style="padding:7px 10px;background:var(--surface-2);border-radius:7px;font-size:14px;font-weight:600;color:var(--ink)">' + esc(seo.blogTitle || "MyBlog") + '</div><div class="hint">' + tpl('ดึงจาก "ชื่อบล็อก / ข้อความโลโก้" ใน Header โดยอัตโนมัติ', 'Auto-synced from "Blog name / Logo text" in Header block') + '</div></div>'
       + txt2("title", "Title (เว้นว่าง = ใช้ชื่อบล็อก)", seo.title)
       + area2("desc", "Meta description", seo.desc, (seo.desc || "").length + tpl("/160 ตัวอักษร", "/160 chars"))
       + '</div>'
@@ -1617,6 +1665,24 @@
       + '<div class="rtx-section-title">' + tpl('⚙️ ตั้งค่า robots.txt ใน Blogger (5 ขั้นตอน)', '⚙️ Set up robots.txt in Blogger (5 steps)') + '</div>'
       + stepsHtml + genHtml;
   }
+  function favField(seo) {
+    var val = seo.favUrl || "";
+    var pvw = '<div class="fav-pvw" id="favPvwWrap"' + (val ? '' : ' style="display:none"') + '>'
+      + '<img id="favPvwImg" src="' + esc(val) + '" alt="" style="width:28px;height:28px;border-radius:5px;object-fit:contain;border:1px solid var(--border);background:#fff">'
+      + '<span id="favPvwSt" class="fav-pvw-st"></span>'
+      + '</div>';
+    var guide = '<details class="img-guide"><summary>' + tpl('🌐 วิธีหา URL Favicon ของเว็บ', '🌐 How to find your website\'s favicon URL') + '</summary>'
+      + '<ol class="img-guide-steps">'
+      + '<li>' + tpl('<b>Blogspot:</b> URL Favicon คือ <code>https://yourblog.blogspot.com/favicon.ico</code>', '<b>Blogspot:</b> Favicon URL is <code>https://yourblog.blogspot.com/favicon.ico</code>') + '</li>'
+      + '<li>' + tpl('<b>โดเมนตัวเอง:</b> ลอง <code>https://yourdomain.com/favicon.ico</code>', '<b>Custom domain:</b> Try <code>https://yourdomain.com/favicon.ico</code>') + '</li>'
+      + '<li>' + tpl('หรืออัปโหลดรูป 32×32px ขึ้น Blogger แล้วคัดลอก URL', 'Or upload a 32×32px image to Blogger and copy the URL') + '</li>'
+      + '</ol>'
+      + '<div class="img-guide-note">' + tpl('Favicon แสดงบน browser tab และผลการค้นหา Google — แนะนำขนาด 32×32 หรือ 64×64px', 'Favicon shows on browser tabs and Google results — recommended 32×32 or 64×64px') + '</div>'
+      + '</details>';
+    return '<div class="field"><label>' + tr("URL รูป Favicon") + '</label>'
+      + '<input class="inp fav-url-inp" id="favUrlInp" data-sk="favUrl" value="' + esc(val) + '" placeholder="https://yourblog.blogspot.com/favicon.ico">'
+      + pvw + guide + '</div>';
+  }
   function googleBox(seo) {
     return '<div class="sec-title collapsed">' + tr("ข้อมูลสำหรับ Google (Knowledge Graph)") + '</div>'
       + '<div class="seo-key-card">'
@@ -1672,9 +1738,17 @@
     var dDisp = esc(descTrunc ? descVal.slice(0, 157) + "…" : descVal);
     var tColor = titleTrunc ? "#ea4335" : "#1a0dab";
     var dNote = descTrunc ? '<span style="color:#ea4335;font-size:11px;margin-left:4px">⚠ ' + tpl("ยาวเกิน 160", "over 160 chars") + '</span>' : (descVal.length < 120 ? '<span style="color:#f59e0b;font-size:11px;margin-left:4px">⚠ ' + tpl("สั้นเกินไป", "too short") + '</span>' : '');
+    var favUrl = seo.favUrl || "";
+    var favIcon = '<div style="width:18px;height:18px;border-radius:3px;overflow:hidden;flex:none;background:#e8eaf2">'
+      + (favUrl ? '<img src="' + esc(favUrl) + '" style="width:100%;height:100%;object-fit:contain" onerror="this.style.display=\'none\'">' : '')
+      + '</div>';
+    var siteName = seo.blogTitle || domain;
     return '<div style="padding:0 16px 14px">'
       + '<div style="background:#fff;border-radius:10px;border:1px solid #dde3ec;padding:16px 18px;font-family:Arial,sans-serif">'
-      + '<div style="font-size:13px;color:#202124;line-height:1.3;margin-bottom:4px;display:flex;align-items:center;gap:8px"><div style="width:18px;height:18px;border-radius:50%;background:#e8eaf2;flex:none"></div>' + esc(domain) + ' › …</div>'
+      + '<div style="font-size:13px;color:#202124;line-height:1.3;margin-bottom:4px;display:flex;align-items:center;gap:8px">'
+      + favIcon
+      + '<div><div style="font-size:12px;font-weight:500;color:#202124;line-height:1.2">' + esc(siteName) + '</div>'
+      + '<div style="font-size:12px;color:#4d5156">' + esc(domain) + ' › …</div></div></div>'
       + '<div style="font-size:18px;line-height:1.3;margin-bottom:4px;color:' + tColor + '">' + tDisp + (titleTrunc ? '<span style="font-size:11px;margin-left:6px;vertical-align:middle">⚠ ' + tpl("ยาวเกิน 60", "over 60 chars") + '</span>' : '') + '</div>'
       + '<div style="font-size:13.5px;color:#4d5156;line-height:1.5">' + dDisp + dNote + '</div>'
       + '</div>'
@@ -1699,6 +1773,24 @@
     });
     var ot = c.querySelector('[data-seg="orgType"]');
     if (ot) ot.addEventListener("click", function (e) { var btn = e.target.closest("button"); if (!btn) return; S.seo.orgType = btn.dataset.v; $$("button", ot).forEach(function (x) { x.classList.toggle("on", x === btn); }); save(); });
+    // favicon preview binding
+    var favInp = c.querySelector(".fav-url-inp");
+    if (favInp) {
+      function updateFavPvw(url) {
+        var wrap = c.querySelector("#favPvwWrap");
+        var img = c.querySelector("#favPvwImg");
+        var st = c.querySelector("#favPvwSt");
+        if (!wrap || !img) return;
+        if (!url) { wrap.style.display = "none"; return; }
+        wrap.style.display = "";
+        if (st) { st.className = "fav-pvw-st loading"; st.textContent = tpl("กำลังโหลด…", "Loading…"); }
+        img.onload = function () { if (st) { st.className = "fav-pvw-st ok"; st.textContent = tpl("✓ โหลดสำเร็จ", "✓ Loaded"); } };
+        img.onerror = function () { if (st) { st.className = "fav-pvw-st err"; st.textContent = tpl("✕ ไม่พบ / URL ไม่ถูกต้อง", "✕ Not found / invalid URL"); } };
+        img.src = url;
+      }
+      favInp.addEventListener("input", function () { updateFavPvw(favInp.value.trim()); });
+      if (favInp.value) updateFavPvw(favInp.value.trim());
+    }
     // robots.txt generator bindings
     var rtxUrlInp = c.querySelector('#rtxUrlInp');
     var rtxWwwInp = c.querySelector('#rtxWww');
