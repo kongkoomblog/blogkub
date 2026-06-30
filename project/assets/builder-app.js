@@ -1039,6 +1039,8 @@
       var tag = el("div", { class: "blk-tag" });
       tag.innerHTML = '<span>' + blkLabel(b.type) + "</span>";
       var up = el("button", { title: "ขึ้น" }, "↑"), dn = el("button", { title: "ลง" }, "↓"), dup = el("button", { title: "ทำซ้ำ" }, "⧉"), del = el("button", { title: "ลบ" }, "✕");
+      var locked = b.type === "header" || b.type === "footer";
+      if (locked) { up.style.display = "none"; dn.style.display = "none"; }
       up.onclick = function (e) { e.stopPropagation(); move(b.id, -1); };
       dn.onclick = function (e) { e.stopPropagation(); move(b.id, 1); };
       dup.onclick = function (e) { e.stopPropagation(); duplicate(b.id); };
@@ -1064,6 +1066,9 @@
   function addBlock(type, idx) {
     var b = { id: uid(), type: type, props: blockDefaults(type) };
     if (idx == null || idx > S.blocks.length) idx = S.blocks.length;
+    var minIdx = (S.blocks.length > 0 && S.blocks[0].type === "header") ? 1 : 0;
+    var maxIdx = (S.blocks.length > 0 && S.blocks[S.blocks.length - 1].type === "footer") ? S.blocks.length - 1 : S.blocks.length;
+    idx = Math.max(minIdx, Math.min(idx, maxIdx));
     S.blocks.splice(idx, 0, b);
     SEL = b.id; commit(); select(b.id);
   }
@@ -1085,6 +1090,8 @@
   function move(id, dir) {
     var i = S.blocks.findIndex(function (b) { return b.id === id; });
     var j = i + dir; if (j < 0 || j >= S.blocks.length) return;
+    if (S.blocks[i].type === "header" || S.blocks[i].type === "footer") return;
+    if (S.blocks[j].type === "header" || S.blocks[j].type === "footer") return;
     var t = S.blocks[i]; S.blocks[i] = S.blocks[j]; S.blocks[j] = t; commit();
   }
   function select(id) { SEL = id; renderCanvas(); renderProps(); switchRight("props"); if (window.matchMedia("(max-width:1000px)").matches) showMob("right"); }
@@ -1992,7 +1999,9 @@
     VIEW = v;
     $$("#viewTabs button").forEach(function (x) { x.classList.toggle("on", x.dataset.vw === v); });
     var w = $("#frameWrap");
-    w.style.width    = v === "mobile" ? "390px" : v === "tablet" ? "768px" : "100%";
+    var isMobDevice = window.matchMedia("(max-width:1000px)").matches;
+    w.style.width    = v === "mobile" ? (isMobDevice ? "100%" : "390px") : v === "tablet" ? "768px" : "100%";
+    w.style.maxWidth = v === "mobile" ? "390px" : "";
     w.style.minWidth = v === "desktop" ? "960px" : "";
     renderCanvas();
   }
@@ -4087,23 +4096,29 @@ skinVariables(d),
     if (!S || !S.blocks.length) { v.innerHTML = '<div class="layers-empty">ยังไม่มีองค์ประกอบบนหน้า<br>เพิ่มจากแท็บ “องค์ประกอบ”</div>'; return; }
     v.innerHTML = '<div class="layers-hd">โครงสร้างหน้า — ลากเพื่อจัดลำดับ</div>' + S.blocks.map(function (b) {
       var t = blkLabel(b.type);
-      return '<div class="layer-row' + (b.id === SEL ? " sel" : "") + '" draggable="true" data-id="' + b.id + '">'
+      var isLocked = b.type === "header" || b.type === "footer";
+      var moveBtns = isLocked
+        ? '<button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button>'
+        : '<button data-lup title="ขึ้น">↑</button><button data-ldn title="ลง">↓</button><button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button>';
+      return '<div class="layer-row' + (b.id === SEL ? " sel" : "") + '" draggable="' + (!isLocked) + '" data-id="' + b.id + '">'
         + '<span class="lh">' + svg(IC[b.type] || IC.text) + '</span>'
         + '<span class="ln">' + esc(t) + '</span>'
-        + '<span class="lg"><button data-lup title="ขึ้น">↑</button><button data-ldn title="ลง">↓</button><button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button></span>'
+        + '<span class="lg">' + moveBtns + '</span>'
         + '</div>';
     }).join("");
     // bind
     var dragId = null;
     $$(".layer-row", v).forEach(function (row) {
+      var rowBlock = S.blocks.find(function (x) { return x.id === row.dataset.id; });
+      var rowLocked = rowBlock && (rowBlock.type === "header" || rowBlock.type === "footer");
       row.addEventListener("click", function (e) { if (e.target.closest("button")) return; select(row.dataset.id); });
-      row.querySelector("[data-lup]").addEventListener("click", function (e) { e.stopPropagation(); move(row.dataset.id, -1); renderLayers(); });
-      row.querySelector("[data-ldn]").addEventListener("click", function (e) { e.stopPropagation(); move(row.dataset.id, 1); renderLayers(); });
+      if (row.querySelector("[data-lup]")) row.querySelector("[data-lup]").addEventListener("click", function (e) { e.stopPropagation(); move(row.dataset.id, -1); renderLayers(); });
+      if (row.querySelector("[data-ldn]")) row.querySelector("[data-ldn]").addEventListener("click", function (e) { e.stopPropagation(); move(row.dataset.id, 1); renderLayers(); });
       row.querySelector("[data-ldup]").addEventListener("click", function (e) { e.stopPropagation(); duplicate(row.dataset.id); renderLayers(); });
       row.querySelector("[data-ldel]").addEventListener("click", function (e) { e.stopPropagation(); removeBlock(row.dataset.id); renderLayers(); });
-      row.addEventListener("dragstart", function () { dragId = row.dataset.id; row.classList.add("dragging"); });
+      row.addEventListener("dragstart", function () { if (rowLocked) return; dragId = row.dataset.id; row.classList.add("dragging"); });
       row.addEventListener("dragend", function () { row.classList.remove("dragging"); $$(".layer-row", v).forEach(function (r) { r.classList.remove("over"); }); });
-      row.addEventListener("dragover", function (e) { e.preventDefault(); row.classList.add("over"); });
+      row.addEventListener("dragover", function (e) { if (rowLocked) return; e.preventDefault(); row.classList.add("over"); });
       row.addEventListener("dragleave", function () { row.classList.remove("over"); });
       row.addEventListener("drop", function (e) {
         e.preventDefault(); row.classList.remove("over");
@@ -4111,6 +4126,8 @@ skinVariables(d),
         var from = S.blocks.findIndex(function (x) { return x.id === dragId; });
         var to = S.blocks.findIndex(function (x) { return x.id === row.dataset.id; });
         if (from < 0 || to < 0) return;
+        if (S.blocks[from].type === "header" || S.blocks[from].type === "footer") return;
+        if (S.blocks[to].type === "header" || S.blocks[to].type === "footer") return;
         var moved = S.blocks.splice(from, 1)[0];
         S.blocks.splice(to, 0, moved);
         commit(); renderLayers();
