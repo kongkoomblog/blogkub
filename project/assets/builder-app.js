@@ -1598,7 +1598,7 @@
       + '<div id="serpPreviewWrap">' + serpPreviewHTML(seo) + '</div>'
       + '<div class="sec-divider"></div>'
       + '<div class="seo-key-card">'
-      + '<div class="field"><label>' + tr("ชื่อบล็อก") + '</label><div class="blog-title-display" style="padding:7px 10px;background:var(--surface-2);border-radius:7px;font-size:14px;font-weight:600;color:var(--ink)">' + esc(seo.blogTitle || "MyBlog") + '</div><div class="hint">' + tpl('ดึงจาก "ชื่อบล็อก / ข้อความโลโก้" ใน Header โดยอัตโนมัติ', 'Auto-synced from "Blog name / Logo text" in Header block') + '</div></div>'
+      + '<div class="field"><label>' + tr("ชื่อบล็อก") + '</label><div class="blog-title-display" style="padding:7px 10px;background:var(--surface-2);border-radius:7px;font-size:14px;font-weight:600;color:var(--ink)">' + esc(seo.blogTitle || "MyBlog") + '</div><div class="hint">' + tpl('ดึงจาก "ชื่อบล็อก / ข้อความโลโก้" ใน Header โดยอัตโนมัติ · หากต้องการแก้ไข ให้ไปที่ฟีเจอร์ส่วนหัว → กดที่องค์ประกอบหน้าเว็บ หรือเลือกโครงสร้าง (มุมขวาบน) → เลือก ส่วนหัว แล้วพิมพ์ข้อความได้เลย', 'Auto-synced from "Blog name / Logo text" in Header block · To edit: go to Header feature → click the element on canvas or use Structure panel (top-right) → select Header → type your text') + '</div></div>'
       + txt2("title", "Title (เว้นว่าง = ใช้ชื่อบล็อก)", seo.title)
       + area2("desc", "Meta description", seo.desc, (seo.desc || "").length + tpl("/160 ตัวอักษร", "/160 chars"))
       + '</div>'
