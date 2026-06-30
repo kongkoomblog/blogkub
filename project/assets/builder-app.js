@@ -1678,6 +1678,7 @@
       + '<li>' + tpl('หรืออัปโหลดรูป 32×32px ขึ้น Blogger แล้วคัดลอก URL', 'Or upload a 32×32px image to Blogger and copy the URL') + '</li>'
       + '</ol>'
       + '<div class="img-guide-note">' + tpl('Favicon แสดงบน browser tab และผลการค้นหา Google — แนะนำขนาด 32×32 หรือ 64×64px', 'Favicon shows on browser tabs and Google results — recommended 32×32 or 64×64px') + '</div>'
+      + '<div style="padding:6px 11px 10px"><a href="' + esc(DOCS_BASE + 'favicon') + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 วิธีอัพโหลด Favicon ใน Blogger', '📖 How to upload a Favicon in Blogger') + ' →</a></div>'
       + '</details>';
     return '<div class="field"><label>' + tr("URL รูป Favicon") + '</label>'
       + '<input class="inp fav-url-inp" id="favUrlInp" data-sk="favUrl" value="' + esc(val) + '" placeholder="https://yourblog.blogspot.com/favicon.ico">'
