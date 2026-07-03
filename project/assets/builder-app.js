@@ -130,14 +130,14 @@
         { id: "m3", type: "page",   label: "About",   pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
         { id: "m4", type: "page",   label: "Contact", pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
       ], sticky: true, showSearch: true, mobileSide: "right" },
-      hero: { title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient" },
+      hero: { eyebrow: "✦ Personal Blog", title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient" },
       footer: { about: "A blog sharing knowledge and quality articles", copyright: "© 2026 MyBlog. All rights reserved.",
         footerLinks: [{ label: "Home", url: "/" }, { label: "Posts", url: "/search" }, { label: "About", url: "/p/about.html" }, { label: "Contact", url: "/p/contact.html" }],
         socialLinks: [] },
-      postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true },
+      postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "Read more →" },
       postlist: { heading: "Read More", count: 5, showImage: true },
       featured: { heading: "Featured", count: 1 },
-      about: { name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
+      about: { eyebrow: "About the Author", name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
       text: { heading: "Your Heading", body: "Write your content here. Add the text you want readers to see.", align: "left" },
       cta: { title: "Ready to get started?", btnText: "Get Started", bg: "soft" },
       image: { alt: "Image description", caption: "", ratio: "16/9", src: "" },
@@ -164,14 +164,14 @@
         { id: "m3", type: "page",   label: "เกี่ยวกับ", pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
         { id: "m4", type: "page",   label: "ติดต่อ",    pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
       ], sticky: true, showSearch: true, mobileSide: "right" },
-      hero: { title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient" },
+      hero: { eyebrow: "✦ Personal Blog", title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient" },
       footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
         footerLinks: [{ label: "หน้าแรก", url: "/" }, { label: "บทความ", url: "/search" }, { label: "เกี่ยวกับ", url: "/p/about.html" }, { label: "ติดต่อ", url: "/p/contact.html" }],
         socialLinks: [] },
-      postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true },
+      postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "อ่านต่อ →" },
       postlist: { heading: "อ่านต่อ", count: 5, showImage: true },
       featured: { heading: "บทความแนะนำ", count: 1 },
-      about: { name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true, avatarUrl: "" },
+      about: { eyebrow: "เกี่ยวกับผู้เขียน", name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true, avatarUrl: "" },
       text: { heading: "หัวข้อของคุณ", body: "เขียนเนื้อหาตรงนี้ ใส่ข้อความที่ต้องการให้ผู้อ่านเห็น", align: "left" },
       cta: { title: "พร้อมเริ่มต้นแล้วหรือยัง?", btnText: "เริ่มเลย", bg: "soft" },
       image: { alt: "คำอธิบายรูปภาพ", caption: "", ratio: "16/9", src: "" },
@@ -206,13 +206,15 @@
   ];
   var TEMPLATES = [
     { id: "personal", cat: "บล็อก", catEn: "Blog", name: "Personal Blog", desc: "บล็อกส่วนตัว อ่านง่าย", descEn: "Clean personal blog layout", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 } },
-    { id: "travel", cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
-    { id: "tech", cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
-    { id: "sidebar-blog", cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
-    { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
-    { id: "company", cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
-    { id: "course", cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
-    { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
+    // hidden:true → keep the code/render branches but remove from the start-screen picker.
+    // Focusing on Personal Blog for now; unhide later by removing the flag.
+    { id: "travel", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
+    { id: "tech", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
+    { id: "sidebar-blog", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
+    { id: "magazine", hidden: true, cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
+    { id: "company", hidden: true, cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
+    { id: "course", hidden: true, cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
+    { id: "review", hidden: true, cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
   ];
 
   /* ---------- STATE ---------- */
@@ -464,10 +466,11 @@
           '</div>';
         }
         if (S && S.templateId === "personal") {
+          var pbHeroEb = (p.eyebrow != null ? p.eyebrow : "✦ Personal Blog");
           return '<div style="padding:60px 32px;background:#fff;border-bottom:1px solid #f0f0f8">' +
             '<div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:40px;flex-wrap:wrap">' +
               '<div style="flex:1;min-width:220px">' +
-                '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">✦ Personal Blog</div>' +
+                (pbHeroEb ? '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">' + esc(pbHeroEb) + '</div>' : '') +
                 '<h1 style="font-family:' + fontStack(d.font) + ';font-size:38px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#0f172a;margin:0 0 14px">' + esc(p.title) + '</h1>' +
                 '<p style="font-size:16px;color:#64748b;line-height:1.65;margin:0 0 24px;max-width:380px">' + esc(p.subtitle) + '</p>' +
                 '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
@@ -618,6 +621,7 @@
           var pbCols = VIEW === "mobile" ? 1 : VIEW === "tablet" ? 2 : (p.columns || 3);
           var pbCards = "";
           var pbDateLabel = tpl("24 มิ.ย. 2569", "Jun 24, 2026");
+          var pbReadLbl = (p.readMore != null ? p.readMore : tpl("อ่านต่อ →", "Read more →"));
           for (var pi = 0; pi < (p.count || 6); pi++) {
             pbCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07)">' +
               (p.showImage ? '<div style="height:160px;background:linear-gradient(120deg,' + pr + '18,' + ac + '28)"></div>' : '') +
@@ -625,7 +629,7 @@
                 '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">' + pbDateLabel + '</div>' +
                 '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 6px;color:#0f172a">' + tpl("หัวข้อบทความที่ ", "Article #") + (pi + 1) + '</h3>' +
                 (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 9px">' + tpl("คำโปรยบทความแสดงตัวอย่างเนื้อหาสั้นๆ...", "A short excerpt giving readers a preview before they click to read more...") + '</p>' : '') +
-                '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + tpl("อ่านต่อ →", "Read more →") + '</a>' +
+                (pbReadLbl ? '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + esc(pbReadLbl) + '</a>' : '') +
               '</div>' +
             '</article>';
           }
@@ -816,6 +820,7 @@
           '</div>';
         }
         if (S && S.templateId === "personal") {
+          var pbAboutEb = (p.eyebrow != null ? p.eyebrow : tpl("เกี่ยวกับผู้เขียน", "About the Author"));
           return '<div style="padding:52px 32px;background:#f8fafc">' +
             '<div style="max-width:780px;margin:0 auto;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">' +
               (p.showAvatar ?
@@ -824,7 +829,7 @@
                   : '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none"><div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>')
                 : '') +
               '<div style="flex:1;min-width:200px">' +
-                '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">' + tpl("เกี่ยวกับผู้เขียน", "About the Author") + '</div>' +
+                (pbAboutEb ? '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">' + esc(pbAboutEb) + '</div>' : '') +
                 '<h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px;line-height:1.2">' + esc(p.name) + '</h3>' +
                 '<p style="color:#64748b;font-size:15px;line-height:1.7;margin:0">' + richHTML(p.bio) + '</p>' +
               '</div>' +
@@ -1339,12 +1344,12 @@
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB — ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB — synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
         + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
-      case "hero": return txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]);
+      case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]);
       case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
-      case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt);
+      case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link"));
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading);
-      case "about": return txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
+      case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
       case "columns": return columnsFields(b, p);
       case "cta": return txt("title", "หัวข้อ", p.title) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["soft", "อ่อน"]]);
@@ -2954,10 +2959,11 @@ skinVariables(d),
           "</section>";
         }
         if (S && S.templateId === "personal") {
+          var pbHeroEb = (p.eyebrow != null ? p.eyebrow : "✦ Personal Blog");
           return "<section class='pb-hero'>" +
             "<div class='wrap pb-hero-inner'>" +
               "<div class='pb-hero-text'>" +
-                "<div class='pb-eyebrow'>✦ Personal Blog</div>" +
+                (pbHeroEb ? "<div class='pb-eyebrow'>" + esc(pbHeroEb) + "</div>" : "") +
                 "<h1 style='font-size:clamp(30px,5vw,48px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--text-main);margin:0 0 16px;font-family:var(--font)'>" + esc(p.title) + "</h1>" +
                 "<p style='font-size:17px;color:var(--text-muted);line-height:1.65;margin:0 0 28px;max-width:400px'>" + esc(p.subtitle) + "</p>" +
                 "<a href='#main' style='display:inline-block;background:var(--primary);color:#fff;font-weight:600;padding:13px 28px;border-radius:var(--radius);text-decoration:none'>" + esc(p.btnText) + "</a>" +
@@ -3117,6 +3123,7 @@ skinVariables(d),
             "</div></div></section>";
         }
         if (S && S.templateId === "personal") {
+          var pbReadLbl = (p.readMore != null ? p.readMore : tpl("อ่านต่อ →", "Read more →"));
           return "<section style='padding:52px 0'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='pb-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
@@ -3135,7 +3142,7 @@ skinVariables(d),
                     "<div class='pb-card-date'><data:post.date/></div>" +
                     "<h3 class='pb-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
                     (p.showExcerpt ? "<p class='pb-card-excerpt'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 160, links: false, linebreaks: false, ellipsis: true }'/></b:if></p>" : "") +
-                    "<a expr:href='data:post.url' class='pb-card-read'>" + tpl("อ่านต่อ →", "Read more →") + "</a>" +
+                    (pbReadLbl ? "<a expr:href='data:post.url' class='pb-card-read'>" + esc(pbReadLbl) + "</a>" : "") +
                   "</div>" +
                 "</article>" +
               "</b:loop>" +
@@ -3338,6 +3345,7 @@ skinVariables(d),
           "</div></section>";
         }
         if (S && S.templateId === "personal") {
+          var pbAboutEb = (p.eyebrow != null ? p.eyebrow : tpl("เกี่ยวกับผู้เขียน", "About the Author"));
           return "<section class='pb-about'><div class='wrap pb-about-inner'>" +
             (p.showAvatar ?
               "<div class='pb-about-avatar'><div class='pb-about-avatar-inner'>" +
@@ -3346,7 +3354,7 @@ skinVariables(d),
                 : "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'><circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>") +
               "</div></div>" : "") +
             "<div style='flex:1;min-width:200px'>" +
-              "<div class='pb-about-eyebrow'>" + tpl("เกี่ยวกับผู้เขียน", "About the Author") + "</div>" +
+              (pbAboutEb ? "<div class='pb-about-eyebrow'>" + esc(pbAboutEb) + "</div>" : "") +
               "<h2 class='pb-about-name'>" + esc(p.name) + "</h2>" +
               "<p class='pb-about-bio'>" + richHTML(p.bio) + "</p>" +
             "</div>" +
@@ -4058,10 +4066,18 @@ skinVariables(d),
 
   function renderStart() {
     var isEn = BL === "en";
-    $("#catTabs").innerHTML = CATS.map(function (c) {
+    // only templates without hidden:true appear in the picker
+    var visibleTemplates = TEMPLATES.filter(function (t) { return !t.hidden; });
+    // only show category tabs that actually contain a visible template (+ "ทั้งหมด")
+    var activeCats = CATS.filter(function (c) { return c.val === "ทั้งหมด" || visibleTemplates.some(function (t) { return t.cat === c.val; }); });
+    if (!activeCats.some(function (c) { return c.val === curCat; })) curCat = "ทั้งหมด";
+    // hide the category tab bar entirely when there's nothing to filter (≤1 real category)
+    var catBar = $("#catTabs");
+    if (catBar) catBar.style.display = activeCats.length > 2 ? "" : "none";
+    catBar.innerHTML = activeCats.map(function (c) {
       return '<button class="cat-tab' + (c.val === curCat ? " on" : "") + '" data-c="' + c.val + '">' + (isEn ? c.en : c.th) + "</button>";
     }).join("");
-    var list = TEMPLATES.filter(function (t) { return curCat === "ทั้งหมด" || t.cat === curCat; });
+    var list = visibleTemplates.filter(function (t) { return curCat === "ทั้งหมด" || t.cat === curCat; });
     $("#startGrid").innerHTML = list.map(function (t) {
       var tDesc = isEn ? (t.descEn || t.desc) : t.desc;
       var tCat  = isEn ? (t.catEn  || t.cat)  : t.cat;
@@ -4227,6 +4243,7 @@ skinVariables(d),
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
+    "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "จัดวาง": "Align", "ซ้าย": "Left", "กลาง": "Center", "พื้นหลัง": "Background",
     "ไล่สี": "Gradient", "เข้ม": "Dark", "อ่อน": "Soft",
     "เกี่ยวกับ (คอลัมน์แรก)": "About (first column)", "เกี่ยวกับ (คำอธิบายสั้น)": "About (short description)", "จำนวนคอลัมน์": "Columns",
