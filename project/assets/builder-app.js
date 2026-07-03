@@ -130,7 +130,7 @@
         { id: "m3", type: "page",   label: "About",   pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
         { id: "m4", type: "page",   label: "Contact", pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
       ], sticky: true, showSearch: true, mobileSide: "right" },
-      hero: { eyebrow: "✦ Personal Blog", title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient" },
+      hero: { eyebrow: "✦ Personal Blog", title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient", showImage: true, imageUrl: "" },
       footer: { about: "A blog sharing knowledge and quality articles", copyright: "© 2026 MyBlog. All rights reserved.",
         footerLinks: [{ label: "Home", url: "/" }, { label: "Posts", url: "/search" }, { label: "About", url: "/p/about.html" }, { label: "Contact", url: "/p/contact.html" }],
         socialLinks: [] },
@@ -164,7 +164,7 @@
         { id: "m3", type: "page",   label: "เกี่ยวกับ", pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
         { id: "m4", type: "page",   label: "ติดต่อ",    pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
       ], sticky: true, showSearch: true, mobileSide: "right" },
-      hero: { eyebrow: "✦ Personal Blog", title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient" },
+      hero: { eyebrow: "✦ Personal Blog", title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient", showImage: true, imageUrl: "" },
       footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
         footerLinks: [{ label: "หน้าแรก", url: "/" }, { label: "บทความ", url: "/search" }, { label: "เกี่ยวกับ", url: "/p/about.html" }, { label: "ติดต่อ", url: "/p/contact.html" }],
         socialLinks: [] },
@@ -475,11 +475,15 @@
                 '<p style="font-size:16px;color:#64748b;line-height:1.65;margin:0 0 24px;max-width:380px">' + esc(p.subtitle) + '</p>' +
                 '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
               '</div>' +
-              '<div style="flex:none">' +
-                '<div style="width:150px;height:150px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ')">' +
-                  '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:52px">👤</div>' +
-                '</div>' +
-              '</div>' +
+              (p.showImage !== false
+                ? '<div style="flex:none">' +
+                    '<div style="width:150px;height:150px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ')">' +
+                      (p.imageUrl
+                        ? '<img src="' + esc(p.imageUrl) + '" alt="' + esc(p.title) + '" style="width:100%;height:100%;border-radius:50%;object-fit:cover;display:block">'
+                        : '<div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:52px">👤</div>') +
+                    '</div>' +
+                  '</div>'
+                : '') +
             '</div>' +
           '</div>';
         }
@@ -1344,7 +1348,7 @@
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB — ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB — synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
         + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
-      case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]);
+      case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
       case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link"));
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
@@ -2968,12 +2972,16 @@ skinVariables(d),
                 "<p style='font-size:17px;color:var(--text-muted);line-height:1.65;margin:0 0 28px;max-width:400px'>" + esc(p.subtitle) + "</p>" +
                 "<a href='#main' style='display:inline-block;background:var(--primary);color:#fff;font-weight:600;padding:13px 28px;border-radius:var(--radius);text-decoration:none'>" + esc(p.btnText) + "</a>" +
               "</div>" +
-              "<div class='pb-avatar-ring'>" +
-                "<div class='pb-avatar-inner'>" +
-                  "<svg width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'>" +
-                  "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>" +
-                "</div>" +
-              "</div>" +
+              (p.showImage !== false
+                ? "<div class='pb-avatar-ring'>" +
+                    "<div class='pb-avatar-inner'>" +
+                      (p.imageUrl
+                        ? "<img src='" + esc(p.imageUrl) + "' alt='" + esc(p.title) + "' style='width:100%;height:100%;border-radius:50%;object-fit:cover;display:block' loading='lazy' decoding='async'/>"
+                        : "<svg width='60' height='60' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:var(--primary);opacity:.35'>" +
+                          "<circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>") +
+                    "</div>" +
+                  "</div>"
+                : "") +
             "</div>" +
           "</section>";
         }
@@ -4244,6 +4252,7 @@ skinVariables(d),
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
+    "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
     "จัดวาง": "Align", "ซ้าย": "Left", "กลาง": "Center", "พื้นหลัง": "Background",
     "ไล่สี": "Gradient", "เข้ม": "Dark", "อ่อน": "Soft",
     "เกี่ยวกับ (คอลัมน์แรก)": "About (first column)", "เกี่ยวกับ (คำอธิบายสั้น)": "About (short description)", "จำนวนคอลัมน์": "Columns",
