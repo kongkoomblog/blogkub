@@ -2097,7 +2097,8 @@
           inlineTocHtml +
           "<data:post.body/>" +
         "</div>" +
-      "</div></article>";
+      "</div></article>" +
+      "<b:if cond='data:view.isSingleItem'><div class='wrap comments-wrap' style='max-width:780px;padding:0 20px 64px'><b:include data='post' name='commentPicker'/></div></b:if>";
 
     // Multiple-items (homepage/label/search) branch — post grid/list blocks or fallback loop
     var multipleItemsHtml = postBlocks.length
@@ -2111,7 +2112,7 @@
       "<b:if cond='data:view.isPost or data:view.isPage'>\n" +
       "<b:loop values='data:posts' var='post'>\n" +
       blogPostingSchema + "\n" +
-      "<b:include data='post' name='post'/>\n" +
+      "<b:include data='post' name='postCommentsAndAd'/>\n" +
       "</b:loop>\n" +
       "<b:else/>\n" +
       multipleItemsHtml + "\n" +
@@ -2153,9 +2154,8 @@
       "</b:includable>\n" +
       "<b:includable id='commentForm' var='post'>\n" +
       "<div class='comment-form'><a name='comment-form'/><h4 id='comment-post-message'><data:messages.postAComment/></h4>" +
-      "<b:if cond='data:this.messages.blogComment != &quot;&quot;'><p><data:this.messages.blogComment/></p></b:if>" +
       "<b:include data='post' name='commentFormIframeSrc'/>" +
-      "<iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>" +
+      "<iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>" +
       "<data:post.cmtfpIframe/>" +
       "<script type='text/javascript'>BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);</script></div>\n" +
       "</b:includable>\n" +
@@ -2188,7 +2188,7 @@
       "</div></b:if>" +
       "<div class='footer'><b:if cond='data:post.embedCommentForm'><b:if cond='data:post.allowNewComments'><b:include data='post' name='commentForm'/><b:else/><data:post.noNewCommentsText/></b:if>" +
       "<b:else/><b:if cond='data:post.allowComments'><b:include data='post' name='addComments'/></b:if></b:if></div></b:if>" +
-      "<b:if cond='data:showCmtPopup'><div id='comment-popup'><iframe allowtransparency='allowtransparency' frameborder='0' id='comment-actions' name='comment-actions' scrolling='no'/></div></b:if></section>\n" +
+      "<b:if cond='data:showCmtPopup'><div id='comment-popup'><iframe allowtransparency='true' frameborder='0' id='comment-actions' name='comment-actions' scrolling='no'/></div></b:if></section>\n" +
       "</b:includable>\n" +
       "<b:includable id='commentsTitle'><h3 class='title'><data:messages.comments/></h3></b:includable>\n" +
       "<b:includable id='feedLinks'>\n" +
@@ -2210,9 +2210,8 @@
       "</b:includable>\n" +
       "<b:includable id='postBodySnippet' var='post'><b:include data='post' name='postBody'/></b:includable>\n" +
       "<b:includable id='postCommentsAndAd' var='post'>\n" +
-      "<article class='post-outer-container'><div class='post-outer'><b:include data='post' name='post'/></div>" +
-      "<b:include cond='data:view.isSingleItem' data='post' name='commentPicker'/>" +
-      "<b:include cond='data:view.isSingleItem and data:post.includeAd' data='post' name='inlineAd'/></article>" +
+      "<div class='post-outer-container'><div class='post-outer'><b:include data='post' name='post'/></div>" +
+      "<b:include cond='data:view.isSingleItem and data:post.includeAd' data='post' name='inlineAd'/></div>" +
       "<b:include cond='data:view.isMultipleItems and data:post.includeAd' data='post' name='inlineAd'/>\n" +
       "</b:includable>\n" +
       "<b:includable id='postCommentsLink'>\n" +
@@ -2240,9 +2239,8 @@
       "<b:includable id='previousPageLink'><a class='blog-pager-newer-link' expr:href='data:newerPageUrl' expr:id='data:widget.instanceId + &quot;_blog-pager-newer-link&quot;' expr:title='data:messages.newerPosts'><data:messages.newerPosts/></a></b:includable>\n" +
       "<b:includable id='threadedCommentForm' var='post'>\n" +
       "<div class='comment-form'><a name='comment-form'/><h4 id='comment-post-message'><data:messages.postAComment/></h4>" +
-      "<b:if cond='data:this.messages.blogComment != &quot;&quot;'><p><data:this.messages.blogComment/></p></b:if>" +
       "<b:include data='post' name='commentFormIframeSrc'/>" +
-      "<iframe allowtransparency='allowtransparency' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>" +
+      "<iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' expr:height='data:cmtIframeInitialHeight ?: &quot;90px&quot;' frameborder='0' id='comment-editor' name='comment-editor' src='' width='100%'/>" +
       "<data:post.cmtfpIframe/>" +
       "<script type='text/javascript'>BLOG_CMT_createIframe(&#39;<data:post.appRpcRelayPath/>&#39;);</script></div>\n" +
       "</b:includable>\n" +
@@ -2257,13 +2255,57 @@
       "<div class='comments-content'><b:if cond='data:post.embedCommentForm'><b:include data='post' name='threadedCommentJs'/></b:if><div id='comment-holder'><data:post.commentHtml/></div></div>" +
       "<p class='comment-footer'><b:if cond='data:post.allowNewComments'><b:include data='post' name='threadedCommentForm'/><b:else/><data:post.noNewCommentsText/></b:if>" +
       "<b:if cond='data:post.showManageComments'><b:include data='post' name='manageComments'/></b:if></p>" +
-      "<b:if cond='data:showCmtPopup'><div id='comment-popup'><iframe allowtransparency='allowtransparency' frameborder='0' id='comment-actions' name='comment-actions' scrolling='no'/></div></b:if></section>\n" +
+      "<b:if cond='data:showCmtPopup'><div id='comment-popup'><iframe allowtransparency='true' frameborder='0' id='comment-actions' name='comment-actions' scrolling='no'/></div></b:if></section>\n" +
       "</b:includable>\n" +
       "<b:includable id='tooltipCss'></b:includable>\n";
+
+    // Blog widget settings — required for Blogger to enable comment display,
+    // threaded comments, author info, etc. Without these, data:post.allowComments
+    // and data:post.showThreadedComments evaluate false → comment picker is skipped.
+    var blogWidgetSettings =
+      "<b:widget-settings>\n" +
+      "<b:widget-setting name='showDateHeader'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='style.textcolor'>#333333</b:widget-setting>\n" +
+      "<b:widget-setting name='showCommentDateHeader'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='endDate'></b:widget-setting>\n" +
+      "<b:widget-setting name='feedLinks'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='style.bordercolor'>#eeeeee</b:widget-setting>\n" +
+      "<b:widget-setting name='showPostCategories'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='title'></b:widget-setting>\n" +
+      "<b:widget-setting name='showThumbnails'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='style.arrow'>1</b:widget-setting>\n" +
+      "<b:widget-setting name='postsPerAd'>1</b:widget-setting>\n" +
+      "<b:widget-setting name='pageType'>ALL</b:widget-setting>\n" +
+      "<b:widget-setting name='style.bgcolor'>#ffffff</b:widget-setting>\n" +
+      "<b:widget-setting name='postLabels'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showMobileShareButtons'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='style.linkcolor'>#2288bb</b:widget-setting>\n" +
+      "<b:widget-setting name='showCommentAuthorPhoto'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showAuthor'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='style.urltype'>0</b:widget-setting>\n" +
+      "<b:widget-setting name='postsToShow'>7</b:widget-setting>\n" +
+      "<b:widget-setting name='style.visitedlinkcolor'>#888888</b:widget-setting>\n" +
+      "<b:widget-setting name='inlineAdsMobileOnly'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='style.type'>0</b:widget-setting>\n" +
+      "<b:widget-setting name='style.imagesize'>medium</b:widget-setting>\n" +
+      "<b:widget-setting name='style.unittype'>TextAndImage</b:widget-setting>\n" +
+      "<b:widget-setting name='showMobileShareLinks'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showTimestamp'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showLocation'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='displayOldestFirst'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='disableGooglePlus'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showCommentLink'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='inlineAds'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='style.titlecolor'>#111111</b:widget-setting>\n" +
+      "<b:widget-setting name='showAuthorProfile'>false</b:widget-setting>\n" +
+      "<b:widget-setting name='showThreadedComments'>true</b:widget-setting>\n" +
+      "<b:widget-setting name='showSnippet'>true</b:widget-setting>\n" +
+      "</b:widget-settings>\n";
 
     var blogWidget =
       "<b:section class='main-section' id='main' showaddelement='yes'>\n" +
       "<b:widget id='Blog1' locked='true' mobile='yes' title='บทความบล็อก' type='Blog' version='2' visible='true'>\n" +
+      blogWidgetSettings +
       "<b:includable id='main'>\n" + mainIncludable + "\n</b:includable>\n" +
       nextprevIncludable +
       "<b:includable id='post' var='post'>\n" + postIncludableBody + "\n</b:includable>\n" +
