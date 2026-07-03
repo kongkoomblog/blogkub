@@ -139,7 +139,7 @@
       featured: { heading: "Featured", count: 1 },
       about: { eyebrow: "About the Author", name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
       text: { heading: "Your Heading", body: "Write your content here. Add the text you want readers to see.", align: "left" },
-      cta: { title: "Ready to get started?", btnText: "Get Started", bg: "soft" },
+      cta: { title: "Ready to get started?", btnText: "Get Started", btnUrl: "/", bg: "soft" },
       image: { alt: "Image description", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "Below header", label: true },
       newsletter: { heading: "Get Updates First", sub: "Enter your email to receive new posts instantly — free, no spam", btnText: "Subscribe", bg: "soft" },
@@ -173,7 +173,7 @@
       featured: { heading: "บทความแนะนำ", count: 1 },
       about: { eyebrow: "เกี่ยวกับผู้เขียน", name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true, avatarUrl: "" },
       text: { heading: "หัวข้อของคุณ", body: "เขียนเนื้อหาตรงนี้ ใส่ข้อความที่ต้องการให้ผู้อ่านเห็น", align: "left" },
-      cta: { title: "พร้อมเริ่มต้นแล้วหรือยัง?", btnText: "เริ่มเลย", bg: "soft" },
+      cta: { title: "พร้อมเริ่มต้นแล้วหรือยัง?", btnText: "เริ่มเลย", btnUrl: "/", bg: "soft" },
       image: { alt: "คำอธิบายรูปภาพ", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "ใต้ส่วนหัว", label: true },
       newsletter: { heading: "รับข่าวสารก่อนใคร", sub: "กรอกอีเมลเพื่อรับบทความใหม่ทันที ฟรี ไม่มีสแปม", btnText: "สมัครเลย", bg: "soft" },
@@ -1356,7 +1356,7 @@
       case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
       case "columns": return columnsFields(b, p);
-      case "cta": return txt("title", "หัวข้อ", p.title) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["soft", "อ่อน"]]);
+      case "cta": return txt("title", "หัวข้อ", p.title) + txt("btnText", "ข้อความปุ่ม", p.btnText) + txt("btnUrl", "ลิงก์ปุ่ม", p.btnUrl || "", tpl("เช่น /p/contact.html หรือ https://…", "e.g. /p/contact.html or https://…")) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["soft", "อ่อน"]]);
       case "image": return imgUrl("src", "URL รูปภาพ", p.src || "") + txt("alt", "ข้อความ ALT (SEO)", p.alt, "สำคัญต่อ SEO และการเข้าถึง") + txt("caption", "คำบรรยายใต้ภาพ", p.caption) + seg("ratio", "สัดส่วน", p.ratio, [["16/9", "16:9"], ["4/3", "4:3"], ["1/1", "1:1"]]);
       case "ad": return seg("slot", "ตำแหน่ง", p.slot, [["ใต้ส่วนหัว", "บน"], ["ในบทความ", "กลาง"], ["ไซด์บาร์", "ข้าง"]]) + tog("label", 'แสดงป้าย "โฆษณา"', p.label, "แนะนำตามนโยบาย AdSense");
       case "newsletter": return txt("heading", "หัวข้อ", p.heading) + area("sub", "คำโปรย", p.sub) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg || "soft", [["soft", "อ่อน"], ["gradient", "ไล่สี"], ["dark", "เข้ม"]]);
@@ -3386,7 +3386,7 @@ skinVariables(d),
                 "<div><div class='edu-trust-num'>50+</div><div class='edu-trust-label'>" + tpl("คอร์ส", "Courses") + "</div></div>" +
                 "<div><div class='edu-trust-num'>100+</div><div class='edu-trust-label'>" + tpl("ผู้สอน", "Instructors") + "</div></div>" +
               "</div>" +
-              "<a href='#' class='edu-cta-btn'>" + esc(p.btnText) + "</a>" +
+              "<a href='" + esc(absUrl(p.btnUrl || "/")) + "' class='edu-cta-btn'>" + esc(p.btnText) + "</a>" +
             "</div>" +
           "</section>";
         }
@@ -3395,11 +3395,11 @@ skinVariables(d),
             "<div class='wrap' style='text-align:center'>" +
               "<h2 class='corp-cta-title'>" + esc(p.title) + "</h2>" +
               "<p class='corp-cta-sub'>" + tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?") + "</p>" +
-              "<a href='#' class='corp-cta-btn'>" + esc(p.btnText) + "</a>" +
+              "<a href='" + esc(absUrl(p.btnUrl || "/")) + "' class='corp-cta-btn'>" + esc(p.btnText) + "</a>" +
             "</div>" +
           "</section>";
         }
-        return "<section style='padding:20px'><div class='wrap'><div style='padding:48px 20px;text-align:center;border-radius:var(--radius);background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><h2 style='font-size:30px'>" + esc(p.title) + "</h2><p style='margin-top:18px'><a href='#' style='background:#fff;color:var(--primary);padding:13px 28px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></div></section>";
+        return "<section style='padding:20px'><div class='wrap'><div style='padding:48px 20px;text-align:center;border-radius:var(--radius);background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><h2 style='font-size:30px'>" + esc(p.title) + "</h2><p style='margin-top:18px'><a href='" + esc(absUrl(p.btnUrl || "/")) + "' style='background:#fff;color:var(--primary);padding:13px 28px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></div></section>";
       case "image":
         return "<figure style='padding:24px 20px;margin:0'><div class='wrap'>" +
           (p.src
