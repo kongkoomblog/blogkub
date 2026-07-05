@@ -733,8 +733,8 @@
         if (S && S.templateId === "magazine") {
           var magCats = BL === "en" ? ["Breaking", "Politics", "Economy"] : ["ข่าวด่วน", "การเมือง", "เศรษฐกิจ"];
           var magMain = '<div style="position:relative;border-radius:' + r + ';overflow:hidden;background:linear-gradient(135deg,' + pr + ',' + ac + ');min-height:340px;display:flex;align-items:flex-end">' +
-            '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,transparent 55%)"></div>' +
-            '<div style="position:relative;padding:20px 22px;color:#fff">' +
+            '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 38%,rgba(0,0,0,.18) 70%,rgba(0,0,0,.04) 100%)"></div>' +
+            '<div style="position:relative;padding:20px 22px;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.6)">' +
               '<span style="font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:' + pr + ';padding:3px 9px;border-radius:3px;margin-bottom:10px;display:inline-block">' + magCats[0] + '</span>' +
               '<h3 style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;line-height:1.2;margin:0 0 7px;color:#fff">' + tpl("หัวข้อข่าวสำคัญประจำวัน", "Top Story of the Day") + '</h3>' +
               '<div style="font-size:12px;color:rgba(255,255,255,.65)">' + tpl("24 มิ.ย. 2569", "Jun 24, 2026") + '</div>' +
@@ -742,8 +742,8 @@
           '</div>';
           var magSideItems = [1, 2].map(function (n) {
             return '<div style="position:relative;border-radius:' + r + ';overflow:hidden;background:linear-gradient(135deg,' + ac + ',' + pr + ');flex:1;min-height:140px;display:flex;align-items:flex-end">' +
-              '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,transparent 60%)"></div>' +
-              '<div style="position:relative;padding:10px 12px;color:#fff">' +
+              '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.18) 78%,rgba(0,0,0,.05) 100%)"></div>' +
+              '<div style="position:relative;padding:10px 12px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)">' +
                 '<div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:3px">' + magCats[n] + '</div>' +
                 '<div style="font-family:' + fontStack(d.font) + ';font-size:14px;font-weight:700;line-height:1.25;color:#fff">' + tpl("หัวข้อบทความย่อย " + n, "Sub Story " + n) + '</div>' +
               '</div>' +
@@ -2690,19 +2690,21 @@ tplStyleVars(),
 ".mag-feat-main{position:relative;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,var(--primary),var(--accent));min-height:380px;display:flex;align-items:flex-end;text-decoration:none;display:block}",
 ".mag-feat-main img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}",
 ".mag-feat-main:hover img{transform:scale(1.04)}",
-".mag-feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.15) 55%,transparent 100%)}",
+".mag-feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.55) 38%,rgba(0,0,0,.18) 70%,rgba(0,0,0,.04) 100%)}",
 ".mag-feat-info{position:absolute;bottom:0;left:0;right:0;padding:22px 24px;color:#fff}",
 ".mag-feat-cat{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;background:var(--primary);color:#fff;padding:3px 10px;border-radius:3px;display:inline-block;margin-bottom:10px}",
-".mag-feat-title{font-size:clamp(19px,3vw,27px);font-weight:800;line-height:1.2;color:#fff;margin:0 0 7px;font-family:var(--font)}",
+".mag-feat-title{font-size:clamp(19px,3vw,27px);font-weight:800;line-height:1.2;color:#fff;margin:0 0 7px;font-family:var(--font);text-shadow:0 2px 14px rgba(0,0,0,.7),0 1px 3px rgba(0,0,0,.6)}",
+".mag-feat-meta{text-shadow:0 1px 6px rgba(0,0,0,.7)}",
 ".mag-feat-meta{font-size:12px;color:rgba(255,255,255,.65)}",
 ".mag-side{display:flex;flex-direction:column;gap:10px}",
 ".mag-side-item{position:relative;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,var(--accent),var(--primary));flex:1;min-height:160px;text-decoration:none;display:block}",
 ".mag-side-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s}",
 ".mag-side-item:hover img{transform:scale(1.05)}",
-".mag-side-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.78) 0%,transparent 60%)}",
+".mag-side-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.18) 78%,rgba(0,0,0,.05) 100%)}",
 ".mag-side-info{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;color:#fff}",
 ".mag-side-cat{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:4px}",
-".mag-side-title{font-size:15px;font-weight:700;line-height:1.25;color:#fff;font-family:var(--font)}",
+".mag-side-title{font-size:15px;font-weight:700;line-height:1.25;color:#fff;font-family:var(--font);text-shadow:0 2px 10px rgba(0,0,0,.7),0 1px 3px rgba(0,0,0,.6)}",
+".mag-side-cat{text-shadow:0 1px 6px rgba(0,0,0,.7)}",
 ".mag-grid{display:grid;gap:22px}",
 ".mag-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);border:1px solid var(--border);transition:box-shadow .2s}",
 ".mag-card:hover{box-shadow:0 6px 22px rgba(0,0,0,.09)}",
@@ -2722,7 +2724,9 @@ tplStyleVars(),
 ".mag-news-title{font-size:15px;font-weight:600;color:var(--text-main);text-decoration:none;flex:1;min-width:0;overflow:hidden;display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;line-height:1.35;font-family:var(--font);transition:color .15s}",
 ".mag-news-title:hover{color:var(--primary)}",
 ".mag-news-date{font-size:12px;color:var(--text-muted);white-space:nowrap;flex:none}",
-"@media(max-width:640px){.mag-feat-grid{grid-template-columns:1fr}.mag-side{flex-direction:row}.mag-side-item{min-height:130px}.mag-news-date{display:none}}",
+"@media(max-width:640px){.mag-feat-grid{grid-template-columns:1fr}.mag-side{flex-direction:row}.mag-side-item{min-height:150px}.mag-news-date{display:none}}",
+"@media(max-width:900px){.mag-grid,.tb-grid,.tech-grid,.rv-grid,.edu-grid,.sb-grid{grid-template-columns:repeat(2,1fr)!important}}",
+"@media(max-width:600px){.mag-grid,.tb-grid,.tech-grid,.rv-grid,.edu-grid,.sb-grid{grid-template-columns:1fr!important}}",
 ".corp-hero{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;position:relative;overflow:hidden}",
 ".corp-hero .wrap{max-width:900px;position:relative;z-index:1}",
 ".corp-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px}",
