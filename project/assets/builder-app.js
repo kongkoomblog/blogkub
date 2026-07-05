@@ -136,7 +136,7 @@
         socialLinks: [] },
       postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "Read more →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "Read More", count: 5, showImage: true },
-      featured: { heading: "Featured", count: 1, featLabel: "แนะนำ" },
+      featured: { heading: "Featured", count: 1, featLabel: "Featured" },
       about: { eyebrow: "About the Author", name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
       text: { heading: "Your Heading", body: "Write your content here. Add the text you want readers to see.", align: "left" },
       cta: { title: "Ready to get started?", btnText: "Get Started", btnUrl: "/", bg: "soft" },
@@ -1376,9 +1376,9 @@
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading) +
         (S && S.templateId === "magazine"
-          ? txt("featLabel", "ป้ายกำกับปักหมุดบทความแนะนำ", (p.featLabel != null ? p.featLabel : "แนะนำ"),
+          ? txt("featLabel", "ป้ายกำกับปักหมุดบทความแนะนำ", (p.featLabel != null ? p.featLabel : tpl("แนะนำ", "Featured")),
               tpl("📌 วิธีใช้: เข้า blogger.com → แก้ไขโพสต์ที่ต้องการ → ช่อง \"ป้ายกำกับ\" ใส่คำว่า <b>แนะนำ</b> (หรือคำที่ตั้งไว้ข้างบน) → เผยแพร่ — โพสต์นั้นจะขึ้นเป็นบทความแนะนำทันที ปักหมุดได้หลายโพสต์ (ใบแรก = ข่าวเด่นใหญ่) • ถ้ายังไม่มีโพสต์ติดป้ายนี้เลย ระบบจะแสดงบทความล่าสุดให้อัตโนมัติ • เว้นว่าง = ใช้บทความล่าสุดเสมอ",
-                  "📌 How to: in blogger.com → edit a post → add the label <b>แนะนำ</b> (or the word you set above) → publish — that post is pinned as featured. Pin several posts (first = the big lead). • If no post has this label yet, the newest posts show automatically. • Leave blank = always use latest posts"))
+                  "📌 How to: in blogger.com → edit a post → add the label <b>Featured</b> (or the word you set above) → publish — that post is pinned as featured. Pin several posts (first = the big lead). • If no post has this label yet, the newest posts show automatically. • Leave blank = always use latest posts"))
           : "");
       case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
@@ -3318,7 +3318,7 @@ tplStyleVars(),
           // Hybrid featured selection: posts carrying the pin label (user-set,
           // default "แนะนำ") take the spotlight; when none are labeled we fall
           // back to the newest posts so the block never renders empty.
-          var mfLabel = (p.featLabel != null ? String(p.featLabel) : "แนะนำ").trim();
+          var mfLabel = (p.featLabel != null ? String(p.featLabel) : tpl("แนะนำ", "Featured")).trim();
           var magFeatGrid = function (src) {
             return "<div class='mag-feat-grid'>" +
               "<b:loop values='" + src + "' index='mfi' var='post'>" +
