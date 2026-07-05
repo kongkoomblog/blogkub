@@ -744,7 +744,7 @@
             return '<div style="position:relative;border-radius:' + r + ';overflow:hidden;background:linear-gradient(135deg,' + ac + ',' + pr + ');flex:1;min-height:140px;display:flex;align-items:flex-end">' +
               '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.18) 78%,rgba(0,0,0,.05) 100%)"></div>' +
               '<div style="position:relative;padding:10px 12px;color:#fff;text-shadow:0 2px 10px rgba(0,0,0,.6)">' +
-                '<div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:3px">' + magCats[n] + '</div>' +
+                '<div style="font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:' + pr + ';color:#fff;padding:2px 9px;border-radius:3px;display:inline-block;margin-bottom:5px">' + magCats[n] + '</div>' +
                 '<div style="font-family:' + fontStack(d.font) + ';font-size:14px;font-weight:700;line-height:1.25;color:#fff">' + tpl("หัวข้อบทความย่อย " + n, "Sub Story " + n) + '</div>' +
               '</div>' +
             '</div>';
@@ -2702,9 +2702,8 @@ tplStyleVars(),
 ".mag-side-item:hover img{transform:scale(1.05)}",
 ".mag-side-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9) 0%,rgba(0,0,0,.55) 45%,rgba(0,0,0,.18) 78%,rgba(0,0,0,.05) 100%)}",
 ".mag-side-info{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;color:#fff}",
-".mag-side-cat{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:4px}",
+".mag-side-cat{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;background:var(--primary);color:#fff;padding:2px 9px;border-radius:3px;display:inline-block;margin-bottom:6px}",
 ".mag-side-title{font-size:15px;font-weight:700;line-height:1.25;color:#fff;font-family:var(--font);text-shadow:0 2px 10px rgba(0,0,0,.7),0 1px 3px rgba(0,0,0,.6)}",
-".mag-side-cat{text-shadow:0 1px 6px rgba(0,0,0,.7)}",
 ".mag-grid{display:grid;gap:22px}",
 ".mag-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);border:1px solid var(--border);transition:box-shadow .2s}",
 ".mag-card:hover{box-shadow:0 6px 22px rgba(0,0,0,.09)}",
