@@ -3199,14 +3199,14 @@ tplStyleVars(),
           return "<section style='padding:52px 0'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='pb-grid' style='grid-template-columns:repeat(auto-fill,minmax(min(100%," + pbMinW + "px),1fr))'>" +
-              "<b:loop values='data:posts' var='post'>" +
+              "<b:loop index='pbIdx' values='data:posts' var='post'>" +
                 "<article class='" + pbCardCls + "' style='border-radius:" + pbRad + "px'>" +
                   (p.showImage ?
                     "<a expr:href='data:post.url' class='pb-card-img' style='display:block'>" +
                     "<b:if cond='data:post.featuredImage'>" +
-                    "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<img expr:src='resizeImage(data:post.featuredImage,600,&quot;16:9&quot;).replace(&quot;-p-k-no-nu&quot;,&quot;-p-k-no-nu-rw&quot;)' expr:alt='data:post.title' expr:loading='data:pbIdx == 0 ? &quot;eager&quot; : &quot;lazy&quot;' expr:fetchpriority='data:pbIdx == 0 ? &quot;high&quot; : &quot;low&quot;' decoding='async' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block'/>" +
                     "<b:elseif cond='data:post.firstImageUrl'/>" +
-                    "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block'/>" +
+                    "<img expr:src='resizeImage(data:post.firstImageUrl,600,&quot;16:9&quot;).replace(&quot;-p-k-no-nu&quot;,&quot;-p-k-no-nu-rw&quot;)' expr:alt='data:post.title' expr:loading='data:pbIdx == 0 ? &quot;eager&quot; : &quot;lazy&quot;' expr:fetchpriority='data:pbIdx == 0 ? &quot;high&quot; : &quot;low&quot;' decoding='async' width='600' height='338' style='width:100%;height:100%;object-fit:cover;display:block'/>" +
                     "<b:else/>" +
                     "<div style='height:180px;background:linear-gradient(120deg,var(--primary)12,var(--accent)25)'></div>" +
                     "</b:if></a>" : "") +
@@ -3221,8 +3221,8 @@ tplStyleVars(),
             "</div></div></section>";
         }
         return "<section style='padding:48px 0'><div class='wrap'><h2 style='font-size:26px;margin-bottom:24px'>" + esc(p.heading) + "</h2><div class='grid' style='display:grid;grid-template-columns:repeat(" + p.columns + ",1fr);gap:20px'>" +
-          "<b:loop values='data:posts' var='post'><article style='border:1px solid #eef;border-radius:var(--radius);overflow:hidden'>" +
-          (p.showImage ? "<a expr:href='data:post.url'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,800,&quot;16:9&quot;)' expr:alt='data:post.title' loading='lazy' width='400' height='225' style='width:100%;height:auto;display:block'/></b:if></a>" : "") +
+          "<b:loop index='pgIdx' values='data:posts' var='post'><article style='border:1px solid #eef;border-radius:var(--radius);overflow:hidden'>" +
+          (p.showImage ? "<a expr:href='data:post.url'><b:if cond='data:post.featuredImage'><img expr:src='resizeImage(data:post.featuredImage,800,&quot;16:9&quot;).replace(&quot;-p-k-no-nu&quot;,&quot;-p-k-no-nu-rw&quot;)' expr:alt='data:post.title' expr:loading='data:pgIdx == 0 ? &quot;eager&quot; : &quot;lazy&quot;' expr:fetchpriority='data:pgIdx == 0 ? &quot;high&quot; : &quot;low&quot;' decoding='async' width='400' height='225' style='width:100%;height:auto;display:block'/><b:elseif cond='data:post.firstImageUrl'/><img expr:src='resizeImage(data:post.firstImageUrl,800,&quot;16:9&quot;).replace(&quot;-p-k-no-nu&quot;,&quot;-p-k-no-nu-rw&quot;)' expr:alt='data:post.title' expr:loading='data:pgIdx == 0 ? &quot;eager&quot; : &quot;lazy&quot;' expr:fetchpriority='data:pgIdx == 0 ? &quot;high&quot; : &quot;low&quot;' decoding='async' width='400' height='225' style='width:100%;height:auto;display:block'/></b:if></a>" : "") +
           "<div style='padding:16px'><h3 style='font-size:17px'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
           (p.showExcerpt ? "<p class='post-snippet' style='color:#828aa0;font-size:14px;margin-top:8px;line-height:1.5;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 190, links: false, linebreaks: false, ellipsis: true }'/></b:if></p>" : "") +
           "</div></article></b:loop>" +
