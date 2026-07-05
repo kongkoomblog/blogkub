@@ -7,7 +7,7 @@
 ## 1. สิ่งที่โปรเจกต์นี้คือ
 
 **BlogKub** — เครื่องมือ visual builder ฝั่ง client-side 100% สำหรับสร้าง Blogger XML theme ไม่มี backend, ไม่มี database, ไม่ต้อง login  
-Deploy เป็น static files บน **Cloudflare Pages** ที่ `github.com/kongkoomblog/bloggerxmlbuilder`  
+Deploy เป็น static files บน **Cloudflare Pages** ที่ `github.com/kongkoomblog/blogkub`  
 Auto-deploy pipeline: push to `main` → Cloudflare Pages deploy อัตโนมัติ
 
 ผู้ใช้ออกแบบด้วย drag/tap → live preview → กด Export → ได้ไฟล์ `.xml` → นำไปอัปโหลดใน Blogger (Theme → Edit HTML → Backup/Restore → Upload)
