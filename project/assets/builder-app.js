@@ -650,7 +650,7 @@
           }
           return '<section style="padding:48px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
             (p.heading ? '<h2 style="font-family:' + tplHeadFont(d) + ';font-size:26px;font-weight:800;margin:0 0 24px;color:#1f2937">' + esc(p.heading) + '</h2>' : '') +
-            '<div style="display:grid;grid-template-columns:repeat(' + pbCols + ',1fr);gap:20px">' + pbCards + '</div>' +
+            '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,' + Math.max(220, Math.round(1040 / (p.columns || 3))) + 'px),1fr));gap:20px">' + pbCards + '</div>' +
             '</div></section>';
         }
         var cols = p.columns || 3, cards = "";
@@ -2609,8 +2609,6 @@ tplStyleVars(),
 ".pb-card-title a:hover{color:var(--primary)}",
 ".pb-card-excerpt{font-size:13.5px;color:var(--text-muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin:0 0 10px}",
 ".pb-card-read{font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
-"@media(max-width:900px){.pb-grid{grid-template-columns:repeat(2,1fr)!important}}",
-"@media(max-width:600px){.pb-grid{grid-template-columns:1fr!important}}",
 ".pb-card--border{box-shadow:none;border:1px solid var(--border)}",
 ".pb-card--border:hover{box-shadow:0 8px 22px rgba(0,0,0,.09)}",
 ".pb-card--flat{box-shadow:none;background:transparent}",
@@ -3193,9 +3191,13 @@ tplStyleVars(),
           var pbReadLbl = (p.readMore != null ? p.readMore : tpl("อ่านต่อ →", "Read more →"));
           var pbRad = (p.cardRadius != null ? p.cardRadius : 14);
           var pbCardCls = "pb-card pb-card--" + (p.cardStyle || "shadow");
+          // Auto-fit tracks with a minimum card width (derived from the chosen
+          // column count) so cards never get squished — e.g. inside the narrow
+          // main column when a sidebar is present, or with only a few posts.
+          var pbMinW = Math.max(220, Math.round(1040 / (p.columns || 3)));
           return "<section style='padding:52px 0'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
-            "<div class='pb-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
+            "<div class='pb-grid' style='grid-template-columns:repeat(auto-fill,minmax(min(100%," + pbMinW + "px),1fr))'>" +
               "<b:loop values='data:posts' var='post'>" +
                 "<article class='" + pbCardCls + "' style='border-radius:" + pbRad + "px'>" +
                   (p.showImage ?
