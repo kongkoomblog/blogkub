@@ -3519,11 +3519,11 @@ tplStyleVars(),
         return shareHtml;
       case "sidebar":
         var sWidgets = "";
-        if (p.showSearch) sWidgets += "<b:widget id='BlogSearch1' type='BlogSearch' title='ค้นหา' version='1' visible='true'/>\n";
-        if (p.showCategories) sWidgets += "<b:widget id='Label1' type='Label' title='" + tpl("ป้ายกำกับ","Labels") + "' version='1' visible='true'>\n<b:widget-settings><b:widget-setting name='sorting'>ALPHA</b:widget-setting><b:widget-setting name='display'>LIST</b:widget-setting><b:widget-setting name='showFreqNumbers'>true</b:widget-setting></b:widget-settings></b:widget>\n";
-        if (p.showArchive) sWidgets += "<b:widget id='BlogArchive1' type='BlogArchive' title='" + tpl("คลังบทความ","Archive") + "' version='2' visible='true'>\n<b:widget-settings><b:widget-setting name='pageType'>MONTHLY</b:widget-setting><b:widget-setting name='showPostCount'>true</b:widget-setting></b:widget-settings></b:widget>\n";
-        if (p.showAbout) sWidgets += "<b:widget id='Profile1' type='Profile' title='" + tpl("เกี่ยวกับฉัน","About me") + "' version='1' visible='true'/>\n";
-        return "<b:section id='sidebar' class='bxb-sidebar-col' mobile='yes' showaddelement='yes' preferred='yes'>\n" + sWidgets + "</b:section>";
+        if (p.showSearch) sWidgets += "<b:widget id='BlogSearch1' locked='false' mobile='yes' title='" + tpl("ค้นหา","Search") + "' type='BlogSearch' version='2' visible='true'/>\n";
+        if (p.showCategories) sWidgets += "<b:widget id='Label1' locked='false' mobile='yes' title='" + tpl("ป้ายกำกับ","Labels") + "' type='Label' version='2' visible='true'>\n<b:widget-settings><b:widget-setting name='sorting'>ALPHA</b:widget-setting><b:widget-setting name='display'>LIST</b:widget-setting><b:widget-setting name='showFreqNumbers'>true</b:widget-setting></b:widget-settings>\n</b:widget>\n";
+        if (p.showArchive) sWidgets += "<b:widget id='BlogArchive1' locked='false' mobile='yes' title='" + tpl("คลังบทความ","Archive") + "' type='BlogArchive' version='2' visible='true'/>\n";
+        if (p.showAbout) sWidgets += "<b:widget id='Profile1' locked='false' mobile='yes' title='" + tpl("เกี่ยวกับฉัน","About me") + "' type='Profile' version='2' visible='true'/>\n";
+        return "<b:section id='sidebar' class='bxb-sidebar-col' showaddelement='yes' name='Sidebar' growth='vertical'>\n" + sWidgets + "</b:section>";
       case "search":
         return "<section style='padding:16px 20px'><div class='wrap'>" + (p.heading ? "<h3 style='font-size:16px;margin-bottom:10px'>" + esc(p.heading) + "</h3>" : "") + "<form action='/search' method='get' role='search'><div style='display:flex;max-width:420px'><input name='q' type='search' placeholder='" + esc(p.placeholder || tpl("ค้นหาในบล็อก…","Search blog…")) + "' style='flex:1;padding:12px 16px;border:1px solid #dde;border-radius:var(--radius) 0 0 var(--radius);font-size:14px'/><button type='submit' style='padding:12px 16px;background:var(--primary);color:#fff;border:0;border-radius:0 var(--radius) var(--radius) 0;cursor:pointer'>🔍</button></div></form></div></section>";
       case "footer":
