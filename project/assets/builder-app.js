@@ -2917,6 +2917,29 @@ tplStyleVars(),
     return inline ? inner : "<b:if cond='data:view.isSingleItem'>" + inner + "</b:if>";
   }
 
+  // Pin label of the featured block (used to pin posts into the featured
+  // spotlight). It's an internal marker, not a real category, so card
+  // kickers must skip it when picking a label to display.
+  function magPinLabel() {
+    var fb = S && S.blocks && S.blocks.find(function (b) { return b.type === "featured"; });
+    var v = (fb && fb.props && fb.props.featLabel != null) ? String(fb.props.featLabel) : tpl("แนะนำ", "Featured");
+    return v.trim();
+  }
+  // Emit Blogger markup showing the post's first label that is NOT the pin
+  // label, wrapped in the given open/close tags. Optional placeholder keeps
+  // row alignment when nothing remains to show.
+  function magCatFirst(open, close, placeholder) {
+    var pin = magPinLabel(), ph = placeholder || "";
+    if (!pin) return "<b:if cond='data:post.labels'>" + open + "<data:post.labels.first.name/>" + close + (ph ? "<b:else/>" + ph : "") + "</b:if>";
+    return "<b:if cond='data:post.labels'>" +
+      "<b:with value='data:post.labels filter (bkl =&gt; bkl.name != &quot;" + esc(pin) + "&quot;)' var='bkcats'>" +
+      "<b:if cond='data:bkcats.first'>" + open + "<data:bkcats.first.name/>" + close +
+      (ph ? "<b:else/>" + ph : "") + "</b:if>" +
+      "</b:with>" +
+      (ph ? "<b:else/>" + ph : "") +
+      "</b:if>";
+  }
+
   /* static (server-rendered) markup for the theme body — semantic HTML5 */
   function renderBlockStatic(b) {
     var p = b.props, d = design();
@@ -3162,10 +3185,7 @@ tplStyleVars(),
                     "</b:if>" +
                   "</div>" +
                   "<div class='mag-card-body'>" +
-                    "<b:if cond='data:post.labels'>" +
-                    "<b:loop values='data:post.labels' index='mcl' var='label'>" +
-                    "<b:if cond='data:mcl == 0'><span class='mag-card-cat'><data:label.name/></span></b:if>" +
-                    "</b:loop></b:if>" +
+                    magCatFirst("<span class='mag-card-cat'>", "</span>") +
                     "<h3 class='mag-card-title'><a expr:href='data:post.url'><data:post.title/></a></h3>" +
                     (p.showExcerpt ? "<p class='mag-card-excerpt'><b:if cond='data:post.metaDescription != &quot;&quot;'><data:post.metaDescription/><b:else/><b:eval expr='data:post.body snippet { length: 160, links: false, linebreaks: false, ellipsis: true }'/></b:if></p>" : "") +
                     "<div class='mag-card-meta'><data:post.date/></div>" +
@@ -3245,12 +3265,7 @@ tplStyleVars(),
             (p.heading ? "<h2 style='font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-left:4px solid var(--primary);padding-left:12px;margin:0 0 4px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
             "<b:loop values='data:posts' var='post'>" +
               "<div class='mag-news-row'>" +
-                "<b:if cond='data:post.labels'>" +
-                "<b:loop values='data:post.labels' index='mnl' var='label'>" +
-                "<b:if cond='data:mnl == 0'><span class='mag-news-cat'><data:label.name/></span></b:if>" +
-                "</b:loop>" +
-                "<b:else/><span class='mag-news-cat' style='visibility:hidden'>—</span>" +
-                "</b:if>" +
+                magCatFirst("<span class='mag-news-cat'>", "</span>", "<span class='mag-news-cat' style='visibility:hidden'>—</span>") +
                 "<a expr:href='data:post.url' class='mag-news-title'><data:post.title/></a>" +
                 "<span class='mag-news-date'><data:post.date/></span>" +
               "</div>" +
@@ -3331,10 +3346,7 @@ tplStyleVars(),
                     "</b:if>" +
                     "<div class='mag-feat-overlay'></div>" +
                     "<div class='mag-feat-info'>" +
-                      "<b:if cond='data:post.labels'>" +
-                      "<b:loop values='data:post.labels' index='mfl' var='label'>" +
-                      "<b:if cond='data:mfl == 0'><span class='mag-feat-cat'><data:label.name/></span></b:if>" +
-                      "</b:loop></b:if>" +
+                      magCatFirst("<span class='mag-feat-cat'>", "</span>") +
                       "<div class='mag-feat-title'><data:post.title/></div>" +
                       "<div class='mag-feat-meta'><data:post.date/></div>" +
                     "</div>" +
@@ -3352,10 +3364,7 @@ tplStyleVars(),
                       "</b:if>" +
                       "<div class='mag-side-overlay'></div>" +
                       "<div class='mag-side-info'>" +
-                        "<b:if cond='data:post.labels'>" +
-                        "<b:loop values='data:post.labels' index='msl' var='label'>" +
-                        "<b:if cond='data:msl == 0'><div class='mag-side-cat'><data:label.name/></div></b:if>" +
-                        "</b:loop></b:if>" +
+                        magCatFirst("<div class='mag-side-cat'>", "</div>") +
                         "<div class='mag-side-title'><data:post.title/></div>" +
                       "</div>" +
                     "</a>" +
