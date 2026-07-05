@@ -134,7 +134,7 @@
       footer: { about: "A blog sharing knowledge and quality articles", copyright: "© 2026 MyBlog. All rights reserved.",
         footerLinks: [{ label: "Home", url: "/" }, { label: "Posts", url: "/search" }, { label: "About", url: "/p/about.html" }, { label: "Contact", url: "/p/contact.html" }],
         socialLinks: [] },
-      postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "Read more →" },
+      postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "Read more →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "Read More", count: 5, showImage: true },
       featured: { heading: "Featured", count: 1 },
       about: { eyebrow: "About the Author", name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
@@ -168,7 +168,7 @@
       footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
         footerLinks: [{ label: "หน้าแรก", url: "/" }, { label: "บทความ", url: "/search" }, { label: "เกี่ยวกับ", url: "/p/about.html" }, { label: "ติดต่อ", url: "/p/contact.html" }],
         socialLinks: [] },
-      postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "อ่านต่อ →" },
+      postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "อ่านต่อ →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "อ่านต่อ", count: 5, showImage: true },
       featured: { heading: "บทความแนะนำ", count: 1 },
       about: { eyebrow: "เกี่ยวกับผู้เขียน", name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true, avatarUrl: "" },
@@ -634,8 +634,11 @@
           var pbCards = "";
           var pbDateLabel = tpl("24 มิ.ย. 2569", "Jun 24, 2026");
           var pbReadLbl = (p.readMore != null ? p.readMore : tpl("อ่านต่อ →", "Read more →"));
+          var pbRad = (p.cardRadius != null ? p.cardRadius : 14);
+          var pbCs = p.cardStyle || "shadow";
+          var pbDeco = pbCs === "border" ? "background:#fff;border:1px solid #e6e8f0" : pbCs === "flat" ? "background:transparent" : "background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07)";
           for (var pi = 0; pi < (p.count || 6); pi++) {
-            pbCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.07)">' +
+            pbCards += '<article style="border-radius:' + pbRad + 'px;overflow:hidden;' + pbDeco + '">' +
               (p.showImage ? '<div style="height:160px;background:linear-gradient(120deg,' + pr + '18,' + ac + '28)"></div>' : '') +
               '<div style="padding:15px 17px 18px">' +
                 '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">' + pbDateLabel + '</div>' +
@@ -1369,7 +1372,7 @@
         + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
       case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
       case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
-      case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link"));
+      case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link")) + num("cardRadius", "มุมโค้งการ์ด (px)", p.cardRadius != null ? p.cardRadius : 14, 0, 28) + seg("cardStyle", "สไตล์การ์ด", p.cardStyle || "shadow", [["shadow", "เงา"], ["border", "เส้นขอบ"], ["flat", "แบน"]]);
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading);
       case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
@@ -2491,7 +2494,7 @@ bodyHTML + "\n" +
     return [
 skinVariables(d),
 "*{margin:0;padding:0;box-sizing:border-box}",
-"body{font:$(bodyfont);color:var(--text-main);background:var(--bg-body);line-height:1.6;-webkit-font-smoothing:antialiased}",
+"body{font:$(bodyfont);color:var(--text-main);background:var(--bg-body);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}",
 "a{color:var(--primary);text-decoration:none}",
 "img{max-width:100%;height:auto}",
 ".skip{position:absolute;left:-9999px;top:0;background:$(keycolor);color:#fff;padding:10px 16px;z-index:999}",
@@ -2562,7 +2565,7 @@ tplStyleVars(),
 ".post-body pre{background:var(--bg-surface);color:var(--text-main);padding:16px;border-radius:var(--radius);overflow-x:auto;font-size:13px;line-height:1.6;margin-bottom:16px}",
 ".post-body code{font-family:monospace;background:var(--bg-surface-2);color:var(--text-main);padding:2px 6px;border-radius:4px;font-size:13px}",
 ".post-body pre code{background:none;padding:0}",
-".site-footer{background:#0f172a;color:#fff;padding:52px 20px 28px}",
+".site-footer{background:#0f172a;color:#fff;padding:52px 20px 28px;margin-top:auto}",
 ".footer-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;max-width:980px;margin:0 auto;align-items:start}",
 "@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:28px}}",
 ".footer-logo{font-weight:700;font-size:20px;color:#fff;margin-bottom:12px;font-family:$(titlefont)}",
@@ -2605,6 +2608,13 @@ tplStyleVars(),
 ".pb-card-title a:hover{color:var(--primary)}",
 ".pb-card-excerpt{font-size:13.5px;color:var(--text-muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin:0 0 10px}",
 ".pb-card-read{font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
+"@media(max-width:900px){.pb-grid{grid-template-columns:repeat(2,1fr)!important}}",
+"@media(max-width:600px){.pb-grid{grid-template-columns:1fr!important}}",
+".pb-card--border{box-shadow:none;border:1px solid var(--border)}",
+".pb-card--border:hover{box-shadow:0 8px 22px rgba(0,0,0,.09)}",
+".pb-card--flat{box-shadow:none;background:transparent}",
+".pb-card--flat .pb-card-body{padding-left:2px;padding-right:2px}",
+".pb-card--flat:hover{transform:none}",
 ".pb-about{padding:56px 20px;background:var(--bg-surface)}",
 ".pb-about .wrap{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;max-width:800px}",
 ".pb-about-avatar{width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,var(--primary),var(--accent));flex:none}",
@@ -3180,11 +3190,13 @@ tplStyleVars(),
         }
         if (S && S.templateId === "personal") {
           var pbReadLbl = (p.readMore != null ? p.readMore : tpl("อ่านต่อ →", "Read more →"));
+          var pbRad = (p.cardRadius != null ? p.cardRadius : 14);
+          var pbCardCls = "pb-card pb-card--" + (p.cardStyle || "shadow");
           return "<section style='padding:52px 0'><div class='wrap'>" +
             (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='pb-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
               "<b:loop values='data:posts' var='post'>" +
-                "<article class='pb-card'>" +
+                "<article class='" + pbCardCls + "' style='border-radius:" + pbRad + "px'>" +
                   (p.showImage ?
                     "<a expr:href='data:post.url' class='pb-card-img' style='display:block'>" +
                     "<b:if cond='data:post.featuredImage'>" +
@@ -4319,6 +4331,7 @@ tplStyleVars(),
     // block labels
     "เกี่ยวกับ": "About", "CTA": "CTA", "โฆษณา": "Ad", "Sidebar": "Sidebar", "ค้นหา": "Search",
     // field labels
+    "มุมโค้งการ์ด (px)": "Card corner radius (px)", "สไตล์การ์ด": "Card style", "เงา": "Shadow", "เส้นขอบ": "Border", "แบน": "Flat",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง — ใส่ลิงก์ได้แต่ละอัน": "Navigation — set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
