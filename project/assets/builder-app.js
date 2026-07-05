@@ -2155,8 +2155,8 @@
     var nextprevIncludable =
       "<b:includable id='nextprev'>\n" +
       "<nav class='blog-pager' id='blog-pager' aria-label='" + tpl("การนำทางหน้าบทความ","Post navigation") + "'>\n" +
-      "<b:if cond='data:newerPageUrl'><a class='blog-pager-newer-link' expr:href='data:newerPageUrl' rel='prev'>&#8592; " + tpl("ใหม่กว่า","Newer") + "</a></b:if>\n" +
-      "<b:if cond='data:olderPageUrl'><a class='blog-pager-older-link' expr:href='data:olderPageUrl' rel='next'>" + tpl("เก่ากว่า","Older") + " &#8594;</a></b:if>\n" +
+      "<b:if cond='data:newerPageUrl'><a class='blog-pager-newer-link' expr:href='data:newerPageUrl' rel='prev'>&#8592; " + tpl("บทความใหม่กว่า","Newer posts") + "</a></b:if>\n" +
+      "<b:if cond='data:olderPageUrl'><a class='blog-pager-older-link' expr:href='data:olderPageUrl' rel='next'>" + tpl("บทความเก่ากว่า","Older posts") + " &#8594;</a></b:if>\n" +
       "</nav>\n" +
       "</b:includable>\n";
 
@@ -2550,6 +2550,10 @@ tplStyleVars(),
 ".bxb-sidebar-col .widget{margin-bottom:18px;background:var(--bg-surface);border-radius:var(--radius);padding:16px}",
 ".bxb-sidebar-col .widget-title,.bxb-sidebar-col h2,.bxb-sidebar-col h3{font-size:15px;font-weight:700;margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--primary)}",
 "@media(max-width:768px){.bxb-page-layout{display:block;padding:16px 20px}.bxb-sidebar-col{margin-top:20px}}",
+".blog-pager{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;max-width:1080px;margin:6px auto 44px;padding:0 20px}",
+".blog-pager a{display:inline-flex;align-items:center;gap:8px;padding:11px 24px;border:1.5px solid var(--border-med);border-radius:999px;background:var(--bg-surface);color:var(--text-main);font-weight:600;font-size:14px;text-decoration:none;transition:background .18s,color .18s,border-color .18s,transform .18s,box-shadow .18s;box-shadow:0 1px 3px rgba(0,0,0,.05)}",
+".blog-pager a:hover{background:var(--primary);border-color:var(--primary);color:#fff;transform:translateY(-2px);box-shadow:0 10px 22px -8px rgba(0,0,0,.35)}",
+".blog-pager .blog-pager-older-link{margin-left:auto}",
 ".widget{margin-bottom:1.5rem}",
 ".widget-title{font-size:1rem;font-weight:700;margin-bottom:.75rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary)}",
 ".bxb-post-single{min-height:60vh}",
