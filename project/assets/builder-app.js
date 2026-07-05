@@ -254,6 +254,14 @@
   /* ---------- BLOCK RENDER (canvas) ---------- */
   function design() { return S.design; }
   function fontStack(f) { return f === "serif" ? "Georgia,'Times New Roman',serif" : f === "mono" ? "monospace" : "'IBM Plex Sans Thai',system-ui,sans-serif"; }
+  // Heading font per template personality (preview mirror of tplStyleVars --font)
+  function tplHeadFont(d) {
+    var id = S && S.templateId;
+    if (id === "personal" || id === "sidebar-blog" || id === "magazine") return "Georgia,'Times New Roman',serif";
+    if (id === "course") return "'Trebuchet MS','Segoe UI',sans-serif";
+    if (id === "travel") return "'Helvetica Neue',Arial,sans-serif";
+    return fontStack(d.font);
+  }
   // menu items: new model is array {label,url}; convert old comma-string if present
   function menuItemsOf(p) {
     if (Array.isArray(p.menuItems)) return p.menuItems;
@@ -467,11 +475,11 @@
         }
         if (S && S.templateId === "personal") {
           var pbHeroEb = (p.eyebrow != null ? p.eyebrow : "✦ Personal Blog");
-          return '<div style="padding:60px 32px;background:#fff;border-bottom:1px solid #f0f0f8">' +
+          return '<div style="padding:60px 32px;background:#fffdf8;border-bottom:1px solid #f0ece2">' +
             '<div style="max-width:860px;margin:0 auto;display:flex;align-items:center;gap:40px;flex-wrap:wrap">' +
               '<div style="flex:1;min-width:220px">' +
                 (pbHeroEb ? '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px">' + esc(pbHeroEb) + '</div>' : '') +
-                '<h1 style="font-family:' + fontStack(d.font) + ';font-size:38px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#0f172a;margin:0 0 14px">' + esc(p.title) + '</h1>' +
+                '<h1 style="font-family:' + tplHeadFont(d) + ';font-size:38px;font-weight:800;line-height:1.15;letter-spacing:-.01em;color:#1f2937;margin:0 0 14px">' + esc(p.title) + '</h1>' +
                 '<p style="font-size:16px;color:#64748b;line-height:1.65;margin:0 0 24px;max-width:380px">' + esc(p.subtitle) + '</p>' +
                 '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
               '</div>' +
@@ -631,14 +639,14 @@
               (p.showImage ? '<div style="height:160px;background:linear-gradient(120deg,' + pr + '18,' + ac + '28)"></div>' : '') +
               '<div style="padding:15px 17px 18px">' +
                 '<div style="font-size:11px;color:#94a3b8;margin-bottom:5px">' + pbDateLabel + '</div>' +
-                '<h3 style="font-size:16px;font-weight:700;line-height:1.35;margin:0 0 6px;color:#0f172a">' + tpl("หัวข้อบทความที่ ", "Article #") + (pi + 1) + '</h3>' +
+                '<h3 style="font-family:' + tplHeadFont(d) + ';font-size:17px;font-weight:700;line-height:1.4;margin:0 0 6px;color:#1f2937">' + tpl("หัวข้อบทความที่ ", "Article #") + (pi + 1) + '</h3>' +
                 (p.showExcerpt ? '<p style="font-size:13px;color:#64748b;line-height:1.55;margin:0 0 9px">' + tpl("คำโปรยบทความแสดงตัวอย่างเนื้อหาสั้นๆ...", "A short excerpt giving readers a preview before they click to read more...") + '</p>' : '') +
                 (pbReadLbl ? '<a style="font-size:13px;color:' + pr + ';font-weight:600;text-decoration:none">' + esc(pbReadLbl) + '</a>' : '') +
               '</div>' +
             '</article>';
           }
           return '<section style="padding:48px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
-            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;margin:0 0 24px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            (p.heading ? '<h2 style="font-family:' + tplHeadFont(d) + ';font-size:26px;font-weight:800;margin:0 0 24px;color:#1f2937">' + esc(p.heading) + '</h2>' : '') +
             '<div style="display:grid;grid-template-columns:repeat(' + pbCols + ',1fr);gap:20px">' + pbCards + '</div>' +
             '</div></section>';
         }
@@ -825,16 +833,16 @@
         }
         if (S && S.templateId === "personal") {
           var pbAboutEb = (p.eyebrow != null ? p.eyebrow : tpl("เกี่ยวกับผู้เขียน", "About the Author"));
-          return '<div style="padding:52px 32px;background:#f8fafc">' +
+          return '<div style="padding:52px 32px;background:#faf6ee">' +
             '<div style="max-width:780px;margin:0 auto;display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap">' +
               (p.showAvatar ?
                 (p.avatarUrl
                   ? '<div style="width:110px;height:110px;border-radius:50%;overflow:hidden;flex:none"><img src="' + esc(p.avatarUrl) + '" alt="' + esc(p.name) + '" style="width:100%;height:100%;object-fit:cover"></div>'
-                  : '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none"><div style="width:100%;height:100%;border-radius:50%;background:#f8fafc;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>')
+                  : '<div style="width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,' + pr + ',' + ac + ');flex:none"><div style="width:100%;height:100%;border-radius:50%;background:#faf6ee;display:flex;align-items:center;justify-content:center;font-size:38px">👤</div></div>')
                 : '') +
               '<div style="flex:1;min-width:200px">' +
                 (pbAboutEb ? '<div style="font-size:11px;color:' + pr + ';font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px">' + esc(pbAboutEb) + '</div>' : '') +
-                '<h3 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px;line-height:1.2">' + esc(p.name) + '</h3>' +
+                '<h3 style="font-family:' + tplHeadFont(d) + ';font-size:24px;font-weight:800;color:#1f2937;margin:0 0 10px;line-height:1.2">' + esc(p.name) + '</h3>' +
                 '<p style="color:#64748b;font-size:15px;line-height:1.7;margin:0">' + richHTML(p.bio) + '</p>' +
               '</div>' +
             '</div>' +
@@ -1035,10 +1043,21 @@
   function renderCanvas() {
     var f = $("#frame");
     if (!S.blocks.length) {
-      f.innerHTML = '<div class="canvas-empty">' + svg(IC.cursor, 1.5) + "<b>" + tr("ลากองค์ประกอบมาวางที่นี่") + "</b><span>" + tr("เลือกจากแผงด้านซ้าย ลากมาวางเพื่อเริ่มออกแบบหน้าเว็บของคุณ") + "</span></div>";
+      var isMobEmpty = window.matchMedia("(max-width:1000px)").matches;
+      f.innerHTML = '<div class="canvas-empty">' + svg(IC.cursor, 1.5) +
+        "<b>" + (isMobEmpty ? tpl("ยังไม่มีบล็อกบนหน้าเว็บ", "No blocks on the page yet") : tr("ลากองค์ประกอบมาวางที่นี่")) + "</b>" +
+        "<span>" + (isMobEmpty ? tpl("แตะปุ่มด้านล่างเพื่อเลือกบล็อกแรกของคุณ", "Tap the button below to pick your first block") : tr("เลือกจากแผงด้านซ้าย ลากมาวางเพื่อเริ่มออกแบบหน้าเว็บของคุณ")) + "</span>" +
+        '<button id="emptyAddBtn" style="margin-top:4px;background:linear-gradient(120deg,#6366f1,#8b5cf6);color:#fff;border:0;border-radius:10px;padding:11px 22px;font-family:inherit;font-weight:600;font-size:14px;cursor:pointer">' + tpl("+ เพิ่มบล็อกแรก", "+ Add your first block") + '</button>' +
+        "</div>";
       // make empty a dropzone
       f.firstChild.classList.add("dropzone");
       f.firstChild.dataset.idx = "0";
+      var eab = f.querySelector("#emptyAddBtn");
+      if (eab) eab.addEventListener("click", function (e) {
+        e.stopPropagation();
+        if (window.matchMedia("(max-width:1000px)").matches) { showMob("left"); }
+        else { var lp = $(".panel.left"); if (lp) { lp.style.animation = "coachUp .35s"; setTimeout(function () { lp.style.animation = ""; }, 400); } }
+      });
       return;
     }
     f.innerHTML = "";
@@ -1194,7 +1213,7 @@
   function imgUrl(key, label, val) {
     val = val || "";
     var pvw = '<div class="img-pvw" data-img-for="' + key + '"' + (val ? '' : ' style="display:none"') + '>' +
-      '<img class="img-pvw-img" src="' + esc(val) + '" alt="">' +
+      '<img class="img-pvw-img"' + (val ? ' src="' + esc(val) + '"' : '') + ' alt="">' +
       '<div class="img-pvw-st"></div>' +
       '</div>';
     var guide = '<details class="img-guide"><summary>' + tpl('📸 วิธีได้ URL รูปจาก Blogger', '📸 How to get image URL from Blogger') + '</summary>' +
@@ -1213,7 +1232,7 @@
     val = val || "";
     var pvwKey = "seo-" + key;
     var pvw = '<div class="img-pvw" data-img-for="' + pvwKey + '"' + (val ? '' : ' style="display:none"') + '>' +
-      '<img class="img-pvw-img" src="' + esc(val) + '" alt="">' +
+      '<img class="img-pvw-img"' + (val ? ' src="' + esc(val) + '"' : '') + ' alt="">' +
       '<div class="img-pvw-st"></div>' +
       '</div>';
     var guide = '<details class="img-guide"><summary>' + tpl('📸 วิธีได้ URL รูปจาก Blogger', '📸 How to get image URL from Blogger') + '</summary>' +
@@ -1684,7 +1703,7 @@
   function favField(seo) {
     var val = seo.favUrl || "";
     var pvw = '<div class="fav-pvw" id="favPvwWrap"' + (val ? '' : ' style="display:none"') + '>'
-      + '<img id="favPvwImg" src="' + esc(val) + '" alt="" style="width:28px;height:28px;border-radius:5px;object-fit:contain;border:1px solid var(--border);background:#fff">'
+      + '<img id="favPvwImg"' + (val ? ' src="' + esc(val) + '"' : '') + ' alt="" style="width:28px;height:28px;border-radius:5px;object-fit:contain;border:1px solid var(--border);background:#fff">'
       + '<span id="favPvwSt" class="fav-pvw-st"></span>'
       + '</div>';
     var guide = '<details class="img-guide"><summary>' + tpl('🌐 วิธีหา URL Favicon ของเว็บ', '🌐 How to find your website\'s favicon URL') + '</summary>'
@@ -2439,6 +2458,34 @@ bodyHTML + "\n" +
 "*/"
     ].join("\n");
   }
+  /* Per-template style variables — declares --font (heading font) and --bg-base/--bg-surface tints.
+     Pure CSS inside b:skin CDATA: cannot affect Blogger XML validity. */
+  function tplStyleVars() {
+    var FONTS = {
+      personal: "Georgia,'Times New Roman','IBM Plex Sans Thai',serif",
+      travel: "'Helvetica Neue',Arial,'IBM Plex Sans Thai',sans-serif",
+      tech: "ui-sans-serif,system-ui,'Segoe UI','IBM Plex Sans Thai',sans-serif",
+      "sidebar-blog": "Georgia,'Times New Roman','IBM Plex Sans Thai',serif",
+      magazine: "Georgia,'Times New Roman','IBM Plex Sans Thai',serif",
+      company: "ui-sans-serif,system-ui,'Segoe UI',Arial,'IBM Plex Sans Thai',sans-serif",
+      course: "'Trebuchet MS','Segoe UI','IBM Plex Sans Thai',sans-serif",
+      review: "ui-sans-serif,system-ui,'Segoe UI','IBM Plex Sans Thai',sans-serif"
+    };
+    var TINT = {
+      personal: { base: "#fffdf8", surface: "#faf6ee" },
+      travel: { base: "#ffffff", surface: "#f6f9fb" },
+      tech: { base: "#ffffff", surface: "#f1f5f9" },
+      "sidebar-blog": { base: "#fffefb", surface: "#f7f5f0" },
+      magazine: { base: "#ffffff", surface: "#f6f6f7" },
+      company: { base: "#ffffff", surface: "#f4f7ff" },
+      course: { base: "#ffffff", surface: "#faf7ff" },
+      review: { base: "#ffffff", surface: "#fff8f1" }
+    };
+    var id = (S && S.templateId) || "";
+    var f = FONTS[id] || "'IBM Plex Sans Thai',system-ui,sans-serif";
+    var t = TINT[id] || { base: "#ffffff", surface: "#f7f8fc" };
+    return ":root{--font:" + f + ";--bg-base:" + t.base + ";--bg-surface:" + t.surface + "}";
+  }
   function themeCSS(d) {
     var ff = d.font === "serif" ? "Georgia,serif" : d.font === "mono" ? "monospace" : "'IBM Plex Sans Thai',system-ui,sans-serif";
     return [
@@ -2451,6 +2498,7 @@ skinVariables(d),
 ".skip:focus{left:0}",
 ".wrap{max-width:1080px;margin:0 auto;padding:0 20px}",
 ":root{--primary:$(keycolor);--accent:$(accentcolor);--radius:$(radius);--bg-body:#fff;--bg-surface:#f7f8fc;--bg-surface-2:#f0f1f7;--bg-header:#fff;--text-main:#1e2333;--text-muted:#4a5063;--text-subtle:#828aa0;--border:rgba(0,0,0,.07);--border-med:rgba(0,0,0,.1);--hover-bg:rgba(0,0,0,.05);--nav-shadow:0 0 48px rgba(0,0,0,.25);--drop-shadow:0 8px 24px rgba(0,0,0,.12)}",
+tplStyleVars(),
 "h1,h2,h3{line-height:1.2}",
 ".site-header{background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;z-index:50}",
 ".site-bar{display:flex;align-items:center;gap:20px;padding:14px 20px;max-width:1080px;margin:0 auto}",
@@ -2552,7 +2600,7 @@ skinVariables(d),
 ".pb-card:hover .pb-card-img img{transform:scale(1.05)}",
 ".pb-card-body{padding:16px 18px 20px}",
 ".pb-card-date{font-size:11.5px;color:var(--text-muted);margin-bottom:5px}",
-".pb-card-title{font-size:17px;font-weight:700;line-height:1.35;margin:0 0 7px}",
+".pb-card-title{font-size:17px;font-weight:700;line-height:1.4;margin:0 0 7px;font-family:var(--font)}",
 ".pb-card-title a{color:var(--text-main);text-decoration:none}",
 ".pb-card-title a:hover{color:var(--primary)}",
 ".pb-card-excerpt{font-size:13.5px;color:var(--text-muted);line-height:1.6;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;margin:0 0 10px}",
@@ -4145,6 +4193,30 @@ skinVariables(d),
     }
     HISTORY = []; pushHistory();
     setView(VIEW); renderProps(); renderSeo(); renderDesign(); setupLibDrag(); save();
+    showCoach();
+  }
+
+  /* first-run coach: 3 steps, shown once (dismiss stored) */
+  function showCoach() {
+    try { if (localStorage.getItem("bxb_coach_v1")) return; } catch (e) {}
+    if ($(".coach")) return;
+    var isMob = window.matchMedia("(max-width:1000px)").matches;
+    var steps = isMob
+      ? [tpl("แตะ “องค์ประกอบ” ด้านล่าง แล้วแตะบล็อกเพื่อเพิ่มลงหน้าเว็บ", "Tap “Elements” below, then tap a block to add it"),
+         tpl("แตะบล็อกบนหน้าเว็บ แล้วแตะ “ปรับแต่ง” เพื่อแก้ข้อความ/สี", "Tap a block, then “Customize” to edit text & colors"),
+         tpl("เสร็จแล้วแตะ “Export XML” มุมขวาบน เพื่อดาวน์โหลดธีม", "When done, tap “Export XML” (top right) to download")]
+      : [tpl("ลากองค์ประกอบจากแผงซ้าย มาวางบนหน้าเว็บ", "Drag elements from the left panel onto the page"),
+         tpl("คลิกบล็อกเพื่อแก้ไขข้อความ สี และการตั้งค่าในแผงขวา", "Click a block to edit text, colors & settings on the right"),
+         tpl("เสร็จแล้วกด “Export XML” เพื่อดาวน์โหลดธีมไปอัปโหลดใน Blogger", "When done, press “Export XML” to download your theme")];
+    var el2 = document.createElement("div");
+    el2.className = "coach";
+    el2.innerHTML = '<div class="coach-head"><b>' + tpl("เริ่มต้นใน 3 ขั้น", "Get started in 3 steps") + '</b><button class="x" aria-label="close">✕</button></div>' +
+      '<div class="coach-steps">' + steps.map(function (s2, i) { return '<div class="coach-step"><span class="n">' + (i + 1) + '</span><span>' + s2 + '</span></div>'; }).join("") + '</div>';
+    document.body.appendChild(el2);
+    el2.querySelector(".x").addEventListener("click", function () {
+      try { localStorage.setItem("bxb_coach_v1", "1"); } catch (e) {}
+      el2.remove();
+    });
   }
 
   /* ---------- build left library ---------- */
