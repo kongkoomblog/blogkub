@@ -1,4 +1,4 @@
-# BloggerXMLBuilder — Project Handoff
+# BlogKub — Project Handoff
 
 > Updated: 2026-06-28. ไฟล์นี้คือ context สมบูรณ์ของโปรเจกต์ สำหรับส่งต่อให้ AI หรือ developer รายใหม่ อ่านทั้งหมดก่อนแตะโค้ด
 
@@ -6,7 +6,7 @@
 
 ## 1. สิ่งที่โปรเจกต์นี้คือ
 
-**BloggerXMLBuilder** — เครื่องมือ visual builder ฝั่ง client-side 100% สำหรับสร้าง Blogger XML theme ไม่มี backend, ไม่มี database, ไม่ต้อง login  
+**BlogKub** — เครื่องมือ visual builder ฝั่ง client-side 100% สำหรับสร้าง Blogger XML theme ไม่มี backend, ไม่มี database, ไม่ต้อง login  
 Deploy เป็น static files บน **Cloudflare Pages** ที่ `github.com/kongkoomblog/bloggerxmlbuilder`  
 Auto-deploy pipeline: push to `main` → Cloudflare Pages deploy อัตโนมัติ
 

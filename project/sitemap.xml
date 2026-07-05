@@ -4,10 +4,10 @@
 
   <!-- Thai homepage -->
   <url>
-    <loc>https://bloggerxmlbuilder.com/th/</loc>
-    <xhtml:link rel="alternate" hreflang="th" href="https://bloggerxmlbuilder.com/th/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bloggerxmlbuilder.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bloggerxmlbuilder.com/en/"/>
+    <loc>https://blogkub.com/th/</loc>
+    <xhtml:link rel="alternate" hreflang="th" href="https://blogkub.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://blogkub.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://blogkub.com/en/"/>
     <lastmod>2026-06-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -15,10 +15,10 @@
 
   <!-- English homepage -->
   <url>
-    <loc>https://bloggerxmlbuilder.com/en/</loc>
-    <xhtml:link rel="alternate" hreflang="th" href="https://bloggerxmlbuilder.com/th/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://bloggerxmlbuilder.com/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://bloggerxmlbuilder.com/en/"/>
+    <loc>https://blogkub.com/en/</loc>
+    <xhtml:link rel="alternate" hreflang="th" href="https://blogkub.com/th/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://blogkub.com/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://blogkub.com/en/"/>
     <lastmod>2026-06-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>

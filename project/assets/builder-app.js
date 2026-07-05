@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BloggerXMLBuilder — Visual Builder App (Vanilla JS, client-side)
+   BlogKub — Visual Builder App (Vanilla JS, client-side)
    Block model -> live canvas render -> valid Blogger XML export.
    No backend. Autosave to localStorage. Projects export/import as JSON.
    ========================================================================== */
@@ -4404,7 +4404,7 @@ tplStyleVars(),
     // design
     "ชุดสี": "Color palette", "ตัวอักษร": "Typography", "ความมนขอบ": "Corner radius", "มุมโค้ง": "Radius", "สีหลัก": "Primary", "สีเน้น": "Accent",
     // onboarding
-    "เริ่มต้นใช้งาน BloggerXMLBuilder": "Get started with BloggerXMLBuilder",
+    "เริ่มต้นใช้งาน BlogKub": "Get started with BlogKub",
     "สมัครแล้ว": "I have one", "ยังไม่สมัคร": "Not yet",
     "เลือกแม่แบบเริ่มต้น": "Choose a starting template",
     "วิธีสมัคร Blogger ทีละขั้น": "How to sign up for Blogger, step by step",
@@ -4540,7 +4540,7 @@ tplStyleVars(),
       reader.onload = function (e) {
         try {
           var data = JSON.parse(e.target.result);
-          if (!data || !Array.isArray(data.blocks)) { toast("ไฟล์ไม่ถูกต้อง — ต้องเป็น .json ที่ export จาก BloggerXMLBuilder"); return; }
+          if (!data || !Array.isArray(data.blocks)) { toast("ไฟล์ไม่ถูกต้อง — ต้องเป็น .json ที่ export จาก BlogKub"); return; }
           S = data;
           if (!S.seo) S.seo = freshProject().seo;
           if (!S.design) S.design = freshProject().design;
