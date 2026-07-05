@@ -136,7 +136,7 @@
         socialLinks: [] },
       postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "Read more →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "Read More", count: 5, showImage: true },
-      featured: { heading: "Featured", count: 1 },
+      featured: { heading: "Featured", count: 1, featLabel: "แนะนำ" },
       about: { eyebrow: "About the Author", name: "MyBlog Team", bio: "We are a team of experts sharing knowledge through quality articles for over 5 years.", showAvatar: true, avatarUrl: "" },
       text: { heading: "Your Heading", body: "Write your content here. Add the text you want readers to see.", align: "left" },
       cta: { title: "Ready to get started?", btnText: "Get Started", btnUrl: "/", bg: "soft" },
@@ -170,7 +170,7 @@
         socialLinks: [] },
       postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "อ่านต่อ →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "อ่านต่อ", count: 5, showImage: true },
-      featured: { heading: "บทความแนะนำ", count: 1 },
+      featured: { heading: "บทความแนะนำ", count: 1, featLabel: "แนะนำ" },
       about: { eyebrow: "เกี่ยวกับผู้เขียน", name: "ทีมงาน MyBlog", bio: "เราคือทีมผู้เชี่ยวชาญที่แบ่งปันความรู้ผ่านบทความคุณภาพมากว่า 5 ปี", showAvatar: true, avatarUrl: "" },
       text: { heading: "หัวข้อของคุณ", body: "เขียนเนื้อหาตรงนี้ ใส่ข้อความที่ต้องการให้ผู้อ่านเห็น", align: "left" },
       cta: { title: "พร้อมเริ่มต้นแล้วหรือยัง?", btnText: "เริ่มเลย", btnUrl: "/", bg: "soft" },
@@ -1374,7 +1374,12 @@
       case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link")) + num("cardRadius", "มุมโค้งการ์ด (px)", p.cardRadius != null ? p.cardRadius : 14, 0, 28) + seg("cardStyle", "สไตล์การ์ด", p.cardStyle || "shadow", [["shadow", "เงา"], ["border", "เส้นขอบ"], ["flat", "แบน"]]);
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
-      case "featured": return txt("heading", "หัวข้อส่วน", p.heading);
+      case "featured": return txt("heading", "หัวข้อส่วน", p.heading) +
+        (S && S.templateId === "magazine"
+          ? txt("featLabel", "ป้ายกำกับปักหมุดบทความแนะนำ", (p.featLabel != null ? p.featLabel : "แนะนำ"),
+              tpl("📌 วิธีใช้: เข้า blogger.com → แก้ไขโพสต์ที่ต้องการ → ช่อง \"ป้ายกำกับ\" ใส่คำว่า <b>แนะนำ</b> (หรือคำที่ตั้งไว้ข้างบน) → เผยแพร่ — โพสต์นั้นจะขึ้นเป็นบทความแนะนำทันที ปักหมุดได้หลายโพสต์ (ใบแรก = ข่าวเด่นใหญ่) • ถ้ายังไม่มีโพสต์ติดป้ายนี้เลย ระบบจะแสดงบทความล่าสุดให้อัตโนมัติ • เว้นว่าง = ใช้บทความล่าสุดเสมอ",
+                  "📌 How to: in blogger.com → edit a post → add the label <b>แนะนำ</b> (or the word you set above) → publish — that post is pinned as featured. Pin several posts (first = the big lead). • If no post has this label yet, the newest posts show automatically. • Leave blank = always use latest posts"))
+          : "");
       case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
       case "columns": return columnsFields(b, p);
@@ -3310,10 +3315,13 @@ tplStyleVars(),
           "</div></section>";
         }
         if (S && S.templateId === "magazine") {
-          return "<section class='mag-feat'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-left:4px solid var(--primary);padding-left:12px;margin:0 0 18px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
-            "<div class='mag-feat-grid'>" +
-              "<b:loop values='data:posts' index='mfi' var='post'>" +
+          // Hybrid featured selection: posts carrying the pin label (user-set,
+          // default "แนะนำ") take the spotlight; when none are labeled we fall
+          // back to the newest posts so the block never renders empty.
+          var mfLabel = (p.featLabel != null ? String(p.featLabel) : "แนะนำ").trim();
+          var magFeatGrid = function (src) {
+            return "<div class='mag-feat-grid'>" +
+              "<b:loop values='" + src + "' index='mfi' var='post'>" +
                 "<b:if cond='data:mfi == 0'>" +
                   "<a expr:href='data:post.url' class='mag-feat-main' style='min-height:360px;display:block;position:relative;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,var(--primary),var(--accent));text-decoration:none'>" +
                     "<b:if cond='data:post.featuredImage'>" +
@@ -3334,7 +3342,7 @@ tplStyleVars(),
                 "</b:if>" +
               "</b:loop>" +
               "<div class='mag-side'>" +
-                "<b:loop values='data:posts' index='msi' var='post'>" +
+                "<b:loop values='" + src + "' index='msi' var='post'>" +
                   "<b:if cond='data:msi &gt; 0 and data:msi &lt; 3'>" +
                     "<a expr:href='data:post.url' class='mag-side-item'>" +
                       "<b:if cond='data:post.featuredImage'>" +
@@ -3354,7 +3362,17 @@ tplStyleVars(),
                   "</b:if>" +
                 "</b:loop>" +
               "</div>" +
-            "</div>" +
+            "</div>";
+          };
+          var magFeatBody = mfLabel
+            ? "<b:with value='data:posts filter (bkp =&gt; bkp.labels any (bkl =&gt; bkl.name == &quot;" + esc(mfLabel) + "&quot;))' var='bkfeat'>" +
+              "<b:if cond='data:bkfeat.first'>" + magFeatGrid("data:bkfeat") +
+              "<b:else/>" + magFeatGrid("data:posts") + "</b:if>" +
+              "</b:with>"
+            : magFeatGrid("data:posts");
+          return "<section class='mag-feat'><div class='wrap'>" +
+            (p.heading ? "<h2 style='font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-left:4px solid var(--primary);padding-left:12px;margin:0 0 18px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            magFeatBody +
           "</div></section>";
         }
         if (S && S.templateId === "travel") {
@@ -4343,6 +4361,7 @@ tplStyleVars(),
     "เกี่ยวกับ": "About", "CTA": "CTA", "โฆษณา": "Ad", "Sidebar": "Sidebar", "ค้นหา": "Search",
     // field labels
     "มุมโค้งการ์ด (px)": "Card corner radius (px)", "สไตล์การ์ด": "Card style", "เงา": "Shadow", "เส้นขอบ": "Border", "แบน": "Flat",
+    "ป้ายกำกับปักหมุดบทความแนะนำ": "Featured pin label",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง — ใส่ลิงก์ได้แต่ละอัน": "Navigation — set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
