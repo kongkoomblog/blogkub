@@ -20,8 +20,30 @@
 - After each template: verify export is valid Blogger XML (test edge cases + ideally a real Blogger upload).
 - When a batch is done, package for the user to push to GitHub. Don't edit in two places simultaneously.
 
+## Shortlist (finalized 2026-07-05 — 8 templates)
+The earlier cut already reduced the lineup to 8 distinct templates in code
+(`TEMPLATES` array). All 8 stay; none are near-duplicates once signatures land.
+
+| # | id | Personality (Level 1 tokens) | Signature layout (Level 3) | Status |
+|---|---|---|---|---|
+| 1 | personal | Serif headings, warm cream tints, soft shadows | Avatar-ring hero + author band + card grid | ✅ live & upload-tested |
+| 2 | magazine | Serif display, red kickers, uppercase + border-left headings, dense | Featured lead + 2 stacked side stories + 3-col grid + dense news rows | 🔬 built — awaiting upload test |
+| 3 | travel | Airy sans, sky tints, photo-first | Full-bleed cinematic hero + 4:3 photo cards with location pills | built, hidden |
+| 4 | tech | System sans + mono eyebrows, slate tints | Dark hero + numbered list rows + bordered hover cards | built, hidden |
+| 5 | review | Sans, amber tints, score-forward | Score-badge cards + BEST-PICK ribbons + trust/about band | built, hidden |
+| 6 | course | Trebuchet, purple tints | Chip hero + pricing/enroll cards + trust stats CTA | built, hidden |
+| 7 | company | Corporate sans, blue tints | Gradient hero + stats row + visual grid + big CTA | built, hidden |
+| 8 | sidebar-blog | Serif, parchment tints | Classic 2-col: content + real Blogger sidebar widgets | sidebar section already upload-tested via Personal |
+
+## Build & test order (one at a time, real Blogger upload each)
+1. ~~personal~~ ✅ → 2. **magazine** (now) → 3. travel → 4. tech → 5. review → 6. course → 7. company → 8. sidebar-blog
+
+⚠️ Test note: magazine's featured block uses `b:loop index=` — the same
+construct suspected in the earlier blank-grid regression. Its upload test
+doubles as the verdict on that construct. Test on a THROWAWAY blog first.
+
 ## Status
-- [ ] Receive reference examples from user
-- [ ] Finalize the 8–10 template shortlist (which to keep/merge/cut)
-- [ ] Spec each template's tokens + signature layout
-- [ ] Build + test one at a time
+- [ ] Receive reference examples from user (needed to finalize looks of #3–#8)
+- [x] Finalize the 8–10 template shortlist (keep all 8 current)
+- [x] Spec each template's tokens + signature layout (table above)
+- [ ] Build + test one at a time — in progress: magazine unhidden for upload testing
