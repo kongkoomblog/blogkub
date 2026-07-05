@@ -2494,8 +2494,7 @@ bodyHTML + "\n" +
     return [
 skinVariables(d),
 "*{margin:0;padding:0;box-sizing:border-box}",
-"html{background:#0f172a}",
-"body{font:$(bodyfont);color:var(--text-main);background:var(--bg-body);line-height:1.6;-webkit-font-smoothing:antialiased}",
+"body{font:$(bodyfont);color:var(--text-main);background:var(--bg-body);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh}",
 "a{color:var(--primary);text-decoration:none}",
 "img{max-width:100%;height:auto}",
 ".skip{position:absolute;left:-9999px;top:0;background:$(keycolor);color:#fff;padding:10px 16px;z-index:999}",
@@ -2614,7 +2613,7 @@ tplStyleVars(),
 ".pb-card--flat{box-shadow:none;background:transparent}",
 ".pb-card--flat .pb-card-body{padding-left:2px;padding-right:2px}",
 ".pb-card--flat:hover{transform:none}",
-".pb-about{padding:56px 20px;background:var(--bg-surface)}",
+".pb-about{padding:56px 20px;background:var(--bg-surface);flex:1 0 auto}",
 ".pb-about .wrap{display:flex;gap:28px;align-items:flex-start;flex-wrap:wrap;max-width:800px}",
 ".pb-about-avatar{width:110px;height:110px;border-radius:50%;padding:5px;background:linear-gradient(135deg,var(--primary),var(--accent));flex:none}",
 ".pb-about-avatar-inner{width:100%;height:100%;border-radius:50%;background:var(--bg-surface);display:flex;align-items:center;justify-content:center}",
@@ -3681,7 +3680,7 @@ tplStyleVars(),
             + "<button type='submit'>&#128269;</button></form>"
           : "";
         var nfsHTML = "<style>"
-          + ".bxb404{min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;background:" + nfsBg + "}"
+          + ".bxb404{flex:1 0 auto;min-height:440px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;background:" + nfsBg + "}"
           + ".bxb404-code{font-size:clamp(80px,12vw,128px);font-weight:900;line-height:1;letter-spacing:-.03em;color:" + nfsCodeClr + ";margin:0;font-family:inherit}"
           + ".bxb404-h{font-size:clamp(18px,3vw,26px);font-weight:700;color:" + nfsFg + ";margin:14px 0 0;font-family:inherit}"
           + ".bxb404-p{font-size:15px;color:" + nfsDescClr + ";margin:10px auto 0;max-width:440px;line-height:1.65}"
