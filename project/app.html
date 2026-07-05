@@ -38,6 +38,9 @@ button{font-family:inherit;cursor:pointer;}
 .tb-brand{display:flex;align-items:center;gap:9px;font-family:var(--fd);font-weight:700;font-size:14.5px;}
 .tb-brand .lg{width:28px;height:28px;border-radius:7px;background:var(--grad);display:grid;place-items:center;box-shadow:0 4px 12px -3px var(--glow);}
 .tb-brand .lg svg{width:16px;height:16px;}
+.tb-beta{flex:none;padding:3px 9px;border-radius:999px;background:linear-gradient(100deg,#4f46e5,#7c3aed 55%,#d946ef);background-size:200% 100%;animation:tbBetaSlide 9s linear infinite;color:#fff;font-family:var(--fd);font-weight:800;font-size:10px;letter-spacing:.14em;border:1px solid rgba(255,255,255,.35);box-shadow:0 2px 8px -2px var(--glow);cursor:default;}
+@keyframes tbBetaSlide{to{background-position:200% 0}}
+@media(prefers-reduced-motion:reduce){.tb-beta{animation:none}}
 .tb-proj{display:flex;align-items:center;gap:8px;padding-left:14px;margin-left:4px;border-left:1px solid var(--border);min-width:0;flex:1 1 auto;}
 .tb-proj input{background:transparent;border:1px solid transparent;color:var(--ink);font-family:var(--fd);font-weight:500;font-size:14px;padding:5px 9px;border-radius:7px;width:160px;min-width:80px;max-width:220px;flex:0 1 auto;transition:.15s;}
 .tb-proj input:hover{background:var(--surface);}
@@ -480,6 +483,7 @@ button{font-family:inherit;cursor:pointer;}
   .topbar{gap:8px;padding:0 10px;}
   .tb-brand{font-size:0;gap:0;}
   .tb-brand .lg{margin-right:0;}
+  .tb-beta{font-size:8.5px;padding:2px 7px;letter-spacing:.1em;}
   .tb-proj{padding-left:10px;margin-left:0;gap:6px;}
   .tb-proj input{width:auto;max-width:110px;min-width:50px;font-size:13px;}
   .save-dot span{display:none;}
@@ -606,6 +610,7 @@ body.sheet-settled .panel.right{animation:none;}
 <!-- ===== TOP BAR ===== -->
 <div class="topbar">
   <a class="tb-brand" href="./" data-tip-th="กลับหน้าแรก" data-tip-en="Home"><span class="lg"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>BlogKub</a>
+  <span class="tb-beta" data-tip-th="เวอร์ชันทดสอบ (Beta) — ฟีเจอร์อาจมีการเปลี่ยนแปลง" data-tip-en="Beta — under active development, features may change">BETA</span>
   <div class="tb-proj">
     <input id="projName" value="เว็บไซต์ของฉัน" spellcheck="false">
     <span class="save-dot" id="saveDot"><i></i><span>บันทึกแล้ว</span></span>
@@ -766,6 +771,6 @@ body.sheet-settled .panel.right{animation:none;}
   </div>
 </div>
 
-<script src="assets/builder-app.js?v=20260705-3"></script>
+<script src="assets/builder-app.js?v=20260705-4"></script>
 </body>
 </html>
