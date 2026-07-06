@@ -4246,9 +4246,9 @@ tplStyleVars(),
     showCoach();
   }
 
-  /* first-run coach: 3 steps, shown once (dismiss stored) */
+  /* first-run coach: 3 steps + advanced tip, shown once (dismiss stored) */
   function showCoach() {
-    try { if (localStorage.getItem("bxb_coach_v1")) return; } catch (e) {}
+    try { if (localStorage.getItem("bxb_coach_v2")) return; } catch (e) {}
     if ($(".coach")) return;
     var isMob = window.matchMedia("(max-width:1000px)").matches;
     var steps = isMob
@@ -4258,13 +4258,20 @@ tplStyleVars(),
       : [tpl("ลากองค์ประกอบจากแผงซ้าย มาวางบนหน้าเว็บ", "Drag elements from the left panel onto the page"),
          tpl("คลิกบล็อกเพื่อแก้ไขข้อความ สี และการตั้งค่าในแผงขวา", "Click a block to edit text, colors & settings on the right"),
          tpl("เสร็จแล้วกด “Export XML” เพื่อดาวน์โหลดธีมไปอัปโหลดใน Blogger", "When done, press “Export XML” to download your theme")];
+    var advTip = isMob
+      ? tpl("ขั้นสูง: แต่ละบล็อกเลือกได้ว่าจะแสดงหน้าไหน — แตะบล็อก → “ปรับแต่ง” → “เงื่อนไขการแสดงผล” แล้วเลือก ทุกหน้า / หน้าแรก / บทความ / เพจ / ป้ายกำกับ เช่น ให้แบนเนอร์โชว์เฉพาะหน้าแรก",
+            "Advanced: each block can choose where it appears — tap the block → “Customize” → “Display conditions”, then pick All pages / Homepage / Posts / Pages / Label (e.g. a homepage-only banner)")
+      : tpl("ขั้นสูง: แต่ละบล็อกเลือกได้ว่าจะแสดงหน้าไหน — คลิกบล็อกแล้วดู “เงื่อนไขการแสดงผล (ขั้นสูง)” ในแผงขวา เลือก ทุกหน้า / หน้าแรก / บทความ / เพจ / ป้ายกำกับ เช่น ให้แบนเนอร์โชว์เฉพาะหน้าแรก",
+            "Advanced: each block can choose where it appears — click a block and open “Display conditions (advanced)” on the right, then pick All pages / Homepage / Posts / Pages / Label (e.g. a homepage-only banner)");
     var el2 = document.createElement("div");
     el2.className = "coach";
     el2.innerHTML = '<div class="coach-head"><b>' + tpl("เริ่มต้นใน 3 ขั้น", "Get started in 3 steps") + '</b><button class="x" aria-label="close">✕</button></div>' +
-      '<div class="coach-steps">' + steps.map(function (s2, i) { return '<div class="coach-step"><span class="n">' + (i + 1) + '</span><span>' + s2 + '</span></div>'; }).join("") + '</div>';
+      '<div class="coach-steps">' + steps.map(function (s2, i) { return '<div class="coach-step"><span class="n">' + (i + 1) + '</span><span>' + s2 + '</span></div>'; }).join("") +
+      '<div class="coach-step"><span class="n" style="background:linear-gradient(135deg,#f59e0b,#f43f5e)">★</span><span>' + advTip + '</span></div>' +
+      '</div>';
     document.body.appendChild(el2);
     el2.querySelector(".x").addEventListener("click", function () {
-      try { localStorage.setItem("bxb_coach_v1", "1"); } catch (e) {}
+      try { localStorage.setItem("bxb_coach_v2", "1"); } catch (e) {}
       el2.remove();
     });
   }
