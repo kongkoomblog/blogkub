@@ -4327,7 +4327,7 @@ tplStyleVars(),
       var moveBtns = isLocked
         ? '<button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button>'
         : '<button data-lup title="ขึ้น">↑</button><button data-ldn title="ลง">↓</button><button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button>';
-      return '<div class="layer-row' + (b.id === SEL ? " sel" : "") + '" draggable="' + (!isLocked) + '" data-id="' + b.id + '">'
+      return '<div class="layer-row' + (b.id === SEL ? " sel" : "") + '" draggable="' + (!isLocked) + '" data-id="' + b.id + '" data-type="' + b.type + '">'
         + '<span class="lh">' + svg(IC[b.type] || IC.text) + '</span>'
         + '<span class="ln">' + esc(t) + '</span>'
         + '<span class="lg">' + moveBtns + '</span>'

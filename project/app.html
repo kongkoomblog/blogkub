@@ -101,8 +101,8 @@ button{font-family:inherit;cursor:pointer;}
 .layer-row.sel{border-color:var(--brand);background:rgba(99,102,241,.1);}
 .layer-row.dragging{opacity:.4;}
 .layer-row.over{box-shadow:0 -2px 0 var(--brand);}
-.layer-row .lh{width:26px;height:26px;border-radius:6px;background:rgba(99,102,241,.12);color:var(--brand-2);display:grid;place-items:center;flex:none;}
-.layer-row .lh svg{width:15px;height:15px;}
+.layer-row .lh{width:26px;height:26px;border-radius:7px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 3px 8px -3px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.25);}
+.layer-row .lh svg{width:15px;height:15px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));}
 .layer-row .ln{font-size:14px;font-weight:500;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .layer-row .lg{color:var(--ink-3);display:flex;gap:2px;}
 .layer-row .lg button{width:26px;height:26px;border:0;background:transparent;color:var(--ink-3);border-radius:5px;display:grid;place-items:center;cursor:pointer;font-size:13px;}
@@ -120,8 +120,31 @@ button{font-family:inherit;cursor:pointer;}
 /* singleton feature already on the page — dimmed with a check, still tappable so the toast can explain */
 .lib-item.added{opacity:.45;}
 .lib-item.added::after{content:'✓';margin-left:auto;color:var(--ok,#22c55e);font-weight:800;font-size:13px;flex:none;}
-.lib-item .ic{width:30px;height:30px;border-radius:7px;background:rgba(99,102,241,.12);color:var(--brand-2);display:grid;place-items:center;flex:none;}
-.lib-item .ic svg{width:16px;height:16px;}
+.lib-item .ic{width:30px;height:30px;border-radius:8px;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;display:grid;place-items:center;flex:none;box-shadow:0 4px 10px -4px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.28);}
+.lib-item .ic svg{width:16px;height:16px;filter:drop-shadow(0 1px 1px rgba(0,0,0,.25));}
+/* จานสีไล่เฉดเฉพาะตัวของแต่ละฟีเจอร์ — ใช้ร่วมกันทั้งคลังองค์ประกอบ (.ic) และแท็บโครงสร้าง (.lh) */
+[data-type="header"] .ic,[data-type="header"] .lh{background:linear-gradient(135deg,#6366f1,#4338ca)!important;color:#fff!important;}
+[data-type="hero"] .ic,[data-type="hero"] .lh{background:linear-gradient(135deg,#f59e0b,#f43f5e)!important;color:#fff!important;}
+[data-type="postgrid"] .ic,[data-type="postgrid"] .lh{background:linear-gradient(135deg,#0ea5e9,#6366f1)!important;color:#fff!important;}
+[data-type="postlist"] .ic,[data-type="postlist"] .lh{background:linear-gradient(135deg,#14b8a6,#059669)!important;color:#fff!important;}
+[data-type="featured"] .ic,[data-type="featured"] .lh{background:linear-gradient(135deg,#f43f5e,#d946ef)!important;color:#fff!important;}
+[data-type="about"] .ic,[data-type="about"] .lh{background:linear-gradient(135deg,#8b5cf6,#a855f7)!important;color:#fff!important;}
+[data-type="text"] .ic,[data-type="text"] .lh{background:linear-gradient(135deg,#64748b,#334155)!important;color:#fff!important;}
+[data-type="cta"] .ic,[data-type="cta"] .lh{background:linear-gradient(135deg,#f97316,#dc2626)!important;color:#fff!important;}
+[data-type="image"] .ic,[data-type="image"] .lh{background:linear-gradient(135deg,#10b981,#0d9488)!important;color:#fff!important;}
+[data-type="ad"] .ic,[data-type="ad"] .lh{background:linear-gradient(135deg,#eab308,#d97706)!important;color:#fff!important;}
+[data-type="newsletter"] .ic,[data-type="newsletter"] .lh{background:linear-gradient(135deg,#06b6d4,#2563eb)!important;color:#fff!important;}
+[data-type="share"] .ic,[data-type="share"] .lh{background:linear-gradient(135deg,#3b82f6,#6366f1)!important;color:#fff!important;}
+[data-type="columns"] .ic,[data-type="columns"] .lh{background:linear-gradient(135deg,#a855f7,#6366f1)!important;color:#fff!important;}
+[data-type="sidebar"] .ic,[data-type="sidebar"] .lh{background:linear-gradient(135deg,#0ea5e9,#06b6d4)!important;color:#fff!important;}
+[data-type="search"] .ic,[data-type="search"] .lh{background:linear-gradient(135deg,#6366f1,#0ea5e9)!important;color:#fff!important;}
+[data-type="darkmode"] .ic,[data-type="darkmode"] .lh{background:linear-gradient(135deg,#334155,#0f172a)!important;color:#fbbf24!important;}
+[data-type="aeo"] .ic,[data-type="aeo"] .lh{background:linear-gradient(135deg,#d946ef,#8b5cf6)!important;color:#fff!important;}
+[data-type="toc"] .ic,[data-type="toc"] .lh{background:linear-gradient(135deg,#84cc16,#059669)!important;color:#fff!important;}
+[data-type="related"] .ic,[data-type="related"] .lh{background:linear-gradient(135deg,#ec4899,#f43f5e)!important;color:#fff!important;}
+[data-type="progress"] .ic,[data-type="progress"] .lh{background:linear-gradient(135deg,#22c55e,#059669)!important;color:#fff!important;}
+[data-type="notfound"] .ic,[data-type="notfound"] .lh{background:linear-gradient(135deg,#ef4444,#b91c1c)!important;color:#fff!important;}
+[data-type="footer"] .ic,[data-type="footer"] .lh{background:linear-gradient(135deg,#475569,#1e293b)!important;color:#fff!important;}
 .lib-item .nm{font-size:14px;font-weight:500;}
 .lib-item .nm small{display:block;font-size:12px;color:var(--ink-3);font-weight:400;}
 
@@ -781,6 +804,6 @@ body.sheet-settled .panel.right{animation:none;}
   </div>
 </div>
 
-<script src="assets/builder-app.js?v=20260706-5"></script>
+<script src="assets/builder-app.js?v=20260706-6"></script>
 </body>
 </html>
