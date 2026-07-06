@@ -1421,13 +1421,16 @@
       if (inp.type === "checkbox") inp.addEventListener("change", function () { b.props[k] = inp.checked; commit(); });
       else if (inp.dataset.num) inp.addEventListener("input", function () { b.props[k] = parseInt(inp.value, 10); renderCanvas(); save(); var lb = inp.previousElementSibling; if (lb) lb.textContent = lb.textContent.replace(/—.*/, "— " + inp.value); });
       else inp.addEventListener("input", function () {
-        b.props[k] = inp.value; renderCanvas(); save();
+        b.props[k] = inp.value;
+        // sync blog name to SEO BEFORE repainting so the footer (which reads
+        // S.seo.blogTitle) updates in the same keystroke, not one behind
         if (k === "logoText" && b.type === "header") {
           S.seo.blogTitle = inp.value;
           var btDisp = document.querySelector(".blog-title-display");
           if (btDisp) btDisp.textContent = inp.value || "MyBlog";
           clearTimeout(seoT); seoT = setTimeout(renderSeoScoreOnly, 400);
         }
+        renderCanvas(); save();
       });
     });
     $$("[data-seg]", c).forEach(function (sg) {
