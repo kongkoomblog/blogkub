@@ -365,12 +365,13 @@
           return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none">' + esc(m.label) + "</a>";
         }).join("");
         var hdrLogoUrl = S.seo && S.seo.logoUrl;
-        var hdrLogoDesktop = hdrLogoUrl
-          ? '<img src="' + esc(hdrLogoUrl) + '" alt="' + esc(p.logoText) + '" style="height:36px;width:auto;max-width:160px;object-fit:contain">'
-          : '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:21px;color:' + pr + '">' + esc(p.logoText) + '</div>';
-        var hdrLogoMobile = hdrLogoUrl
-          ? '<img src="' + esc(hdrLogoUrl) + '" alt="' + esc(p.logoText) + '" style="height:28px;width:auto;max-width:140px;object-fit:contain' + (p.mobileSide === "left" ? "" : ";margin-right:auto") + '">'
-          : '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:18px;color:' + pr + ';' + (p.mobileSide === "left" ? "" : "margin-right:auto") + '">' + esc(p.logoText) + '</div>';
+        // logo image (auto-sized) + blog name on one row, image leading
+        var hdrLogoDesktop = '<div style="display:flex;align-items:center;gap:10px;min-width:0">' +
+          (hdrLogoUrl ? '<img src="' + esc(hdrLogoUrl) + '" alt="" style="height:34px;width:auto;max-width:120px;object-fit:contain;flex:none">' : '') +
+          '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:21px;color:' + pr + ';white-space:nowrap">' + esc(p.logoText) + '</div></div>';
+        var hdrLogoMobile = '<div style="display:flex;align-items:center;gap:8px;min-width:0' + (p.mobileSide === "left" ? "" : ";margin-right:auto") + '">' +
+          (hdrLogoUrl ? '<img src="' + esc(hdrLogoUrl) + '" alt="" style="height:26px;width:auto;max-width:100px;object-fit:contain;flex:none">' : '') +
+          '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:18px;color:' + pr + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + esc(p.logoText) + '</div></div>';
         if (isMob) {
           var burger = '<div style="width:34px;height:34px;display:grid;place-items:center;font-size:20px;color:' + pr + '">☰</div>';
           return '<div style="padding:14px 18px;background:#fff;border-bottom:1px solid #eef"><div style="display:flex;align-items:center;gap:12px">' +
@@ -1015,10 +1016,9 @@
           ? "display:flex;flex-direction:column;gap:24px"
           : "display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start";
         var fLogoUrl = S.seo && S.seo.logoUrl;
-        var fLogoPart = (fLogoUrl
-          ? '<img src="' + esc(fLogoUrl) + '" alt="' + esc(S.seo.blogTitle || "MyBlog") + '" style="height:32px;width:auto;max-width:160px;object-fit:contain;display:block;margin-bottom:8px">'
-          : '')
-          + '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:#fff;margin-bottom:12px">' + esc(S.seo.blogTitle || "MyBlog") + '</div>';
+        var fLogoPart = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">' +
+          (fLogoUrl ? '<img src="' + esc(fLogoUrl) + '" alt="" style="height:28px;width:auto;max-width:120px;object-fit:contain;flex:none">' : '') +
+          '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:#fff">' + esc(S.seo.blogTitle || "MyBlog") + '</div></div>';
         return '<div style="background:#0f172a;color:#fff;padding:48px 32px 24px">' +
           '<div style="' + fGridStyle + ';max-width:980px;margin:0 auto">' +
           '<div>' +
@@ -2514,7 +2514,9 @@ tplStyleVars(),
 "h1,h2,h3{line-height:1.2}",
 ".site-header{background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;z-index:50}",
 ".site-bar{display:flex;align-items:center;gap:20px;padding:14px 20px;max-width:1080px;margin:0 auto}",
-".site-logo{font-weight:700;font-size:21px;color:var(--primary);flex:none}",
+".site-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;color:var(--primary);flex:none;min-width:0}",
+".site-logo img{height:34px;width:auto;max-width:130px;object-fit:contain;display:block}",
+"@media(max-width:768px){.site-logo{font-size:18px;gap:8px}.site-logo img{height:26px;max-width:104px}}",
 ".site-nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0}",
 ".site-nav li a{font-weight:500;padding:8px 12px;border-radius:7px;display:block;transition:background .15s,color .15s}",
 ".site-nav li a:hover{background:var(--hover-bg);color:var(--primary)}",
@@ -2581,7 +2583,8 @@ tplStyleVars(),
 ".site-footer{background:#0f172a;color:#fff;padding:52px 20px 28px}",
 ".footer-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;max-width:980px;margin:0 auto;align-items:start}",
 "@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:28px}}",
-".footer-logo{font-weight:700;font-size:20px;color:#fff;margin-bottom:12px;font-family:$(titlefont)}",
+".footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:#fff;margin-bottom:12px;font-family:$(titlefont)}",
+".footer-logo img{height:28px;width:auto;max-width:120px;object-fit:contain;display:block}",
 ".footer-about{color:rgba(255,255,255,.6);font-size:14px;line-height:1.65;margin:0 0 20px;max-width:340px}",
 ".footer-social{display:flex;gap:8px;flex-wrap:wrap}",
 ".footer-social-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.1);color:#fff;transition:background .2s,transform .15s}",
@@ -2968,7 +2971,9 @@ tplStyleVars(),
         return "<header role='banner' class='site-header'" + stickyStyle + ">" +
           "<input type='checkbox' id='navtoggle' class='nav-toggle-cb' hidden='hidden'/>" +
           "<div class='site-bar'>" +
-          "<a href='/' class='site-logo'>" + esc(p.logoText) + "</a>" +
+          "<a href='/' class='site-logo'>" +
+            (S.seo && S.seo.logoUrl ? "<img src='" + esc(S.seo.logoUrl) + "' alt=''/>" : "") +
+            "<span>" + esc(p.logoText) + "</span></a>" +
           "<nav role='navigation' aria-label='เมนูหลัก' class='site-nav nav-" + side + "'>" +
             "<label for='navtoggle' class='nav-close' aria-label='ปิดเมนู'>✕</label>" +
             "<ul>" + hMenu + "</ul>" +
@@ -3594,7 +3599,9 @@ tplStyleVars(),
         return "<footer role='contentinfo' class='site-footer'><div class='wrap'>" +
           "<div class='footer-grid'>" +
             "<div class='footer-brand'>" +
-              "<div class='footer-logo'>" + esc(S.seo.blogTitle || "MyBlog") + "</div>" +
+              "<div class='footer-logo'>" +
+                (S.seo && S.seo.logoUrl ? "<img src='" + esc(S.seo.logoUrl) + "' alt='' loading='lazy'/>" : "") +
+                "<span>" + esc(S.seo.blogTitle || "MyBlog") + "</span></div>" +
               "<p class='footer-about'>" + esc(p.about) + "</p>" +
               (sfSocials.length ? "<div class='footer-social'>" + sfSocialHtml + "</div>" : "") +
             "</div>" +
