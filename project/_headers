@@ -3,3 +3,18 @@
 
 /app.html
   Cache-Control: no-cache
+
+/
+  Cache-Control: no-cache
+
+/index.html
+  Cache-Control: no-cache
+
+/th/*
+  Cache-Control: no-cache
+
+/en/*
+  Cache-Control: no-cache
+
+/learn/*
+  Cache-Control: no-cache
