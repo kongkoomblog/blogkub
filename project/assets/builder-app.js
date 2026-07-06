@@ -1096,7 +1096,9 @@
 
   /* ---------- block ops ---------- */
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า — กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1 };
+  // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
+  // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
