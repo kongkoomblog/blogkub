@@ -82,6 +82,9 @@ export default {
       if ((m = path.match(/^\/api\/creators\/([\w-]+)$/)) && method === "GET")
         return creatorProfile(env, m[1]);
 
+      // ---------- LEARNING CENTER (Module 6) ----------
+      if (path === "/api/assistant" && method === "POST") return assistantAnswer(request, env);
+
       return respond(env, { error: "not_found" }, 404);
     } catch (e) {
       if (e instanceof ApiError) return respond(env, { error: e.code }, e.status);
@@ -414,6 +417,41 @@ async function commentCreate(request, env, id) {
   await env.DB.prepare("INSERT INTO comments (id,project_id,user_id,body,created_at) VALUES (?,?,?,?,?)")
     .bind(cid, id, user.id, text, Date.now()).run();
   return respond(env, { ok: true, id: cid });
+}
+
+/* ---------------- learning center: AI assistant (Module 6) ---------------- */
+
+// คลังความรู้ (Context) — ใช้เป็น fallback ตรงๆ และเป็นบริบทให้ Workers AI
+const ASSISTANT_KB = [
+  { k: /facebook|og:image|รูป.*แชร์|แชร์.*รูป/i, a: "รูปไม่ขึ้นตอนแชร์ Facebook = ขาด og:image ครับ ธีม BlogKub ใส่ให้อัตโนมัติจาก 'รูปเด่น' ของโพสต์ — ตั้งรูปเด่น (กว้าง ≥1200px) แล้วไปที่ developers.facebook.com/tools/debug กด Scrape Again เพื่อล้างแคช" },
+  { k: /โดเมน|domain|cname/i, a: "ต่อโดเมน: Blogger → การตั้งค่า → โดเมนที่กำหนดเอง → กรอก www.โดเมน.com → นำค่า CNAME 2 รายการไปใส่ DNS แล้วบันทึกอีกครั้ง" },
+  { k: /https|ssl/i, a: "เปิด HTTPS: การตั้งค่า → ความพร้อมใช้งาน HTTPS → เปิดการเปลี่ยนเส้นทาง HTTPS และแก้ลิงก์ http:// ในบทความเก่า" },
+  { k: /sitemap|search console|index/i, a: "ส่ง Sitemap: Google Search Console → Sitemaps → เพิ่ม sitemap.xml และ sitemap-pages.xml; บทความใหม่ใช้ URL Inspection → Request Indexing" },
+  { k: /adsense|โฆษณา|ad limit/i, a: "AdSense: ห้ามคลิกเอง/ชวนคลิก, มีบทความเขียนเอง 20+ ชิ้น + หน้า About/Contact/Privacy ก่อนสมัคร, ใช้บล็อกโฆษณาของ Builder ซึ่งจองพื้นที่กัน CLS ให้แล้ว" },
+  { k: /ช้า|เร็ว|lcp|cls|inp|vitals|pagespeed/i, a: "เว็บช้า: แปลงรูปเป็น WebP (squoosh.app), ถอด embed ภายนอกที่ไม่จำเป็น, วัดที่ pagespeed.web.dev — ธีมจัดการ lazy-load และจองพื้นที่รูปให้แล้ว" },
+  { k: /comment|คอมเมนต์/i, a: "คอมเมนต์ไม่ขึ้น: การตั้งค่า → ความคิดเห็น → ตำแหน่ง 'ฝัง' และเปิดอนุญาตความคิดเห็นในโพสต์" },
+  { k: /ป้ายกำกับ|label|ปักหมุด|แนะนำ|featured/i, a: "ปักหมุดบทความแนะนำ (Magazine): ติดป้ายกำกับคำว่า 'แนะนำ' (หรือคำที่ตั้งไว้ในบล็อกบทความเด่น) ให้โพสต์นั้นใน blogger.com" },
+];
+
+async function assistantAnswer(request, env) {
+  const { question } = await readJson(request);
+  const q = String(question || "").slice(0, 500);
+  if (!q) throw new ApiError(400, "bad_question");
+
+  // มี Workers AI binding → ตอบแบบ LLM พร้อมบริบทคลังความรู้
+  if (env.AI) {
+    const context = ASSISTANT_KB.map((x) => "- " + x.a).join("\n");
+    const r = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+      messages: [
+        { role: "system", content: "คุณคือ AI Builder Assistant ของ BlogKub ผู้ช่วยเรื่อง Blogger, ธีม XML, SEO, AdSense และความเร็วเว็บ ตอบภาษาไทย สั้น กระชับ เป็นขั้นตอน อ้างอิงความรู้นี้ก่อนเสมอ:\n" + context },
+        { role: "user", content: q },
+      ],
+    });
+    return respond(env, { answer: r.response, source: "ai" });
+  }
+  // ไม่มี AI → keyword match จากคลังความรู้
+  for (const item of ASSISTANT_KB) if (item.k.test(q)) return respond(env, { answer: item.a, source: "kb" });
+  return respond(env, { answer: "คำถามนี้ยังไม่มีในคลังความรู้ครับ ลองใช้คำว่า: โดเมน, HTTPS, Sitemap, AdSense, เว็บช้า, รูปแชร์ Facebook", source: "kb" });
 }
 
 /* --- creator profile --- */

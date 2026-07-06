@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow"><!-- PRE-LAUNCH -->
+<title>Learning Center — BlogKub</title>
+<style>
+:root{--bg:#0b0d14;--panel:#12141f;--panel2:#1a1d2e;--border:rgba(255,255,255,.09);--ink:#eef0f8;--ink2:#9aa1b9;--brand:#6366f1;--brand2:#8b5cf6;--ok:#22c55e;--warn:#f59e0b;--font:'IBM Plex Sans Thai',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh}
+a{color:#a5b4fc;text-decoration:none}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+header{padding:32px 0 6px}
+h1{font-size:25px;font-weight:800}
+h1 .proto{font-size:10px;vertical-align:middle;background:linear-gradient(100deg,#4f46e5,#d946ef);padding:3px 10px;border-radius:99px;margin-left:10px;letter-spacing:.12em}
+.sub{color:var(--ink2);font-size:14px;margin-top:6px}
+.progress-all{margin:16px 0 4px;font-size:12.5px;color:var(--ink2)}
+.pbar{height:7px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:6px}
+.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--brand),var(--brand2));border-radius:99px;transition:width .4s}
+/* tracks */
+.tracks{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0 6px}
+.trk{padding:9px 16px;border-radius:99px;border:1px solid var(--border);background:var(--panel);color:var(--ink2);font-size:13px;font-weight:700;cursor:pointer;transition:.15s}
+.trk.on,.trk:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+/* lesson cards */
+.lessons{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;padding:16px 0 30px}
+.lc{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:16px 17px;cursor:pointer;transition:transform .16s,border-color .16s;position:relative}
+.lc:hover{transform:translateY(-3px);border-color:rgba(99,102,241,.55)}
+.lc .tag{font-size:10px;font-weight:800;letter-spacing:.08em;color:#a5b4fc;text-transform:uppercase}
+.lc h3{font-size:15.5px;margin:7px 0 6px;line-height:1.4}
+.lc p{color:var(--ink2);font-size:12.5px;line-height:1.6}
+.lc .foot{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11.5px;color:var(--ink2)}
+.lc .done{position:absolute;top:12px;right:12px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);display:grid;place-items:center;font-size:12px;color:transparent}
+.lc.read .done{background:var(--ok);border-color:var(--ok);color:#fff}
+/* web vitals clinic visual */
+.vitals{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin:6px 0 26px}
+.vt{background:var(--panel);border:1px solid var(--border);border-radius:13px;padding:15px}
+.vt b{font-size:14px}
+.vt small{color:var(--ink2);display:block;margin-top:4px;line-height:1.55}
+.demo{height:64px;background:var(--panel2);border-radius:9px;margin-top:10px;position:relative;overflow:hidden}
+.demo .box{position:absolute;background:linear-gradient(120deg,var(--brand),var(--brand2));border-radius:5px}
+@keyframes lcp{0%{opacity:0}40%{opacity:0}55%{opacity:1}100%{opacity:1}}
+@keyframes inp{0%,45%{transform:scale(1)}50%{transform:scale(.86)}60%,100%{transform:scale(1)}}
+@keyframes cls{0%,40%{top:34px}55%,100%{top:12px}}
+@keyframes clsAd{0%,40%{opacity:0}55%,100%{opacity:1}}
+.demo .lcp{inset:10px 30% 10px 10px;animation:lcp 3s infinite}
+.demo .inp{width:74px;height:26px;left:12px;top:19px;animation:inp 3s infinite;display:grid;place-items:center;font-size:10px;font-weight:700}
+.demo .clsT{left:10px;right:10px;height:18px;animation:cls 3.5s infinite;background:var(--panel);border:1px solid var(--border)}
+.demo .clsAd{left:10px;right:10px;top:12px;height:16px;background:var(--warn);animation:clsAd 3.5s infinite;display:grid;place-items:center;font-size:9px;color:#000;font-weight:800}
+/* reader modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.72);display:none;align-items:flex-start;justify-content:center;z-index:60;padding:26px 14px;overflow:auto}
+.modal.open{display:flex}
+.paper{background:var(--panel);border:1px solid var(--border);border-radius:15px;max-width:680px;width:100%;padding:26px 28px}
+.paper .tag{font-size:10.5px;font-weight:800;letter-spacing:.08em;color:#a5b4fc;text-transform:uppercase}
+.paper h2{font-size:20px;margin:8px 0 14px}
+.paper .body{color:#cdd2e4;font-size:14.5px;line-height:1.85}
+.paper .body h4{color:var(--ink);margin:18px 0 6px;font-size:15px}
+.paper .body li{margin:0 0 8px 20px}
+.paper .body code{background:var(--panel2);padding:2px 7px;border-radius:5px;font-size:12.5px;color:#a5b4fc}
+.paper .body .tip{background:rgba(34,197,94,.09);border:1px solid rgba(34,197,94,.25);border-radius:9px;padding:10px 13px;margin:12px 0;font-size:13px}
+.paper .acts{display:flex;gap:10px;margin-top:20px}
+.btn{padding:10px 20px;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--ink);font-family:var(--font);font-weight:700;font-size:13px;cursor:pointer}
+.btn.pri{background:linear-gradient(100deg,var(--brand),var(--brand2));border-color:transparent}
+/* AI assistant */
+.ai-fab{position:fixed;right:18px;bottom:18px;width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,var(--brand),var(--brand2));border:0;color:#fff;font-size:23px;cursor:pointer;box-shadow:0 12px 30px -8px rgba(99,102,241,.7);z-index:70}
+.ai-panel{position:fixed;right:18px;bottom:82px;width:min(360px,calc(100vw - 36px));height:440px;background:var(--panel);border:1px solid var(--border);border-radius:15px;display:none;flex-direction:column;z-index:70;overflow:hidden}
+.ai-panel.open{display:flex}
+.ai-hd{padding:12px 15px;border-bottom:1px solid var(--border);font-weight:800;font-size:13.5px;display:flex;gap:8px;align-items:center}
+.ai-hd small{color:var(--ink2);font-weight:400;font-size:10.5px}
+.ai-log{flex:1;overflow:auto;padding:13px;display:flex;flex-direction:column;gap:9px}
+.msg{max-width:85%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.6;white-space:pre-wrap}
+.msg.bot{background:var(--panel2);border:1px solid var(--border);align-self:flex-start}
+.msg.me{background:var(--brand);color:#fff;align-self:flex-end}
+.ai-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--border)}
+.ai-in input{flex:1;padding:10px 13px;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--ink);font-family:var(--font);font-size:13px}
+.back{display:inline-block;margin:20px 0 40px;color:var(--ink2);font-size:13px}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>🎓 Learning Center <span class="proto">PROTOTYPE</span></h1>
+  <div class="sub">เปลี่ยนมือใหม่ให้เป็นผู้เชี่ยวชาญ — SEO · AdSense · ความเร็วเว็บ ครบจบที่เดียว</div>
+  <div class="progress-all">ความคืบหน้าของคุณ: <b id="pTxt">0/0 บทเรียน</b><div class="pbar"><i id="pFill" style="width:0%"></i></div></div>
+</header>
+
+<div class="wrap">
+  <div class="tracks" id="tracks"></div>
+  <div class="vitals" id="vitals" style="display:none">
+    <div class="vt"><b>🖼️ LCP</b><small>Largest Contentful Paint — รูป/ก้อนใหญ่สุดโผล่ช้า = คะแนนตก (ควร &lt; 2.5 วิ)</small><div class="demo"><div class="box lcp"></div></div></div>
+    <div class="vt"><b>👆 INP</b><small>Interaction to Next Paint — กดปุ่มแล้วเว็บตอบสนองไวแค่ไหน (ควร &lt; 200ms)</small><div class="demo"><div class="box inp">คลิก!</div></div></div>
+    <div class="vt"><b>📐 CLS</b><small>Layout Shift — โฆษณา/รูปโหลดช้าแล้วดันเนื้อหากระเด้ง ผู้ใช้กดพลาด</small><div class="demo"><div class="box clsAd">AD โผล่ทีหลัง!</div><div class="box clsT"></div></div></div>
+  </div>
+  <div class="lessons" id="lessons"></div>
+  <a class="back" href="../">← กลับหน้าหลัก BlogKub</a>
+</div>
+
+<div class="modal" id="reader"><div class="paper">
+  <div class="tag" id="rTag"></div><h2 id="rTitle"></h2><div class="body" id="rBody"></div>
+  <div class="acts"><button class="btn pri" onclick="markDone()">✅ เรียนจบบทนี้แล้ว</button><button class="btn" onclick="closeReader()">ปิด</button></div>
+</div></div>
+
+<button class="ai-fab" onclick="toggleAI()">🤖</button>
+<div class="ai-panel" id="aiPanel">
+  <div class="ai-hd">🤖 AI Builder Assistant <small>ตอบ 24/7 · Prototype</small></div>
+  <div class="ai-log" id="aiLog"><div class="msg bot">สวัสดีครับ! ถามได้เลย เช่น "แชร์ลง Facebook แล้วรูปไม่ขึ้น" หรือ "ต่อโดเมนยังไง" 😊</div></div>
+  <div class="ai-in"><input id="aiInput" placeholder="พิมพ์คำถาม…" onkeydown="if(event.key==='Enter')askAI()"><button class="btn pri" onclick="askAI()">ส่ง</button></div>
+</div>
+
+<script>
+var API=""; // ใส่ URL Worker (โมดูล 4) เพื่อใช้ AI จริง — เว้นว่าง = ตอบจากคลังความรู้ในหน้านี้
+
+/* ============ หลักสูตร (เนื้อหาชุดแรก) ============ */
+var TRACKS=[["all","ทั้งหมด"],["b101","📚 Blogger 101"],["seo","🚀 SEO Playbook"],["ads","💸 AdSense Mastery"],["cwv","⚡ Web Vitals Clinic"]];
+var LESSONS=[
+{id:"b1",trk:"b101",time:"5 นาที",title:"ต่อโดเมนเนมของตัวเอง (Custom Domain)",body:
+"<h4>ทำไมต้องมีโดเมนตัวเอง</h4>ดูน่าเชื่อถือกว่า .blogspot.com, แบรนด์จำง่าย และย้ายแพลตฟอร์มในอนาคตได้โดย SEO ไม่หาย<h4>ขั้นตอน</h4><li>ซื้อโดเมน (Cloudflare / Namecheap / GoDaddy)</li><li>Blogger → การตั้งค่า → <code>โดเมนที่กำหนดเอง</code> → กรอก <code>www.โดเมนคุณ.com</code></li><li>Blogger จะให้ค่า CNAME 2 รายการ — เอาไปใส่ใน DNS ของผู้ให้บริการโดเมน</li><li>รอ DNS อัปเดต (5 นาที – 24 ชม.) แล้วกดบันทึกอีกครั้ง</li><li>เปิด <code>เปลี่ยนเส้นทางโดเมน</code> ให้ blogkub.com → www.blogkub.com</li><div class='tip'>💡 ใช้ Cloudflare เป็น DNS จะได้ CDN + ป้องกัน DDoS ฟรีไปด้วย</div>"},
+{id:"b2",trk:"b101",time:"3 นาที",title:"เปิด HTTPS ให้ครบทุกจุด",body:
+"<h4>สำคัญยังไง</h4>Google ใช้ HTTPS เป็นปัจจัยอันดับ และเบราว์เซอร์จะขึ้น \"ไม่ปลอดภัย\" ถ้าไม่เปิด<h4>ขั้นตอน</h4><li>Blogger → การตั้งค่า → เปิด <code>ความพร้อมใช้งาน HTTPS</code></li><li>รอสถานะขึ้น \"พร้อมใช้งาน\" แล้วเปิด <code>การเปลี่ยนเส้นทาง HTTPS</code> ต่อทันที</li><li>เช็คในบทความเก่า: ลิงก์/รูปที่ฝังเป็น <code>http://</code> ให้แก้เป็น <code>https://</code> ไม่งั้นจะโดน Mixed Content</li><div class='tip'>💡 ธีมจาก BlogKub ตรวจแล้วไม่มีทรัพยากร http:// — Quality Gate ของเราบังคับไว้ให้</div>"},
+{id:"b3",trk:"b101",time:"6 นาที",title:"ส่ง Sitemap ให้ Google Search Console",body:
+"<h4>ทำครั้งเดียว ผลถาวร</h4>ช่วยให้ Google เจอบทความใหม่เร็วขึ้นมาก<h4>ขั้นตอน</h4><li>เข้า <code>search.google.com/search-console</code> → เพิ่มพร็อพเพอร์ตี้ → ยืนยันความเป็นเจ้าของ (ถ้าต่อโดเมนผ่าน Cloudflare เลือกยืนยันแบบ DNS ง่ายสุด)</li><li>เมนู Sitemaps → เพิ่ม <code>sitemap.xml</code> และ <code>sitemap-pages.xml</code></li><li>บทความใหม่อยากให้ index ไว: ใช้ URL Inspection → Request Indexing</li><div class='tip'>💡 ธีม BlogKub ใส่ meta robots ที่ถูกต้องให้แล้ว — หน้า search/label จะไม่ถูก index ซ้ำซ้อน (กัน Duplicate Content)</div>"},
+{id:"s1",trk:"seo",time:"7 นาที",title:"Structured Data & Schema — ให้ AI Search มองเห็นเว็บคุณ",body:
+"<h4>Schema คืออะไร</h4>ข้อมูลที่ฝังในโค้ดเพื่อบอก Google ว่า \"นี่คือบทความ เขียนโดยใคร รูปหน้าปกคืออะไร\" — จำเป็นมากในยุค AI Search / SGE เพราะ AI ดึงข้อมูลจาก Schema ไปแสดง<h4>ธีม BlogKub ทำอะไรให้แล้วบ้าง</h4><li><code>BlogPosting</code> — ชื่อเรื่อง, วันที่, รูปปก, ผู้เขียน อัตโนมัติทุกบทความ</li><li><code>BreadcrumbList</code> — เส้นทางหน้าเว็บ ขึ้นในผลค้นหา</li><li><code>WebSite + Organization</code> — ข้อมูลแบรนด์</li><li><code>Speakable</code> — รองรับผู้ช่วยเสียง</li><h4>หน้าที่ของคุณ</h4><li>ใส่รูปเด่น (Featured Image) ทุกโพสต์ — Schema จะดึงไปเป็น og:image ด้วย</li><li>เขียน \"คำอธิบายการค้นหา\" ทุกโพสต์ (เปิดในการตั้งค่า Blogger ก่อน)</li><div class='tip'>💡 ทดสอบได้ที่ <code>search.google.com/test/rich-results</code> — วาง URL บทความแล้วดูว่า Google อ่าน Schema เจอไหม</div>"},
+{id:"s2",trk:"seo",time:"6 นาที",title:"เขียน Title, Description และ H1–H3 ให้ Google รัก",body:
+"<h4>Meta Title</h4><li>ไม่เกิน ~60 ตัวอักษร มีคีย์เวิร์ดหลักอยู่ต้นๆ</li><li>รูปแบบที่เวิร์ค: <code>ตัวเลข + ประโยชน์ + ปี</code> เช่น \"7 วิธีทำให้ Blogger โหลดเร็วขึ้น (2026)\"</li><h4>Description</h4><li>120–155 ตัวอักษร สรุปว่าอ่านแล้วได้อะไร + ชวนคลิก</li><h4>Heading</h4><li><b>H1 มีได้หน้าละ 1 อัน</b> = ชื่อบทความ (ธีมจัดให้แล้ว)</li><li>H2 = หัวข้อใหญ่, H3 = หัวข้อย่อยใน H2 — ห้ามข้ามลำดับ</li><li>ใส่คีย์เวิร์ดรองใน H2 อย่างเป็นธรรมชาติ</li><div class='tip'>💡 ใน Builder มีแผง SEO Score คอยเช็คให้แบบเรียลไทม์ว่าครบไหม — เขียว = พร้อมเผยแพร่</div>"},
+{id:"s3",trk:"seo",time:"5 นาที",title:"Canonical URL & ทำให้บทความ Index ไว",body:
+"<h4>ปัญหาหน้าซ้ำ (Duplicate Content)</h4>Blogger สร้างหน้า <code>?m=1</code> (มือถือ) และหน้า label/search ที่เนื้อหาซ้ำกับหน้าหลัก — ถ้า Google index มั่วอันดับจะกระจาย<h4>ธีม BlogKub จัดการให้</h4><li>ใส่ <code>canonical</code> ชี้หน้าหลักทุกหน้า</li><li>หน้า search / label / archive ติด <code>noindex,follow</code></li><h4>เทคนิค index ไว</h4><li>โพสต์แล้วกด Request Indexing ใน GSC</li><li>ลิงก์บทความใหม่จากบทความเก่าที่คนเข้าเยอะ (Internal Link)</li><li>แชร์ลงโซเชียลให้เกิดสัญญาณคลิกแรก</li>"},
+{id:"a1",trk:"ads",time:"8 นาที",title:"กฎเหล็ก AdSense — ไม่โดนแบน ไม่โดน Ad Limit",body:
+"<h4>สิ่งที่ห้ามทำเด็ดขาด</h4><li>คลิกโฆษณาตัวเอง / ชวนให้คนคลิก (\"ช่วยกดโฆษณาที\")</li><li>เนื้อหาก๊อป, เนื้อหาละเมิดลิขสิทธิ์, เนื้อหาต้องห้าม (พนัน/ผู้ใหญ่/ยา)</li><li>วางโฆษณาชิดปุ่มจนคนกดพลาด (Accidental Clicks)</li><h4>สาเหตุ Ad Limit ที่เจอบ่อย</h4><li>ทราฟฟิกผิดปกติ — ซื้อทราฟฟิก/แลกคลิก</li><li>สัดส่วนโฆษณามากกว่าเนื้อหา</li><h4>ก่อนสมัคร AdSense</h4><li>มีบทความคุณภาพ 20+ ชิ้น เขียนเอง</li><li>มีหน้า เกี่ยวกับ / ติดต่อ / Privacy Policy (สร้างจากเมนู Pages ใน Builder ได้)</li><div class='tip'>💡 อายุบล็อก 2–3 เดือน + ทราฟฟิกธรรมชาติสม่ำเสมอ อนุมัติง่ายกว่ามาก</div>"},
+{id:"a2",trk:"ads",time:"6 นาที",title:"วางตำแหน่งโฆษณาให้ CTR สูง โดยไม่พัง CLS",body:
+"<h4>ตำแหน่งทอง</h4><li>ใต้ย่อหน้าแรกของบทความ (คนอ่านจบ intro กำลัง engage)</li><li>กลางเนื้อหา ทุกๆ 3–4 ย่อหน้า</li><li>ท้ายบทความ ก่อน Related Posts</li><h4>ตำแหน่งต้องห้าม</h4><li>บนสุดก่อนเนื้อหา (ดัน LCP + คนกดผิด)</li><li>ลอยทับเนื้อหา / ใกล้ปุ่มเมนู</li><h4>กัน CLS (เว็บกระเด้ง)</h4><li>ใช้บล็อก \"โฆษณา\" ของ Builder ซึ่ง<b>จองพื้นที่ล่วงหน้า</b>ให้แล้ว — โฆษณาโหลดช้าแค่ไหนเนื้อหาก็ไม่กระเด้ง</li><li>อย่าฝังโค้ดโฆษณาแบบไม่กำหนดความสูงลงใน HTML เอง</li>"},
+{id:"c1",trk:"cwv",time:"5 นาที",title:"LCP / INP / CLS คืออะไร (ดูภาพเคลื่อนไหวด้านบน)",body:
+"<h4>สามค่านี้คือเกณฑ์อันดับของ Google</h4><li><b>LCP</b> — องค์ประกอบใหญ่สุด (มักเป็นรูปปก) ต้องโผล่ใน <b>2.5 วิ</b> · แก้: รูปเบา, ไม่ lazy รูปแรก</li><li><b>INP</b> — ตอบสนองการกดใน <b>200ms</b> · แก้: ลด JS ภายนอก</li><li><b>CLS</b> — เนื้อหาห้ามกระเด้ง (&lt; 0.1) · แก้: จองพื้นที่รูป/โฆษณาล่วงหน้า</li><h4>ธีม BlogKub จัดการอะไรให้แล้ว</h4><li>กำหนด width/height รูปการ์ด (กัน CLS)</li><li>รูปแรกโหลดแบบความสำคัญสูง, ที่เหลือ lazy</li><li>ฟอนต์ใช้ display=swap</li><div class='tip'>💡 วัดผลจริงที่ <code>pagespeed.web.dev</code> — เป้าคือ 90+ ทั้งมือถือและเดสก์ท็อป</div>"},
+{id:"c2",trk:"cwv",time:"6 นาที",title:"รูปภาพ WebP + ข้อควรระวัง Embed ภายนอก",body:
+"<h4>ทำไมต้อง WebP</h4>เล็กกว่า PNG/JPG ~30–70% โดยตาเปล่าแยกไม่ออก — รูป 1MB อาจเหลือ 80KB<h4>วิธีทำก่อนอัปโหลดลง Blogger</h4><li>เว็บฟรี: <code>squoosh.app</code> (ของ Google) — ลาก, เลือก WebP, quality ~80</li><li>ขนาดกว้างไม่ต้องเกิน 1600px สำหรับรูปเนื้อหา / 1200px สำหรับรูปปก</li><h4>Embed ภายนอกที่ทำเว็บหน่วง</h4><li>วิดีโอ YouTube หลายตัวในหน้าเดียว — ใส่เป็นลิงก์รูป thumbnail แล้วค่อยคลิกไปดูดีกว่า</li><li>วิดเจ็ต Facebook Page / นาฬิกา / ตัวนับผู้ชม — ตัวการ INP พัง เลี่ยงได้เลี่ยง</li>"}
+];
+
+/* ============ render ============ */
+var cur="all", DONE=JSON.parse(localStorage.getItem("bk_learn")||"{}"), open=null;
+function esc(s){return String(s||"").replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]))}
+var trkName=Object.fromEntries(TRACKS);
+function render(){
+  document.getElementById("vitals").style.display = (cur==="cwv"||cur==="all")?"grid":"none";
+  var list=LESSONS.filter(l=>cur==="all"||l.trk===cur), g=document.getElementById("lessons");
+  g.innerHTML=list.map(function(l){return '<div class="lc'+(DONE[l.id]?" read":"")+'" onclick="openLesson(\''+l.id+'\')">'+
+    '<span class="done">✓</span><div class="tag">'+trkName[l.trk]+'</div><h3>'+esc(l.title)+'</h3>'+
+    '<div class="foot">⏱ '+l.time+(DONE[l.id]?' · <span style="color:var(--ok)">เรียนจบแล้ว</span>':'')+'</div></div>'}).join("");
+  var d=LESSONS.filter(l=>DONE[l.id]).length;
+  document.getElementById("pTxt").textContent=d+"/"+LESSONS.length+" บทเรียน";
+  document.getElementById("pFill").style.width=(d/LESSONS.length*100)+"%";
+}
+var tb=document.getElementById("tracks");
+TRACKS.forEach(function(t){var b=document.createElement("button");b.className="trk"+(t[0]===cur?" on":"");b.textContent=t[1];
+  b.onclick=function(){cur=t[0];document.querySelectorAll(".trk").forEach(x=>x.classList.remove("on"));b.classList.add("on");render()};tb.appendChild(b)});
+function openLesson(id){open=LESSONS.find(l=>l.id===id);
+  document.getElementById("rTag").textContent=trkName[open.trk]+" · ⏱ "+open.time;
+  document.getElementById("rTitle").textContent=open.title;
+  document.getElementById("rBody").innerHTML=open.body;
+  document.getElementById("reader").classList.add("open");}
+function markDone(){if(open){DONE[open.id]=1;localStorage.setItem("bk_learn",JSON.stringify(DONE));}closeReader();render();}
+function closeReader(){document.getElementById("reader").classList.remove("open");}
+document.getElementById("reader").addEventListener("click",function(e){if(e.target===this)closeReader()});
+render();
+
+/* ============ AI Assistant (Context-Aware) ============ */
+var KB=[
+ {k:/facebook|og:image|รูป.*แชร์|แชร์.*รูป|social.*preview/i,a:"รูปไม่ขึ้นตอนแชร์ Facebook เพราะขาด og:image ครับ ✅ ธีม BlogKub ใส่ og:image อัตโนมัติจาก \"รูปเด่น\" ของโพสต์ — วิธีแก้:\n1) ตั้งรูปเด่น (Featured Image) ให้โพสต์นั้น\n2) รูปควรกว้าง ≥1200px\n3) ไปที่ developers.facebook.com/tools/debug วาง URL แล้วกด Scrape Again เพื่อล้างแคช FB"},
+ {k:/โดเมน|domain|cname/i,a:"ต่อโดเมนตัวเอง: Blogger → การตั้งค่า → โดเมนที่กำหนดเอง → กรอก www.โดเมน.com → เอาค่า CNAME 2 รายการที่ Blogger ให้ ไปใส่ใน DNS ของผู้ให้บริการโดเมน → รอแล้วบันทึกอีกครั้ง 📚 มีบทเรียนเต็มในแท็บ Blogger 101 ครับ"},
+ {k:/https|ssl|ปลอดภัย/i,a:"เปิด HTTPS: Blogger → การตั้งค่า → เปิด \"ความพร้อมใช้งาน HTTPS\" รอพร้อม แล้วเปิด \"การเปลี่ยนเส้นทาง HTTPS\" ต่อ และแก้ลิงก์/รูป http:// ในบทความเก่าเป็น https:// ครับ"},
+ {k:/sitemap|search console|index|ติดอันดับ/i,a:"ส่ง Sitemap: เข้า Google Search Console → ยืนยันเว็บ → เมนู Sitemaps → เพิ่ม sitemap.xml และ sitemap-pages.xml ✅ อยากให้บทความใหม่ index ไว ใช้ URL Inspection → Request Indexing"},
+ {k:/adsense|โฆษณา|ad limit|รายได้/i,a:"เรื่อง AdSense สรุปสั้นๆ: ห้ามคลิกเอง/ชวนคลิก, มีบทความเขียนเอง 20+ ชิ้น + หน้า About/Contact/Privacy ก่อนสมัคร, วางโฆษณาใต้ย่อหน้าแรก+กลางเนื้อหา และใช้บล็อกโฆษณาของ Builder ที่จองพื้นที่กัน CLS ให้แล้ว 📚 ดูคอร์ส AdSense Mastery ครับ"},
+ {k:/ช้า|เร็ว|lcp|cls|inp|vitals|pagespeed|โหลด/i,a:"เว็บช้าเช็ค 3 อย่างก่อน: 1) รูปใหญ่ไป → แปลง WebP ที่ squoosh.app 2) embed ภายนอกเยอะ (วิดเจ็ต FB/นาฬิกา) → ถอดออก 3) วัดที่ pagespeed.web.dev ดูว่าตัวไหนแดง ⚡ ธีม BlogKub จัดการ lazy-load และจองพื้นที่รูปให้แล้วครับ"},
+ {k:/comment|คอมเมนต์|ความคิดเห็น/i,a:"คอมเมนต์ไม่ขึ้น: เช็ค Blogger → การตั้งค่า → ความคิดเห็น → ตำแหน่ง = \"ฝัง\" และในโพสต์เปิด \"อนุญาตความคิดเห็น\" ครับ ธีมรองรับ threaded comments อยู่แล้ว"},
+ {k:/ป้ายกำกับ|label|หมวด|ปักหมุด|แนะนำ|featured/i,a:"ป้ายกำกับ: ใส่ได้ตอนแก้ไขโพสต์ (แถบขวา) — ธีมจะโชว์ป้ายแรกเป็นหมวดบนการ์ด 📌 อยากปักหมุดบทความขึ้น \"บทความแนะนำ\" (เทมเพลต Magazine) ให้ติดป้ายคำว่า แนะนำ (หรือคำที่ตั้งไว้ในบล็อกบทความเด่น) ครับ"},
+ {k:/dark|มืด|ธีมมืด/i,a:"Dark Mode: ลากบล็อก \"Dark Mode Toggle\" จากแผงองค์ประกอบเข้าไปในหน้า ผู้อ่านจะได้ปุ่มสลับโหมดสว่าง/มืดเองครับ 🌙"},
+];
+function toggleAI(){document.getElementById("aiPanel").classList.toggle("open")}
+function push(cls,text){var d=document.createElement("div");d.className="msg "+cls;d.textContent=text;
+  var log=document.getElementById("aiLog");log.appendChild(d);log.scrollTop=log.scrollHeight;}
+function askAI(){
+  var inp=document.getElementById("aiInput"),q=inp.value.trim();if(!q)return;inp.value="";push("me",q);
+  if(API){push("bot","กำลังคิด…");
+    fetch(API+"/api/assistant",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:q})})
+      .then(r=>r.json()).then(j=>{var log=document.getElementById("aiLog");log.lastChild.textContent=j.answer||"ขออภัย ตอบไม่ได้ครับ"})
+      .catch(()=>{var log=document.getElementById("aiLog");log.lastChild.textContent=localAnswer(q)});
+    return;}
+  setTimeout(function(){push("bot",localAnswer(q))},350);
+}
+function localAnswer(q){
+  for(var i=0;i<KB.length;i++)if(KB[i].k.test(q))return KB[i].a;
+  return "คำถามนี้ผมยังไม่มีในคลังความรู้ครับ 🙏 ลองดูบทเรียนในแท็บด้านบน หรือถามใหม่ด้วยคำเช่น: โดเมน, HTTPS, Sitemap, AdSense, เว็บช้า, รูปแชร์ Facebook";
+}
+</script>
+</body>
+</html>

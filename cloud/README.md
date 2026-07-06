@@ -88,6 +88,19 @@ curl -X POST https://blogkub-cloud.<acc>.workers.dev/api/auth/request-link \
 
 ตั้งค่า UI: แก้ตัวแปร `API` บนหัวไฟล์ `marketplace/index.html` ให้ชี้ URL Worker แล้วทุกปุ่มทำงานจริง
 
+## โมดูล 6: Learning Center (PROTOTYPE)
+
+"ความรู้" คือสิ่งที่ทำให้ผู้ใช้อยู่กับแพลตฟอร์ม — เปลี่ยนมือใหม่เป็นผู้เชี่ยวชาญ
+
+| สเปก | ที่อยู่ในต้นแบบ |
+|---|---|
+| 📚 Interactive Onboarding | มีอยู่แล้วใน Builder (`showCoach()` ไกด์ 3 ขั้นตอนตอนเข้าครั้งแรก) — เฟสต่อไป: tooltip walkthrough แบบชี้ทีละจุด |
+| 🎓 Learning Hub | `project/learn/index.html` (ขึ้น Pages ที่ `/learn/`) — 4 หลักสูตร × 10 บทเรียนภาษาไทยเนื้อหาจริง: Blogger 101 (โดเมน/HTTPS/Sitemap), SEO Playbook (Schema+AI Search/Title-Heading/Canonical), AdSense Mastery (Compliance/Ad Placement กัน CLS), Web Vitals Clinic + progress ผู้เรียนใน localStorage |
+| ⚡ Visual Web Vitals | การ์ดแอนิเมชัน CSS อธิบาย LCP / INP / CLS แบบเห็นภาพ (ในแท็บ Web Vitals Clinic) |
+| 🤖 AI Builder Assistant | ปุ่มแชต 🤖 ลอยในหน้า Learn + `POST /api/assistant` ใน Worker — มี **Workers AI binding** (`llama-3.1-8b`) ตอบแบบ LLM พร้อมบริบทคลังความรู้; ไม่เปิด AI ก็ fallback ตอบจาก KB ได้ทันที (ครอบคลุม: og:image ไม่ขึ้นบน FB, โดเมน, HTTPS, Sitemap, AdSense, เว็บช้า, คอมเมนต์, ปักหมุดบทความ) |
+
+ตั้งค่า: แก้ตัวแปร `API` ในหน้า learn ให้ชี้ Worker → แชตจะใช้ AI จริง (เว้นว่าง = KB ในหน้า)
+
 ## ข้อจำกัดของต้นแบบ (ทำต่อภายหลัง)
 
 - อีเมลจริงใช้ MailChannels — ต้องตั้ง SPF/DKIM ของโดเมนก่อนปิด DEV_MODE

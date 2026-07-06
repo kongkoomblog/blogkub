@@ -20,6 +20,10 @@ bucket_name = "blogkub-projects"    # npx wrangler r2 bucket create blogkub-proj
 binding = "KV"                      # env.KV
 id = "REPLACE_WITH_KV_ID"           # npx wrangler kv namespace create KV
 
+# (โมดูล 6) เปิดใช้ Workers AI ให้ผู้ช่วย AI ตอบแบบ LLM — ไม่เปิดก็ทำงานได้ (ตอบจากคลังความรู้)
+[ai]
+binding = "AI"
+
 [vars]
 APP_URL = "https://blogkub.com/app.html"   # ปลายทาง redirect หลังล็อกอินสำเร็จ
 ALLOWED_ORIGIN = "https://blogkub.com"     # CORS (ตอน dev ใส่ http://localhost:8788 ได้)
