@@ -1044,6 +1044,7 @@
   }
 
   function renderCanvas() {
+    updateLibSingletonState();
     var f = $("#frame");
     if (!S.blocks.length) {
       var isMobEmpty = window.matchMedia("(max-width:1000px)").matches;
@@ -1094,7 +1095,22 @@
   }
 
   /* ---------- block ops ---------- */
+  // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า — กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1 };
+  function singletonExists(type) {
+    return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
+  }
+  function updateLibSingletonState() {
+    $$(".lib-item").forEach(function (el) {
+      var t = el.dataset.type;
+      if (SINGLETON_BLOCKS[t]) el.classList.toggle("added", S.blocks.some(function (b) { return b.type === t; }));
+    });
+  }
   function addBlock(type, idx) {
+    if (singletonExists(type)) {
+      toast(tpl("คุณได้เพิ่ม “" + blkLabel(type) + "” ไว้แล้ว — ฟีเจอร์นี้มีได้ 1 อันต่อหน้า", "“" + blkLabel(type) + "” is already added — only one per page"));
+      return;
+    }
     var b = { id: uid(), type: type, props: blockDefaults(type) };
     if (idx == null || idx > S.blocks.length) idx = S.blocks.length;
     var minIdx = (S.blocks.length > 0 && S.blocks[0].type === "header") ? 1 : 0;
@@ -1111,6 +1127,10 @@
   function duplicate(id) {
     var i = S.blocks.findIndex(function (b) { return b.id === id; });
     if (i < 0) return;
+    if (SINGLETON_BLOCKS[S.blocks[i].type]) {
+      toast(tpl("“" + blkLabel(S.blocks[i].type) + "” มีได้ 1 อันต่อหน้า — ทำสำเนาไม่ได้", "“" + blkLabel(S.blocks[i].type) + "” is limited to one per page — cannot duplicate"));
+      return;
+    }
     var clone = JSON.parse(JSON.stringify(S.blocks[i]));
     clone.id = uid();
     S.blocks.splice(i + 1, 0, clone);

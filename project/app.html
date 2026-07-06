@@ -117,6 +117,9 @@ button{font-family:inherit;cursor:pointer;}
 .lib-item:hover{border-color:var(--brand);background:var(--surface-2);transform:translateX(2px);}
 .lib-item:active{cursor:grabbing;}
 .lib-item.dragging{opacity:.4;}
+/* singleton feature already on the page — dimmed with a check, still tappable so the toast can explain */
+.lib-item.added{opacity:.45;}
+.lib-item.added::after{content:'✓';margin-left:auto;color:var(--ok,#22c55e);font-weight:800;font-size:13px;flex:none;}
 .lib-item .ic{width:30px;height:30px;border-radius:7px;background:rgba(99,102,241,.12);color:var(--brand-2);display:grid;place-items:center;flex:none;}
 .lib-item .ic svg{width:16px;height:16px;}
 .lib-item .nm{font-size:14px;font-weight:500;}
@@ -778,6 +781,6 @@ body.sheet-settled .panel.right{animation:none;}
   </div>
 </div>
 
-<script src="assets/builder-app.js?v=20260706-3"></script>
+<script src="assets/builder-app.js?v=20260706-4"></script>
 </body>
 </html>
