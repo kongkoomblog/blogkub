@@ -1,0 +1,27 @@
+# BlogKub Cloud — Cloudflare Worker (prototype)
+# Deploy: npx wrangler deploy   (จากในโฟลเดอร์ cloud/)
+
+name = "blogkub-cloud"
+main = "src/worker.js"
+compatibility_date = "2026-06-01"
+
+# ---- Bindings (สร้างของจริงก่อน แล้วเอา id มาใส่ — ดู README.md) ----
+
+[[d1_databases]]
+binding = "DB"                      # env.DB
+database_name = "blogkub"
+database_id = "REPLACE_WITH_D1_ID"  # npx wrangler d1 create blogkub
+
+[[r2_buckets]]
+binding = "STORE"                   # env.STORE
+bucket_name = "blogkub-projects"    # npx wrangler r2 bucket create blogkub-projects
+
+[[kv_namespaces]]
+binding = "KV"                      # env.KV
+id = "REPLACE_WITH_KV_ID"           # npx wrangler kv namespace create KV
+
+[vars]
+APP_URL = "https://blogkub.com/app.html"   # ปลายทาง redirect หลังล็อกอินสำเร็จ
+ALLOWED_ORIGIN = "https://blogkub.com"     # CORS (ตอน dev ใส่ http://localhost:8788 ได้)
+DEV_MODE = "1"                             # "1" = ตอบ magic link กลับมาตรงๆ ไม่ส่งอีเมลจริง (เอาออกตอน production)
+MAIL_FROM = "no-reply@blogkub.com"         # ผู้ส่งอีเมล magic link (ต้องตั้ง SPF/DKIM ของโดเมนก่อนใช้จริง)
