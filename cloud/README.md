@@ -74,6 +74,20 @@ curl -X POST https://blogkub-cloud.<acc>.workers.dev/api/auth/request-link \
 3. UI: ปุ่มล็อกอิน (กรอกอีเมล → `requestLink`), badge สถานะซิงก์ข้าง save-dot, เมนู History ต่อกับ `listSnapshots()/restore()`
 4. ผูก `snapshot("export")` เข้ากับปุ่ม Export XML
 
+## โมดูล 5: Template Marketplace & Community Showcase (PROTOTYPE)
+
+ต่อยอดจากโมดูล 4 — "หัวใจแห่งการแบ่งปัน" (Canva ease × Figma Community)
+
+| สเปก | ที่อยู่ในต้นแบบ |
+|---|---|
+| 🛍️ Marketplace UI | `marketplace/index.html` — หมวดตามเป้าหมาย 5 หมวด, การ์ด hover auto-scroll ดูเลย์เอาต์บน→ล่าง, Trust Badges (OFFICIAL / SEO / Mobile), แท็บ มาแรง·ใหม่·ยอดนิยม — **เปิดดูได้ทันทีแม้ยังไม่ deploy API (มี demo data ในตัว)** |
+| 🌐 Showcase | `GET /api/community?sort=trending\|new\|top&category=` (trending = ยอดโคลน 7 วันจาก `clone_events`), โปรไฟล์ครีเอเตอร์ `GET /api/creators/:id` (ผลงาน+ยอดรวม), คอมเมนต์ `GET/POST /api/community/:id/comments` |
+| 🪄 One-Click Clone | R2→R2 copy + `sanitizeState()` ล้าง AdSense/Analytics/GTM/Pixel/โซเชียลส่วนตัวของผู้สร้างออกอัตโนมัติ + บันทึก clone_event + ตอบ id ใหม่ให้พาเข้า Builder ทันที |
+| 👁️ Live Demo | `marketplace/preview.html?id=&api=` — เรนเดอร์จาก JSON จริง + บทความจำลอง (Dynamic Mock Data) + สลับ Desktop/Mobile |
+| 🛡️ Quality Gate | `POST /publish` รัน `validateForPublish()` — ต้องมี header/footer/บล็อกบทความ, โครง blocks สมบูรณ์, ไม่มี http:// (กัน mixed-content/Web Vitals), ขนาดไม่เกินเพดาน — ไม่ผ่านตอบ 422 พร้อมรายการคำแนะนำ |
+
+ตั้งค่า UI: แก้ตัวแปร `API` บนหัวไฟล์ `marketplace/index.html` ให้ชี้ URL Worker แล้วทุกปุ่มทำงานจริง
+
 ## ข้อจำกัดของต้นแบบ (ทำต่อภายหลัง)
 
 - อีเมลจริงใช้ MailChannels — ต้องตั้ง SPF/DKIM ของโดเมนก่อนปิด DEV_MODE
@@ -81,3 +95,4 @@ curl -X POST https://blogkub-cloud.<acc>.workers.dev/api/auth/request-link \
 - ยังไม่มี rate-limit / ขนาด quota ต่อผู้ใช้ (มีเพดานไฟล์ 1.5MB แล้ว)
 - Preview link ชั่วคราว (KV) ยังไม่ทำ
 - Conflict resolution ข้ามอุปกรณ์แบบละเอียด (ตอนนี้ last-write-wins)
+- (โมดูล 5) Thumbnail จริงของธีม (ตอนนี้เป็น mock จากสีธีม), พรีวิวด้วยเอนจิน renderBlockStatic เต็มรูปแบบ, Dark Mode ใน Live Demo, การลบ/แก้คอมเมนต์, ระบบรายงานผลงานไม่เหมาะสม, Web Vitals ตรวจลึก (ตอนนี้เช็คเชิงโครงสร้าง)

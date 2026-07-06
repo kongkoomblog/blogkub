@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Template Hub — BlogKub (Prototype)</title>
+<style>
+:root{--bg:#0b0d14;--panel:#12141f;--panel2:#1a1d2e;--border:rgba(255,255,255,.09);--ink:#eef0f8;--ink2:#9aa1b9;--brand:#6366f1;--brand2:#8b5cf6;--ok:#22c55e;--font:'IBM Plex Sans Thai',system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);min-height:100vh}
+.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
+header{padding:34px 0 10px}
+h1{font-size:26px;font-weight:800}
+h1 .proto{font-size:10px;vertical-align:middle;background:linear-gradient(100deg,#4f46e5,#d946ef);padding:3px 10px;border-radius:99px;margin-left:10px;letter-spacing:.12em}
+.sub{color:var(--ink2);font-size:14px;margin-top:6px}
+/* filters */
+.bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:22px 0 8px}
+.chip{padding:8px 16px;border-radius:99px;border:1px solid var(--border);background:var(--panel);color:var(--ink2);font-size:13px;font-weight:600;cursor:pointer;transition:.15s}
+.chip.on,.chip:hover{background:var(--brand);border-color:var(--brand);color:#fff}
+.tabs{margin-left:auto;display:flex;border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.tabs button{padding:8px 14px;background:var(--panel);border:0;color:var(--ink2);font-family:var(--font);font-size:12.5px;font-weight:700;cursor:pointer}
+.tabs button.on{background:var(--panel2);color:var(--ink)}
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:18px;padding:18px 0 60px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:transform .18s,box-shadow .18s,border-color .18s}
+.card:hover{transform:translateY(-4px);border-color:rgba(99,102,241,.5);box-shadow:0 18px 40px -18px rgba(0,0,0,.7)}
+/* smart preview: hover = auto-scroll ดูเลย์เอาต์บน→ล่าง */
+.thumb{height:170px;overflow:hidden;position:relative;background:var(--panel2)}
+.thumb .page{position:absolute;inset:0;height:340px;transition:transform 2.6s ease;padding:12px 14px}
+.card:hover .thumb .page{transform:translateY(-170px)}
+.mock-hd{height:26px;border-radius:6px;margin-bottom:8px}
+.mock-hero{height:70px;border-radius:8px;margin-bottom:8px;opacity:.85}
+.mock-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:8px}
+.mock-row i{height:52px;border-radius:6px;display:block;opacity:.55}
+.mock-ln{height:10px;border-radius:4px;margin-bottom:6px;opacity:.35;background:#fff}
+.mock-ft{height:34px;border-radius:6px;opacity:.8}
+.body{padding:13px 15px 15px}
+.name{font-weight:700;font-size:15px;display:flex;align-items:center;gap:7px}
+.badges{display:flex;gap:5px;flex-wrap:wrap;margin:8px 0 2px}
+.badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;background:rgba(34,197,94,.12);color:#4ade80;border:1px solid rgba(34,197,94,.25)}
+.badge.official{background:rgba(99,102,241,.15);color:#a5b4fc;border-color:rgba(99,102,241,.35)}
+.meta{display:flex;gap:12px;color:var(--ink2);font-size:12px;margin-top:8px}
+.meta b{color:var(--ink)}
+.author{color:var(--ink2);font-size:12px;margin-top:4px}
+.author a{color:#a5b4fc;text-decoration:none;cursor:pointer}
+.acts{display:flex;gap:8px;margin-top:12px}
+.btn{flex:1;padding:9px 0;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--ink);font-family:var(--font);font-weight:700;font-size:12.5px;cursor:pointer;transition:.15s}
+.btn:hover{border-color:var(--brand)}
+.btn.pri{background:linear-gradient(100deg,var(--brand),var(--brand2));border-color:transparent}
+.trend{position:absolute;top:10px;left:10px;z-index:2;font-size:10px;font-weight:800;background:rgba(244,63,94,.92);padding:3px 9px;border-radius:99px;letter-spacing:.05em}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.7);display:none;align-items:center;justify-content:center;z-index:50;padding:20px}
+.modal.open{display:flex}
+.sheet{background:var(--panel);border:1px solid var(--border);border-radius:14px;width:100%;max-width:520px;max-height:80vh;overflow:auto;padding:20px}
+.sheet h3{font-size:16px;margin-bottom:14px}
+.cmt{border-bottom:1px solid var(--border);padding:10px 0;font-size:13.5px}
+.cmt .who{color:#a5b4fc;font-weight:700;font-size:12px;margin-bottom:3px}
+.cmt-form{display:flex;gap:8px;margin-top:14px}
+.cmt-form input{flex:1;padding:10px 12px;border-radius:9px;border:1px solid var(--border);background:var(--panel2);color:var(--ink);font-family:var(--font)}
+.note{color:var(--ink2);font-size:12px;margin-top:10px}
+.empty{grid-column:1/-1;text-align:center;color:var(--ink2);padding:60px 0}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <h1>🛍️ Template Hub <span class="proto">PROTOTYPE</span></h1>
+  <div class="sub">คลังแม่แบบ + ผลงานชุมชน — โคลนได้ในคลิกเดียว (Figma-Community style)</div>
+</header>
+
+<div class="wrap">
+  <div class="bar" id="cats"></div>
+  <div class="bar" style="margin-top:0">
+    <div class="tabs" id="tabs" style="margin-left:0">
+      <button data-sort="trending" class="on">🔥 มาแรง</button>
+      <button data-sort="new">✨ ใหม่ล่าสุด</button>
+      <button data-sort="top">❤️ ยอดนิยม</button>
+    </div>
+  </div>
+  <div class="grid" id="grid"></div>
+</div>
+
+<div class="modal" id="cmtModal"><div class="sheet">
+  <h3>💬 ความคิดเห็น</h3>
+  <div id="cmtList"></div>
+  <div class="cmt-form"><input id="cmtInput" maxlength="500" placeholder="เขียนรีวิว/คำแนะนำ…"><button class="btn pri" style="flex:none;padding:0 18px" onclick="sendComment()">ส่ง</button></div>
+  <div class="note">ต้องเข้าสู่ระบบก่อนจึงจะคอมเมนต์ได้ (โมดูล 4)</div>
+</div></div>
+
+<script>
+/* ================= CONFIG ================= */
+var API = ""; // ใส่ URL ของ Worker เช่น "https://blogkub-cloud.xxx.workers.dev" — เว้นว่าง = โหมดเดโม่
+/* ========================================== */
+
+var CATS = [["","ทั้งหมด"],["personal","🏠 บล็อกส่วนตัว"],["news","📰 เว็บข่าว"],["corporate","🏢 เว็บองค์กร"],["education","🎓 การศึกษา"],["affiliate","🛒 แอฟฟิลิเอต"]];
+var CAT_NAME = Object.fromEntries(CATS);
+var state = { cat: "", sort: "trending", items: [], activeId: null };
+
+/* เดโม่ดาต้า — ให้เปิดหน้านี้ดู UI ได้ทันทีโดยไม่ต้องมี backend */
+var DEMO = [
+  { id:"d1", name:"Personal Blog — Warm Cream", category:"personal", is_official:1, likes:128, clones:342, clones7:57, author:"BlogKub Team", author_id:"t1", c:["#6366f1","#8b5cf6"] },
+  { id:"d2", name:"Magazine — Breaking Red",    category:"news",     is_official:1, likes:96,  clones:251, clones7:44, author:"BlogKub Team", author_id:"t1", c:["#dc2626","#f43f5e"] },
+  { id:"d3", name:"สายรีวิวของมันต้องมี",         category:"affiliate",is_official:0, likes:61,  clones:130, clones7:19, author:"kongkoom",     author_id:"u2", c:["#ea580c","#f59e0b"] },
+  { id:"d4", name:"คอร์สออนไลน์สายสอน",          category:"education",is_official:0, likes:33,  clones:58,  clones7:7,  author:"kruMay",       author_id:"u3", c:["#9333ea","#6366f1"] },
+  { id:"d5", name:"Company Clean Blue",         category:"corporate",is_official:0, likes:21,  clones:35,  clones7:3,  author:"devTon",       author_id:"u4", c:["#1e40af","#3b82f6"] }
+];
+
+function el(h){var d=document.createElement("div");d.innerHTML=h;return d.firstElementChild}
+function api(p,o){o=o||{};o.credentials="include";if(o.body){o.body=JSON.stringify(o.body);o.headers={"Content-Type":"application/json"}}return fetch(API+p,o).then(r=>r.json())}
+
+function load(){
+  if(!API){ state.items = DEMO.filter(x=>!state.cat||x.category===state.cat)
+      .sort((a,b)=> state.sort==="new"?0 : state.sort==="top"? b.likes-a.likes : b.clones7-a.clones7);
+    return render(); }
+  api("/api/community?sort="+state.sort+(state.cat?"&category="+state.cat:""))
+    .then(j=>{ state.items=j.projects||[]; render(); })
+    .catch(()=>{ state.items=[]; render(); });
+}
+
+function render(){
+  var g=document.getElementById("grid"); g.innerHTML="";
+  if(!state.items.length){ g.appendChild(el('<div class="empty">ยังไม่มีผลงานในหมวดนี้ — เป็นคนแรกที่กด Publish สิ!</div>')); return; }
+  state.items.forEach(function(p,i){
+    var c1=(p.c&&p.c[0])||"#6366f1", c2=(p.c&&p.c[1])||"#8b5cf6";
+    var grad="background:linear-gradient(120deg,"+c1+","+c2+")";
+    var badges = (p.is_official?'<span class="badge official">✔ OFFICIAL</span>':'')+
+      '<span class="badge">⚡ SEO Optimized</span><span class="badge">📱 Mobile Perfect</span>';
+    var card=el('<div class="card">'+
+      '<div class="thumb">'+(state.sort==="trending"&&i<3?'<span class="trend">🔥 TRENDING #'+(i+1)+'</span>':'')+
+        '<div class="page">'+
+          '<div class="mock-hd" style="'+grad+'"></div><div class="mock-hero" style="'+grad+'"></div>'+
+          '<div class="mock-row"><i style="'+grad+'"></i><i style="'+grad+'"></i><i style="'+grad+'"></i></div>'+
+          '<div class="mock-ln"></div><div class="mock-ln" style="width:70%"></div>'+
+          '<div class="mock-row"><i style="'+grad+'"></i><i style="'+grad+'"></i><i style="'+grad+'"></i></div>'+
+          '<div class="mock-ft" style="background:#0f172a"></div>'+
+        '</div></div>'+
+      '<div class="body">'+
+        '<div class="name">'+esc(p.name)+'</div>'+
+        '<div class="badges">'+badges+'</div>'+
+        '<div class="author">หมวด: '+(CAT_NAME[p.category]||"—")+' · โดย <a onclick="alert(\'Creator Profile → GET /api/creators/'+p.author_id+'\')">'+esc(p.author||"?")+'</a></div>'+
+        '<div class="meta"><span>❤️ <b>'+(p.likes||0)+'</b></span><span>🧬 โคลน <b>'+(p.clones||0)+'</b></span>'+(p.clones7?'<span>📈 สัปดาห์นี้ <b>'+p.clones7+'</b></span>':'')+'</div>'+
+        '<div class="acts">'+
+          '<button class="btn" onclick="openPreview(\''+p.id+'\')">👁️ พรีวิว</button>'+
+          '<button class="btn" onclick="openComments(\''+p.id+'\')">💬</button>'+
+          '<button class="btn pri" onclick="doClone(\''+p.id+'\')">⬇ Clone</button>'+
+        '</div>'+
+      '</div></div>');
+    g.appendChild(card);
+  });
+}
+
+function esc(s){return String(s||"").replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+
+function openPreview(id){ window.open("preview.html?id="+encodeURIComponent(id)+(API?"&api="+encodeURIComponent(API):""),"_blank"); }
+function doClone(id){
+  if(!API) return alert("โหมดเดโม่ — เมื่อต่อ API จริง: POST /api/community/"+id+"/clone\n→ Workers copy JSON (ล้าง AdSense/Analytics ให้) → เปิด Builder พร้อมแก้ไขทันที");
+  api("/api/community/"+id+"/clone",{method:"POST",body:{}})
+    .then(j=> j.id ? location.href="../../app.html?project="+j.id : alert("กรุณาเข้าสู่ระบบก่อนโคลน"))
+    .catch(()=>alert("กรุณาเข้าสู่ระบบก่อนโคลน"));
+}
+function openComments(id){
+  state.activeId=id; document.getElementById("cmtModal").classList.add("open");
+  var list=document.getElementById("cmtList"); list.innerHTML='<div class="note">กำลังโหลด…</div>';
+  if(!API){ list.innerHTML='<div class="cmt"><div class="who">somchai</div>สวยมากครับ เอาไปใช้กับบล็อกรีวิวแล้ว โหลดไวขึ้นเยอะ</div><div class="cmt"><div class="who">mint.design</div>ชอบโทนสี ขอสูตร palette หน่อยค่ะ 🙏</div>'; return; }
+  api("/api/community/"+id+"/comments").then(function(j){
+    list.innerHTML=(j.comments||[]).map(c=>'<div class="cmt"><div class="who">'+esc(c.author)+'</div>'+esc(c.body)+'</div>').join("")||'<div class="note">ยังไม่มีความคิดเห็น</div>';
+  });
+}
+function sendComment(){
+  var v=document.getElementById("cmtInput").value.trim(); if(!v)return;
+  if(!API){ alert("โหมดเดโม่ — เมื่อต่อ API จริง: POST /api/community/"+state.activeId+"/comments"); return; }
+  api("/api/community/"+state.activeId+"/comments",{method:"POST",body:{body:v}})
+    .then(()=>{document.getElementById("cmtInput").value="";openComments(state.activeId);})
+    .catch(()=>alert("กรุณาเข้าสู่ระบบก่อนคอมเมนต์"));
+}
+document.getElementById("cmtModal").addEventListener("click",function(e){if(e.target===this)this.classList.remove("open")});
+
+/* filters */
+var catsBar=document.getElementById("cats");
+CATS.forEach(function(c){var b=el('<button class="chip'+(c[0]===state.cat?" on":"")+'">'+c[1]+'</button>');
+  b.onclick=function(){state.cat=c[0];document.querySelectorAll("#cats .chip").forEach(x=>x.classList.remove("on"));b.classList.add("on");load()};catsBar.appendChild(b)});
+document.querySelectorAll("#tabs button").forEach(function(b){b.onclick=function(){state.sort=b.dataset.sort;document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");load()}});
+
+load();
+</script>
+</body>
+</html>

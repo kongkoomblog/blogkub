@@ -69,17 +69,18 @@ export default {
       if ((m = path.match(/^\/api\/projects\/([\w-]+)\/publish$/)) && method === "POST")
         return projectPublish(request, env, m[1]);
 
-      // ---------- COMMUNITY ----------
-      if (path === "/api/community" && method === "GET") {
-        const rows = await env.DB.prepare(
-          "SELECT p.id,p.name,p.template_id,p.likes,p.clones,p.updated_at,u.display_name AS author FROM projects p JOIN users u ON u.id=p.user_id WHERE p.is_public=1 ORDER BY p.updated_at DESC LIMIT 60"
-        ).all();
-        return respond(env, { projects: rows.results });
-      }
+      // ---------- COMMUNITY (Marketplace & Showcase) ----------
+      if (path === "/api/community" && method === "GET") return communityList(env, url);
       if ((m = path.match(/^\/api\/community\/([\w-]+)\/clone$/)) && method === "POST")
         return communityClone(request, env, m[1]);
       if ((m = path.match(/^\/api\/community\/([\w-]+)\/like$/)) && method === "POST")
         return communityLike(request, env, m[1]);
+      if ((m = path.match(/^\/api\/community\/([\w-]+)\/comments$/))) {
+        if (method === "GET") return commentList(env, m[1]);
+        if (method === "POST") return commentCreate(request, env, m[1]);
+      }
+      if ((m = path.match(/^\/api\/creators\/([\w-]+)$/)) && method === "GET")
+        return creatorProfile(env, m[1]);
 
       return respond(env, { error: "not_found" }, 404);
     } catch (e) {
@@ -282,14 +283,98 @@ async function snapshotRestore(request, env, id) {
   return respond(env, { ok: true, state: JSON.parse(new TextDecoder().decode(data)) });
 }
 
-/* ---------------- community showcase ---------------- */
+/* ---------------- community showcase (Module 5) ---------------- */
+
+const CATEGORIES = ["personal", "news", "corporate", "education", "affiliate"];
+
+// 🛡️ Quality Gatekeeper — ตรวจโครงสร้าง state ก่อนอนุญาตให้เผยแพร่
+// คืน [] = ผ่าน, ไม่ผ่านคืนรายการปัญหาพร้อมคำแนะนำ (ให้ UI แสดง)
+function validateForPublish(state) {
+  const issues = [];
+  const blocks = state && Array.isArray(state.blocks) ? state.blocks : null;
+  if (!blocks || !blocks.length) return ["โครงสร้างไม่ถูกต้อง: ไม่พบรายการบล็อก (blocks)"];
+  const types = blocks.map((b) => b && b.type);
+  if (!types.includes("header")) issues.push("ต้องมีบล็อก Header — เพิ่มส่วนหัวก่อนเผยแพร่");
+  if (!types.includes("footer")) issues.push("ต้องมีบล็อก Footer — เพิ่มส่วนท้ายก่อนเผยแพร่");
+  if (!types.some((t) => ["postgrid", "postlist", "featured"].includes(t)))
+    issues.push("ต้องมีบล็อกแสดงบทความอย่างน้อย 1 อัน (Post Grid / Post List / Featured)");
+  for (const b of blocks) {
+    if (!b || typeof b.type !== "string" || typeof b.props !== "object")
+      { issues.push("พบบล็อกที่โครงสร้างเสียหาย"); break; }
+  }
+  // Performance baseline: กัน CLS/LCP เบื้องต้น
+  for (const b of blocks) {
+    const p = b.props || {};
+    for (const k of Object.keys(p)) {
+      if (/url$/i.test(k) && typeof p[k] === "string" && /^http:\/\//.test(p[k]))
+        { issues.push("พบรูป/ลิงก์แบบ http:// (ไม่ปลอดภัยและกระทบ Web Vitals) — เปลี่ยนเป็น https://"); break; }
+    }
+  }
+  if (JSON.stringify(state).length > MAX_STATE_BYTES) issues.push("ขนาดโปรเจกต์ใหญ่เกินไป");
+  return issues;
+}
+
+// 🪄 โคลนโครงสร้าง ไม่โคลนข้อมูลส่วนตัว — ล้างคีย์อ่อนไหวออกจาก state
+const SENSITIVE_KEY = /adcode|adsense|adclient|adslot|analytics|gtag|gtm|pixel|trackingid/i;
+function sanitizeState(state) {
+  const walk = (node) => {
+    if (Array.isArray(node)) { node.forEach(walk); return; }
+    if (!node || typeof node !== "object") return;
+    for (const k of Object.keys(node)) {
+      if (SENSITIVE_KEY.test(k)) node[k] = typeof node[k] === "string" ? "" : Array.isArray(node[k]) ? [] : node[k];
+      else if (/^sociallinks$/i.test(k) && Array.isArray(node[k])) node[k] = []; // ลิงก์โซเชียลส่วนตัวของผู้สร้าง
+      else walk(node[k]);
+    }
+  };
+  walk(state);
+  if (state && state.seo) { state.seo.analyticsId = ""; state.seo.adsenseId = ""; }
+  return state;
+}
 
 async function projectPublish(request, env, id) {
   const user = await requireUser(request, env);
   await ownedProject(env, user, id);
-  const { public: pub } = await readJson(request);
-  await env.DB.prepare("UPDATE projects SET is_public=?, updated_at=? WHERE id=?").bind(pub ? 1 : 0, Date.now(), id).run();
-  return respond(env, { ok: true, isPublic: !!pub });
+  const body = await readJson(request);
+  const pub = !!body.public;
+  const category = CATEGORIES.includes(body.category) ? body.category : null;
+
+  if (pub) { // Quality gate เฉพาะตอนจะเผยแพร่
+    const obj = await env.STORE.get(projKey(user.id, id));
+    if (!obj) throw new ApiError(404, "no_state");
+    const issues = validateForPublish(await obj.json());
+    if (issues.length) return respond(env, { error: "quality_gate", issues }, 422);
+  }
+  await env.DB.prepare("UPDATE projects SET is_public=?, category=COALESCE(?,category), updated_at=? WHERE id=?")
+    .bind(pub ? 1 : 0, category, Date.now(), id).run();
+  return respond(env, { ok: true, isPublic: pub, category });
+}
+
+// รายการตลาด: sort=trending (โคลน 7 วันล่าสุด) | new | top, กรอง category ได้
+async function communityList(env, url) {
+  const sort = url.searchParams.get("sort") || "trending";
+  const cat = url.searchParams.get("category");
+  const catSql = CATEGORIES.includes(cat) ? "AND p.category=?" : "";
+  const weekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+  let sql, binds = [];
+  if (sort === "new") {
+    sql = `SELECT p.id,p.name,p.template_id,p.category,p.is_official,p.likes,p.clones,p.updated_at,u.display_name AS author,u.id AS author_id,0 AS clones7
+           FROM projects p JOIN users u ON u.id=p.user_id WHERE p.is_public=1 ${catSql} ORDER BY p.updated_at DESC LIMIT 60`;
+    if (catSql) binds.push(cat);
+  } else if (sort === "top") {
+    sql = `SELECT p.id,p.name,p.template_id,p.category,p.is_official,p.likes,p.clones,p.updated_at,u.display_name AS author,u.id AS author_id,0 AS clones7
+           FROM projects p JOIN users u ON u.id=p.user_id WHERE p.is_public=1 ${catSql} ORDER BY p.likes DESC, p.clones DESC LIMIT 60`;
+    if (catSql) binds.push(cat);
+  } else { // trending: จัดอันดับด้วยยอดโคลนสัปดาห์นี้
+    sql = `SELECT p.id,p.name,p.template_id,p.category,p.is_official,p.likes,p.clones,p.updated_at,u.display_name AS author,u.id AS author_id,
+                  COUNT(e.id) AS clones7
+           FROM projects p JOIN users u ON u.id=p.user_id
+           LEFT JOIN clone_events e ON e.project_id=p.id AND e.created_at>?
+           WHERE p.is_public=1 ${catSql}
+           GROUP BY p.id ORDER BY clones7 DESC, p.likes DESC, p.updated_at DESC LIMIT 60`;
+    binds.push(weekAgo); if (catSql) binds.push(cat);
+  }
+  const rows = await env.DB.prepare(sql).bind(...binds).all();
+  return respond(env, { sort, category: cat || null, projects: rows.results });
 }
 
 async function communityClone(request, env, id) {
@@ -298,13 +383,49 @@ async function communityClone(request, env, id) {
   if (!src) throw new ApiError(404, "not_found");
   const obj = await env.STORE.get(projKey(src.user_id, id));
   if (!obj) throw new ApiError(404, "no_state");
+  const clean = sanitizeState(await obj.json()); // ล้าง AdSense/Analytics/โซเชียลของผู้สร้างเดิม
   const newId = crypto.randomUUID();
   const now = Date.now();
-  await env.STORE.put(projKey(user.id, newId), await obj.arrayBuffer(), { httpMetadata: { contentType: "application/json" } });
-  await env.DB.prepare("INSERT INTO projects (id,user_id,name,template_id,created_at,updated_at) VALUES (?,?,?,?,?,?)")
-    .bind(newId, user.id, src.name + " (Clone)", src.template_id, now, now).run();
+  await env.STORE.put(projKey(user.id, newId), JSON.stringify(clean), { httpMetadata: { contentType: "application/json" } });
+  await env.DB.prepare("INSERT INTO projects (id,user_id,name,template_id,category,created_at,updated_at) VALUES (?,?,?,?,?,?,?)")
+    .bind(newId, user.id, src.name + " (Clone)", src.template_id, src.category, now, now).run();
   await env.DB.prepare("UPDATE projects SET clones=clones+1 WHERE id=?").bind(id).run();
-  return respond(env, { ok: true, id: newId });
+  await env.DB.prepare("INSERT INTO clone_events (project_id,user_id,created_at) VALUES (?,?,?)").bind(id, user.id, now).run();
+  return respond(env, { ok: true, id: newId }); // client พาเข้า builder ต่อทันที
+}
+
+/* --- comments / reviews --- */
+
+async function commentList(env, id) {
+  const rows = await env.DB.prepare(
+    "SELECT c.id,c.body,c.created_at,u.display_name AS author FROM comments c JOIN users u ON u.id=c.user_id WHERE c.project_id=? ORDER BY c.created_at DESC LIMIT 50"
+  ).bind(id).all();
+  return respond(env, { comments: rows.results });
+}
+
+async function commentCreate(request, env, id) {
+  const user = await requireUser(request, env);
+  const proj = await env.DB.prepare("SELECT id FROM projects WHERE id=? AND is_public=1").bind(id).first();
+  if (!proj) throw new ApiError(404, "not_found");
+  const { body } = await readJson(request);
+  const text = String(body || "").trim();
+  if (!text || text.length > 500) throw new ApiError(400, "bad_comment");
+  const cid = crypto.randomUUID();
+  await env.DB.prepare("INSERT INTO comments (id,project_id,user_id,body,created_at) VALUES (?,?,?,?,?)")
+    .bind(cid, id, user.id, text, Date.now()).run();
+  return respond(env, { ok: true, id: cid });
+}
+
+/* --- creator profile --- */
+
+async function creatorProfile(env, userId) {
+  const u = await env.DB.prepare("SELECT id,display_name,created_at FROM users WHERE id=?").bind(userId).first();
+  if (!u) throw new ApiError(404, "not_found");
+  const rows = await env.DB.prepare(
+    "SELECT id,name,template_id,category,is_official,likes,clones,updated_at FROM projects WHERE user_id=? AND is_public=1 ORDER BY updated_at DESC LIMIT 60"
+  ).bind(userId).all();
+  const totals = rows.results.reduce((a, p) => ({ likes: a.likes + p.likes, clones: a.clones + p.clones }), { likes: 0, clones: 0 });
+  return respond(env, { creator: { id: u.id, displayName: u.display_name, memberSince: u.created_at }, totals, projects: rows.results });
 }
 
 async function communityLike(request, env, id) {
