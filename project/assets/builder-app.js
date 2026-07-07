@@ -1,5 +1,5 @@
 /* ==========================================================================
-   BlogKub — Visual Builder App (Vanilla JS, client-side)
+   BlogKub · Visual Builder App (Vanilla JS, client-side)
    Block model -> live canvas render -> valid Blogger XML export.
    No backend. Autosave to localStorage. Projects export/import as JSON.
    ========================================================================== */
@@ -142,7 +142,7 @@
       cta: { title: "Ready to get started?", btnText: "Get Started", btnUrl: "/", bg: "soft" },
       image: { alt: "Image description", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "Below header", label: true },
-      newsletter: { heading: "Get Updates First", sub: "Enter your email to receive new posts instantly — free, no spam", btnText: "Subscribe", bg: "soft" },
+      newsletter: { heading: "Get Updates First", sub: "Enter your email to receive new posts instantly · free, no spam", btnText: "Subscribe", bg: "soft" },
       share: { label: "Share this article", facebook: true, twitter: true, line: true, copy: true },
       sidebar: { position: "right", width: "280px", showSearch: true, showCategories: true, showArchive: true, showAbout: false },
       search: { heading: "", placeholder: "Search blog…" },
@@ -156,7 +156,7 @@
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
       related: { heading: "Related Posts", count: 4, columns: 2, showImage: true },
       progress: { height: 3, color: "primary" },
-      notfound: { template: "minimal", heading: "404", sub: "Sorry — Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
+      notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
       header: { logoText: "MyBlog", menuItems: [
         { id: "m1", type: "home",   label: "หน้าแรก", url: "/" },
@@ -190,7 +190,7 @@
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
       related: { heading: "บทความที่เกี่ยวข้อง", count: 4, columns: 2, showImage: true },
       progress: { height: 3, color: "primary" },
-      notfound: { template: "minimal", heading: "404", sub: "ขออภัย — ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
+      notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
   }
@@ -270,7 +270,7 @@
   }
   function footerLinksOf(p) { return Array.isArray(p.footerLinks) ? p.footerLinks : []; }
   function socialLinksOf(p) { return Array.isArray(p.socialLinks) ? p.socialLinks : []; }
-  // Ensure link URLs are absolute — if user enters "facebook.com" without a protocol, add https://
+  // Ensure link URLs are absolute · if user enters "facebook.com" without a protocol, add https://
   function absUrl(url) {
     url = (url || "").trim();
     if (!url) return url;
@@ -895,7 +895,7 @@
           (p.src ? '<img src="' + esc(p.src) + '" alt="' + esc(p.alt) + '" style="width:100%;height:100%;object-fit:cover">' : '🖼 ' + esc(p.alt)) +
           "</div>" + (p.caption ? '<p style="text-align:center;color:#9aa;font-size:13px;margin-top:8px">' + esc(p.caption) + "</p>" : "") + "</div>";
       case "ad":
-        return '<div style="padding:16px 32px"><div style="min-height:90px;border:1px dashed #ccd;border-radius:8px;display:grid;place-items:center;color:#aab;font-size:13px;background:#fafbff">' + tpl("ช่องโฆษณา","Ad Slot") + ' — ' + esc(p.slot) + (p.label ? ' <span style="margin-left:6px;font-size:11px;color:#bbc">(' + tpl("โฆษณา","Ad") + ')</span>' : "") + "</div></div>";
+        return '<div style="padding:16px 32px"><div style="min-height:90px;border:1px dashed #ccd;border-radius:8px;display:grid;place-items:center;color:#aab;font-size:13px;background:#fafbff">' + tpl("ช่องโฆษณา","Ad Slot") + ' · ' + esc(p.slot) + (p.label ? ' <span style="margin-left:6px;font-size:11px;color:#bbc">(' + tpl("โฆษณา","Ad") + ')</span>' : "") + "</div></div>";
       case "newsletter":
         var nlbg = p.bg === "gradient" ? "linear-gradient(120deg," + pr + "," + ac + ")" : p.bg === "dark" ? "#0f172a" : "linear-gradient(120deg," + pr + "0d," + ac + "1a)";
         var nlfg = p.bg === "dark" ? "#fff" : "#1e2333";
@@ -932,7 +932,7 @@
           + (p.showArchive ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc"><div style="font-size:11px;font-weight:700;color:#1e2333;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">' + tpl("คลังบทความ","Archive") + '</div><div style="font-size:12.5px;color:#828aa0;display:flex;flex-direction:column;gap:5px">' + (BL === "en" ? "<span>January 2026 (12)</span><span>December 2025 (8)</span><span>November 2025 (5)</span>" : "<span>มกราคม 2026 (12)</span><span>ธันวาคม 2025 (8)</span><span>พฤศจิกายน 2025 (5)</span>") + '</div></div>' : '')
           + (p.showAbout ? '<div style="border:1px solid #e8eaf2;padding:12px;border-radius:' + r + ';background:#f7f8fc;display:flex;gap:10px;align-items:center"><div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(120deg,' + pr + ',' + ac + ');flex:none"></div><div style="font-size:12.5px;color:#4a5063">' + tpl("เกี่ยวกับผู้เขียน","About author") + '</div></div>' : '')
           + '</div>';
-        return '<div style="padding:20px 32px;background:#f7f8fc"><div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#aab;margin-bottom:12px;display:flex;align-items:center;gap:8px">' + svg(IC.sidebar, 1.5) + ' Sidebar Layout — ' + tpl(p.position === "left" ? "ไซด์บาร์ซ้าย" : "ไซด์บาร์ขวา", p.position === "left" ? "Left sidebar" : "Right sidebar") + '</div>'
+        return '<div style="padding:20px 32px;background:#f7f8fc"><div style="font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:#aab;margin-bottom:12px;display:flex;align-items:center;gap:8px">' + svg(IC.sidebar, 1.5) + ' Sidebar Layout · ' + tpl(p.position === "left" ? "ไซด์บาร์ซ้าย" : "ไซด์บาร์ขวา", p.position === "left" ? "Left sidebar" : "Right sidebar") + '</div>'
           + '<div style="display:grid;grid-template-columns:' + sbGridCols + ';gap:16px">'
           + (p.position === "left" ? sbAside + sbMain : sbMain + sbAside)
           + '</div></div>';
@@ -942,7 +942,7 @@
           + '<div style="display:flex;gap:0;max-width:420px"><input type="text" placeholder="' + esc(p.placeholder || "ค้นหาในบล็อก…") + '" style="flex:1;padding:12px 16px;border:1px solid #dde;border-radius:' + r + ' 0 0 ' + r + ';font-size:14px;color:#1e2333;background:#fff;outline:none"><button style="padding:12px 16px;background:' + pr + ';color:#fff;border:0;border-radius:0 ' + r + ' ' + r + ' 0;cursor:pointer;font-size:15px">🔍</button></div></div>';
       case "darkmode":
         return '<div style="position:relative;padding:16px 32px;background:#f7f8fc;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:12px">'
-          + '<div style="color:#aab;font-size:13px"><b style="color:#828aa0">Dark Mode Toggle</b><br><small>' + tpl("ฝังในแถบ Header — มือถือ: ก่อนปุ่ม ☰ | Desktop: หลังช่องค้นหา","In header bar — mobile: before ☰ | desktop: after search") + '</small></div>'
+          + '<div style="color:#aab;font-size:13px"><b style="color:#828aa0">Dark Mode Toggle</b><br><small>' + tpl("ฝังในแถบ Header · มือถือ: ก่อนปุ่ม ☰ | Desktop: หลังช่องค้นหา","In header bar · mobile: before ☰ | desktop: after search") + '</small></div>'
           + '<div style="display:flex;align-items:center;gap:8px;opacity:.55;font-size:12px;color:#828aa0">'
           + '<div style="width:38px;height:38px;border-radius:8px;border:1px solid rgba(0,0,0,.15);display:grid;place-items:center;font-size:17px;background:#fff">🌙</div>'
           + '<span>|</span>'
@@ -955,7 +955,7 @@
           : "border:1px solid " + pr + "33;background:" + pr + "08;padding:16px 20px;border-radius:" + r;
         return '<div style="padding:16px 32px"><aside style="' + aeoSt + '">'
           + '<div style="font-size:11px;font-weight:700;color:' + pr + ';text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">&#128214; ' + esc(p.title || "สรุปบทความ") + '</div>'
-          + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("สรุปเนื้อหาบทความอัตโนมัติจาก snippet — เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา","Article summary auto-pulled from snippet — improves chances for Google & AI to show in search results") + '</p>'
+          + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("สรุปเนื้อหาบทความอัตโนมัติจาก snippet · เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา","Article summary auto-pulled from snippet · improves chances for Google & AI to show in search results") + '</p>'
           + '</aside></div>';
       case "toc":
         return '<div style="padding:16px 32px"><nav style="border-left:3px solid ' + pr + ';border-radius:0 ' + r + ' ' + r + ' 0;background:#f7f8fc;overflow:hidden">'
@@ -976,7 +976,7 @@
         return '<div style="padding:20px 32px"><div style="background:#f7f8fc;border-radius:' + r + ';padding:16px">'
           + '<div style="width:100%;height:' + (p.height || 3) + 'px;background:#e8eaf2;border-radius:9px;overflow:hidden;margin-bottom:10px">'
           + '<div style="width:55%;height:100%;background:' + pClrPrev + ';border-radius:9px"></div></div>'
-          + '<div style="font-size:12px;color:#aab;text-align:center">Reading Progress Bar — ' + tpl("ติดด้านบนทุกหน้า","fixed to top on all pages") + '</div>'
+          + '<div style="font-size:12px;color:#aab;text-align:center">Reading Progress Bar · ' + tpl("ติดด้านบนทุกหน้า","fixed to top on all pages") + '</div>'
           + '</div></div>';
       case "notfound":
         var nfTpl = p.template || "minimal";
@@ -994,7 +994,7 @@
           + '<div style="font-size:11px;font-weight:700;color:' + (nfTpl === "minimal" ? pr : "rgba(255,255,255,.55)") + ';text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px">' + tpl("ตัวอย่าง หน้า 404","Preview: 404 Page") + '</div>'
           + '<div style="font-size:52px;margin-bottom:4px">' + nfIcon + '</div>'
           + '<div style="font-size:88px;font-weight:900;line-height:1;color:' + nfCodeClr + ';font-family:' + fontStack(d.font) + ';letter-spacing:-.04em">' + esc(p.heading || "404") + '</div>'
-          + '<h2 style="font-size:20px;font-weight:700;color:' + nfFg + ';margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + esc(p.sub || "ขออภัย — ไม่พบหน้านี้") + '</h2>'
+          + '<h2 style="font-size:20px;font-weight:700;color:' + nfFg + ';margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + esc(p.sub || "ขออภัย · ไม่พบหน้านี้") + '</h2>'
           + '<p style="font-size:14px;color:' + nfDescClr + ';margin:8px auto 0;max-width:400px;line-height:1.6">' + esc(p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง") + '</p>'
           + '<a style="display:inline-block;margin-top:22px;padding:12px 26px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';font-weight:600;border-radius:' + r + ';text-decoration:none;font-size:14px">' + esc(p.btnText || "กลับหน้าแรก") + '</a>'
           + (p.showSearch !== false ? '<div style="margin-top:18px;display:flex;gap:0;max-width:340px;margin-left:auto;margin-right:auto"><input type="text" placeholder="' + tpl("ค้นหาในบล็อก…","Search blog…") + '" style="flex:1;padding:10px 13px;border:1px solid ' + nfInputBd + ';border-radius:' + r + ' 0 0 ' + r + ';font-size:13px;background:' + nfInputBg + ';color:' + nfInputClr + ';outline:none"><button style="padding:10px 14px;background:' + nfBtnBg + ';color:' + nfBtnFg + ';border:0;border-radius:0 ' + r + ' ' + r + ' 0;cursor:pointer">🔍</button></div>' : '')
@@ -1095,7 +1095,7 @@
   }
 
   /* ---------- block ops ---------- */
-  // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า — กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
+  // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
   var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1 };
@@ -1110,7 +1110,7 @@
   }
   function addBlock(type, idx) {
     if (singletonExists(type)) {
-      toast(tpl("คุณได้เพิ่ม “" + blkLabel(type) + "” ไว้แล้ว — ฟีเจอร์นี้มีได้ 1 อันต่อหน้า", "“" + blkLabel(type) + "” is already added — only one per page"));
+      toast(tpl("คุณได้เพิ่ม “" + blkLabel(type) + "” ไว้แล้ว · ฟีเจอร์นี้มีได้ 1 อันต่อหน้า", "“" + blkLabel(type) + "” is already added · only one per page"));
       return;
     }
     var b = { id: uid(), type: type, props: blockDefaults(type) };
@@ -1130,7 +1130,7 @@
     var i = S.blocks.findIndex(function (b) { return b.id === id; });
     if (i < 0) return;
     if (SINGLETON_BLOCKS[S.blocks[i].type]) {
-      toast(tpl("“" + blkLabel(S.blocks[i].type) + "” มีได้ 1 อันต่อหน้า — ทำสำเนาไม่ได้", "“" + blkLabel(S.blocks[i].type) + "” is limited to one per page — cannot duplicate"));
+      toast(tpl("“" + blkLabel(S.blocks[i].type) + "” มีได้ 1 อันต่อหน้า · ทำสำเนาไม่ได้", "“" + blkLabel(S.blocks[i].type) + "” is limited to one per page · cannot duplicate"));
       return;
     }
     var clone = JSON.parse(JSON.stringify(S.blocks[i]));
@@ -1234,7 +1234,7 @@
   function area(key, label, val, rich) { return '<div class="field"><label>' + tr(label) + (rich ? ' <span style="font-size:10px;font-weight:400;color:var(--brand-2);opacity:.8">B I U 🔗</span>' : '') + '</label><textarea class="ta" data-k="' + key + '"' + (rich ? ' data-rich="1"' : '') + '>' + esc(val) + "</textarea></div>"; }
   function seg(key, label, val, opts) { return '<div class="field"><label>' + tr(label) + '</label><div class="seg" data-seg="' + key + '">' + opts.map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === val ? ' class="on"' : "") + ">" + tr(o[1]) + "</button>"; }).join("") + "</div></div>"; }
   function tog(key, label, val, sub) { return '<label class="tg"><span class="lbl">' + tr(label) + (sub ? "<small>" + tr(sub) + "</small>" : "") + '</span><input type="checkbox" data-k="' + key + '"' + (val ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
-  function num(key, label, val, mn, mx) { return '<div class="field"><label>' + tr(label) + ' — ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
+  function num(key, label, val, mn, mx) { return '<div class="field"><label>' + tr(label) + ' · ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
   function imgUrl(key, label, val) {
     val = val || "";
     var pvw = '<div class="img-pvw" data-img-for="' + key + '"' + (val ? '' : ' style="display:none"') + '>' +
@@ -1389,7 +1389,7 @@
     var p = b.props;
     switch (b.type) {
       case "header": return imgUrlSeo("logoUrl", "URL รูปโลโก้ (Header & Footer & Schema)", S.seo && S.seo.logoUrl || "")
-        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB — ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB — synced with Knowledge Graph "Logo URL"') + '</div></div>'
+        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB · ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB · synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
         + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
       case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
@@ -1399,8 +1399,8 @@
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading) +
         (S && S.templateId === "magazine"
           ? txt("featLabel", "ป้ายกำกับปักหมุดบทความแนะนำ", (p.featLabel != null ? p.featLabel : tpl("แนะนำ", "Featured")),
-              tpl("📌 วิธีใช้: เข้า blogger.com → แก้ไขโพสต์ที่ต้องการ → ช่อง \"ป้ายกำกับ\" ใส่คำว่า <b>แนะนำ</b> (หรือคำที่ตั้งไว้ข้างบน) → เผยแพร่ — โพสต์นั้นจะขึ้นเป็นบทความแนะนำทันที ปักหมุดได้หลายโพสต์ (ใบแรก = ข่าวเด่นใหญ่) • ถ้ายังไม่มีโพสต์ติดป้ายนี้เลย ระบบจะแสดงบทความล่าสุดให้อัตโนมัติ • เว้นว่าง = ใช้บทความล่าสุดเสมอ",
-                  "📌 How to: in blogger.com → edit a post → add the label <b>Featured</b> (or the word you set above) → publish — that post is pinned as featured. Pin several posts (first = the big lead). • If no post has this label yet, the newest posts show automatically. • Leave blank = always use latest posts"))
+              tpl("📌 วิธีใช้: เข้า blogger.com → แก้ไขโพสต์ที่ต้องการ → ช่อง \"ป้ายกำกับ\" ใส่คำว่า <b>แนะนำ</b> (หรือคำที่ตั้งไว้ข้างบน) → เผยแพร่ · โพสต์นั้นจะขึ้นเป็นบทความแนะนำทันที ปักหมุดได้หลายโพสต์ (ใบแรก = ข่าวเด่นใหญ่) • ถ้ายังไม่มีโพสต์ติดป้ายนี้เลย ระบบจะแสดงบทความล่าสุดให้อัตโนมัติ • เว้นว่าง = ใช้บทความล่าสุดเสมอ",
+                  "📌 How to: in blogger.com → edit a post → add the label <b>Featured</b> (or the word you set above) → publish · that post is pinned as featured. Pin several posts (first = the big lead). • If no post has this label yet, the newest posts show automatically. • Leave blank = always use latest posts"))
           : "");
       case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
@@ -1410,12 +1410,12 @@
       case "ad": return seg("slot", "ตำแหน่ง", p.slot, [["ใต้ส่วนหัว", "บน"], ["ในบทความ", "กลาง"], ["ไซด์บาร์", "ข้าง"]]) + tog("label", 'แสดงป้าย "โฆษณา"', p.label, "แนะนำตามนโยบาย AdSense");
       case "newsletter": return txt("heading", "หัวข้อ", p.heading) + area("sub", "คำโปรย", p.sub) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg || "soft", [["soft", "อ่อน"], ["gradient", "ไล่สี"], ["dark", "เข้ม"]]);
       case "share": return txt("label", "ข้อความนำ", p.label) + tog("facebook", "Facebook", p.facebook) + tog("twitter", "X (Twitter)", p.twitter) + tog("line", "LINE", p.line) + tog("copy", "คัดลอกลิงก์", p.copy);
-      case "sidebar": return seg("position", "ตำแหน่ง Sidebar", p.position || "right", [["right", "ขวา ◨"], ["left", "◧ ซ้าย"]]) + txt("width", "ความกว้าง Sidebar", p.width || "280px") + tog("showSearch", "ช่องค้นหา", p.showSearch) + tog("showCategories", "ป้ายกำกับ / หมวดหมู่", p.showCategories) + tog("showArchive", "คลังบทความ", p.showArchive) + tog("showAbout", "เกี่ยวกับผู้เขียน", p.showAbout) + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ใส่ Sidebar ไว้ใกล้กลุ่มบทความ (postgrid/postlist/featured) — ระบบจะวาง Sidebar ข้างเนื้อหาหลักอัตโนมัติตอน Export XML</div></div>';
+      case "sidebar": return seg("position", "ตำแหน่ง Sidebar", p.position || "right", [["right", "ขวา ◨"], ["left", "◧ ซ้าย"]]) + txt("width", "ความกว้าง Sidebar", p.width || "280px") + tog("showSearch", "ช่องค้นหา", p.showSearch) + tog("showCategories", "ป้ายกำกับ / หมวดหมู่", p.showCategories) + tog("showArchive", "คลังบทความ", p.showArchive) + tog("showAbout", "เกี่ยวกับผู้เขียน", p.showAbout) + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ใส่ Sidebar ไว้ใกล้กลุ่มบทความ (postgrid/postlist/featured) · ระบบจะวาง Sidebar ข้างเนื้อหาหลักอัตโนมัติตอน Export XML</div></div>';
       case "search": return txt("heading", "หัวข้อ (เว้นว่าง = ซ่อน)", p.heading || "") + txt("placeholder", "Placeholder", p.placeholder || "ค้นหาในบล็อก…");
-      case "darkmode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ปุ่มฝังใน Header โดยอัตโนมัติ — <b>มือถือ</b>: วางก่อนปุ่มเมนู ☰ | <b>Desktop</b>: วางหลังช่องค้นหา 🔍<br>หากไม่มีบล็อก Header จะลอยตัวมุมขวาล่างแทน<br><small>รองรับ <code>prefers-color-scheme</code> + จดจำใน localStorage</small></div></div>';
+      case "darkmode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ปุ่มฝังใน Header โดยอัตโนมัติ · <b>มือถือ</b>: วางก่อนปุ่มเมนู ☰ | <b>Desktop</b>: วางหลังช่องค้นหา 🔍<br>หากไม่มีบล็อก Header จะลอยตัวมุมขวาล่างแทน<br><small>รองรับ <code>prefers-color-scheme</code> + จดจำใน localStorage</small></div></div>';
       case "aeo": return txt("title", "หัวข้อกล่องสรุป", p.title || "สรุปบทความ")
         + seg("style", "สไตล์", p.style || "card", [["card", "การ์ด"], ["highlight", "ไฮไลท์"], ["minimal", "เรียบ"]])
-        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ใช้ <code>.qt-aeo-summary</code> ซึ่งเชื่อมกับ SpeakableSpecification ใน Schema — ช่วยให้ Google Assistant และ AI อ่านสรุปบทความได้</div></div>';
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ใช้ <code>.qt-aeo-summary</code> ซึ่งเชื่อมกับ SpeakableSpecification ใน Schema · ช่วยให้ Google Assistant และ AI อ่านสรุปบทความได้</div></div>';
       case "toc": return txt("title", "หัวข้อสารบัญ", p.title || "สารบัญ")
         + seg("maxDepth", "ความลึก heading", p.maxDepth || "3", [["2", "h2 เท่านั้น"], ["3", "h2 + h3"]])
         + tog("numbered", "แสดงลำดับตัวเลข", p.numbered !== false);
@@ -1423,17 +1423,17 @@
         + num("count", "จำนวนบทความ", p.count || 4, 2, 6)
         + num("columns", "จำนวนคอลัมน์", p.columns || 2, 1, 3)
         + tog("showImage", "แสดงรูปภาพ", p.showImage !== false)
-        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ดึงบทความผ่าน Blogger JSON Feed API ตามป้ายกำกับแรกของโพสต์ — ทำงานบนหน้าบทความเท่านั้น</div></div>';
+        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ดึงบทความผ่าน Blogger JSON Feed API ตามป้ายกำกับแรกของโพสต์ · ทำงานบนหน้าบทความเท่านั้น</div></div>';
       case "progress": return seg("color", "สีแถบ", p.color || "primary", [["primary", "สีหลัก"], ["accent", "สีเน้น"], ["gradient", "ไล่สี"]])
         + num("height", "ความสูง (px)", p.height || 3, 2, 6);
       case "notfound": return seg("template", "แม่แบบ", p.template || "minimal", [["minimal", "เรียบ"], ["space", "ไล่สี"], ["dark", "มืด"]])
         + txt("heading", "ตัวเลข/ข้อความหลัก", p.heading || "404")
-        + txt("sub", "หัวข้อรอง", p.sub || "ขออภัย — ไม่พบหน้านี้")
+        + txt("sub", "หัวข้อรอง", p.sub || "ขออภัย · ไม่พบหน้านี้")
         + area("desc", "คำอธิบาย", p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง")
         + txt("btnText", "ข้อความปุ่ม", p.btnText || "กลับหน้าแรก")
         + txt("btnUrl", "ลิงก์ปุ่ม", p.btnUrl || "/")
         + tog("showSearch", "แสดงช่องค้นหา", p.showSearch !== false)
-        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>บล็อกนี้แสดงเฉพาะเมื่อ Blogger ตรวจพบหน้า 404 (<code>data:view.isError</code>) อัตโนมัติ — ไม่ต้องตั้งค่าเพิ่มเติม</div></div>';
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>บล็อกนี้แสดงเฉพาะเมื่อ Blogger ตรวจพบหน้า 404 (<code>data:view.isError</code>) อัตโนมัติ · ไม่ต้องตั้งค่าเพิ่มเติม</div></div>';
     }
     return "";
   }
@@ -1441,7 +1441,7 @@
     $$("[data-k]", c).forEach(function (inp) {
       var k = inp.dataset.k;
       if (inp.type === "checkbox") inp.addEventListener("change", function () { b.props[k] = inp.checked; commit(); });
-      else if (inp.dataset.num) inp.addEventListener("input", function () { b.props[k] = parseInt(inp.value, 10); renderCanvas(); save(); var lb = inp.previousElementSibling; if (lb) lb.textContent = lb.textContent.replace(/—.*/, "— " + inp.value); });
+      else if (inp.dataset.num) inp.addEventListener("input", function () { b.props[k] = parseInt(inp.value, 10); renderCanvas(); save(); var lb = inp.previousElementSibling; if (lb) lb.textContent = lb.textContent.replace(/·.*/, "· " + inp.value); });
       else inp.addEventListener("input", function () {
         b.props[k] = inp.value;
         // sync blog name to SEO BEFORE repainting so the footer (which reads
@@ -1599,7 +1599,7 @@
       inp.addEventListener("input", function () { updateImgPvw(inp.value.trim()); });
       if (inp.value) updateImgPvw(inp.value.trim());
     });
-    // data-sk fields inside block props panel — write to S.seo[k] and re-render canvas
+    // data-sk fields inside block props panel · write to S.seo[k] and re-render canvas
     $$("[data-sk]", c).forEach(function (inp) {
       var k = inp.dataset.sk;
       inp.addEventListener("input", function () { S.seo[k] = inp.value; renderCanvas(); save(); });
@@ -1699,7 +1699,7 @@
     return 'User-agent: Mediapartners-Google\nDisallow:\n\nUser-agent: *\nDisallow: /search?q=\nDisallow: /share-widget\nAllow: /search/\nAllow: /\n\nSitemap: https://' + url + '/sitemap.xml';
   }
   function labelNote(on) {
-    var infoNote = '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) — กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้', 'Label pages are set to <b>noindex, follow</b> (recommended) — prevents duplicate content while still passing internal link equity.') + '</div></div>';
+    var infoNote = '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) · กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้', 'Label pages are set to <b>noindex, follow</b> (recommended) · prevents duplicate content while still passing internal link equity.') + '</div></div>';
     if (!on) return infoNote;
     var warnNote = '<div class="note warn">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>กฎสำคัญ: 1 บทความ ต่อ 1 ป้ายกำกับเท่านั้น</b><br>เมื่อเปิดให้ทำดัชนี Label ได้ ให้ติดป้ายกำกับ <b>เพียงป้ายเดียว</b> ต่อบทความ มิฉะนั้นบทความเดียวจะไปโผล่หลายหน้า Label → เกิดเนื้อหาซ้ำ (duplicate) และถูกมองว่าเป็น <b>หน้าขยะ/thin content</b> ระบบจะสร้าง CollectionPage + Breadcrumb ให้หน้า Label อัตโนมัติเพื่อให้มีคุณภาพพอ', '<b>Important: 1 article → 1 label only</b><br>With label indexing enabled, each article must use <b>only one label</b>. Multiple labels cause duplicate content across label pages, flagged as <b>thin content</b>. The builder auto-generates CollectionPage + Breadcrumb for label pages to maintain quality.') + '</div></div>';
     var learnMore = '<div style="padding:4px 16px 12px"><a href="' + esc(DOCS_BASE + 'label-indexing') + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 อ่านคู่มือแบบละเอียด', '📖 Read the full guide') + ' →</a></div>';
@@ -1745,7 +1745,7 @@
       + '<li>' + tpl('<b>โดเมนตัวเอง:</b> ลอง <code>https://yourdomain.com/favicon.ico</code>', '<b>Custom domain:</b> Try <code>https://yourdomain.com/favicon.ico</code>') + '</li>'
       + '<li>' + tpl('หรืออัปโหลดรูป 32×32px ขึ้น Blogger แล้วคัดลอก URL', 'Or upload a 32×32px image to Blogger and copy the URL') + '</li>'
       + '</ol>'
-      + '<div class="img-guide-note">' + tpl('Favicon แสดงบน browser tab และผลการค้นหา Google — แนะนำขนาด 32×32 หรือ 64×64px', 'Favicon shows on browser tabs and Google results — recommended 32×32 or 64×64px') + '</div>'
+      + '<div class="img-guide-note">' + tpl('Favicon แสดงบน browser tab และผลการค้นหา Google · แนะนำขนาด 32×32 หรือ 64×64px', 'Favicon shows on browser tabs and Google results · recommended 32×32 or 64×64px') + '</div>'
       + '<div style="padding:6px 11px 10px"><a href="' + esc(DOCS_BASE + 'favicon') + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 วิธีอัพโหลด Favicon ใน Blogger', '📖 How to upload a Favicon in Blogger') + ' →</a></div>'
       + '</details>';
     return '<div class="field"><label>' + tr("URL รูป Favicon") + '</label>'
@@ -1758,10 +1758,10 @@
       + seg("orgType", "ประเภทเว็บไซต์", seo.orgType, [["Organization", "องค์กร"], ["Person", "บุคคล"], ["LocalBusiness", "ร้านค้า"]])
       + txt2("siteUrl", "URL เว็บไซต์", seo.siteUrl)
       + txt2("logoUrl", "URL โลโก้ (แนะนำ 512×512)", seo.logoUrl)
-      + area2b("sameAs", "ลิงก์โซเชียล (บรรทัดละ 1 ลิงก์)", seo.sameAs, "Facebook, X, YouTube, LINE — ช่วยให้ Google ยืนยันตัวตนเว็บ")
+      + area2b("sameAs", "ลิงก์โซเชียล (บรรทัดละ 1 ลิงก์)", seo.sameAs, "Facebook, X, YouTube, LINE · ช่วยให้ Google ยืนยันตัวตนเว็บ")
       + '</div>'
-      + tog2("schemaSoftwareApp", "SoftwareApplication Schema", seo.schemaSoftwareApp, "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ — ช่วยให้ AI knowledge graphs จดจำได้")
-      + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl('ข้อมูลนี้จะถูกสร้างเป็น <b>@graph (Organization + WebSite)</b> ในส่วน head ของทุกหน้า — ตัวช่วยให้ Google เข้าใจว่าใครเป็นเจ้าของเว็บ (E-E-A-T)', 'This data generates a <b>@graph (Organization + WebSite)</b> in the &lt;head&gt; of every page — helps Google understand who owns the site (E-E-A-T).') + '</div></div>';
+      + tog2("schemaSoftwareApp", "SoftwareApplication Schema", seo.schemaSoftwareApp, "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ · ช่วยให้ AI knowledge graphs จดจำได้")
+      + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl('ข้อมูลนี้จะถูกสร้างเป็น <b>@graph (Organization + WebSite)</b> ในส่วน head ของทุกหน้า · ตัวช่วยให้ Google เข้าใจว่าใครเป็นเจ้าของเว็บ (E-E-A-T)', 'This data generates a <b>@graph (Organization + WebSite)</b> in the &lt;head&gt; of every page · helps Google understand who owns the site (E-E-A-T).') + '</div></div>';
   }
   function area2b(k, l, v, hint) { return '<div class="field"><label>' + tr(l) + '</label><textarea class="ta" data-sk="' + k + '" style="min-height:74px">' + esc(v) + "</textarea>" + (hint ? '<div class="hint">' + tr(hint) + "</div>" : "") + "</div>"; }
   function socialPreviewHTML(seo) {
@@ -2016,7 +2016,7 @@
       '<div class="sec-divider"></div><div class="sec-title">' + tr("ตัวอักษร") + '</div>' +
       '<div class="field"><div class="seg" data-dseg="font">' + [["sans", "Sans"], ["serif", "Serif"], ["mono", "Mono"]].map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === d.font ? ' class="on"' : "") + ">" + o[1] + "</button>"; }).join("") + "</div></div>" +
       '<div class="sec-divider"></div><div class="sec-title">' + tr("ความมนขอบ") + '</div>' +
-      '<div class="field"><label>' + tr("มุมโค้ง") + ' — ' + d.radius + 'px</label><input class="inp" type="range" min="0" max="24" value="' + d.radius + '" data-dk="radius" data-num="1"></div>';
+      '<div class="field"><label>' + tr("มุมโค้ง") + ' · ' + d.radius + 'px</label><input class="inp" type="range" min="0" max="24" value="' + d.radius + '" data-dk="radius" data-num="1"></div>';
     bindDesign(c);
     if (window.__bxbAccordion) window.__bxbAccordion(c);
     if (BL === "en") translateChrome();
@@ -2027,16 +2027,16 @@
   function contrastNote(primary) {
     var r = contrastRatio(primary, "#ffffff");
     var ratio = r.toFixed(2);
-    if (r >= 4.5) return '<div class="note ok" style="margin:0 16px 14px">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl('คอนทราสต์ตัวอักษรขาวบนปุ่มสีหลัก <b>' + ratio + ':1</b> — ผ่านมาตรฐาน WCAG AA ✓', 'White text on primary button contrast <b>' + ratio + ':1</b> — passes WCAG AA ✓') + '</div></div>';
-    if (r >= 3) return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('คอนทราสต์ <b>' + ratio + ':1</b> — ผ่านเฉพาะข้อความขนาดใหญ่ ควรเข้มขึ้นเพื่ออ่านง่ายทุกขนาด', 'Contrast <b>' + ratio + ':1</b> — passes for large text only. Use a darker color for all text sizes.') + '</div></div>';
-    return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>คอนทราสต์ต่ำ ' + ratio + ':1</b> — ข้อความขาวบนสีนี้อ่านยาก ไม่ผ่าน WCAG ควรเลือกสีเข้มขึ้น', '<b>Low contrast ' + ratio + ':1</b> — white text is hard to read on this color. Fails WCAG — choose a darker shade.') + '</div></div>';
+    if (r >= 4.5) return '<div class="note ok" style="margin:0 16px 14px">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl('คอนทราสต์ตัวอักษรขาวบนปุ่มสีหลัก <b>' + ratio + ':1</b> · ผ่านมาตรฐาน WCAG AA ✓', 'White text on primary button contrast <b>' + ratio + ':1</b> · passes WCAG AA ✓') + '</div></div>';
+    if (r >= 3) return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('คอนทราสต์ <b>' + ratio + ':1</b> · ผ่านเฉพาะข้อความขนาดใหญ่ ควรเข้มขึ้นเพื่ออ่านง่ายทุกขนาด', 'Contrast <b>' + ratio + ':1</b> · passes for large text only. Use a darker color for all text sizes.') + '</div></div>';
+    return '<div class="note warn" style="margin:0 16px 14px">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>คอนทราสต์ต่ำ ' + ratio + ':1</b> · ข้อความขาวบนสีนี้อ่านยาก ไม่ผ่าน WCAG ควรเลือกสีเข้มขึ้น', '<b>Low contrast ' + ratio + ':1</b> · white text is hard to read on this color. Fails WCAG · choose a darker shade.') + '</div></div>';
   }
   function bindDesign(c) {
     $$(".sw", c).forEach(function (s) { s.addEventListener("click", function () { S.design.primary = s.dataset.p; S.design.accent = s.dataset.a; renderDesign(); renderCanvas(); save(); }); });
     $$('[data-dk]', c).forEach(function (inp) {
       inp.addEventListener("input", function () {
         var k = inp.dataset.dk; S.design[k] = inp.dataset.num ? parseInt(inp.value, 10) : inp.value;
-        if (inp.dataset.num) { var lb = inp.previousElementSibling; if (lb) lb.textContent = tr("มุมโค้ง") + " — " + inp.value + "px"; }
+        if (inp.dataset.num) { var lb = inp.previousElementSibling; if (lb) lb.textContent = tr("มุมโค้ง") + " · " + inp.value + "px"; }
         renderCanvas(); save();
       });
     });
@@ -2109,7 +2109,7 @@
     var condMap = { home: "data:view.isHomepage", item: "data:view.isSingleItem", page: "data:view.isPage", label: "data:view.isLabelSearch" };
     if (v.scope && condMap[v.scope]) html = "<b:if cond='" + condMap[v.scope] + "'>\n" + html + "\n</b:if>";
     // Blocks with a specific page-scope already won't show on 404.
-    // Blocks shown on "all pages" need explicit 404 exclusion — except navigation/utility/404 blocks.
+    // Blocks shown on "all pages" need explicit 404 exclusion · except navigation/utility/404 blocks.
     var SHOW_ON_ERROR = { header: 1, footer: 1, darkmode: 1, notfound: 1 };
     if (!SHOW_ON_ERROR[b.type] && (!v.scope || !condMap[v.scope])) {
       html = "<b:if cond='!data:view.isError'>\n" + html + "\n</b:if>";
@@ -2137,7 +2137,7 @@
     var tocBlock = S.blocks.find(function (b) { return b.type === "toc"; });
     var inlineTocHtml = tocBlock ? genTocHtml(tocBlock.props || {}, true) : "";
 
-    // Post includable body — clean and simple. JSON-LD is in mainIncludable's loop
+    // Post includable body · clean and simple. JSON-LD is in mainIncludable's loop
     // (before <b:include name='post'/>) to keep data:post.* scope without risking
     // a nested b:if/b:eval runtime abort inside this includable.
     // NOTE: article uses class 'bxb-post-article' (not 'post-body') to avoid colliding
@@ -2161,7 +2161,7 @@
       "</div></article>" +
       "<b:if cond='data:view.isSingleItem'><div class='wrap comments-wrap' style='max-width:780px;padding:0 20px 64px'><b:include data='post' name='commentPicker'/></div></b:if>";
 
-    // Multiple-items (homepage/label/search) branch — post grid/list blocks or fallback loop
+    // Multiple-items (homepage/label/search) branch · post grid/list blocks or fallback loop
     var multipleItemsHtml = postBlocks.length
       ? postBlocks.map(function (b) { return condWrap(renderBlockStatic(b), b); }).join("\n") + "\n<b:include name='nextprev'/>"
       : "<b:loop values='data:posts' var='post'><article class='bxb-post'><h2><a expr:href='data:post.url'><data:post.title/></a></h2><div class='post-body'><data:post.body/></div></article></b:loop><b:include name='nextprev'/>";
@@ -2180,7 +2180,7 @@
       "</b:if>";
 
     // Both reference templates (QuestThai + KongKoom) define <b:includable id='nextprev'> explicitly.
-    // Blogger validates ALL b:include references at parse time — calling nextprev without defining
+    // Blogger validates ALL b:include references at parse time · calling nextprev without defining
     // it in the same widget causes a silent parse failure that prevents the entire widget from rendering.
     var nextprevIncludable =
       "<b:includable id='nextprev'>\n" +
@@ -2190,11 +2190,11 @@
       "</nav>\n" +
       "</b:includable>\n";
 
-    // b:widget-settings removed — it was rendering as visible text on the page
+    // b:widget-settings removed · it was rendering as visible text on the page
     // when the Blog widget failed to parse properly. Custom templates don't need it.
     var widgetSettings = "";
 
-    // Standard Blogger Blog widget v2 includables — required for Blogger to parse the
+    // Standard Blogger Blog widget v2 includables · required for Blogger to parse the
     // widget correctly. Without them, widget initialization fails and b:widget-settings /
     // script content leaks as visible text on the page.
     var standardBlogIncludables =
@@ -2320,7 +2320,7 @@
       "</b:includable>\n" +
       "<b:includable id='tooltipCss'></b:includable>\n";
 
-    // Blog widget settings — required for Blogger to enable comment display,
+    // Blog widget settings · required for Blogger to enable comment display,
     // threaded comments, author info, etc. Without these, data:post.allowComments
     // and data:post.showThreadedComments evaluate false → comment picker is skipped.
     var blogWidgetSettings =
@@ -2446,7 +2446,7 @@ og + "\n" +
 // Non-blocking font load (preload + onload swap, like both reference files)
 "<link as='style' href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' onload=\"this.onload=null;this.rel='stylesheet'\" rel='preload'/>\n" +
 "<noscript><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/></noscript>\n" +
-// RSS/Atom feeds — helps feed crawlers and freshness signals
+// RSS/Atom feeds · helps feed crawlers and freshness signals
 (seo.siteUrl
   ? "<link href='" + esc(seo.siteUrl.replace(/\/?$/, "/")) + "feeds/posts/default' rel='alternate' title='" + esc(seo.blogTitle || "Blog") + " Atom' type='application/atom+xml'/>\n" +
     "<link href='" + esc(seo.siteUrl.replace(/\/?$/, "/")) + "feeds/posts/default?alt=rss' rel='alternate' title='" + esc(seo.blogTitle || "Blog") + " RSS' type='application/rss+xml'/>\n"
@@ -2479,7 +2479,7 @@ bodyHTML + "\n" +
 
   function skinVariables(d) {
     var ff = d.font === "serif" ? "Georgia, 'Times New Roman', serif" : d.font === "mono" ? "'Courier New', monospace" : "'IBM Plex Sans Thai', system-ui, sans-serif";
-    // Blogger Theme Designer variable definitions — editable in backend (การออกแบบ > ปรับแต่ง)
+    // Blogger Theme Designer variable definitions · editable in backend (การออกแบบ > ปรับแต่ง)
     return [
 "/*",
 "<Variable name=\"keycolor\" description=\"สีหลัก\" type=\"color\" default=\"" + d.primary + "\" value=\"" + d.primary + "\"/>",
@@ -2491,7 +2491,7 @@ bodyHTML + "\n" +
 "*/"
     ].join("\n");
   }
-  /* Per-template style variables — declares --font (heading font) and --bg-base/--bg-surface tints.
+  /* Per-template style variables · declares --font (heading font) and --bg-base/--bg-surface tints.
      Pure CSS inside b:skin CDATA: cannot affect Blogger XML validity. */
   function tplStyleVars() {
     var FONTS = {
@@ -2888,7 +2888,7 @@ tplStyleVars(),
     ].join("\n");
   }
 
-  /* TOC HTML generator — call with inline=true to omit the b:if wrapper (for postIncludable injection).
+  /* TOC HTML generator · call with inline=true to omit the b:if wrapper (for postIncludable injection).
      Script uses DOMContentLoaded so it runs after <data:post.body/> is parsed, even though the
      shell HTML is injected before the post body in document order. */
   function genTocHtml(p, inline) {
@@ -2968,7 +2968,7 @@ tplStyleVars(),
       "</b:if>";
   }
 
-  /* static (server-rendered) markup for the theme body — semantic HTML5 */
+  /* static (server-rendered) markup for the theme body · semantic HTML5 */
   function renderBlockStatic(b) {
     var p = b.props, d = design();
     switch (b.type) {
@@ -3255,7 +3255,7 @@ tplStyleVars(),
           var pbRad = (p.cardRadius != null ? p.cardRadius : 14);
           var pbCardCls = "pb-card pb-card--" + (p.cardStyle || "shadow");
           // Auto-fit tracks with a minimum card width (derived from the chosen
-          // column count) so cards never get squished — e.g. inside the narrow
+          // column count) so cards never get squished · e.g. inside the narrow
           // main column when a sidebar is present, or with only a few posts.
           var pbMinW = Math.max(220, Math.round(1040 / (p.columns || 3)));
           return "<section style='padding:52px 0'><div class='wrap'>" +
@@ -3295,7 +3295,7 @@ tplStyleVars(),
             (p.heading ? "<h2 style='font-size:20px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;border-left:4px solid var(--primary);padding-left:12px;margin:0 0 4px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
             "<b:loop values='data:posts' var='post'>" +
               "<div class='mag-news-row'>" +
-                magCatFirst("<span class='mag-news-cat'>", "</span>", "<span class='mag-news-cat' style='visibility:hidden'>—</span>") +
+                magCatFirst("<span class='mag-news-cat'>", "</span>", "<span class='mag-news-cat' style='visibility:hidden'>·</span>") +
                 "<a expr:href='data:post.url' class='mag-news-title'><data:post.title/></a>" +
                 "<span class='mag-news-date'><data:post.date/></span>" +
               "</div>" +
@@ -3760,7 +3760,7 @@ tplStyleVars(),
           + "</style>"
           + "<section class='bxb404' aria-label='" + tpl("หน้าไม่พบ","Page not found") + "'>"
           + "<h1 class='bxb404-code'>" + esc(p.heading || "404") + "</h1>"
-          + "<h2 class='bxb404-h'>" + esc(p.sub || "ขออภัย — ไม่พบหน้านี้") + "</h2>"
+          + "<h2 class='bxb404-h'>" + esc(p.sub || "ขออภัย · ไม่พบหน้านี้") + "</h2>"
           + "<p class='bxb404-p'>" + esc(p.desc || "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง") + "</p>"
           + "<a class='bxb404-btn' href='" + esc(absUrl(p.btnUrl || "/")) + "'>" + esc(p.btnText || "กลับหน้าแรก") + "</a>"
           + nfsSearch
@@ -3780,7 +3780,7 @@ tplStyleVars(),
     var orgId = su ? su + "#organization" : "#organization";
     var siteId = su ? su + "#website" : "#website";
     // Site-wide @graph: Organization/Person + WebSite
-    // SearchAction/potentialAction intentionally omitted — Google retired Sitelinks Search Box schema Nov 21 2024
+    // SearchAction/potentialAction intentionally omitted · Google retired Sitelinks Search Box schema Nov 21 2024
     var entityType = seo.orgType === "Person" ? "Person" : seo.orgType === "LocalBusiness" ? "LocalBusiness" : "Organization";
     var sameAsArr = String(seo.sameAs || "").split(/[\n,]+/).map(function (s) { return s.trim(); }).filter(Boolean);
     var orgProps = ['"@type":"' + entityType + '"', '"@id":"' + orgId + '"', '"name":"' + bt + '"'];
@@ -3798,7 +3798,7 @@ tplStyleVars(),
       var appGraph = '{"@context":"https://schema.org","@graph":[{' + appProps.join(",") + "}]}";
       out += "<script type='application/ld+json'>" + appGraph.replace(/"/g, "&quot;") + "</script>\n";
     }
-    // BlogPosting for single posts — uses data:view.* available in <head>.
+    // BlogPosting for single posts · uses data:view.* available in <head>.
     // (data:post.* is only valid inside Blog widget includables, so we use view equivalents here.)
     if (seo.schema) {
       out += "<b:if cond='data:view.isPost'>\n";
@@ -3918,11 +3918,11 @@ tplStyleVars(),
       return blkLabel(t) + (blockCounts[t] > 1 ? " ×" + blockCounts[t] : "");
     }).join(", ") || "ไม่มีบล็อก";
     var warnings = [];
-    if (a.overall < 60) warnings.push("คะแนน SEO ต่ำกว่า 60 — ควรเติมข้อมูลก่อนเผยแพร่");
-    if (!S.seo.siteUrl) warnings.push("ยังไม่ตั้งค่า URL เว็บไซต์ — Schema ไม่สมบูรณ์");
-    if (!S.seo.logoUrl) warnings.push("ยังไม่ตั้งค่า Logo URL — ขาด Organization.logo");
+    if (a.overall < 60) warnings.push("คะแนน SEO ต่ำกว่า 60 · ควรเติมข้อมูลก่อนเผยแพร่");
+    if (!S.seo.siteUrl) warnings.push("ยังไม่ตั้งค่า URL เว็บไซต์ · Schema ไม่สมบูรณ์");
+    if (!S.seo.logoUrl) warnings.push("ยังไม่ตั้งค่า Logo URL · ขาด Organization.logo");
     if (S.seo.schema && S.seo.siteUrl && !S.seo.siteUrl.startsWith("https")) warnings.push("URL เว็บไซต์ควรขึ้นต้นด้วย https://");
-    if (S.seo.og && !S.seo.logoUrl && !S.blocks.some(function (b) { return b.type === "image"; })) warnings.push("OG เปิดอยู่แต่ไม่มี Logo URL หรือบล็อกรูปภาพ — og:image จะว่างเมื่อโพสต์ไม่มี Featured Image");
+    if (S.seo.og && !S.seo.logoUrl && !S.blocks.some(function (b) { return b.type === "image"; })) warnings.push("OG เปิดอยู่แต่ไม่มี Logo URL หรือบล็อกรูปภาพ · og:image จะว่างเมื่อโพสต์ไม่มี Featured Image");
     var imgNoAlt = S.blocks.filter(function (b) { return b.type === "image" && (!b.props.alt || b.props.alt.trim().length < 3); });
     if (imgNoAlt.length) warnings.push("รูปภาพ " + imgNoAlt.length + " รายการขาด ALT text");
 
@@ -3979,11 +3979,11 @@ tplStyleVars(),
       .replace(/expr:src='data:post\.featuredImage'/g, "src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"225\"><rect width=\"400\" height=\"225\" fill=\"%23e8eaf2\"/></svg>'")
       .replace(/expr:alt='data:post\.title'/g, "alt='ตัวอย่างรูปภาพ'")
       .replace(/expr:href='data:post\.url'/g, "href='#'");
-    return "<!DOCTYPE html><html lang='" + (S.lang || "th") + "'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>พรีวิว — " + esc(S.name) + "</title><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap' rel='stylesheet'><style>" + css + "</style></head><body>" + body + "</body></html>";
+    return "<!DOCTYPE html><html lang='" + (S.lang || "th") + "'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>พรีวิว · " + esc(S.name) + "</title><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap' rel='stylesheet'><style>" + css + "</style></head><body>" + body + "</body></html>";
   }
   var popWin = null;
   $("#popoutBtn").addEventListener("click", function () {
-    if (!S || !S.blocks.length) { toast("ยังไม่มีบล็อก — เพิ่มองค์ประกอบก่อน"); return; }
+    if (!S || !S.blocks.length) { toast("ยังไม่มีบล็อก · เพิ่มองค์ประกอบก่อน"); return; }
     var html = previewHTML();
     try {
       if (popWin && !popWin.closed) popWin.close();
@@ -4014,7 +4014,7 @@ tplStyleVars(),
       + '<li>ไปที่ <b>blogger.com</b> → เลือกบล็อกของคุณ</li>'
       + '<li>เมนูซ้าย → <b>ธีม (Theme)</b> → กดปุ่มลูกศร <b>▾</b> ข้างปุ่ม "ปรับแต่ง"</li>'
       + '<li>เลือก <b>"กู้คืน (Restore)"</b> แล้วเลือกไฟล์ .xml ที่ดาวน์โหลดมา</li>'
-      + '<li>กด <b>อัปโหลด (Upload)</b> — ธีมจะถูกใช้งานทันที ✓</li>'
+      + '<li>กด <b>อัปโหลด (Upload)</b> · ธีมจะถูกใช้งานทันที ✓</li>'
       + '</ol>'
       + '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">'
       + '<div style="padding:9px 11px;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.22);border-radius:8px;font-size:12px;color:#fbbf24;line-height:1.5">⚠ <b>สำรองก่อน:</b> ธีม → ▾ → สำรองข้อมูล</div>'
@@ -4246,15 +4246,15 @@ tplStyleVars(),
   var GUIDE = [
     ["ไปที่ Blogger", "เปิด <code>blogger.com</code> แล้วลงชื่อเข้าใช้ด้วยบัญชี Google ของคุณ (ถ้ายังไม่มี สมัคร Gmail ก่อน)"],
     ["สร้างบล็อกใหม่", "กด <b>สร้างบล็อก (Create New Blog)</b> ในเมนูซ้าย"],
-    ["ตั้งชื่อบล็อก", "ใส่ชื่อบล็อกที่ต้องการ — เป็นชื่อที่แสดงบนหัวเว็บ เปลี่ยนภายหลังได้"],
-    ["ตั้งที่อยู่ (URL)", "เลือก URL เช่น <code>yourblog.blogspot.com</code> ระบบจะบอกว่าว่างหรือไม่ — เลือกให้สั้น จำง่าย"],
-    ["ยืนยันสร้างบล็อก", "กด <b>บันทึก</b> — ตอนนี้คุณมีบล็อก Blogger พร้อมแล้ว"]
+    ["ตั้งชื่อบล็อก", "ใส่ชื่อบล็อกที่ต้องการ · เป็นชื่อที่แสดงบนหัวเว็บ เปลี่ยนภายหลังได้"],
+    ["ตั้งที่อยู่ (URL)", "เลือก URL เช่น <code>yourblog.blogspot.com</code> ระบบจะบอกว่าว่างหรือไม่ · เลือกให้สั้น จำง่าย"],
+    ["ยืนยันสร้างบล็อก", "กด <b>บันทึก</b> · ตอนนี้คุณมีบล็อก Blogger พร้อมแล้ว"]
   ];
   var TIPS = [
     "ไปที่ <b>การตั้งค่า → ความเป็นส่วนตัว</b> แล้ว <b>ปิด</b> \"อนุญาตให้เครื่องมือค้นหาพบบล็อกของคุณ\" ไว้ก่อน",
     "ที่ <b>การตั้งค่า → สิทธิ์ → ผู้อ่านบล็อก</b> เลือก <b>\"เฉพาะผู้เขียนบล็อก\"</b> เพื่อซ่อนระหว่างเตรียมเนื้อหา",
     "อัปโหลดธีมที่สร้างจากเครื่องมือนี้ แล้วเขียนบทความคุณภาพสัก <b>2–3 บทความ</b> ให้เว็บดูสมบูรณ์",
-    "เมื่อพร้อม ค่อย <b>เปิดสาธารณะ + เปิดให้ค้นหาเจอ</b> — Googlebot จะเข้ามาเก็บข้อมูลครั้งแรกแล้วเห็นเว็บที่จริงจัง มีเนื้อหาครบ สร้างความประทับใจที่ดีต่ออันดับ"
+    "เมื่อพร้อม ค่อย <b>เปิดสาธารณะ + เปิดให้ค้นหาเจอ</b> · Googlebot จะเข้ามาเก็บข้อมูลครั้งแรกแล้วเห็นเว็บที่จริงจัง มีเนื้อหาครบ สร้างความประทับใจที่ดีต่ออันดับ"
   ];
   (function initGuide() {
     var gl = $("#guideList"); if (gl) gl.innerHTML = GUIDE.map(function (g) { return "<li><b>" + g[0] + "</b><span>" + g[1] + "</span></li>"; }).join("");
@@ -4291,10 +4291,10 @@ tplStyleVars(),
          tpl("คลิกบล็อกเพื่อแก้ไขข้อความ สี และการตั้งค่าในแผงขวา", "Click a block to edit text, colors & settings on the right"),
          tpl("เสร็จแล้วกด “Export XML” เพื่อดาวน์โหลดธีมไปอัปโหลดใน Blogger", "When done, press “Export XML” to download your theme")];
     var advTip = isMob
-      ? tpl("ขั้นสูง: แต่ละบล็อกเลือกได้ว่าจะแสดงหน้าไหน — แตะบล็อก → “ปรับแต่ง” → “เงื่อนไขการแสดงผล” แล้วเลือก ทุกหน้า / หน้าแรก / บทความ / เพจ / ป้ายกำกับ เช่น ให้แบนเนอร์โชว์เฉพาะหน้าแรก",
-            "Advanced: each block can choose where it appears — tap the block → “Customize” → “Display conditions”, then pick All pages / Homepage / Posts / Pages / Label (e.g. a homepage-only banner)")
-      : tpl("ขั้นสูง: แต่ละบล็อกเลือกได้ว่าจะแสดงหน้าไหน — คลิกบล็อกแล้วดู “เงื่อนไขการแสดงผล (ขั้นสูง)” ในแผงขวา เลือก ทุกหน้า / หน้าแรก / บทความ / เพจ / ป้ายกำกับ เช่น ให้แบนเนอร์โชว์เฉพาะหน้าแรก",
-            "Advanced: each block can choose where it appears — click a block and open “Display conditions (advanced)” on the right, then pick All pages / Homepage / Posts / Pages / Label (e.g. a homepage-only banner)");
+      ? tpl("ขั้นสูง: แต่ละบล็อกเลือกได้ว่าจะแสดงหน้าไหน · แตะบล็อก → “ปรับแต่ง” → “เงื่อนไขการแสดงผล” แล้วเลือก ทุกหน้า / หน้าแรก / บทความ / เพจ / ป้ายกำกับ เช่น ให้แบนเนอร์โชว์เฉพาะหน้าแรก",
+            "Advanced: each block can choose where it appears · tap the block → “Customize” → “Display conditions”, then pick All pages / Homepage / Posts / Pages / Label (e.g. a homepage-only banner)")
+      : tpl("ขั้นสูง: แต่ละบล็อกเลือกได้ว่าจะแสดงหน้าไหน · คลิกบล็อกแล้วดู “เงื่อนไขการแสดงผล (ขั้นสูง)” ในแผงขวา เลือก ทุกหน้า / หน้าแรก / บทความ / เพจ / ป้ายกำกับ เช่น ให้แบนเนอร์โชว์เฉพาะหน้าแรก",
+            "Advanced: each block can choose where it appears · click a block and open “Display conditions (advanced)” on the right, then pick All pages / Homepage / Posts / Pages / Label (e.g. a homepage-only banner)");
     var el2 = document.createElement("div");
     el2.className = "coach";
     el2.innerHTML = '<div class="coach-head"><b>' + tpl("เริ่มต้นใน 3 ขั้น", "Get started in 3 steps") + '</b><button class="x" aria-label="close">✕</button></div>' +
@@ -4321,7 +4321,7 @@ tplStyleVars(),
   function renderLayers() {
     var v = $("#layersView"); if (!v) return;
     if (!S || !S.blocks.length) { v.innerHTML = '<div class="layers-empty">ยังไม่มีองค์ประกอบบนหน้า<br>เพิ่มจากแท็บ “องค์ประกอบ”</div>'; return; }
-    v.innerHTML = '<div class="layers-hd">โครงสร้างหน้า — ลากเพื่อจัดลำดับ</div>' + S.blocks.map(function (b) {
+    v.innerHTML = '<div class="layers-hd">โครงสร้างหน้า · ลากเพื่อจัดลำดับ</div>' + S.blocks.map(function (b) {
       var t = blkLabel(b.type);
       var isLocked = b.type === "header" || b.type === "footer";
       var moveBtns = isLocked
@@ -4385,7 +4385,7 @@ tplStyleVars(),
     // mob switch
     "องค์ประกอบ": "Elements", "หน้าเว็บ": "Page", "ปรับแต่ง": "Edit",
     // panel heads
-    "องค์ประกอบ — ลากไปวางบนหน้า": "Elements — drag onto the page",
+    "องค์ประกอบ · ลากไปวางบนหน้า": "Elements · drag onto the page",
     "เลือกองค์ประกอบบนหน้าเว็บ": "Select an element on the page", "เพื่อปรับแต่งคุณสมบัติ": "to edit its properties",
     // library groups + items
     "โครงสร้างหลัก": "Layout", "เนื้อหา": "Content", "ส่วนเสริม": "Extras", "บทความ & UX": "Article & UX",
@@ -4410,7 +4410,7 @@ tplStyleVars(),
     // field labels
     "มุมโค้งการ์ด (px)": "Card corner radius (px)", "สไตล์การ์ด": "Card style", "เงา": "Shadow", "เส้นขอบ": "Border", "แบน": "Flat",
     "ป้ายกำกับปักหมุดบทความแนะนำ": "Featured pin label",
-    "ข้อความโลโก้": "Logo text", "เมนูนำทาง — ใส่ลิงก์ได้แต่ละอัน": "Navigation — set a link per item",
+    "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
@@ -4448,8 +4448,8 @@ tplStyleVars(),
     "URL เว็บไซต์": "Website URL",
     "URL โลโก้ (แนะนำ 512×512)": "Logo URL (512×512 recommended)",
     "ลิงก์โซเชียล (บรรทัดละ 1 ลิงก์)": "Social links (one per line)",
-    "Facebook, X, YouTube, LINE — ช่วยให้ Google ยืนยันตัวตนเว็บ": "Facebook, X, YouTube, LINE — helps Google verify site identity",
-    "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ — ช่วยให้ AI knowledge graphs จดจำได้": "Schema for blog / software — helps AI knowledge graphs recognize you",
+    "Facebook, X, YouTube, LINE · ช่วยให้ Google ยืนยันตัวตนเว็บ": "Facebook, X, YouTube, LINE · helps Google verify site identity",
+    "เพิ่ม schema สำหรับบล็อก/เครื่องมือซอฟต์แวร์ · ช่วยให้ AI knowledge graphs จดจำได้": "Schema for blog / software · helps AI knowledge graphs recognize you",
     // seoAudit labels
     "โครงสร้างหน้า": "Page structure",
     "Title ความยาวเหมาะสม (10–60)": "Title length OK (10–60)",
@@ -4469,11 +4469,11 @@ tplStyleVars(),
     "จำเป็นสำหรับ @graph @id fragments ให้ AI จดจำเว็บ": "Required for @graph @id fragments",
     "ช่วย AI knowledge graphs สร้าง entity ที่สมบูรณ์": "Helps AI knowledge graphs build a complete entity",
     "sameAs links (ยืนยันตัวตน)": "sameAs links (identity verification)",
-    "Facebook, YouTube, X ฯลฯ เพิ่มความน่าเชื่อถือ": "Facebook, YouTube, X etc. — builds authority",
+    "Facebook, YouTube, X ฯลฯ เพิ่มความน่าเชื่อถือ": "Facebook, YouTube, X etc. · builds authority",
     "Meta description ≥ 50 ตัวอักษร (AI snippet)": "Meta description ≥ 50 chars (AI snippet)",
     // seoAudit score labels
-    "ดีมาก พร้อมเผยแพร่": "Excellent — ready to publish",
-    "ดี ปรับเพิ่มได้": "Good — room to improve",
+    "ดีมาก พร้อมเผยแพร่": "Excellent · ready to publish",
+    "ดี ปรับเพิ่มได้": "Good · room to improve",
     "ควรปรับปรุง": "Needs improvement",
     // design
     "ชุดสี": "Color palette", "ตัวอักษร": "Typography", "ความมนขอบ": "Corner radius", "มุมโค้ง": "Radius", "สีหลัก": "Primary", "สีเน้น": "Accent",
@@ -4504,12 +4504,12 @@ tplStyleVars(),
     "ลากองค์ประกอบมาวางที่นี่": "Drag elements here",
     "เลือกจากแผงด้านซ้าย ลากมาวางเพื่อเริ่มออกแบบหน้าเว็บของคุณ": "Pick from the left panel and drag to start designing",
     // start screen subtext + buttons
-    "ก่อนสร้างธีม — คุณมีบล็อกบน Blogger (blogspot.com) แล้วหรือยัง?": "Before building a theme — do you already have a blog on Blogger (blogspot.com)?",
-    "ฉันมีบล็อก blogspot.com พร้อมแล้ว ไปเลือกแม่แบบเพื่อเริ่มออกแบบ": "I have a blogspot.com blog ready — go choose a template to start designing",
-    "ฉันยังไม่มีบล็อก ดูวิธีสมัคร Blogger แบบละเอียดทีละขั้น": "I don't have a blog yet — show me how to sign up for Blogger step by step",
-    "ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย": "Takes about 10 minutes — follow these steps then come back to start designing",
-    "เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า — ปรับต่อได้ทุกอย่าง": "Choose a website type to start from a ready-made template, or start blank — customize everything",
-    "สมัครเสร็จแล้ว — ไปเลือกแม่แบบ →": "Done signing up — go pick a template →",
+    "ก่อนสร้างธีม · คุณมีบล็อกบน Blogger (blogspot.com) แล้วหรือยัง?": "Before building a theme · do you already have a blog on Blogger (blogspot.com)?",
+    "ฉันมีบล็อก blogspot.com พร้อมแล้ว ไปเลือกแม่แบบเพื่อเริ่มออกแบบ": "I have a blogspot.com blog ready · go choose a template to start designing",
+    "ฉันยังไม่มีบล็อก ดูวิธีสมัคร Blogger แบบละเอียดทีละขั้น": "I don't have a blog yet · show me how to sign up for Blogger step by step",
+    "ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย": "Takes about 10 minutes · follow these steps then come back to start designing",
+    "เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า · ปรับต่อได้ทุกอย่าง": "Choose a website type to start from a ready-made template, or start blank · customize everything",
+    "สมัครเสร็จแล้ว · ไปเลือกแม่แบบ →": "Done signing up · go pick a template →",
     "หรือเริ่มจากหน้าเปล่า →": "Or start from blank →",
     // export modal
     "รายงาน": "Report", "📖 คู่มือ": "📖 Guide", "คัดลอก": "Copy", "ดาวน์โหลด .xml": "Download .xml",
@@ -4567,7 +4567,7 @@ tplStyleVars(),
       if (tip) el.setAttribute("data-tip", tip); else el.removeAttribute("data-tip");
     });
   }
-  // Mobile touch tooltips — tap shows tooltip, auto-dismisses after 1.6s
+  // Mobile touch tooltips · tap shows tooltip, auto-dismisses after 1.6s
   (function () {
     var activeEl = null, timer = null;
     function clearTip() { if (activeEl) { activeEl.classList.remove("tip-show"); activeEl = null; } clearTimeout(timer); }
@@ -4614,7 +4614,7 @@ tplStyleVars(),
       reader.onload = function (e) {
         try {
           var data = JSON.parse(e.target.result);
-          if (!data || !Array.isArray(data.blocks)) { toast("ไฟล์ไม่ถูกต้อง — ต้องเป็น .json ที่ export จาก BlogKub"); return; }
+          if (!data || !Array.isArray(data.blocks)) { toast("ไฟล์ไม่ถูกต้อง · ต้องเป็น .json ที่ export จาก BlogKub"); return; }
           S = data;
           if (!S.seo) S.seo = freshProject().seo;
           if (!S.design) S.design = freshProject().design;
@@ -4623,7 +4623,7 @@ tplStyleVars(),
           $("#projName").value = S.name || "โปรเจกต์";
           renderCanvas(); renderProps(); renderSeo(); renderDesign(); buildLib(); setupLibDrag(); save();
           toast("โหลดโปรเจกต์แล้ว: " + (S.name || "ไม่มีชื่อ"));
-        } catch (err) { toast("อ่านไฟล์ไม่ได้ — " + String(err).slice(0, 60)); }
+        } catch (err) { toast("อ่านไฟล์ไม่ได้ · " + String(err).slice(0, 60)); }
       };
       reader.readAsText(file);
       importFileEl.value = "";
@@ -4652,7 +4652,7 @@ tplStyleVars(),
           + '<span class="hist-info">'
           + '<span class="hist-time">' + (isCurrent ? "ปัจจุบัน" : historyTimeAgo(h.ts)) + '</span>'
           + '<span class="hist-meta">' + blocks.length + ' blocks'
-          + (blocks.length ? ' — ' + blocks.slice(0, 3).map(function (b) { return blkLabel(b.type); }).join(", ") + (blocks.length > 3 ? "…" : "") : "")
+          + (blocks.length ? ' · ' + blocks.slice(0, 3).map(function (b) { return blkLabel(b.type); }).join(", ") + (blocks.length > 3 ? "…" : "") : "")
           + '</span></span>'
           + (isCurrent ? '' : '<button class="hist-restore btn btn-ghost btn-sm" data-hi="' + (HISTORY.length - 1 - i) + '">Restore</button>')
           + '</div>';
