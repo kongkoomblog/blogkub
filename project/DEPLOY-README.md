@@ -24,10 +24,10 @@ sitemap.xml       แผนผังเว็บ 2 ภาษา + hreflang
    `<meta name="robots" content="noindex, nofollow">`
 2. ลบ robots.txt แล้วเปลี่ยนชื่อ robots.launch.txt → robots.txt
 3. ปิด Cloudflare Access
-4. ต่อ Custom domain: blogkub.com
+4. ต่อ Custom domain: www.blogkub.com (+ redirect apex → www)
 5. ส่ง sitemap.xml เข้า Google Search Console + Bing Webmaster Tools
 
 ## หมายเหตุ
 - เว็บนี้เป็น static ล้วน (HTML/CSS/JS) ไม่มี backend ไม่ต้อง build
 - ลิงก์ภายในเป็น relative path — ทำงานได้ทั้งบน .pages.dev และโดเมนจริง
-- hreflang/canonical ตั้งเป็น blogkub.com ไว้แล้ว (มีผลเต็มที่ตอนต่อโดเมนจริง)
+- hreflang/canonical ตั้งเป็น www.blogkub.com ไว้แล้ว (มีผลเต็มที่ตอนต่อโดเมนจริง)
