@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
+  color-scheme:dark;
   --fd:'Space Grotesk','IBM Plex Sans Thai',sans-serif;
   --fb:'IBM Plex Sans Thai','Space Grotesk',system-ui,sans-serif;
   --fm:'JetBrains Mono',ui-monospace,monospace;
@@ -184,6 +185,7 @@ button{font-family:inherit;cursor:pointer;}
 .field .hint{font-size:12px;color:var(--ink-3);font-weight:400;margin-top:5px;line-height:1.5;}
 .inp,.sel,.ta{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--ink);font-family:var(--fb);font-size:14px;padding:9px 11px;border-radius:8px;transition:.15s;}
 .inp:focus,.sel:focus,.ta:focus{outline:none;border-color:var(--brand);background:var(--surface-2);box-shadow:0 0 0 3px rgba(99,102,241,.1);}
+select.inp option,.sel option{background:var(--panel-2);color:var(--ink);}
 .ta{resize:vertical;min-height:64px;line-height:1.5;}
 /* SEO panel key-fields card */
 .seo-key-card{margin:0 12px 16px;background:var(--surface);border:1px solid var(--border-2);border-radius:14px;overflow:hidden;}
@@ -804,6 +806,6 @@ body.sheet-settled .panel.right{animation:none;}
   </div>
 </div>
 
-<script src="assets/builder-app.js?v=20260706-6"></script>
+<script src="assets/builder-app.js?v=20260706-7"></script>
 </body>
 </html>
