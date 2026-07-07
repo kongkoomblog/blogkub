@@ -133,7 +133,7 @@
       hero: { eyebrow: "✦ Personal Blog", title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient", showImage: true, imageUrl: "" },
       footer: { about: "A blog sharing knowledge and quality articles", copyright: "© 2026 MyBlog. All rights reserved.",
         footerLinks: [{ label: "Home", url: "/" }, { label: "Posts", url: "/search" }, { label: "About", url: "/p/about.html" }, { label: "Contact", url: "/p/contact.html" }],
-        socialLinks: [] },
+        socialLinks: [], bgColor: "#0f172a" },
       postgrid: { heading: "Latest Posts", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "Read more →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "Read More", count: 5, showImage: true },
       featured: { heading: "Featured", count: 1, featLabel: "Featured" },
@@ -167,7 +167,7 @@
       hero: { eyebrow: "✦ Personal Blog", title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient", showImage: true, imageUrl: "" },
       footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
         footerLinks: [{ label: "หน้าแรก", url: "/" }, { label: "บทความ", url: "/search" }, { label: "เกี่ยวกับ", url: "/p/about.html" }, { label: "ติดต่อ", url: "/p/contact.html" }],
-        socialLinks: [] },
+        socialLinks: [], bgColor: "#0f172a" },
       postgrid: { heading: "บทความล่าสุด", columns: 3, count: 6, showImage: true, showExcerpt: true, readMore: "อ่านต่อ →", cardRadius: 14, cardStyle: "shadow" },
       postlist: { heading: "อ่านต่อ", count: 5, showImage: true },
       featured: { heading: "บทความแนะนำ", count: 1, featLabel: "แนะนำ" },
@@ -254,6 +254,22 @@
   /* ---------- BLOCK RENDER (canvas) ---------- */
   function design() { return S.design; }
   function fontStack(f) { return f === "serif" ? "Georgia,'Times New Roman',serif" : f === "mono" ? "monospace" : "'IBM Plex Sans Thai',system-ui,sans-serif"; }
+  // true if a hex color is dark enough to need light text on top
+  function isDarkColor(hex) {
+    hex = String(hex || "").replace("#", "");
+    if (hex.length === 3) hex = hex.split("").map(function (c) { return c + c; }).join("");
+    var r = parseInt(hex.substr(0, 2), 16), g = parseInt(hex.substr(2, 2), 16), b = parseInt(hex.substr(4, 2), 16);
+    if (isNaN(r) || isNaN(g) || isNaN(b)) return true;
+    return (0.299 * r + 0.587 * g + 0.114 * b) / 255 < 0.6;
+  }
+  // CSS vars for the footer, derived from the footer block's bgColor (exported skin)
+  function footerVars() {
+    var fb = S && S.blocks && S.blocks.find(function (b) { return b.type === "footer"; });
+    var bg = (fb && fb.props && fb.props.bgColor) || "#0f172a";
+    var base = isDarkColor(bg) ? "255,255,255" : "17,24,39";
+    return ":root{--footer-bg:" + bg + ";--footer-fg:rgb(" + base + ");--footer-muted:rgba(" + base +
+      ",.62);--footer-dim:rgba(" + base + ",.4);--footer-line:rgba(" + base + ",.12);--footer-chip:rgba(" + base + ",.1)}";
+  }
   // Heading font per template personality (preview mirror of tplStyleVars --font)
   function tplHeadFont(d) {
     var id = S && S.templateId;
@@ -1002,15 +1018,20 @@
       case "footer":
         var fLinks = footerLinksOf(p);
         var fSocials = socialLinksOf(p);
+        // footer palette: bg from prop, text auto dark/light for contrast
+        var fBg = p.bgColor || "#0f172a";
+        var fBase = isDarkColor(fBg) ? "255,255,255" : "17,24,39";
+        var fFg = "rgb(" + fBase + ")", fMuted = "rgba(" + fBase + ",.62)",
+            fDim = "rgba(" + fBase + ",.4)", fLine = "rgba(" + fBase + ",.12)", fChip = "rgba(" + fBase + ",.1)";
         var fLinksCols = VIEW === "mobile" ? 1 : (fLinks.length > 4 ? 2 : 1);
         var fLinksHtml = fLinks.map(function (m) {
-          return '<a style="display:block;color:rgba(255,255,255,.7);font-size:13.5px;text-decoration:none;padding:3px 0;transition:color .2s">' + esc(m.label) + '</a>';
+          return '<a style="display:block;color:' + fMuted + ';font-size:13.5px;text-decoration:none;padding:3px 0;transition:color .2s">' + esc(m.label) + '</a>';
         }).join("");
         var fSocialHtml = fSocials.map(function (s) {
           var ic = SOCIAL_ICONS[s.platform];
           if (!ic) return "";
-          return '<div title="' + ic.label + '" style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,.1);display:grid;place-items:center;flex-shrink:0">' +
-            '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:#fff">' + ic.svg + '</svg></div>';
+          return '<div title="' + ic.label + '" style="width:34px;height:34px;border-radius:8px;background:' + fChip + ';display:grid;place-items:center;flex-shrink:0">' +
+            '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:' + fFg + '">' + ic.svg + '</svg></div>';
         }).join("");
         var fGridStyle = VIEW === "mobile"
           ? "display:flex;flex-direction:column;gap:24px"
@@ -1018,17 +1039,17 @@
         var fLogoUrl = S.seo && S.seo.logoUrl;
         var fLogoPart = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">' +
           (fLogoUrl ? '<img src="' + esc(fLogoUrl) + '" alt="" style="height:28px;width:auto;max-width:120px;object-fit:contain;flex:none">' : '') +
-          '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:#fff">' + esc(S.seo.blogTitle || "MyBlog") + '</div></div>';
-        return '<div style="background:#0f172a;color:#fff;padding:48px 32px 24px">' +
+          '<div style="font-family:' + fontStack(d.font) + ';font-weight:700;font-size:20px;color:' + fFg + '">' + esc(S.seo.blogTitle || "MyBlog") + '</div></div>';
+        return '<div style="background:' + fBg + ';color:' + fFg + ';padding:48px 32px 24px">' +
           '<div style="' + fGridStyle + ';max-width:980px;margin:0 auto">' +
           '<div>' +
             fLogoPart +
-            '<p style="color:rgba(255,255,255,.6);font-size:13.5px;line-height:1.65;margin:0 0 18px;max-width:320px">' + esc(p.about) + '</p>' +
+            '<p style="color:' + fMuted + ';font-size:13.5px;line-height:1.65;margin:0 0 18px;max-width:320px">' + esc(p.about) + '</p>' +
             (fSocials.length ? '<div style="display:flex;gap:8px;flex-wrap:wrap">' + fSocialHtml + '</div>' : '') +
           '</div>' +
           (fLinks.length ? '<div style="display:grid;grid-template-columns:repeat(' + fLinksCols + ',1fr);gap:6px 24px;padding-top:4px">' + fLinksHtml + '</div>' : '') +
           '</div>' +
-          '<div style="text-align:center;color:rgba(255,255,255,.35);font-size:12px;margin-top:36px;padding-top:18px;border-top:1px solid rgba(255,255,255,.1);max-width:980px;margin-left:auto;margin-right:auto">' + esc(p.copyright) + '</div>' +
+          '<div style="text-align:center;color:' + fDim + ';font-size:12px;margin-top:36px;padding-top:18px;border-top:1px solid ' + fLine + ';max-width:980px;margin-left:auto;margin-right:auto">' + esc(p.copyright) + '</div>' +
           '</div>';
     }
     return "";
@@ -1235,6 +1256,7 @@
   function seg(key, label, val, opts) { return '<div class="field"><label>' + tr(label) + '</label><div class="seg" data-seg="' + key + '">' + opts.map(function (o) { return '<button data-v="' + o[0] + '"' + (o[0] === val ? ' class="on"' : "") + ">" + tr(o[1]) + "</button>"; }).join("") + "</div></div>"; }
   function tog(key, label, val, sub) { return '<label class="tg"><span class="lbl">' + tr(label) + (sub ? "<small>" + tr(sub) + "</small>" : "") + '</span><input type="checkbox" data-k="' + key + '"' + (val ? " checked" : "") + '><span class="sw-tg"></span></label>'; }
   function num(key, label, val, mn, mx) { return '<div class="field"><label>' + tr(label) + ' · ' + val + '</label><input class="inp" type="range" min="' + mn + '" max="' + mx + '" value="' + val + '" data-k="' + key + '" data-num="1"></div>'; }
+  function col(key, label, val, hint) { return '<div class="field"><label>' + tr(label) + '</label><input class="inp" type="color" data-k="' + key + '" value="' + esc(val) + '" style="height:42px;padding:4px;cursor:pointer">' + (hint ? '<div class="hint">' + tr(hint) + '</div>' : '') + '</div>'; }
   function imgUrl(key, label, val) {
     val = val || "";
     var pvw = '<div class="img-pvw" data-img-for="' + key + '"' + (val ? '' : ' style="display:none"') + '>' +
@@ -1393,7 +1415,7 @@
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
         + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
       case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
-      case "footer": return area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
+      case "footer": return col("bgColor", "สีพื้นหลัง Footer", p.bgColor || "#0f172a", tpl("ตัวอักษรจะปรับเป็นสีขาว/ดำให้อ่านง่ายอัตโนมัติ", "Text auto-switches to white/black for readability")) + area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link")) + num("cardRadius", "มุมโค้งการ์ด (px)", p.cardRadius != null ? p.cardRadius : 14, 0, 28) + seg("cardStyle", "สไตล์การ์ด", p.cardStyle || "shadow", [["shadow", "เงา"], ["border", "เส้นขอบ"], ["flat", "แบน"]]);
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
       case "featured": return txt("heading", "หัวข้อส่วน", p.heading) +
@@ -2524,7 +2546,8 @@ bodyHTML + "\n" +
     return [
 skinVariables(d),
 "*{margin:0;padding:0;box-sizing:border-box}",
-"html{background:#0f172a}",
+footerVars(),
+"html{background:var(--footer-bg)}",
 "body{font:$(bodyfont);color:var(--text-main);background:var(--bg-body);line-height:1.6;-webkit-font-smoothing:antialiased;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}",
 "a{color:var(--primary);text-decoration:none}",
 "img{max-width:100%;height:auto}",
@@ -2602,20 +2625,20 @@ tplStyleVars(),
 ".post-body pre{background:var(--bg-surface);color:var(--text-main);padding:16px;border-radius:var(--radius);overflow-x:auto;font-size:13px;line-height:1.6;margin-bottom:16px}",
 ".post-body code{font-family:monospace;background:var(--bg-surface-2);color:var(--text-main);padding:2px 6px;border-radius:4px;font-size:13px}",
 ".post-body pre code{background:none;padding:0}",
-".site-footer{background:#0f172a;color:#fff;padding:52px 20px 28px}",
+".site-footer{background:var(--footer-bg);color:var(--footer-fg);padding:52px 20px 28px}",
 ".footer-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;max-width:980px;margin:0 auto;align-items:start}",
 "@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:28px}}",
-".footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:#fff;margin-bottom:12px;font-family:$(titlefont)}",
+".footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--footer-fg);margin-bottom:12px;font-family:$(titlefont)}",
 ".footer-logo img{height:28px;width:auto;max-width:120px;object-fit:contain;display:block}",
-".footer-about{color:rgba(255,255,255,.6);font-size:14px;line-height:1.65;margin:0 0 20px;max-width:340px}",
+".footer-about{color:var(--footer-muted);font-size:14px;line-height:1.65;margin:0 0 20px;max-width:340px}",
 ".footer-social{display:flex;gap:8px;flex-wrap:wrap}",
-".footer-social-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:rgba(255,255,255,.1);color:#fff;transition:background .2s,transform .15s}",
+".footer-social-icon{display:flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:9px;background:var(--footer-chip);color:var(--footer-fg);transition:background .2s,transform .15s}",
 ".footer-social-icon:hover{background:var(--ic-color,rgba(255,255,255,.25));transform:translateY(-2px)}",
 ".footer-social-icon svg{display:block}",
 ".footer-links{display:flex;flex-direction:column;gap:10px;padding-top:6px}",
-".footer-link{color:rgba(255,255,255,.65);font-size:14px;text-decoration:none;transition:color .2s;display:block}",
-".footer-link:hover{color:#fff}",
-".footer-bottom{text-align:center;color:rgba(255,255,255,.35);font-size:12.5px;margin-top:40px;padding-top:20px;border-top:1px solid rgba(255,255,255,.08);max-width:980px;margin-left:auto;margin-right:auto}",
+".footer-link{color:var(--footer-muted);font-size:14px;text-decoration:none;transition:color .2s;display:block}",
+".footer-link:hover{color:var(--footer-fg)}",
+".footer-bottom{text-align:center;color:var(--footer-dim);font-size:12.5px;margin-top:40px;padding-top:20px;border-top:1px solid var(--footer-line);max-width:980px;margin-left:auto;margin-right:auto}",
 "@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}",
 "#bxbToc{margin:0 0 24px;border-left:3px solid var(--primary);border-radius:0 var(--radius,8px) var(--radius,8px) 0;background:var(--bg-surface);overflow:hidden}",
 "#bxbTocHead{display:flex;align-items:center;gap:7px;padding:10px 14px;font-size:11.5px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;background:none;border:none;width:100%;text-align:left;cursor:pointer;transition:background .15s}",
@@ -4410,6 +4433,7 @@ tplStyleVars(),
     // field labels
     "มุมโค้งการ์ด (px)": "Card corner radius (px)", "สไตล์การ์ด": "Card style", "เงา": "Shadow", "เส้นขอบ": "Border", "แบน": "Flat",
     "ป้ายกำกับปักหมุดบทความแนะนำ": "Featured pin label",
+    "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
