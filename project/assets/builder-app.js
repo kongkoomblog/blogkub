@@ -394,6 +394,70 @@
     }
     return "<svg class='nav-ic' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" + pth + "</svg>";
   }
+
+  /* ---------- Mobile bottom navigation bar ---------- */
+  // shared dark-theme CSS vars (used by darkmode block + bottom-nav "Mode")
+  var DARK_THEME_VARS = "[data-theme=dark]{--bg-body:#0f172a;--bg-surface:#1e293b;--bg-surface-2:#2d3748;--bg-header:#1a2438;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-subtle:#64748b;--border:rgba(255,255,255,.08);--border-med:rgba(255,255,255,.18);--hover-bg:rgba(255,255,255,.06);--nav-shadow:0 0 48px rgba(0,0,0,.55);--drop-shadow:0 8px 24px rgba(0,0,0,.4)}";
+  var BOTNAV_ICONS = {
+    home:   '<path d="M3 10.5 12 4l9 6.5"/><path d="M5 9.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/>',
+    search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
+    menu:   '<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="M9 5v14"/>',
+    mode:   '<path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8z"/>',
+    share:  '<path d="M4 12v6.5a1.5 1.5 0 0 0 1.5 1.5h13a1.5 1.5 0 0 0 1.5-1.5V12"/><path d="M12 15V4"/><path d="m8 7.5 4-4 4 4"/>'
+  };
+  function botNavLabels() {
+    return { home: tpl("หน้าแรก", "Home"), search: tpl("ค้นหา", "Search"), menu: tpl("เมนู", "Menu"), mode: tpl("โหมด", "Mode"), share: tpl("แชร์", "Share") };
+  }
+  // exported bottom nav (mobile-only) · Home / Search / Menu(drawer) / Mode(dark) / Share
+  function botNavStatic() {
+    var L = botNavLabels(), hasDark = false;
+    for (var i = 0; i < S.blocks.length; i++) { if (S.blocks[i].type === "darkmode") { hasDark = true; break; } }
+    function bi(pp) { return "<svg class='bn-ic' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" + pp + "</svg>"; }
+    var css = "<style>"
+      + (hasDark ? "" : DARK_THEME_VARS)
+      + ".bxb-botnav{display:none}"
+      + "@media(max-width:768px){"
+      + ".bxb-botnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:200;background:var(--bg-header,#fff);border-top:1px solid var(--border,#e8eaf2);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 20px rgba(0,0,0,.07);backdrop-filter:blur(10px)}"
+      + ".bxb-bn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;cursor:pointer;text-decoration:none;color:var(--text-muted,#64748b);font-family:inherit;font-size:11px;font-weight:500;padding:6px 2px;border-radius:12px;-webkit-tap-highlight-color:transparent;transition:color .15s,background .15s}"
+      + ".bxb-bn:active{background:var(--hover-bg,rgba(99,102,241,.08))}"
+      + ".bxb-bn:hover,.bxb-bn:focus-visible{color:var(--primary,#6366f1)}"
+      + ".bxb-bn .bn-ic{width:23px;height:23px}"
+      + ".bxb-bn span{line-height:1}"
+      + "body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}"
+      + "}"
+      + "</style>";
+    var bar = "<nav class='bxb-botnav' aria-label='" + tpl("เมนูล่าง", "Bottom menu") + "'>"
+      + "<a class='bxb-bn' href='/'>" + bi(BOTNAV_ICONS.home) + "<span>" + L.home + "</span></a>"
+      + "<a class='bxb-bn' href='/search'>" + bi(BOTNAV_ICONS.search) + "<span>" + L.search + "</span></a>"
+      + "<label class='bxb-bn' for='navtoggle'>" + bi(BOTNAV_ICONS.menu) + "<span>" + L.menu + "</span></label>"
+      + "<button type='button' class='bxb-bn' id='bxbModeBtn'>" + bi(BOTNAV_ICONS.mode) + "<span>" + L.mode + "</span></button>"
+      + "<button type='button' class='bxb-bn' id='bxbShareBtn'>" + bi(BOTNAV_ICONS.share) + "<span>" + L.share + "</span></button>"
+      + "</nav>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var k='bxb-theme';"
+      + "if(!document.documentElement.dataset.theme){document.documentElement.dataset.theme=localStorage.getItem(k)||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');}"
+      + "var m=document.getElementById('bxbModeBtn');"
+      + "if(m){m.addEventListener('click',function(){var n=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=n;localStorage.setItem(k,n);});}"
+      + "var s=document.getElementById('bxbShareBtn');"
+      + "if(s){s.addEventListener('click',function(){var d={title:document.title,url:location.href};"
+      + "if(navigator.share){navigator.share(d).catch(function(){});}"
+      + "else if(navigator.clipboard){navigator.clipboard.writeText(location.href);var sp=s.querySelector('span');if(sp){var o=sp.textContent;sp.textContent='" + tpl("คัดลอกแล้ว", "Copied!") + "';setTimeout(function(){sp.textContent=o;},1500);}}"
+      + "else{location.href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href);}"
+      + "});}"
+      + "}());/*]]>*/<\/script>";
+    return css + bar + sc;
+  }
+  // in-builder preview of the bottom nav (mobile view only)
+  function botNavPreview() {
+    var L = botNavLabels();
+    function bi(pp) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="width:23px;height:23px">' + pp + '</svg>'; }
+    function item(pp, lb) {
+      return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#64748b;font-size:11px;font-weight:500">' + bi(pp) + '<span>' + lb + '</span></div>';
+    }
+    return '<div style="position:sticky;bottom:0;display:flex;background:#fff;border-top:1px solid #e8eaf2;box-shadow:0 -4px 20px rgba(0,0,0,.07);padding:8px 4px 10px">' +
+      item(BOTNAV_ICONS.home, L.home) + item(BOTNAV_ICONS.search, L.search) + item(BOTNAV_ICONS.menu, L.menu) + item(BOTNAV_ICONS.mode, L.mode) + item(BOTNAV_ICONS.share, L.share) +
+      '</div>';
+  }
   var PAGE_CHECKLIST = [
     { slug: "about",          label: "About" },
     { slug: "contact",        label: "Contact" },
@@ -1193,6 +1257,14 @@
       f.appendChild(w);
       f.appendChild(dz(i + 1));
     });
+    // mobile preview: show the fixed bottom nav if the header enables it
+    if (VIEW === "mobile") {
+      var hdrB = null;
+      for (var hi = 0; hi < S.blocks.length; hi++) { if (S.blocks[hi].type === "header") { hdrB = S.blocks[hi]; break; } }
+      if (hdrB && hdrB.props.mobileBottomNav !== false) {
+        var bnWrap = el("div"); bnWrap.innerHTML = botNavPreview(); f.appendChild(bnWrap);
+      }
+    }
   }
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
@@ -1512,7 +1584,7 @@
       case "header": return imgUrlSeo("logoUrl", "URL รูปโลโก้ (Header & Footer & Schema)", S.seo && S.seo.logoUrl || "")
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB · ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB · synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
-        + menuEditor(p) + tog("showMenuIcons", "แสดงไอคอนหน้าเมนู", p.showMenuIcons !== false) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
+        + menuEditor(p) + tog("showMenuIcons", "แสดงไอคอนหน้าเมนู", p.showMenuIcons !== false) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch) + tog("mobileBottomNav", "แถบเมนูล่าง (มือถือ)", p.mobileBottomNav !== false, tpl("หน้าแรก · ค้นหา · เมนู · โหมด · แชร์", "Home · Search · Menu · Mode · Share"));
       case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
       case "footer": return col("bgColor", "สีพื้นหลัง Footer", p.bgColor || "#0f172a", tpl("ตัวอักษรจะปรับเป็นสีขาว/ดำให้อ่านง่ายอัตโนมัติ", "Text auto-switches to white/black for readability")) + area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link")) + num("cardRadius", "มุมโค้งการ์ด (px)", p.cardRadius != null ? p.cardRadius : 14, 0, 28) + seg("cardStyle", "สไตล์การ์ด", p.cardStyle || "shadow", [["shadow", "เงา"], ["border", "เส้นขอบ"], ["flat", "แบน"]]);
@@ -3149,7 +3221,8 @@ tplStyleVars(),
                 "if(window.innerWidth<=768){e.preventDefault();var li=a.parentElement;li.classList.toggle('open');a.setAttribute('aria-expanded',li.classList.contains('open'));}" +
               "});" +
             "});" +
-          "}());/*]]>*/<\/script>";
+          "}());/*]]>*/<\/script>" +
+          (p.mobileBottomNav !== false ? botNavStatic() : "");
       case "hero":
         if (S && S.templateId === "sidebar-blog") {
           var sbStaticTags = BL === "en"
@@ -3772,7 +3845,7 @@ tplStyleVars(),
           "</div></footer>";
       case "darkmode":
         return "<style>"
-          + "[data-theme=dark]{--bg-body:#0f172a;--bg-surface:#1e293b;--bg-surface-2:#2d3748;--bg-header:#1a2438;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-subtle:#64748b;--border:rgba(255,255,255,.08);--border-med:rgba(255,255,255,.18);--hover-bg:rgba(255,255,255,.06);--nav-shadow:0 0 48px rgba(0,0,0,.55);--drop-shadow:0 8px 24px rgba(0,0,0,.4)}"
+          + DARK_THEME_VARS
           + ".bxb-dm-btn{width:38px;height:38px;border-radius:8px;background:transparent;border:1px solid var(--border-med);cursor:pointer;display:grid;place-items:center;font-size:18px;flex:none;padding:0;color:var(--text-main);transition:background .15s}"
           + ".bxb-dm-btn:hover{background:var(--hover-bg)}"
           + ".bxb-dm-btn--float{position:fixed !important;bottom:24px !important;right:24px !important;z-index:9999;border-radius:50% !important;width:44px !important;height:44px !important;background:var(--bg-surface) !important;border:1px solid var(--border-med) !important;box-shadow:0 2px 12px rgba(0,0,0,.2)}"
@@ -4552,7 +4625,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
