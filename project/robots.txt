@@ -1,4 +1,5 @@
 # PRE-LAUNCH — block all crawlers while in private preview.
 # เมื่อพร้อมเปิดตัวจริง: ลบไฟล์นี้แล้วเปลี่ยนชื่อ robots.launch.txt -> robots.txt
 User-agent: *
+Allow: /afc81411d2174d87b9c7c2c56f80f30a.txt
 Disallow: /
