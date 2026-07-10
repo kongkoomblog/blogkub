@@ -311,6 +311,89 @@
     custom:   { icon: "⚙️", label: "URL กำหนดเอง",   hint: "ทุกรูปแบบ",             autoUrl: false },
     dropdown: { icon: "▾",  label: "Dropdown",       hint: "มีเมนูย่อย",             autoUrl: false }
   };
+
+  /* ---------- Menu icons (inline SVG, stroke style · matches theme) ---------- */
+  var MENU_ICONS = {
+    home:     { emoji: "🏠", p: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-6h5v6"/>' },
+    blog:     { emoji: "📝", p: '<path d="M4 4h11l5 5v11H4z"/><path d="M15 4v5h5"/><path d="M8 13h8M8 16h6"/>' },
+    about:    { emoji: "ℹ️", p: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>' },
+    contact:  { emoji: "✉️", p: '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>' },
+    phone:    { emoji: "📞", p: '<path d="M5 3h4l2 5-2.5 1.5a12 12 0 0 0 6 6L18 13l3 1v5a2 2 0 0 1-2 2A16 16 0 0 1 3 5a2 2 0 0 1 2-2z"/>' },
+    category: { emoji: "🏷️", p: '<path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9z"/><path d="M7.5 7.5h.01"/>' },
+    folder:   { emoji: "📁", p: '<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>' },
+    search:   { emoji: "🔍", p: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>' },
+    star:     { emoji: "⭐", p: '<path d="M12 3l2.7 5.9 6.3.7-4.7 4.3 1.3 6.2L12 17.8 6.1 20.4l1.3-6.2-4.7-4.3 6.3-.7z"/>' },
+    cart:     { emoji: "🛒", p: '<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.3a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L22 7H6"/>' },
+    image:    { emoji: "🖼️", p: '<rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="m4 18 5-4 4 3 3-2 4 3"/>' },
+    book:     { emoji: "📖", p: '<path d="M12 6C10 4 6 4 3 5v13c3-1 7-1 9 1 2-2 6-2 9-1V5c-3-1-7-1-9 1z"/><path d="M12 6v13"/>' },
+    news:     { emoji: "📰", p: '<path d="M4 5h13v14H5a1 1 0 0 1-1-1z"/><path d="M17 8h3v9a2 2 0 0 1-2 2"/><path d="M7 8h7M7 11h7M7 14h5"/>' },
+    fire:     { emoji: "🔥", p: '<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3 1-3s0 2 1.5 2S12 3 12 3z"/>' },
+    heart:    { emoji: "❤️", p: '<path d="M12 20s-7-4.4-9.3-9A4.7 4.7 0 0 1 12 6.5 4.7 4.7 0 0 1 21.3 11C19 15.6 12 20 12 20z"/>' },
+    user:     { emoji: "👤", p: '<circle cx="12" cy="8" r="4"/><path d="M4 20a8 8 0 0 1 16 0"/>' },
+    users:    { emoji: "👥", p: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 19a6.5 6.5 0 0 1 13 0"/><path d="M17 5a3.5 3.5 0 0 1 0 7"/><path d="M16 19a6.5 6.5 0 0 0-1.5-4"/>' },
+    globe:    { emoji: "🌐", p: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18z"/>' },
+    link:     { emoji: "🔗", p: '<path d="M9 15l6-6"/><path d="M11 6.5 13 4.5a4 4 0 0 1 6 6l-2 2"/><path d="M13 17.5 11 19.5a4 4 0 0 1-6-6l2-2"/>' },
+    grid:     { emoji: "▦", p: '<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>' },
+    calendar: { emoji: "📅", p: '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/>' },
+    bell:     { emoji: "🔔", p: '<path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 19a2 2 0 0 0 4 0"/>' },
+    shield:   { emoji: "🛡️", p: '<path d="M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/>' },
+    none:     { emoji: "∅", p: "" }
+  };
+  var MENU_ICON_KEYS = Object.keys(MENU_ICONS);
+  // keyword → icon (Thai + English) · first match wins
+  var MENU_ICON_HINTS = [
+    ["home",     "หน้าแรก|หน้าหลัก|home|homepage"],
+    ["about",    "เกี่ยวกับ|about|ประวัติ|profile|เรื่องราว"],
+    ["contact",  "ติดต่อ|contact|อีเมล|email|mail"],
+    ["phone",    "โทร|phone|call|โทรศัพท์|เบอร์"],
+    ["news",     "ข่าว|news|ประกาศ|announcement"],
+    ["shield",   "นโยบาย|privacy|policy|เงื่อนไข|terms|disclaimer|ข้อกำหนด|ความเป็นส่วนตัว"],
+    ["cart",     "ร้าน|สินค้า|shop|store|product|ซื้อ|cart|ขาย|market"],
+    ["star",     "รีวิว|review|rating|คะแนน|แนะนำ|featured|recommend"],
+    ["fire",     "ยอดนิยม|popular|trending|มาแรง|ฮิต|hot"],
+    ["heart",    "ถูกใจ|favorite|favourite|ชอบ|like|หัวใจ"],
+    ["image",    "รูป|ภาพ|gallery|photo|album|อัลบั้ม|portfolio|ผลงาน"],
+    ["book",     "คอร์ส|เรียน|บทเรียน|course|lesson|สอน|tutorial|เอกสาร|guide|คู่มือ"],
+    ["users",    "ชุมชน|community|สมาชิก|member|ทีม|team|about us"],
+    ["calendar", "ปฏิทิน|calendar|กิจกรรม|event|ตาราง|schedule"],
+    ["category", "หมวด|ป้าย|label|category|categories|tag|กลุ่ม|topic"],
+    ["blog",     "บทความ|บล็อก|blog|post|โพสต์|article|เขียน"],
+    ["search",   "ค้นหา|search"],
+    ["user",     "บัญชี|account|โปรไฟล์|ผู้เขียน|author|user|login|เข้าสู่ระบบ"]
+  ];
+  function guessMenuIcon(m) {
+    var lbl = (m.label || "").toLowerCase();
+    if (lbl) {
+      for (var i = 0; i < MENU_ICON_HINTS.length; i++) {
+        if (new RegExp(MENU_ICON_HINTS[i][1], "i").test(lbl)) return MENU_ICON_HINTS[i][0];
+      }
+    }
+    var t = m.type || "custom";
+    if (t === "home")     return "home";
+    if (t === "search")   return "search";
+    if (t === "label")    return "category";
+    if (t === "page")     return "blog";
+    if (t === "external") return "globe";
+    if (t === "dropdown") return "grid";
+    return "link";
+  }
+  // resolve the SVG inner-path for a menu item (respects manual override / "none")
+  function menuIconPath(m) {
+    var ic = m.icon;
+    if (ic === "none") return "";
+    if (!ic || ic === "auto") ic = guessMenuIcon(m);
+    var def = MENU_ICONS[ic];
+    return def ? def.p : "";
+  }
+  // full <svg> string · mode "preview" (inline style) or "static" (CSS class)
+  function menuIconSvg(m, mode) {
+    var pth = menuIconPath(m);
+    if (!pth) return "";
+    if (mode === "preview") {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:none;opacity:.88">' + pth + '</svg>';
+    }
+    return "<svg class='nav-ic' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" + pth + "</svg>";
+  }
   var PAGE_CHECKLIST = [
     { slug: "about",          label: "About" },
     { slug: "contact",        label: "Contact" },
@@ -366,19 +449,21 @@
       case "header":
         var mItems = menuItemsOf(p);
         var isMob = VIEW === "mobile";
+        var showIcons = p.showMenuIcons !== false;
         var menu = mItems.map(function (m) {
           var t = m.type || "custom";
+          var ic = showIcons ? menuIconSvg(m, "preview") : "";
           var hasChildren = t === "dropdown" && Array.isArray(m.children) && m.children.length;
           if (hasChildren) {
             var subs = m.children.map(function (c) {
               return '<a style="display:block;padding:8px 14px;font-size:13px;color:#4a5063;white-space:nowrap">' + esc(c.label) + '</a>';
             }).join("");
             return '<div style="position:relative;display:inline-block">' +
-              '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:4px">' + esc(m.label) + ' <span style="font-size:11px;color:#9aa">›</span></a>' +
+              '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px">' + ic + esc(m.label) + ' <span style="font-size:11px;color:#9aa">›</span></a>' +
               '<div style="position:absolute;top:100%;left:0;background:#fff;border:1px solid #eef;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,.1);min-width:150px;padding:4px 0;margin-top:4px;z-index:2">' + subs + '</div>' +
               '</div>';
           }
-          return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none">' + esc(m.label) + "</a>";
+          return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:6px">' + ic + esc(m.label) + "</a>";
         }).join("");
         var hdrLogoUrl = S.seo && S.seo.logoUrl;
         // logo image (auto-sized) + blog name on one row, image leading
@@ -1342,10 +1427,15 @@
           (t === "external" ? "https://www.example.com" : "/p/about.html") + '">' +
           (t === "custom" ? '<div class="hint" style="margin:0">' + tpl("รองรับ", "Supports") + ' <code>/p/…</code>, <code>/search/label/…</code>, <code>#id</code></div>' : "");
       }
+      var iconSel = '<select class="inp menu-icon-sel" data-micon="' + i + '" title="' + tpl("ไอคอนหน้าเมนู", "Menu icon") + '" style="flex:0 0 auto;width:50px;padding:6px 2px;text-align:center;font-size:15px">' +
+        '<option value="auto"' + (!m.icon || m.icon === "auto" ? " selected" : "") + '>✦</option>' +
+        MENU_ICON_KEYS.map(function (k) { return '<option value="' + k + '"' + (m.icon === k ? " selected" : "") + '>' + MENU_ICONS[k].emoji + '</option>'; }).join("") +
+        '</select>';
       return '<div class="menu-row" data-mi="' + i + '">' +
         '<div class="menu-row-top">' +
         '<span class="menu-grip">⋮⋮</span>' + typeSelHtml +
         '<input class="inp menu-label" data-ml="' + i + '" value="' + esc(m.label) + '" placeholder="' + tpl("ชื่อเมนู", "Menu label") + '">' +
+        iconSel +
         '<button class="menu-del" data-mdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         "</div>" +
         '<div class="menu-secondary">' + sec + "</div>" +
@@ -1363,6 +1453,7 @@
     }).join("");
     return '<div class="field"><label>' + tr("เมนูนำทาง") + '</label>' +
       '<div class="menu-list">' + rows + "</div>" +
+      '<div class="hint" style="margin-top:6px">' + tpl('ช่องไอคอน ✦ = เลือกอัตโนมัติจากชื่อเมนู · หรือเลือกไอคอนเองได้ · ปิดไอคอนทั้งหมดได้ที่สวิตช์ด้านล่าง', 'Icon box ✦ = auto-pick from the label · or choose your own · turn all icons off with the switch below') + '</div>' +
       '<div class="menu-type-picker" id="mt-picker" style="display:none">' +
         '<div class="mtp-grid">' + pickerBtns + "</div>" +
         '<button class="menu-cancel-pick" id="mt-cancel">' + tpl("ยกเลิก", "Cancel") + '</button>' +
@@ -1413,7 +1504,7 @@
       case "header": return imgUrlSeo("logoUrl", "URL รูปโลโก้ (Header & Footer & Schema)", S.seo && S.seo.logoUrl || "")
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB · ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB · synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
-        + menuEditor(p) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
+        + menuEditor(p) + tog("showMenuIcons", "แสดงไอคอนหน้าเมนู", p.showMenuIcons !== false) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch);
       case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
       case "footer": return col("bgColor", "สีพื้นหลัง Footer", p.bgColor || "#0f172a", tpl("ตัวอักษรจะปรับเป็นสีขาว/ดำให้อ่านง่ายอัตโนมัติ", "Text auto-switches to white/black for readability")) + area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link")) + num("cardRadius", "มุมโค้งการ์ด (px)", p.cardRadius != null ? p.cardRadius : 14, 0, 28) + seg("cardStyle", "สไตล์การ์ด", p.cardStyle || "shadow", [["shadow", "เงา"], ["border", "เส้นขอบ"], ["flat", "แบน"]]);
@@ -1488,6 +1579,13 @@
         var arr = menuItemsOf(b.props); var i = +sel.dataset.mt;
         arr[i].type = sel.value; arr[i].url = menuUrlFor(arr[i]);
         b.props.menuItems = arr; commit(); renderProps();
+      });
+    });
+    // icon change → live preview
+    $$("[data-micon]", c).forEach(function (sel) {
+      sel.addEventListener("change", function () {
+        var arr = menuItemsOf(b.props); arr[+sel.dataset.micon].icon = sel.value;
+        b.props.menuItems = arr; renderCanvas(); save();
       });
     });
     // page slug
@@ -2563,13 +2661,16 @@ tplStyleVars(),
 ".site-logo img{height:34px;width:auto;max-width:130px;object-fit:contain;display:block}",
 "@media(max-width:768px){.site-logo{font-size:18px;gap:8px}.site-logo img{height:26px;max-width:104px}}",
 ".site-nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0}",
-".site-nav li a{font-weight:500;padding:8px 12px;border-radius:7px;display:block;transition:background .15s,color .15s}",
+".site-nav li a{font-weight:500;padding:8px 12px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;transition:background .15s,color .15s}",
 ".site-nav li a:hover{background:var(--hover-bg);color:var(--primary)}",
+".site-nav li a[aria-current='page']{color:var(--primary);background:var(--hover-bg)}",
+".site-nav .nav-ic{width:17px;height:17px;flex:none;opacity:.82;transition:opacity .15s}",
+".site-nav li a:hover .nav-ic,.site-nav li a[aria-current='page'] .nav-ic{opacity:1}",
 ".nav-toggle-cb,.nav-burger,.nav-scrim,.nav-close{display:none}",
 ".nav-burger{flex-direction:column;justify-content:center;gap:5px;cursor:pointer;width:40px;height:40px;border-radius:8px;background:transparent;border:1px solid var(--border-med);margin-left:auto;flex:none}",
 ".nav-burger span{display:block;width:20px;height:2px;background:var(--text-main);border-radius:2px;margin:0 auto}",
 ".site-nav li{position:relative}",
-".site-nav .has-children>a{display:inline-flex;align-items:center;gap:4px}",
+".site-nav .has-children>a{display:inline-flex;align-items:center;gap:7px}",
 ".site-nav .dropdown{display:none;position:absolute;top:calc(100% + 6px);left:0;list-style:none;background:var(--bg-header);border:1px solid var(--border);border-radius:10px;box-shadow:var(--drop-shadow);min-width:170px;padding:4px 0;z-index:80;opacity:0;transform:translateY(-6px);transition:opacity .18s,transform .18s}",
 ".site-nav li:hover>.dropdown{display:block;opacity:1;transform:translateY(0)}",
 ".site-nav .dropdown li a{display:block;padding:10px 16px;font-size:14px;color:var(--text-main);white-space:nowrap;font-weight:400;border-radius:0}",
@@ -2998,19 +3099,21 @@ tplStyleVars(),
       case "header":
         var hItems = menuItemsOf(p);
         var side = p.mobileSide === "left" ? "left" : "right";
+        var hShowIcons = p.showMenuIcons !== false;
         var hMenu = hItems.map(function (m) {
           var href = esc(menuUrlFor(m));
           var t = m.type || "custom";
+          var ic = hShowIcons ? menuIconSvg(m, "static") : "";
           if (t === "dropdown" && Array.isArray(m.children) && m.children.length) {
             var subs = m.children.map(function (c) {
               return "<li role='none'><a role='menuitem' href='" + esc(pageNameToUrl(c.url) || "#") + "'>" + esc(c.label) + "</a></li>";
             }).join("");
             return "<li class='has-children'>" +
-              "<a href='" + href + "' aria-haspopup='true' aria-expanded='false'>" + esc(m.label) + "</a>" +
+              "<a href='" + href + "' aria-haspopup='true' aria-expanded='false'>" + ic + "<span>" + esc(m.label) + "</span></a>" +
               "<ul class='dropdown' role='menu'>" + subs + "</ul></li>";
           }
           var cur = (t === "home") ? " aria-current='page'" : "";
-          return "<li><a href='" + href + "'" + cur + ">" + esc(m.label) + "</a></li>";
+          return "<li><a href='" + href + "'" + cur + ">" + ic + "<span>" + esc(m.label) + "</span></a></li>";
         }).join("");
         var stickyStyle = p.sticky ? " style='position:sticky;top:0;z-index:50'" : "";
         return "<header role='banner' class='site-header'" + stickyStyle + ">" +
@@ -4436,7 +4539,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
