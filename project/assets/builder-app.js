@@ -1109,8 +1109,10 @@
         var fFg = "rgb(" + fBase + ")", fMuted = "rgba(" + fBase + ",.62)",
             fDim = "rgba(" + fBase + ",.4)", fLine = "rgba(" + fBase + ",.12)", fChip = "rgba(" + fBase + ",.1)";
         var fLinksCols = VIEW === "mobile" ? 1 : (fLinks.length > 4 ? 2 : 1);
+        var showFIcons = p.showFooterIcons !== false;
         var fLinksHtml = fLinks.map(function (m) {
-          return '<a style="display:block;color:' + fMuted + ';font-size:13.5px;text-decoration:none;padding:3px 0;transition:color .2s">' + esc(m.label) + '</a>';
+          var fic = showFIcons ? menuIconSvg(m, "preview") : "";
+          return '<a style="display:inline-flex;align-items:center;gap:7px;color:' + fMuted + ';font-size:13.5px;text-decoration:none;padding:3px 0;transition:color .2s">' + fic + esc(m.label) + '</a>';
         }).join("");
         var fSocialHtml = fSocials.map(function (s) {
           var ic = SOCIAL_ICONS[s.platform];
@@ -1471,9 +1473,14 @@
     var sItems = socialLinksOf(p);
     var PLATFORMS = Object.keys(SOCIAL_ICONS);
     var linkRows = fItems.map(function (m, i) {
+      var iconSel = '<select class="inp menu-icon-sel" data-ficon="' + i + '" title="' + tpl("ไอคอน", "Icon") + '" style="flex:0 0 auto;width:50px;padding:6px 2px;text-align:center;font-size:15px">' +
+        '<option value="auto"' + (!m.icon || m.icon === "auto" ? " selected" : "") + '>✦</option>' +
+        MENU_ICON_KEYS.map(function (k) { return '<option value="' + k + '"' + (m.icon === k ? " selected" : "") + '>' + MENU_ICONS[k].emoji + '</option>'; }).join("") +
+        '</select>';
       return '<div class="menu-row"><div class="menu-row-top">' +
         '<span class="menu-grip">⋮⋮</span>' +
         '<input class="inp menu-label" data-fll="' + i + '" value="' + esc(m.label) + '" placeholder="' + tpl("ชื่อลิงก์", "Link label") + '">' +
+        iconSel +
         '<button class="menu-del" data-fldel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         '</div>' +
         '<input class="inp menu-url" data-flu="' + i + '" value="' + esc(m.url) + '" placeholder="about">' +
@@ -1492,7 +1499,8 @@
     return '<div class="field"><label>' + tr("ลิงก์ใน Footer") + '</label>' +
       '<div class="menu-list">' + linkRows + '</div>' +
       '<button class="menu-add" data-fladd="1">' + tr("+ เพิ่มลิงก์") + '</button>' +
-      '<div class="hint">' + tpl('พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> อัตโนมัติ', 'Type a page name, e.g. <code>contact</code> → auto-converts to <code>/p/contact.html</code>') + '</div></div>' +
+      '<div class="hint">' + tpl('พิมพ์ชื่อหน้าเพจ เช่น <code>contact</code> → ระบบเปลี่ยนเป็น <code>/p/contact.html</code> อัตโนมัติ · ช่องไอคอน ✦ = เลือกอัตโนมัติจากชื่อลิงก์', 'Type a page name, e.g. <code>contact</code> → auto-converts to <code>/p/contact.html</code> · Icon box ✦ = auto-pick from the label') + '</div>' +
+      tog("showFooterIcons", "แสดงไอคอนหน้าลิงก์", p.showFooterIcons !== false) + '</div>' +
       '<div class="field"><label>' + tr("โซเชียลมีเดีย") + '</label>' +
       '<div class="menu-list">' + socialRows + '</div>' +
       '<button class="menu-add" data-sadd="1">' + tr("+ เพิ่ม Social") + '</button></div>';
@@ -1685,6 +1693,7 @@
     }
     // footer link bindings
     $$("[data-fll]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = footerLinksOf(b.props); arr[+inp.dataset.fll].label = inp.value; b.props.footerLinks = arr; renderCanvas(); save(); }); });
+    $$("[data-ficon]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = footerLinksOf(b.props); arr[+sel.dataset.ficon].icon = sel.value; b.props.footerLinks = arr; renderCanvas(); save(); }); });
     $$("[data-flu]", c).forEach(function (inp) {
       inp.addEventListener("input", function () { var arr = footerLinksOf(b.props); arr[+inp.dataset.flu].url = inp.value; b.props.footerLinks = arr; renderCanvas(); save(); });
       inp.addEventListener("blur", function () { var v = pageNameToUrl(inp.value); if (v !== inp.value) { inp.value = v; var arr = footerLinksOf(b.props); arr[+inp.dataset.flu].url = v; b.props.footerLinks = arr; save(); } });
@@ -2737,8 +2746,10 @@ tplStyleVars(),
 ".footer-social-icon:hover{background:var(--ic-color,rgba(255,255,255,.25));transform:translateY(-2px)}",
 ".footer-social-icon svg{display:block}",
 ".footer-links{display:flex;flex-direction:column;gap:10px;padding-top:6px}",
-".footer-link{color:var(--footer-muted);font-size:14px;text-decoration:none;transition:color .2s;display:block}",
+".footer-link{color:var(--footer-muted);font-size:14px;text-decoration:none;transition:color .2s;display:inline-flex;align-items:center;gap:8px}",
 ".footer-link:hover{color:var(--footer-fg)}",
+".footer-link .nav-ic{width:15px;height:15px;flex:none;opacity:.66;transition:opacity .2s}",
+".footer-link:hover .nav-ic{opacity:1}",
 ".footer-bottom{text-align:center;color:var(--footer-dim);font-size:12.5px;margin-top:40px;padding-top:20px;border-top:1px solid var(--footer-line);max-width:980px;margin-left:auto;margin-right:auto}",
 "@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;scroll-behavior:auto !important}}",
 "#bxbToc{margin:0 0 24px;border-left:3px solid var(--primary);border-radius:0 var(--radius,8px) var(--radius,8px) 0;background:var(--bg-surface);overflow:hidden}",
@@ -3735,8 +3746,10 @@ tplStyleVars(),
       case "footer":
         var sfLinks = footerLinksOf(p);
         var sfSocials = socialLinksOf(p);
+        var sfShowIcons = p.showFooterIcons !== false;
         var sfLinksHtml = sfLinks.map(function (m) {
-          return "<a href='" + esc(absUrl(m.url)) + "' class='footer-link'>" + esc(m.label) + "</a>";
+          var fic = sfShowIcons ? menuIconSvg(m, "static") : "";
+          return "<a href='" + esc(absUrl(m.url)) + "' class='footer-link'>" + fic + "<span>" + esc(m.label) + "</span></a>";
         }).join("\n");
         var sfSocialHtml = sfSocials.map(function (s) {
           var ic = SOCIAL_ICONS[s.platform];
@@ -4539,7 +4552,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
