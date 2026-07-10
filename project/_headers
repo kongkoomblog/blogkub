@@ -4,6 +4,12 @@
 /app.html
   Cache-Control: no-cache
 
+/builder
+  Cache-Control: no-cache
+
+/builder.html
+  Cache-Control: no-cache
+
 /
   Cache-Control: no-cache
 

@@ -25,7 +25,7 @@ id = "REPLACE_WITH_KV_ID"           # npx wrangler kv namespace create KV
 binding = "AI"
 
 [vars]
-APP_URL = "https://www.blogkub.com/app.html"   # ปลายทาง redirect หลังล็อกอินสำเร็จ
+APP_URL = "https://www.blogkub.com/builder"   # ปลายทาง redirect หลังล็อกอินสำเร็จ
 ALLOWED_ORIGIN = "https://www.blogkub.com"     # CORS (ตอน dev ใส่ http://localhost:8788 ได้)
 DEV_MODE = "1"                             # "1" = ตอบ magic link กลับมาตรงๆ ไม่ส่งอีเมลจริง (เอาออกตอน production)
 MAIL_FROM = "no-reply@blogkub.com"         # ผู้ส่งอีเมล magic link (ต้องตั้ง SPF/DKIM ของโดเมนก่อนใช้จริง)

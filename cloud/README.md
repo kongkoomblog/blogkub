@@ -69,7 +69,7 @@ curl -X POST https://blogkub-cloud.<acc>.workers.dev/api/auth/request-link \
 
 ## การเชื่อมเข้าแอป (เฟสถัดไป — ยังไม่แตะ builder ปัจจุบัน)
 
-1. ใส่ `<script src="cloud/client/cloud-sync.js">` ใน `app.html`
+1. ใส่ `<script src="cloud/client/cloud-sync.js">` ใน `builder.html`
 2. เรียก `BKCloud.init({...})` ตอนบูต + เติม `BKCloud.markDirty()` ต่อท้ายฟังก์ชัน `save()` เดิม
 3. UI: ปุ่มล็อกอิน (กรอกอีเมล → `requestLink`), badge สถานะซิงก์ข้าง save-dot, เมนู History ต่อกับ `listSnapshots()/restore()`
 4. ผูก `snapshot("export")` เข้ากับปุ่ม Export XML

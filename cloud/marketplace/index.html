@@ -154,7 +154,7 @@ function openPreview(id){ window.open("preview.html?id="+encodeURIComponent(id)+
 function doClone(id){
   if(!API) return alert("โหมดเดโม่ — เมื่อต่อ API จริง: POST /api/community/"+id+"/clone\n→ Workers copy JSON (ล้าง AdSense/Analytics ให้) → เปิด Builder พร้อมแก้ไขทันที");
   api("/api/community/"+id+"/clone",{method:"POST",body:{}})
-    .then(j=> j.id ? location.href="../../app.html?project="+j.id : alert("กรุณาเข้าสู่ระบบก่อนโคลน"))
+    .then(j=> j.id ? location.href="../../builder?project="+j.id : alert("กรุณาเข้าสู่ระบบก่อนโคลน"))
     .catch(()=>alert("กรุณาเข้าสู่ระบบก่อนโคลน"));
 }
 function openComments(id){
