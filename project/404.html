@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+<meta name="robots" content="noindex, nofollow">
+<title>404 · ไม่พบหน้านี้ · BlogKub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-display: 'Space Grotesk', 'IBM Plex Sans Thai', sans-serif;
+  --font-body: 'IBM Plex Sans Thai', 'Space Grotesk', system-ui, sans-serif;
+  --brand: #6366f1; --brand-2: #8b5cf6; --accent: #22d3ee; --pink: #ec4899;
+  --grad: linear-gradient(120deg, #6366f1, #8b5cf6 50%, #ec4899);
+  --ease: cubic-bezier(.22,1,.36,1);
+}
+html[data-theme="dark"] {
+  --bg: #07070d; --bg-2: #0d0d16; --surface: rgba(255,255,255,.03); --surface-2: rgba(255,255,255,.05);
+  --border: rgba(255,255,255,.09); --border-2: rgba(255,255,255,.15);
+  --ink: #f4f5fb; --ink-2: #a6a8bd; --ink-3: #6e7088; --glow: rgba(99,102,241,.5);
+}
+html[data-theme="light"] {
+  --bg: #f7f8fc; --bg-2: #ffffff; --surface: #ffffff; --surface-2: #f2f3fa;
+  --border: #e6e8f2; --border-2: #d6d9e8; --ink: #0e0f1a; --ink-2: #4a4d63; --ink-3: #8b8fa6; --glow: rgba(99,102,241,.25);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font-body); background: var(--bg); color: var(--ink);
+  line-height: 1.6; -webkit-font-smoothing: antialiased; overflow: hidden;
+  min-height: 100dvh; display: grid; place-items: center; position: relative;
+}
+a { color: inherit; text-decoration: none; }
+h1,h2 { font-family: var(--font-display); font-weight: 700; letter-spacing: -.02em; line-height: 1.12; }
+
+/* ---------- ambient background ---------- */
+.aura { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.aura b { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .5; }
+.aura b:nth-child(1){ width: 560px; height: 560px; background: #4f46e5; top: -180px; left: -120px; animation: drift1 18s var(--ease) infinite alternate; }
+.aura b:nth-child(2){ width: 480px; height: 480px; background: #8b5cf6; bottom: -160px; right: -140px; opacity: .4; animation: drift2 22s var(--ease) infinite alternate; }
+.aura b:nth-child(3){ width: 420px; height: 420px; background: #ec4899; top: 55%; left: 42%; opacity: .26; animation: drift3 26s var(--ease) infinite alternate; }
+html[data-theme="light"] .aura b { opacity: .22; }
+@keyframes drift1 { to { transform: translate(80px, 60px) scale(1.12); } }
+@keyframes drift2 { to { transform: translate(-70px, -50px) scale(1.15); } }
+@keyframes drift3 { to { transform: translate(-40px, 50px) scale(.9); } }
+
+/* faint grid */
+.grid { position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 46px 46px; opacity: .5;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 45%, #000 0%, transparent 78%);
+}
+
+/* twinkling stars */
+.stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+.stars i { position: absolute; width: 3px; height: 3px; border-radius: 50%;
+  background: #fff; opacity: .0; box-shadow: 0 0 8px 1px rgba(255,255,255,.7);
+  animation: twinkle 4s ease-in-out infinite; }
+html[data-theme="light"] .stars i { background: var(--brand); box-shadow: 0 0 8px 1px var(--glow); }
+@keyframes twinkle { 0%,100% { opacity: 0; transform: scale(.4); } 50% { opacity: .9; transform: scale(1); } }
+
+/* ---------- top bar ---------- */
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px clamp(20px, 5vw, 48px); }
+.brand { display: flex; align-items: center; gap: 11px; font-family: var(--font-display); font-weight: 700; font-size: 17px; letter-spacing: -.02em; }
+.brand .logo { width: 34px; height: 34px; border-radius: 9px; background: var(--grad); display: grid; place-items: center; box-shadow: 0 6px 18px -4px var(--glow); overflow: hidden; flex: none; }
+.brand .logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.lang { display: flex; border: 1px solid var(--border); border-radius: 9px; overflow: hidden; font-family: var(--font-display); background: var(--surface); }
+.lang button { padding: 0 12px; height: 36px; background: transparent; color: var(--ink-3); font-size: 13px; font-weight: 600; cursor: pointer; border: 0; transition: .16s; }
+.lang button.on { background: var(--surface-2); color: var(--ink); }
+
+/* ---------- main ---------- */
+.stage { position: relative; z-index: 10; text-align: center; padding: 90px 24px 40px; max-width: 680px; }
+
+/* big 404 */
+.four04 { display: flex; align-items: center; justify-content: center; gap: clamp(6px, 2.4vw, 22px);
+  font-family: var(--font-display); font-weight: 700; line-height: 1;
+  font-size: clamp(96px, 26vw, 240px); letter-spacing: -.04em; }
+.four04 .digit {
+  background: linear-gradient(120deg, #818cf8, #a78bfa 45%, #f472b6);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  background-size: 200% 200%; animation: shimmer 4s ease-in-out infinite, floaty 5s ease-in-out infinite;
+  filter: drop-shadow(0 12px 40px rgba(139,92,246,.35));
+  position: relative;
+}
+.four04 .digit:nth-child(1){ animation-delay: 0s, 0s; }
+.four04 .digit:nth-child(3){ animation-delay: 0s, .5s; }
+@keyframes shimmer { 0%,100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+@keyframes floaty { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+
+/* glitch layers on the digits */
+.four04 .digit::before, .four04 .digit::after {
+  content: attr(data-t); position: absolute; inset: 0; -webkit-background-clip: text; background-clip: text;
+  color: transparent; opacity: 0;
+}
+.four04 .digit::before { background: linear-gradient(120deg,#22d3ee,#22d3ee); animation: glitch 6s steps(1) infinite; }
+.four04 .digit::after  { background: linear-gradient(120deg,#ec4899,#ec4899); animation: glitch 6s steps(1) infinite .06s; }
+@keyframes glitch {
+  0%, 92%, 100% { opacity: 0; transform: translate(0,0); clip-path: inset(0 0 0 0); }
+  93% { opacity: .55; transform: translate(-3px,-2px); clip-path: inset(10% 0 55% 0); }
+  95% { opacity: .5;  transform: translate(3px,2px);  clip-path: inset(60% 0 12% 0); }
+  97% { opacity: .5;  transform: translate(-2px,1px); clip-path: inset(35% 0 40% 0); }
+}
+
+/* the logo orb replacing the middle 0 */
+.orb { position: relative; width: clamp(96px, 26vw, 240px); height: clamp(96px, 26vw, 240px);
+  border-radius: 30%; flex: none; display: grid; place-items: center;
+  animation: floaty 5s ease-in-out infinite .25s; }
+.orb .halo { position: absolute; inset: -14%; border-radius: 50%;
+  background: conic-gradient(from 0deg, #6366f1, #8b5cf6, #ec4899, #22d3ee, #6366f1);
+  filter: blur(22px); opacity: .55; animation: spin 8s linear infinite; }
+.orb .ring { position: absolute; inset: 4%; border-radius: 32%;
+  border: 2px solid transparent; background: linear-gradient(var(--bg-2),var(--bg-2)) padding-box,
+  conic-gradient(from 0deg, #6366f1, #8b5cf6, #ec4899, #22d3ee, #6366f1) border-box;
+  animation: spin 12s linear infinite reverse; }
+.orb .core { position: relative; width: 62%; height: 62%; border-radius: 26%;
+  overflow: hidden; box-shadow: 0 18px 50px -12px var(--glow), inset 0 0 0 1px rgba(255,255,255,.1); }
+.orb .core img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.eyebrow { display: inline-flex; align-items: center; gap: 9px; margin-top: 30px;
+  padding: 7px 15px; border: 1px solid var(--border); background: var(--surface);
+  border-radius: 999px; font-size: 13px; color: var(--ink-2); font-weight: 500; }
+.eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--pink); box-shadow: 0 0 0 4px rgba(236,72,153,.18); }
+
+h1 { font-size: clamp(24px, 4.5vw, 38px); margin-top: 18px; }
+.sub { color: var(--ink-2); font-size: clamp(15px, 2vw, 17px); max-width: 460px; margin: 14px auto 0; text-wrap: balance; }
+
+.cta { display: flex; gap: 12px; justify-content: center; margin-top: 34px; flex-wrap: wrap; }
+.btn { font-family: var(--font-display); font-weight: 600; font-size: 15px; border-radius: 11px;
+  padding: 13px 24px; cursor: pointer; border: 1px solid transparent; transition: .2s var(--ease);
+  display: inline-flex; align-items: center; gap: 9px; white-space: nowrap; }
+.btn svg { width: 17px; height: 17px; }
+.btn-primary { background: var(--grad); color: #fff; box-shadow: 0 10px 28px -8px var(--glow); }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 16px 36px -10px var(--glow); }
+.btn-ghost { background: var(--surface); border-color: var(--border); color: var(--ink); }
+.btn-ghost:hover { border-color: var(--border-2); background: var(--surface-2); transform: translateY(-2px); }
+
+.links { margin-top: 30px; display: flex; gap: 8px 22px; justify-content: center; flex-wrap: wrap; font-size: 14px; }
+.links a { color: var(--ink-3); display: inline-flex; align-items: center; gap: 7px; transition: .16s; }
+.links a:hover { color: var(--brand); }
+.links svg { width: 15px; height: 15px; }
+
+/* entrance */
+.reveal { opacity: 0; transform: translateY(22px); animation: rise .8s var(--ease) forwards; }
+.reveal.d1 { animation-delay: .05s; } .reveal.d2 { animation-delay: .18s; }
+.reveal.d3 { animation-delay: .30s; } .reveal.d4 { animation-delay: .42s; } .reveal.d5 { animation-delay: .54s; }
+@keyframes rise { to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 480px) {
+  .four04 { gap: 4px; }
+  .cta .btn { flex: 1 1 100%; justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001s !important; animation-iteration-count: 1 !important; }
+}
+</style>
+</head>
+<body>
+<div class="aura"><b></b><b></b><b></b></div>
+<div class="grid"></div>
+<div class="stars" id="stars"></div>
+
+<div class="topbar">
+  <a class="brand" href="/"><span class="logo"><img src="/android-chrome-192x192.png" alt="BlogKub"></span>BlogKub</a>
+  <div class="lang">
+    <button id="langTh" class="on" onclick="setLang('th')">TH</button>
+    <button id="langEn" onclick="setLang('en')">EN</button>
+  </div>
+</div>
+
+<main class="stage">
+  <div class="four04 reveal d1">
+    <span class="digit" data-t="4">4</span>
+    <span class="orb" aria-label="0">
+      <span class="halo"></span>
+      <span class="ring"></span>
+      <span class="core"><img src="/android-chrome-512x512.png" alt=""></span>
+    </span>
+    <span class="digit" data-t="4">4</span>
+  </div>
+
+  <span class="eyebrow reveal d2"><span class="dot"></span><span data-i="tag">หลงทางนิดหน่อย</span></span>
+  <h1 class="reveal d3" data-i="title">ไม่พบหน้าที่คุณกำลังหา</h1>
+  <p class="sub reveal d3" data-i="sub">หน้านี้อาจถูกย้าย เปลี่ยนชื่อ หรือไม่เคยมีอยู่จริง · ลองกลับไปเริ่มต้นใหม่ได้เลย</p>
+
+  <div class="cta reveal d4">
+    <a class="btn btn-primary" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>
+      <span data-i="home">กลับหน้าแรก</span>
+    </a>
+    <a class="btn btn-ghost" href="/builder">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v6H4zM4 14h10v6H4zM18 14h2v6h-2z"/></svg>
+      <span data-i="build">เปิด Builder</span>
+    </a>
+  </div>
+
+  <nav class="links reveal d5">
+    <a href="/learn/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h12v18H6a2 2 0 01-2-2z"/><path d="M18 3v18"/></svg><span data-i="learn">ศูนย์เรียนรู้</span></a>
+    <a href="/en/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 010 18M12 3a15 15 0 000 18"/></svg><span data-i="english">English site</span></a>
+  </nav>
+</main>
+
+<script>
+var STR = {
+  th: { title:'ไม่พบหน้าที่คุณกำลังหา', tag:'หลงทางนิดหน่อย',
+    sub:'หน้านี้อาจถูกย้าย เปลี่ยนชื่อ หรือไม่เคยมีอยู่จริง · ลองกลับไปเริ่มต้นใหม่ได้เลย',
+    home:'กลับหน้าแรก', build:'เปิด Builder', learn:'ศูนย์เรียนรู้', english:'English site',
+    doc:'404 · ไม่พบหน้านี้ · BlogKub' },
+  en: { title:'This page took a wrong turn', tag:'A little lost',
+    sub:'The page may have moved, been renamed, or never existed · let’s get you back on track',
+    home:'Back to home', build:'Open Builder', learn:'Learning Center', english:'ภาษาไทย',
+    doc:'404 · Page not found · BlogKub' }
+};
+function setLang(l){
+  var s = STR[l]; if(!s) return;
+  document.querySelectorAll('[data-i]').forEach(function(el){ var k = el.getAttribute('data-i'); if(s[k]) el.textContent = s[k]; });
+  document.documentElement.lang = l;
+  document.title = s.doc;
+  document.getElementById('langTh').classList.toggle('on', l==='th');
+  document.getElementById('langEn').classList.toggle('on', l==='en');
+  try { localStorage.setItem('bxb_lang', l); } catch(e){}
+}
+// respect saved language / english section
+(function(){
+  var l = 'th';
+  try { l = localStorage.getItem('bxb_lang') || (location.pathname.indexOf('/en')===0 ? 'en' : 'th'); } catch(e){}
+  if (l==='en') setLang('en');
+})();
+// theme (default dark, follow saved preference if any)
+(function(){
+  try { var t = localStorage.getItem('bxb_theme'); if (t) document.documentElement.setAttribute('data-theme', t); } catch(e){}
+})();
+// scatter twinkling stars
+(function(){
+  var box = document.getElementById('stars'), n = 34, html = '';
+  for (var i=0;i<n;i++){
+    var x = (Math.random()*100).toFixed(2), y = (Math.random()*100).toFixed(2),
+        d = (Math.random()*4).toFixed(2), s = (.6+Math.random()*1.4).toFixed(2);
+    html += '<i style="left:'+x+'%;top:'+y+'%;animation-delay:'+d+'s;transform:scale('+s+')"></i>';
+  }
+  box.innerHTML = html;
+})();
+</script>
+</body>
+</html>

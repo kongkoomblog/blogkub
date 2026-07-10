@@ -8,6 +8,7 @@
     "enabled": true
   },
   "assets": {
-    "directory": "project"
+    "directory": "project",
+    "not_found_handling": "404-page"
   }
 }
