@@ -80,7 +80,9 @@
     toc: '<path d="M3 6h.01M3 12h.01M3 18h.01"/><path d="M7 6h14"/><path d="M7 12h10"/><path d="M7 18h7"/>',
     related: '<circle cx="9" cy="12" r="2"/><circle cx="17" cy="6" r="2"/><circle cx="17" cy="18" r="2"/><line x1="11" y1="12" x2="15" y2="12"/><line x1="15" y1="7" x2="11" y2="10.5"/><line x1="15" y1="17" x2="11" y2="13.5"/>',
     progress: '<rect x="2" y="10" width="20" height="4" rx="2"/><rect x="2" y="10" width="11" height="4" rx="2" fill="currentColor" opacity=".4"/>',
-    callout: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16" stroke-width="2.4"/><path d="M11 9h6M11 13h4"/>'
+    callout: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16" stroke-width="2.4"/><path d="M11 9h6M11 13h4"/>',
+    readtime: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
+    bookmark: '<path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
 
@@ -114,6 +116,103 @@
     return css;
   }
 
+  /* ---------- Reading time (DOM post-processing · works on any card template) ---------- */
+  function readingTimeStatic(p) {
+    var suf = tpl(" นาที", " min read");
+    var doCards = p.cards !== false;
+    var css = "<style>"
+      + ".bxb-rt{display:inline-flex;align-items:center;gap:4px;white-space:nowrap}"
+      + ".bxb-rt svg{width:1em;height:1em;flex:none;opacity:.75}"
+      + ".bxb-rt-card{display:inline-flex;align-items:center;gap:4px;font-size:12px;color:var(--text-muted,#828aa0);white-space:nowrap;margin-left:8px}"
+      + ".bxb-rt-card svg{width:13px;height:13px;flex:none;opacity:.75}"
+      + "</style>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var SUF='" + suf + "';"
+      + "var IC='<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 2\"/></svg>';"
+      + "function wc(t){t=(t||'').replace(/\\s+/g,' ').trim();if(!t)return 0;var la=(t.match(/[A-Za-z0-9\\u00C0-\\u024F]+/g)||[]).length;var th=(t.match(/[\\u0E00-\\u0E7F]/g)||[]).length;return la+Math.round(th/4);}"
+      + "function mn(w){return Math.max(1,Math.round(w/200));}"
+      + "function norm(u){return (u||'').split('#')[0].split('?')[0];}"
+      + "var art=document.querySelector('.bxb-post-article .post-body');"
+      + "var meta=document.querySelector('.bxb-post-article .post-meta');"
+      + "if(art&&meta&&!meta.querySelector('.bxb-rt')){var s=document.createElement('span');s.className='bxb-rt';s.innerHTML=IC+mn(wc(art.textContent))+SUF;meta.appendChild(s);}";
+    if (doCards) {
+      sc += "var self=document.querySelector('.bxb-post-article');"
+        + "var cards=[].slice.call(document.querySelectorAll('article')).filter(function(a){return a!==self&&!/bxb-post-article|bxb-post/.test(a.className||'');});"
+        + "if(cards.length){var KEY='bxb-rt-feed',TTL=432e5,now=Date.now();"
+        + "function pick(c){var ls=[].slice.call(c.querySelectorAll('a[href]')),lk=null,bl=0;ls.forEach(function(a){var t=(a.textContent||'').trim();if(t.length>bl){bl=t.length;lk=a;}});return bl?lk:null;}"
+        + "function fill(map){cards.forEach(function(c){if(c.querySelector('.bxb-rt-card'))return;var lk=pick(c);if(!lk)return;var m=map[norm(lk.href)];if(m==null)return;var chip=document.createElement('span');chip.className='bxb-rt-card';chip.innerHTML=IC+m+SUF;var dt=c.querySelector('[class*=date],[class*=meta]');if(dt){dt.appendChild(chip);}else{(lk.closest('div')||c).appendChild(chip);}});}"
+        + "var cc=null;try{cc=JSON.parse(localStorage.getItem(KEY));}catch(e){}"
+        + "if(cc&&cc.m&&(now-cc.t)<TTL){fill(cc.m);}else{var cb='bxbrt'+now;window[cb]=function(d){var map={};try{(d.feed.entry||[]).forEach(function(e){var h='';(e.link||[]).forEach(function(l){if(l.rel==='alternate')h=l.href;});if(!h)return;var b=e.content?e.content.$t:(e.summary?e.summary.$t:'');map[norm(h)]=mn(wc(b.replace(/<[^>]+>/g,' ')));});}catch(e){}try{localStorage.setItem(KEY,JSON.stringify({t:now,m:map}));}catch(e){}fill(map);try{delete window[cb];}catch(e){}};"
+        + "var el=document.createElement('script');el.src='/feeds/posts/default?alt=json-in-script&max-results=150&orderby=published&callback='+cb;document.body.appendChild(el);}}";
+    }
+    sc += "}());/*]]>*/<\/script>";
+    return css + sc;
+  }
+
+  /* ---------- Bookmark / save-for-later (localStorage · works on any card template) ---------- */
+  function bookmarkStatic() {
+    var LSAVED = tpl("รายการที่บันทึก", "Saved posts");
+    var LEMPTY = tpl("ยังไม่มีรายการที่บันทึก", "No saved posts yet");
+    var LSAVE = tpl("บันทึก", "Save");
+    var css = "<style>"
+      + ".bxb-bm{position:absolute;top:10px;right:10px;z-index:3;width:34px;height:34px;border-radius:9px;border:0;background:rgba(255,255,255,.86);backdrop-filter:blur(4px);display:grid;place-items:center;cursor:pointer;color:#1a1b1e;box-shadow:0 2px 8px rgba(0,0,0,.14);transition:transform .15s,color .15s;padding:0}"
+      + ".bxb-bm:hover{transform:scale(1.08)}"
+      + ".bxb-bm svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7}"
+      + ".bxb-bm.on{color:var(--primary,#6366f1)}.bxb-bm.on svg{fill:currentColor}"
+      + ".bxb-bm-post{position:static;width:auto;height:auto;box-shadow:none;background:none;backdrop-filter:none;padding:0;gap:5px;display:inline-flex;align-items:center;color:var(--text-subtle,#64748b);font:inherit;font-size:13px}"
+      + ".bxb-bm-post svg{width:15px;height:15px}"
+      + ".bxb-bm-fab{position:fixed;left:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:120;width:48px;height:48px;border-radius:50%;border:1px solid var(--border,#e8eaf2);background:var(--bg-header,#fff);color:var(--text-main,#1a1b1e);display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.16)}"
+      + ".bxb-bm-fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7}"
+      + ".bxb-bm-fab .cnt{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--primary,#6366f1);color:#fff;font-size:11px;font-weight:700;display:none;place-items:center;padding:0 4px}"
+      + ".bxb-bm-panel{position:fixed;inset:0;z-index:130;display:none}.bxb-bm-panel.open{display:block}"
+      + ".bxb-bm-scrim{position:absolute;inset:0;background:rgba(0,0,0,.45)}"
+      + ".bxb-bm-sheet{position:absolute;left:0;right:0;bottom:0;max-height:80vh;background:var(--bg-header,#fff);color:var(--text-main,#1a1b1e);border-radius:16px 16px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));overflow:auto;box-shadow:0 -8px 30px rgba(0,0,0,.18)}"
+      + "@media(min-width:768px){.bxb-bm-sheet{left:20px;right:auto;bottom:80px;width:360px;max-height:70vh;border-radius:14px;border:1px solid var(--border)}}"
+      + ".bxb-bm-h{font-weight:700;margin:0 0 12px;font-size:15px}"
+      + ".bxb-bm-item{display:flex;gap:10px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border,#eef)}"
+      + ".bxb-bm-item img{width:54px;height:40px;object-fit:cover;border-radius:8px;flex:none;background:var(--bg-surface,#f1f2f9)}"
+      + ".bxb-bm-item a{flex:1;color:var(--text-main,#1a1b1e);text-decoration:none;font-size:14px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
+      + ".bxb-bm-del{border:0;background:none;color:var(--text-subtle,#64748b);cursor:pointer;font-size:17px;flex:none;line-height:1}"
+      + ".bxb-bm-empty{color:var(--text-subtle,#64748b);text-align:center;padding:26px 0}"
+      + "</style>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var KEY='bxb-bookmarks';"
+      + "var ICO='<svg viewBox=\"0 0 24 24\"><path d=\"M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z\"/></svg>';"
+      + "function get(){try{return JSON.parse(localStorage.getItem(KEY))||[];}catch(e){return [];}}"
+      + "function save(a){try{localStorage.setItem(KEY,JSON.stringify(a));}catch(e){}paint();}"
+      + "function has(u){return get().some(function(x){return x.url===u;});}"
+      + "function norm(u){return (u||'').split('#')[0].split('?')[0];}"
+      + "function esc(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\"/g,'&quot;');}"
+      + "function toggle(o){var a=get();var i=-1;a.forEach(function(x,j){if(x.url===o.url)i=j;});if(i>-1)a.splice(i,1);else a.unshift(o);save(a);}"
+      + "var fab=document.createElement('button');fab.className='bxb-bm-fab';fab.setAttribute('aria-label','" + LSAVED + "');fab.innerHTML=ICO+'<span class=\"cnt\"></span>';document.body.appendChild(fab);"
+      + "var panel=document.createElement('div');panel.className='bxb-bm-panel';panel.innerHTML='<div class=\"bxb-bm-scrim\"></div><div class=\"bxb-bm-sheet\"><div class=\"bxb-bm-h\">" + LSAVED + "</div><div class=\"bxb-bm-list\"></div></div>';document.body.appendChild(panel);"
+      + "fab.addEventListener('click',function(){paint();panel.classList.add('open');});"
+      + "panel.querySelector('.bxb-bm-scrim').addEventListener('click',function(){panel.classList.remove('open');});"
+      + "function paint(){var a=get();var c=fab.querySelector('.cnt');c.textContent=a.length;c.style.display=a.length?'grid':'none';"
+      + "var list=panel.querySelector('.bxb-bm-list');"
+      + "if(!a.length){list.innerHTML='<div class=\"bxb-bm-empty\">" + LEMPTY + "</div>';}"
+      + "else{list.innerHTML=a.map(function(x){return '<div class=\"bxb-bm-item\">'+(x.img?'<img src=\"'+esc(x.img)+'\" alt=\"\" loading=\"lazy\"/>':'')+'<a href=\"'+esc(x.url)+'\">'+esc(x.title)+'</a><button class=\"bxb-bm-del\" data-u=\"'+esc(x.url)+'\">&#10005;</button></div>';}).join('');"
+      + "[].slice.call(list.querySelectorAll('.bxb-bm-del')).forEach(function(b){b.addEventListener('click',function(){var u=b.getAttribute('data-u');save(get().filter(function(x){return x.url!==u;}));});});}"
+      + "[].slice.call(document.querySelectorAll('.bxb-bm[data-u]')).forEach(function(b){b.classList.toggle('on',has(b.getAttribute('data-u')));});}"
+      + "var self=document.querySelector('.bxb-post-article');"
+      + "[].slice.call(document.querySelectorAll('article')).forEach(function(c){"
+      + "if(c===self||/bxb-post-article|bxb-post/.test(c.className||''))return;"
+      + "var ls=[].slice.call(c.querySelectorAll('a[href]')),lk=null,bl=0;ls.forEach(function(a){var t=(a.textContent||'').trim();if(t.length>bl){bl=t.length;lk=a;}});if(!lk)return;"
+      + "var url=norm(lk.href),title=(lk.textContent||'').trim();if(!title)return;"
+      + "var img=c.querySelector('img');"
+      + "if(getComputedStyle(c).position==='static')c.style.position='relative';"
+      + "var btn=document.createElement('button');btn.className='bxb-bm';btn.setAttribute('data-u',url);btn.setAttribute('aria-label','" + LSAVE + "');btn.innerHTML=ICO;"
+      + "btn.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();toggle({url:url,title:title,img:img?img.src:''});});"
+      + "c.appendChild(btn);});"
+      + "var pmeta=document.querySelector('.bxb-post-article .post-meta');"
+      + "if(pmeta&&!pmeta.querySelector('.bxb-bm-post')){var pu=norm(location.href);var pt=((document.querySelector('.bxb-post-article .post-title')||{}).textContent||document.title||'').trim();var pi=document.querySelector('.bxb-post-article .post-body img');"
+      + "var pb=document.createElement('button');pb.className='bxb-bm bxb-bm-post';pb.setAttribute('data-u',pu);pb.innerHTML=ICO+'<span>" + LSAVE + "</span>';"
+      + "pb.addEventListener('click',function(){toggle({url:pu,title:pt,img:pi?pi.src:''});});pmeta.appendChild(pb);}"
+      + "paint();"
+      + "}());/*]]>*/<\/script>";
+    return css + sc;
+  }
+
   /* ---------- element library ---------- */
   var LIB = [
     ["โครงสร้างหลัก", [
@@ -142,6 +241,8 @@
     ]],
     ["บทความ & UX", [
       ["callout", "กล่อง Callout", "note / tip / warning …"],
+      ["readtime", "เวลาในการอ่าน", "⏱ X นาที บนการ์ด + บทความ"],
+      ["bookmark", "บุ๊กมาร์ก", "บันทึกบทความไว้อ่านทีหลัง"],
       ["aeo", "AEO Summary Box", "สรุปสำหรับ AI / Google"],
       ["toc", "สารบัญ (TOC)", "สร้างจาก h2/h3 อัตโนมัติ"],
       ["related", "บทความที่เกี่ยวข้อง", "JSON Feed API"],
@@ -189,6 +290,8 @@
       related: { heading: "Related Posts", count: 4, columns: 2, showImage: true },
       progress: { height: 3, color: "primary" },
       callout: {},
+      readtime: { cards: true },
+      bookmark: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
       header: { logoText: "MyBlog", menuItems: [
@@ -224,6 +327,8 @@
       related: { heading: "บทความที่เกี่ยวข้อง", count: 4, columns: 2, showImage: true },
       progress: { height: 3, color: "primary" },
       callout: {},
+      readtime: { cards: true },
+      bookmark: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
@@ -1204,6 +1309,30 @@
           coGallery +
           '<div style="margin-top:6px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("คัดลอกโค้ดจากแผงด้านขวา ไปวางในโพสต์ Blogger (โหมด HTML) · สไตล์จะถูกฝังในธีมอัตโนมัติ", "Copy a snippet from the right panel and paste it into your Blogger post (HTML view) · the styles ship with your theme automatically") + '</div>' +
           '</div>';
+      case "readtime":
+        var rtClock = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("เวลาในการอ่าน", "Reading time") + '</div>' +
+          '<div style="border:1px solid #eef;border-radius:12px;overflow:hidden;max-width:280px">' +
+            '<div style="aspect-ratio:16/9;background:linear-gradient(120deg,#e8eaf2,#f1f2f9)"></div>' +
+            '<div style="padding:14px">' +
+              '<h3 style="font-size:16px;margin:0 0 6px;color:#1e2333">' + tpl("หัวข้อบทความตัวอย่าง", "Sample article title") + '</h3>' +
+              '<div style="font-size:12px;color:#828aa0;display:flex;gap:10px"><span>24 ' + tpl("มิ.ย.","Jun") + ' 2569</span><span style="color:' + pr + '">' + rtClock + ' 5 ' + tpl("นาที","min read") + '</span></div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("แสดง ⏱ เวลาในการอ่าน บนการ์ดบทความทุกแบบ และในหน้าบทความ · คำนวณอัตโนมัติจากความยาวเนื้อหา", "Shows ⏱ reading time on every article card and on the post page · calculated automatically from content length") + '</div>' +
+          '</div>';
+      case "bookmark":
+        var bmIcon = '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/></svg>';
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("บุ๊กมาร์ก · บันทึกไว้อ่านทีหลัง", "Bookmarks · save for later") + '</div>' +
+          '<div style="position:relative;border:1px solid #eef;border-radius:12px;overflow:hidden;max-width:280px">' +
+            '<div style="aspect-ratio:16/9;background:linear-gradient(120deg,#e8eaf2,#f1f2f9)"></div>' +
+            '<button style="position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:9px;border:0;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.14);display:grid;place-items:center;color:' + pr + '"><span style="width:17px;height:17px;color:' + pr + '">' + bmIcon.replace("fill=\"none\"", "fill=\"" + pr + "\"") + '</span></button>' +
+            '<div style="padding:14px"><h3 style="font-size:16px;margin:0;color:#1e2333">' + tpl("หัวข้อบทความตัวอย่าง", "Sample article title") + '</h3></div>' +
+          '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("เพิ่มปุ่มบุ๊กมาร์กบนการ์ดทุกใบ + ปุ่มลอยมุมล่างซ้ายเปิดรายการที่บันทึก · เก็บในเครื่องผู้อ่าน (localStorage) ไม่ต้องใช้เซิร์ฟเวอร์", "Adds a bookmark button on every card + a floating button (bottom-left) that opens the saved list · stored in the reader's browser (localStorage), no server needed") + '</div>' +
+          '</div>';
       case "toc":
         return '<div style="padding:16px 32px"><nav style="border-left:3px solid ' + pr + ';border-radius:0 ' + r + ' ' + r + ' 0;background:#f7f8fc;overflow:hidden">'
           + '<div style="display:flex;align-items:center;gap:7px;padding:10px 14px;font-size:11px;font-weight:700;color:#4a5063;text-transform:uppercase;letter-spacing:.06em;cursor:pointer">'
@@ -1351,8 +1480,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1360,7 +1489,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -1703,6 +1832,10 @@
         return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('กล่องเน้นข้อความสำหรับใส่ในเนื้อหาโพสต์ · กด "คัดลอก" แล้วนำไปวางใน Blogger → เขียนโพสต์ → สลับเป็นมุมมอง HTML', 'Highlight boxes for your post content · click "Copy", then paste it in Blogger → Post editor → switch to HTML view') + '</div></div>'
           + '<div class="field"><label>' + tpl("คัดลอกโค้ดกล่อง", "Copy a box snippet") + '</label>' + coRows + '</div>'
           + '<div class="hint">' + tpl('ใส่ตัวหนาเป็นหัวข้อได้ เช่น <code>&lt;div class="bk-tip"&gt;&lt;b&gt;เคล็ดลับ:&lt;/b&gt; …&lt;/div&gt;</code>', 'Add a bold lead, e.g. <code>&lt;div class="bk-tip"&gt;&lt;b&gt;Tip:&lt;/b&gt; …&lt;/div&gt;</code>') + '</div>';
+      case "readtime": return tog("cards", "คำนวณบนการ์ดหน้าแรกด้วย", p.cards !== false, tpl("ดึงเนื้อหาผ่าน Feed มาคำนวณ (แคช 12 ชม.) · ปิดได้ถ้าต้องการเฉพาะหน้าบทความ", "Fetches content via Feed to calculate (cached 12h) · turn off for post pages only"))
+        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("หน้าบทความคำนวณจากเนื้อหาจริงทันที (แม่นยำ) · การ์ดหน้าแรกใช้ Feed คำนวณให้ครบทุกแบบธีมโดยไม่ต้องตั้งค่าเพิ่ม", "Post pages compute from the real content instantly (accurate) · homepage cards use the Feed to cover every card style with no extra setup") + '</div></div>';
+      case "bookmark": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("เพิ่มปุ่มบุ๊กมาร์กบนการ์ดบทความทุกแบบ + ปุ่มลอยเปิด “รายการที่บันทึก” · ข้อมูลเก็บในเครื่องผู้อ่าน (localStorage) ไม่ต้องล็อกอิน ไม่ต้องมีเซิร์ฟเวอร์", "Adds a bookmark button on every article card + a floating button that opens “Saved posts” · data stays in the reader's browser (localStorage), no login or server needed") + '</div></div>'
+        + '<div class="hint">' + tpl("ทำงานบนบล็อกจริงที่ Blogger เท่านั้น (ในตัวอย่างนี้จะเห็นเป็นภาพจำลอง)", "Works on the live Blogger blog (shown here as a mockup preview)") + '</div>';
       case "toc": return txt("title", "หัวข้อสารบัญ", p.title || "สารบัญ")
         + seg("maxDepth", "ความลึก heading", p.maxDepth || "3", [["2", "h2 เท่านั้น"], ["3", "h2 + h3"]])
         + tog("numbered", "แสดงลำดับตัวเลข", p.numbered !== false);
@@ -3994,6 +4127,10 @@ tplStyleVars(),
           + "})();/*]]>*/<\/script>";
       case "callout":
         return "<style>" + calloutCSS() + "</style>";
+      case "readtime":
+        return readingTimeStatic(p);
+      case "bookmark":
+        return bookmarkStatic();
       case "aeo":
         var aeoTitle = esc(p.title || "สรุปบทความ");
         var aeoCSS = p.style === "highlight"
@@ -4745,7 +4882,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
