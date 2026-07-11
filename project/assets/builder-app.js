@@ -86,7 +86,8 @@
     lightbox: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9v6h-6"/>',
     copycode: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
     dropcap: '<path d="M5 20V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14"/><path d="M5 13h8"/><path d="M17 20V10M17 14h4"/>',
-    anchorlink: '<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>'
+    anchorlink: '<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>',
+    proscons: '<path d="M7 10v11M2 13v6a1 1 0 0 0 1 1h1V13H3a1 1 0 0 0-1 1z"/><path d="M7 10l3-7a2 2 0 0 1 2 2v3h5a2 2 0 0 1 2 2l-1.5 6a2 2 0 0 1-2 1.5H7"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
 
@@ -319,6 +320,29 @@
     return css + sc;
   }
 
+  /* ---------- Review kit: Pros/Cons boxes + verdict score (for post content) ---------- */
+  function reviewkitCSS() {
+    var chk = calloutIconUrl('<path d="M20 6 9 17l-5-5"/>', "#16a34a");
+    var xic = calloutIconUrl('<path d="M6 6l12 12M18 6 6 18"/>', "#dc2626");
+    return ".bk-pc{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:1.5rem 0}"
+      + "@media(max-width:560px){.bk-pc{grid-template-columns:1fr}}"
+      + ".bk-pros,.bk-cons{border-radius:12px;padding:15px 18px;border:1px solid;font-style:normal;color:var(--text-main,#1a1b1e)}"
+      + ".bk-pros{background:" + hexRgba("#16a34a", ".08") + ";border-color:" + hexRgba("#16a34a", ".28") + "}"
+      + ".bk-cons{background:" + hexRgba("#dc2626", ".08") + ";border-color:" + hexRgba("#dc2626", ".28") + "}"
+      + ".bk-pros>b:first-child,.bk-cons>b:first-child{display:block;font-size:15px;margin:0 0 10px}"
+      + ".bk-pros>b:first-child{color:#16a34a}.bk-cons>b:first-child{color:#dc2626}"
+      + ".bk-pros ul,.bk-cons ul,.bk-pros ol,.bk-cons ol{margin:0;padding:0;list-style:none}"
+      + ".bk-pros li,.bk-cons li{position:relative;padding-left:27px;margin:7px 0;line-height:1.55}"
+      + ".bk-pros li::before,.bk-cons li::before{content:'';position:absolute;left:0;top:.12em;width:19px;height:19px;background-repeat:no-repeat;background-position:center;background-size:contain}"
+      + ".bk-pros li::before{background-image:" + chk + "}.bk-cons li::before{background-image:" + xic + "}"
+      + ".bk-verdict{display:flex;gap:18px;align-items:center;border:1px solid var(--border,#e8eaf2);border-left:5px solid var(--primary,#6366f1);border-radius:12px;padding:16px 20px;margin:1.5rem 0;background:var(--bg-surface,#f7f8fc)}"
+      + ".bk-verdict-score{flex:none;font-size:2.6rem;font-weight:800;line-height:1;color:var(--primary,#6366f1);min-width:2.2ch;text-align:center}"
+      + ".bk-verdict-body{min-width:0}.bk-verdict-body b{font-size:16px;display:block;margin-bottom:2px;color:var(--text-main,#1a1b1e)}"
+      + ".bk-stars{color:#f59e0b;letter-spacing:2px;font-size:15px;line-height:1}"
+      + ".bk-verdict-body p{margin:6px 0 0;font-size:13.5px;color:var(--text-muted,#64748b);line-height:1.55}";
+  }
+  function reviewkitStatic() { return "<style>" + reviewkitCSS() + "</style>"; }
+
   /* ---------- element library ---------- */
   var LIB = [
     ["โครงสร้างหลัก", [
@@ -347,6 +371,7 @@
     ]],
     ["บทความ & UX", [
       ["callout", "กล่อง Callout", "note / tip / warning …"],
+      ["proscons", "Pros/Cons + คะแนน", "ข้อดี-ข้อเสีย + กล่องรีวิว"],
       ["readtime", "เวลาในการอ่าน", "⏱ X นาที บนการ์ด + บทความ"],
       ["bookmark", "บุ๊กมาร์ก", "บันทึกบทความไว้อ่านทีหลัง"],
       ["lightbox", "ซูมรูปภาพ (Lightbox)", "คลิกรูปในบทความเพื่อขยาย"],
@@ -406,6 +431,7 @@
       copycode: {},
       dropcap: { style: "accent" },
       anchorlink: {},
+      proscons: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
       header: { logoText: "MyBlog", menuItems: [
@@ -447,6 +473,7 @@
       copycode: {},
       dropcap: { style: "accent" },
       anchorlink: {},
+      proscons: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
@@ -1427,6 +1454,21 @@
           coGallery +
           '<div style="margin-top:6px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("คัดลอกโค้ดจากแผงด้านขวา ไปวางในโพสต์ Blogger (โหมด HTML) · สไตล์จะถูกฝังในธีมอัตโนมัติ", "Copy a snippet from the right panel and paste it into your Blogger post (HTML view) · the styles ship with your theme automatically") + '</div>' +
           '</div>';
+      case "proscons":
+        var pcLi = function (txt, ok) { return '<li style="position:relative;padding-left:26px;margin:6px 0;line-height:1.5">' +
+          '<span style="position:absolute;left:0;top:1px;color:' + (ok ? "#16a34a" : "#dc2626") + ';font-weight:800">' + (ok ? "✓" : "✕") + '</span>' + txt + '</li>'; };
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("Pros / Cons + คะแนนรีวิว · ใช้ในเนื้อหาบทความ", "Pros / Cons + verdict · for post content") + '</div>' +
+          '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;color:#1e2333;font-size:13.5px">' +
+            '<div style="border-radius:12px;padding:13px 16px;background:' + hexRgba("#16a34a", ".08") + ';border:1px solid ' + hexRgba("#16a34a", ".28") + '"><b style="color:#16a34a;display:block;margin-bottom:6px">' + tpl("ข้อดี", "Pros") + '</b><ul style="margin:0;padding:0;list-style:none">' + pcLi(tpl("ใช้งานง่าย", "Easy to use"), true) + pcLi(tpl("คุ้มราคา", "Great value"), true) + '</ul></div>' +
+            '<div style="border-radius:12px;padding:13px 16px;background:' + hexRgba("#dc2626", ".08") + ';border:1px solid ' + hexRgba("#dc2626", ".28") + '"><b style="color:#dc2626;display:block;margin-bottom:6px">' + tpl("ข้อเสีย", "Cons") + '</b><ul style="margin:0;padding:0;list-style:none">' + pcLi(tpl("แบตหมดไว", "Short battery"), false) + '</ul></div>' +
+          '</div>' +
+          '<div style="display:flex;gap:16px;align-items:center;border:1px solid #e8eaf2;border-left:5px solid ' + pr + ';border-radius:12px;padding:14px 18px;margin-top:14px;background:#f7f8fc">' +
+            '<div style="font-size:2.3rem;font-weight:800;color:' + pr + ';line-height:1">4.5</div>' +
+            '<div><b style="font-size:15px;color:#1e2333">' + tpl("ดีเยี่ยม", "Excellent") + '</b><div style="color:#f59e0b;letter-spacing:2px;font-size:14px">★★★★★</div><p style="margin:4px 0 0;font-size:12.5px;color:#828aa0">' + tpl("สรุปรีวิวสั้นๆ ของสินค้า", "A short verdict about the product") + '</p></div>' +
+          '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("คัดลอกโค้ดจากแผงด้านขวา ไปวางในโพสต์ Blogger (โหมด HTML) · เหมาะกับแม่แบบรีวิว", "Copy a snippet from the right panel into your Blogger post (HTML view) · great for review templates") + '</div>' +
+          '</div>';
       case "readtime":
         var rtClock = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
         return '<div style="padding:18px 32px">' +
@@ -1635,8 +1677,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1644,7 +1686,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -1987,6 +2029,15 @@
         return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('กล่องเน้นข้อความสำหรับใส่ในเนื้อหาโพสต์ · กด "คัดลอก" แล้วนำไปวางใน Blogger → เขียนโพสต์ → สลับเป็นมุมมอง HTML', 'Highlight boxes for your post content · click "Copy", then paste it in Blogger → Post editor → switch to HTML view') + '</div></div>'
           + '<div class="field"><label>' + tpl("คัดลอกโค้ดกล่อง", "Copy a box snippet") + '</label>' + coRows + '</div>'
           + '<div class="hint">' + tpl('ใส่ตัวหนาเป็นหัวข้อได้ เช่น <code>&lt;div class="bk-tip"&gt;&lt;b&gt;เคล็ดลับ:&lt;/b&gt; …&lt;/div&gt;</code>', 'Add a bold lead, e.g. <code>&lt;div class="bk-tip"&gt;&lt;b&gt;Tip:&lt;/b&gt; …&lt;/div&gt;</code>') + '</div>';
+      case "proscons":
+        var pcSnip = '<div class="bk-pc">\n  <div class="bk-pros"><b>' + tpl("ข้อดี", "Pros") + '</b><ul><li>' + tpl("จุดเด่นข้อที่ 1", "Strong point 1") + '</li><li>' + tpl("จุดเด่นข้อที่ 2", "Strong point 2") + '</li></ul></div>\n  <div class="bk-cons"><b>' + tpl("ข้อเสีย", "Cons") + '</b><ul><li>' + tpl("ข้อจำกัดข้อที่ 1", "Drawback 1") + '</li></ul></div>\n</div>';
+        var vdSnip = '<div class="bk-verdict"><div class="bk-verdict-score">4.5</div><div class="bk-verdict-body"><b>' + tpl("ดีเยี่ยม", "Excellent") + '</b><div class="bk-stars">★★★★★</div><p>' + tpl("สรุปรีวิวสั้นๆ ของสินค้า/บริการ", "A short verdict about the product/service") + '</p></div></div>';
+        var pcBtn = function (label, snip) { return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">' +
+          '<code style="flex:1;font-size:11.5px;color:#c7c9e0">' + esc(label) + '</code>' +
+          '<button class="callout-copy" data-copy="' + esc(snip) + '" style="flex:none;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#e9eaf2;border-radius:7px;padding:5px 11px;font-size:12px;cursor:pointer">' + tpl("คัดลอก", "Copy") + '</button></div>'; };
+        return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('กล่องข้อดี-ข้อเสีย และกล่องสรุปคะแนน สำหรับบทความรีวิว · กด “คัดลอก” แล้ววางใน Blogger → เขียนโพสต์ → มุมมอง HTML', 'Pros/Cons boxes and a verdict score box for review posts · click “Copy”, then paste in Blogger → Post editor → HTML view') + '</div></div>'
+          + '<div class="field"><label>' + tpl("คัดลอกโค้ด", "Copy a snippet") + '</label>' + pcBtn(tpl("ข้อดี / ข้อเสีย (2 คอลัมน์)", "Pros / Cons (2 columns)"), pcSnip) + pcBtn(tpl("กล่องสรุปคะแนน", "Verdict score box"), vdSnip) + '</div>'
+          + '<div class="hint">' + tpl("ดาวใช้อักขระ ★ / ☆ พิมพ์เองได้ · แก้ตัวเลขคะแนนและข้อความได้ตามใจ", "Stars use ★ / ☆ characters you can edit · change the score number and text freely") + '</div>';
       case "readtime": return tog("cards", "คำนวณบนการ์ดหน้าแรกด้วย", p.cards !== false, tpl("ดึงเนื้อหาผ่าน Feed มาคำนวณ (แคช 12 ชม.) · ปิดได้ถ้าต้องการเฉพาะหน้าบทความ", "Fetches content via Feed to calculate (cached 12h) · turn off for post pages only"))
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("หน้าบทความคำนวณจากเนื้อหาจริงทันที (แม่นยำ) · การ์ดหน้าแรกใช้ Feed คำนวณให้ครบทุกแบบธีมโดยไม่ต้องตั้งค่าเพิ่ม", "Post pages compute from the real content instantly (accurate) · homepage cards use the Feed to cover every card style with no extra setup") + '</div></div>';
       case "bookmark": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("เพิ่มปุ่มบุ๊กมาร์กบนการ์ดบทความทุกแบบ + ปุ่มลอยเปิด “รายการที่บันทึก” · ข้อมูลเก็บในเครื่องผู้อ่าน (localStorage) ไม่ต้องล็อกอิน ไม่ต้องมีเซิร์ฟเวอร์", "Adds a bookmark button on every article card + a floating button that opens “Saved posts” · data stays in the reader's browser (localStorage), no login or server needed") + '</div></div>'
@@ -4290,6 +4341,8 @@ tplStyleVars(),
           + "})();/*]]>*/<\/script>";
       case "callout":
         return "<style>" + calloutCSS() + "</style>";
+      case "proscons":
+        return reviewkitStatic();
       case "readtime":
         return readingTimeStatic(p);
       case "bookmark":
@@ -5053,7 +5106,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks", "ตัวอักษรตัวแรกใหญ่": "Drop cap", "Dropcap สไตล์นิตยสาร": "Magazine-style dropcap", "ลิงก์หัวข้อ (Anchor)": "Heading anchors", "คัดลอกลิงก์ไปหัวข้อ": "Copy a link to a heading", "สีตัวอักษร": "Letter color", "สีเน้น (Accent)": "Accent color", "สีตัวอักษรปกติ": "Text color",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "Pros/Cons + คะแนน": "Pros/Cons + score", "ข้อดี-ข้อเสีย + กล่องรีวิว": "Pros-cons + review box", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks", "ตัวอักษรตัวแรกใหญ่": "Drop cap", "Dropcap สไตล์นิตยสาร": "Magazine-style dropcap", "ลิงก์หัวข้อ (Anchor)": "Heading anchors", "คัดลอกลิงก์ไปหัวข้อ": "Copy a link to a heading", "สีตัวอักษร": "Letter color", "สีเน้น (Accent)": "Accent color", "สีตัวอักษรปกติ": "Text color",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
