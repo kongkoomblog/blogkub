@@ -87,7 +87,8 @@
     copycode: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
     dropcap: '<path d="M5 20V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14"/><path d="M5 13h8"/><path d="M17 20V10M17 14h4"/>',
     anchorlink: '<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>',
-    proscons: '<path d="M7 10v11M2 13v6a1 1 0 0 0 1 1h1V13H3a1 1 0 0 0-1 1z"/><path d="M7 10l3-7a2 2 0 0 1 2 2v3h5a2 2 0 0 1 2 2l-1.5 6a2 2 0 0 1-2 1.5H7"/>'
+    proscons: '<path d="M7 10v11M2 13v6a1 1 0 0 0 1 1h1V13H3a1 1 0 0 0-1 1z"/><path d="M7 10l3-7a2 2 0 0 1 2 2v3h5a2 2 0 0 1 2 2l-1.5 6a2 2 0 0 1-2 1.5H7"/>',
+    themepicker: '<circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 2a10 10 0 1 0 0 20c1 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.8.7-1.3 1.5-1.3H16a5 5 0 0 0 5-5c0-4.7-4-8-9-8z"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
 
@@ -343,6 +344,51 @@
   }
   function reviewkitStatic() { return "<style>" + reviewkitCSS() + "</style>"; }
 
+  /* ---------- Theme color picker (reader-facing accent switcher) ---------- */
+  var THEME_SCHEMES = [
+    { k: "default", th: "เดิม", en: "Default" },
+    { k: "indigo",  p: "#6366f1", a: "#8b5cf6" },
+    { k: "rose",    p: "#e11d48", a: "#fb7185" },
+    { k: "emerald", p: "#059669", a: "#34d399" },
+    { k: "amber",   p: "#d97706", a: "#fbbf24" },
+    { k: "sky",     p: "#0284c7", a: "#38bdf8" },
+    { k: "violet",  p: "#7c3aed", a: "#a78bfa" },
+    { k: "slate",   p: "#475569", a: "#94a3b8" }
+  ];
+  function themepickerStatic() {
+    var LBL = tpl("สีธีม", "Theme color");
+    var schJs = "[" + THEME_SCHEMES.map(function (s) { return s.p ? "{k:'" + s.k + "',p:'" + s.p + "',a:'" + s.a + "'}" : "{k:'" + s.k + "'}"; }).join(",") + "]";
+    var css = "<style>"
+      + ".bxb-tp-fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom,0px));z-index:121;width:46px;height:46px;border-radius:50%;border:1px solid var(--border,#e8eaf2);background:var(--bg-header,#fff);color:var(--text-main,#1a1b1e);display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.16)}"
+      + ".bxb-tp-fab svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.7}"
+      + ".bxb-tp-pop{position:fixed;right:20px;bottom:78px;z-index:121;display:none;background:var(--bg-header,#fff);border:1px solid var(--border,#e8eaf2);border-radius:14px;padding:14px;box-shadow:0 12px 34px rgba(0,0,0,.2);width:196px}"
+      + ".bxb-tp-pop.open{display:block}"
+      + ".bxb-tp-title{font-size:12px;font-weight:700;color:var(--text-subtle,#64748b);margin:0 0 11px}"
+      + ".bxb-tp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:11px}"
+      + ".bxb-tp-sw{width:30px;height:30px;border-radius:50%;border:2px solid transparent;cursor:pointer;padding:0;box-shadow:inset 0 0 0 2px var(--bg-header,#fff);transition:transform .12s}"
+      + ".bxb-tp-sw:hover{transform:scale(1.12)}"
+      + ".bxb-tp-sw.on{border-color:var(--text-main,#1a1b1e)}"
+      + "@media(max-width:768px){.bxb-tp-fab{bottom:calc(76px + env(safe-area-inset-bottom,0px))}.bxb-tp-pop{bottom:134px}}"
+      + "</style>";
+    var PIC = "<svg viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"13.5\" cy=\"6.5\" r=\"1.2\"/><circle cx=\"17.5\" cy=\"10.5\" r=\"1.2\"/><circle cx=\"8.5\" cy=\"7.5\" r=\"1.2\"/><circle cx=\"6.5\" cy=\"12.5\" r=\"1.2\"/><path d=\"M12 2a10 10 0 1 0 0 20c1 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.8.7-1.3 1.5-1.3H16a5 5 0 0 0 5-5c0-4.7-4-8-9-8z\"/></svg>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var SCH=" + schJs + ",ROOT=document.documentElement,KEY='bxb-scheme';"
+      + "var cs=getComputedStyle(ROOT);var orig={p:(cs.getPropertyValue('--primary')||'#6366f1').trim(),a:(cs.getPropertyValue('--accent')||'#8b5cf6').trim()};"
+      + "var st=document.createElement('style');st.id='bxb-scheme';document.head.appendChild(st);"
+      + "var fab=document.createElement('button');fab.type='button';fab.className='bxb-tp-fab';fab.setAttribute('aria-label','" + LBL + "');fab.innerHTML='" + PIC + "';document.body.appendChild(fab);"
+      + "var pop=document.createElement('div');pop.className='bxb-tp-pop';"
+      + "var sw=SCH.map(function(s){var col=s.p||orig.p;return '<button type=\"button\" class=\"bxb-tp-sw\" data-k=\"'+s.k+'\" title=\"'+s.k+'\" style=\"background:'+col+'\"></button>';}).join('');"
+      + "pop.innerHTML='<div class=\"bxb-tp-title\">" + LBL + "</div><div class=\"bxb-tp-grid\">'+sw+'</div>';document.body.appendChild(pop);"
+      + "function apply(k){var s=null;SCH.forEach(function(x){if(x.k===k)s=x;});if(!s||!s.p){st.textContent='';}else{st.textContent=':root{--primary:'+s.p+';--accent:'+s.a+'}';}"
+      + "[].slice.call(pop.querySelectorAll('.bxb-tp-sw')).forEach(function(b){b.classList.toggle('on',b.getAttribute('data-k')===(s?s.k:'default'));});}"
+      + "fab.addEventListener('click',function(e){e.stopPropagation();pop.classList.toggle('open');});"
+      + "document.addEventListener('click',function(e){if(!pop.contains(e.target)&&e.target!==fab&&!fab.contains(e.target))pop.classList.remove('open');});"
+      + "[].slice.call(pop.querySelectorAll('.bxb-tp-sw')).forEach(function(b){b.addEventListener('click',function(){var k=b.getAttribute('data-k');apply(k);try{if(k==='default')localStorage.removeItem(KEY);else localStorage.setItem(KEY,k);}catch(e){}});});"
+      + "var saved=null;try{saved=localStorage.getItem(KEY);}catch(e){}apply(saved||'default');"
+      + "}());/*]]>*/<\/script>";
+    return css + sc;
+  }
+
   /* ---------- element library ---------- */
   var LIB = [
     ["โครงสร้างหลัก", [
@@ -378,6 +424,7 @@
       ["copycode", "ปุ่มคัดลอกโค้ด", "ปุ่ม Copy บนกล่องโค้ด"],
       ["dropcap", "ตัวอักษรตัวแรกใหญ่", "Dropcap สไตล์นิตยสาร"],
       ["anchorlink", "ลิงก์หัวข้อ (Anchor)", "คัดลอกลิงก์ไปหัวข้อ"],
+      ["themepicker", "เลือกสีธีม", "ผู้อ่านเปลี่ยนสีเว็บเองได้"],
       ["aeo", "AEO Summary Box", "สรุปสำหรับ AI / Google"],
       ["toc", "สารบัญ (TOC)", "สร้างจาก h2/h3 อัตโนมัติ"],
       ["related", "บทความที่เกี่ยวข้อง", "JSON Feed API"],
@@ -432,6 +479,7 @@
       dropcap: { style: "accent" },
       anchorlink: {},
       proscons: {},
+      themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
       header: { logoText: "MyBlog", menuItems: [
@@ -474,6 +522,7 @@
       dropcap: { style: "accent" },
       anchorlink: {},
       proscons: {},
+      themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
@@ -1469,6 +1518,17 @@
           '</div>' +
           '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("คัดลอกโค้ดจากแผงด้านขวา ไปวางในโพสต์ Blogger (โหมด HTML) · เหมาะกับแม่แบบรีวิว", "Copy a snippet from the right panel into your Blogger post (HTML view) · great for review templates") + '</div>' +
           '</div>';
+      case "themepicker":
+        var tpSw = THEME_SCHEMES.map(function (s) { return '<span style="width:28px;height:28px;border-radius:50%;background:' + (s.p || pr) + ';box-shadow:inset 0 0 0 2px #fff' + (s.k === "default" ? ";outline:2px solid #1e2333;outline-offset:1px" : "") + '"></span>'; }).join("");
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("เลือกสีธีม · ผู้อ่านเปลี่ยนเอง", "Theme color · reader-controlled") + '</div>' +
+          '<div style="display:inline-block;background:#fff;border:1px solid #eef;border-radius:14px;padding:14px;box-shadow:0 10px 30px rgba(0,0,0,.1)">' +
+            '<div style="font-size:12px;font-weight:700;color:#828aa0;margin-bottom:11px">' + tpl("สีธีม", "Theme color") + '</div>' +
+            '<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:11px">' + tpSw + '</div>' +
+          '</div>' +
+          '<div style="margin-top:12px;display:inline-flex;align-items:center;gap:8px;margin-left:14px;width:46px;height:46px;border-radius:50%;border:1px solid #eef;box-shadow:0 6px 18px rgba(0,0,0,.12);color:' + pr + ';justify-content:center;vertical-align:top">' + svg(IC.themepicker, 1.7) + '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("เพิ่มปุ่มลอย (จานสี) มุมล่างขวา · ผู้อ่านคลิกเลือกสีเน้นของเว็บได้ 8 แบบ · จำค่าไว้ในเครื่อง (localStorage) ทุกหน้า", "Adds a floating palette button (bottom-right) · readers pick from 8 accent colors · remembered per-browser (localStorage) across all pages") + '</div>' +
+          '</div>';
       case "readtime":
         var rtClock = '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
         return '<div style="padding:18px 32px">' +
@@ -1677,8 +1737,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1686,7 +1746,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2050,6 +2110,8 @@
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("ใส่ตัวอักษรตัวแรกขนาดใหญ่ให้ย่อหน้าแรกของทุกบทความอัตโนมัติ · สไตล์นิตยสาร", "Automatically enlarges the first letter of the first paragraph in every post · magazine style") + '</div></div>';
       case "anchorlink": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("วางเมาส์ที่หัวข้อ (h2/h3/h4) ในบทความ จะมีไอคอนลิงก์ให้กดคัดลอกลิงก์ตรงไปหัวข้อนั้น · ใส่ id (slug) อัตโนมัติ", "Hover a heading (h2/h3/h4) in a post to reveal a link icon that copies a direct link to that section · ids (slugs) are added automatically") + '</div></div>'
         + '<div class="hint">' + tpl("ช่วยให้แชร์ลิงก์ไปยังหัวข้อย่อยได้ · ทำงานบนหน้าบทความจริง", "Makes it easy to share a link to a specific section · works on the live post page") + '</div>';
+      case "themepicker": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("เพิ่มปุ่มลอยรูปจานสีมุมล่างขวา · ผู้อ่านคลิกเปลี่ยนสีเน้น (accent) ของเว็บได้ 8 แบบ · ระบบจำค่าที่เลือกไว้ในเครื่องผู้อ่าน (localStorage) ทุกหน้า", "Adds a floating palette button (bottom-right) so readers can switch the site accent among 8 colors · the choice is remembered per-browser (localStorage) on every page") + '</div></div>'
+        + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("เปลี่ยนเฉพาะฝั่งผู้อ่าน ไม่กระทบสีจริงในไฟล์ธีม · “เดิม” = กลับไปใช้สีที่คุณตั้งไว้", "Reader-side only · does not change your theme's real colors · “Default” resets to the colors you set") + '</div></div>';
       case "toc": return txt("title", "หัวข้อสารบัญ", p.title || "สารบัญ")
         + seg("maxDepth", "ความลึก heading", p.maxDepth || "3", [["2", "h2 เท่านั้น"], ["3", "h2 + h3"]])
         + tog("numbered", "แสดงลำดับตัวเลข", p.numbered !== false);
@@ -4343,6 +4405,8 @@ tplStyleVars(),
         return "<style>" + calloutCSS() + "</style>";
       case "proscons":
         return reviewkitStatic();
+      case "themepicker":
+        return themepickerStatic();
       case "readtime":
         return readingTimeStatic(p);
       case "bookmark":
@@ -5106,7 +5170,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "Pros/Cons + คะแนน": "Pros/Cons + score", "ข้อดี-ข้อเสีย + กล่องรีวิว": "Pros-cons + review box", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks", "ตัวอักษรตัวแรกใหญ่": "Drop cap", "Dropcap สไตล์นิตยสาร": "Magazine-style dropcap", "ลิงก์หัวข้อ (Anchor)": "Heading anchors", "คัดลอกลิงก์ไปหัวข้อ": "Copy a link to a heading", "สีตัวอักษร": "Letter color", "สีเน้น (Accent)": "Accent color", "สีตัวอักษรปกติ": "Text color",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "Pros/Cons + คะแนน": "Pros/Cons + score", "ข้อดี-ข้อเสีย + กล่องรีวิว": "Pros-cons + review box", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks", "ตัวอักษรตัวแรกใหญ่": "Drop cap", "Dropcap สไตล์นิตยสาร": "Magazine-style dropcap", "ลิงก์หัวข้อ (Anchor)": "Heading anchors", "คัดลอกลิงก์ไปหัวข้อ": "Copy a link to a heading", "สีตัวอักษร": "Letter color", "สีเน้น (Accent)": "Accent color", "สีตัวอักษรปกติ": "Text color", "เลือกสีธีม": "Theme color picker", "ผู้อ่านเปลี่ยนสีเว็บเองได้": "Readers switch the site color",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
