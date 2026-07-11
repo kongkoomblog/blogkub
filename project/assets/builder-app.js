@@ -84,7 +84,9 @@
     readtime: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/>',
     bookmark: '<path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4-7 4V4a1 1 0 0 1 1-1z"/>',
     lightbox: '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9l6 6M15 9v6h-6"/>',
-    copycode: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>'
+    copycode: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
+    dropcap: '<path d="M5 20V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14"/><path d="M5 13h8"/><path d="M17 20V10M17 14h4"/>',
+    anchorlink: '<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
 
@@ -283,6 +285,40 @@
     return css + sc;
   }
 
+  /* ---------- Dropcap (magazine-style large first letter on the first paragraph) ---------- */
+  function dropcapStatic(p) {
+    var col = p.style === "plain" ? "var(--text-main,#1a1b1e)" : "var(--primary,#6366f1)";
+    return "<style>"
+      + ".bxb-post-article .post-body > p:first-of-type::first-letter{float:left;font-weight:700;font-size:3.4em;line-height:.72;margin:.05em .1em 0 0;color:" + col + "}"
+      + "@media(max-width:600px){.bxb-post-article .post-body > p:first-of-type::first-letter{font-size:2.9em}}"
+      + "</style>";
+  }
+
+  /* ---------- Heading anchor links (hover a heading to copy a link to it) ---------- */
+  function anchorlinkStatic() {
+    var css = "<style>"
+      + ".bxb-post-article .post-body h2,.bxb-post-article .post-body h3,.bxb-post-article .post-body h4{position:relative}"
+      + ".bxb-anchor{position:absolute;left:-1.35em;top:.12em;opacity:0;width:1.05em;height:1.05em;display:inline-flex;align-items:center;justify-content:center;color:var(--text-subtle,#94a3b8);text-decoration:none;transition:opacity .15s,color .15s}"
+      + ".bxb-post-article .post-body h2:hover .bxb-anchor,.bxb-post-article .post-body h3:hover .bxb-anchor,.bxb-post-article .post-body h4:hover .bxb-anchor,.bxb-anchor:focus{opacity:1}"
+      + ".bxb-anchor.ok{color:var(--primary,#6366f1);opacity:1}"
+      + ".bxb-anchor svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}"
+      + "@media(max-width:860px){.bxb-anchor{position:static;margin-right:6px;opacity:.55;vertical-align:middle;left:auto;top:auto}}"
+      + "</style>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var scope=document.querySelector('.bxb-post-article .post-body');if(!scope)return;"
+      + "var used={};"
+      + "function slug(t){var s=(t||'').toLowerCase().trim().replace(/[^\\w\\u0E00-\\u0E7F\\s-]/g,'').replace(/\\s+/g,'-');if(!s)s='section';var base=s,i=2;while(used[s]){s=base+'-'+(i++);}used[s]=1;return s;}"
+      + "var IC='<svg viewBox=\"0 0 24 24\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1\"/><path d=\"M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1\"/></svg>';"
+      + "[].slice.call(scope.querySelectorAll('h2,h3,h4')).forEach(function(h){"
+      + "if(h.querySelector('.bxb-anchor'))return;"
+      + "var id=h.id||slug(h.textContent);h.id=id;"
+      + "var a=document.createElement('a');a.className='bxb-anchor';a.href='#'+id;a.setAttribute('aria-label','link');a.innerHTML=IC;"
+      + "a.addEventListener('click',function(e){e.preventDefault();var url=location.href.split('#')[0]+'#'+id;try{history.replaceState(null,'',url);}catch(err){}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url);}a.classList.add('ok');setTimeout(function(){a.classList.remove('ok');},1000);});"
+      + "h.insertBefore(a,h.firstChild);});"
+      + "}());/*]]>*/<\/script>";
+    return css + sc;
+  }
+
   /* ---------- element library ---------- */
   var LIB = [
     ["โครงสร้างหลัก", [
@@ -315,6 +351,8 @@
       ["bookmark", "บุ๊กมาร์ก", "บันทึกบทความไว้อ่านทีหลัง"],
       ["lightbox", "ซูมรูปภาพ (Lightbox)", "คลิกรูปในบทความเพื่อขยาย"],
       ["copycode", "ปุ่มคัดลอกโค้ด", "ปุ่ม Copy บนกล่องโค้ด"],
+      ["dropcap", "ตัวอักษรตัวแรกใหญ่", "Dropcap สไตล์นิตยสาร"],
+      ["anchorlink", "ลิงก์หัวข้อ (Anchor)", "คัดลอกลิงก์ไปหัวข้อ"],
       ["aeo", "AEO Summary Box", "สรุปสำหรับ AI / Google"],
       ["toc", "สารบัญ (TOC)", "สร้างจาก h2/h3 อัตโนมัติ"],
       ["related", "บทความที่เกี่ยวข้อง", "JSON Feed API"],
@@ -366,6 +404,8 @@
       bookmark: {},
       lightbox: {},
       copycode: {},
+      dropcap: { style: "accent" },
+      anchorlink: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
       header: { logoText: "MyBlog", menuItems: [
@@ -405,6 +445,8 @@
       bookmark: {},
       lightbox: {},
       copycode: {},
+      dropcap: { style: "accent" },
+      anchorlink: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
@@ -1429,6 +1471,23 @@
           '</div>' +
           '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("เพิ่มปุ่ม “คัดลอก” มุมขวาบนของทุกกล่องโค้ด (<pre>) ในบทความ · กดแล้วคัดลอกทั้งบล็อกทันที", "Adds a “Copy” button to the top-right of every code block (<pre>) in a post · one click copies the whole block") + '</div>' +
           '</div>';
+      case "dropcap":
+        var dcCol = p.style === "plain" ? "#1e2333" : pr;
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("ตัวอักษรตัวแรกใหญ่ (Dropcap)", "Drop cap") + '</div>' +
+          '<div style="max-width:440px;color:#3a4056;font-size:14.5px;line-height:1.7">' +
+            '<span style="float:left;font-weight:700;font-size:3.4em;line-height:.72;margin:.05em .1em 0 0;color:' + dcCol + '">ก</span>' +
+            tpl("ารเปิดย่อหน้าแรกด้วยตัวอักษรขนาดใหญ่ ช่วยดึงสายตาผู้อ่านและให้ความรู้สึกแบบนิตยสารมืออาชีพ · ระบบจะใส่ให้ย่อหน้าแรกของทุกบทความอัตโนมัติ", "opening the first paragraph with an oversized letter draws the reader in and gives a polished, magazine-like feel · applied automatically to the first paragraph of every post.") +
+          '</div>' +
+          '</div>';
+      case "anchorlink":
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("ลิงก์หัวข้อ (Anchor)", "Heading anchors") + '</div>' +
+          '<div style="max-width:440px">' +
+            '<h3 style="position:relative;font-size:18px;color:#1e2333;margin:0;display:inline-flex;align-items:center;gap:8px"><span style="color:' + pr + ';display:inline-flex"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/></svg></span>' + tpl("หัวข้อในบทความ", "A heading in the post") + '</h3>' +
+          '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("วางเมาส์ที่หัวข้อ (h2/h3/h4) จะมีไอคอนลิงก์ · กดเพื่อคัดลอกลิงก์ไปยังหัวข้อนั้นโดยตรง · ใส่ id ให้อัตโนมัติ (slug จากข้อความ)", "Hover any heading (h2/h3/h4) to reveal a link icon · click to copy a direct link to that section · ids are added automatically (slug from the text)") + '</div>' +
+          '</div>';
       case "toc":
         return '<div style="padding:16px 32px"><nav style="border-left:3px solid ' + pr + ';border-radius:0 ' + r + ' ' + r + ' 0;background:#f7f8fc;overflow:hidden">'
           + '<div style="display:flex;align-items:center;gap:7px;padding:10px 14px;font-size:11px;font-weight:700;color:#4a5063;text-transform:uppercase;letter-spacing:.06em;cursor:pointer">'
@@ -1576,8 +1635,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1585,7 +1644,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -1936,6 +1995,10 @@
         + '<div class="hint">' + tpl("ดึงรูปความละเอียดสูง (s1600) ให้อัตโนมัติ · ข้ามรูปเล็ก เช่น ไอคอน/อวตาร · ทำงานบนหน้าบทความจริง", "Auto-loads the high-res image (s1600) · skips tiny images like icons/avatars · works on the live post page") + '</div>';
       case "copycode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("เพิ่มปุ่ม “คัดลอก” มุมขวาบนของทุกกล่องโค้ด (<code>&lt;pre&gt;</code>) ในบทความ · กดครั้งเดียวคัดลอกทั้งบล็อก", "Adds a “Copy” button to the top-right of every code block (<code>&lt;pre&gt;</code>) in a post · one click copies the whole block") + '</div></div>'
         + '<div class="hint">' + tpl("เหมาะกับบล็อกสายเทคที่แปะโค้ดบ่อย · ทำงานบนหน้าบทความจริง (ในตัวอย่างเป็นภาพจำลอง)", "Great for tech blogs that share code often · works on the live post page (shown here as a mockup)") + '</div>';
+      case "dropcap": return seg("style", "สีตัวอักษร", p.style || "accent", [["accent", "สีเน้น (Accent)"], ["plain", "สีตัวอักษรปกติ"]])
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("ใส่ตัวอักษรตัวแรกขนาดใหญ่ให้ย่อหน้าแรกของทุกบทความอัตโนมัติ · สไตล์นิตยสาร", "Automatically enlarges the first letter of the first paragraph in every post · magazine style") + '</div></div>';
+      case "anchorlink": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("วางเมาส์ที่หัวข้อ (h2/h3/h4) ในบทความ จะมีไอคอนลิงก์ให้กดคัดลอกลิงก์ตรงไปหัวข้อนั้น · ใส่ id (slug) อัตโนมัติ", "Hover a heading (h2/h3/h4) in a post to reveal a link icon that copies a direct link to that section · ids (slugs) are added automatically") + '</div></div>'
+        + '<div class="hint">' + tpl("ช่วยให้แชร์ลิงก์ไปยังหัวข้อย่อยได้ · ทำงานบนหน้าบทความจริง", "Makes it easy to share a link to a specific section · works on the live post page") + '</div>';
       case "toc": return txt("title", "หัวข้อสารบัญ", p.title || "สารบัญ")
         + seg("maxDepth", "ความลึก heading", p.maxDepth || "3", [["2", "h2 เท่านั้น"], ["3", "h2 + h3"]])
         + tog("numbered", "แสดงลำดับตัวเลข", p.numbered !== false);
@@ -4235,6 +4298,10 @@ tplStyleVars(),
         return lightboxStatic();
       case "copycode":
         return copycodeStatic();
+      case "dropcap":
+        return dropcapStatic(p);
+      case "anchorlink":
+        return anchorlinkStatic();
       case "aeo":
         var aeoTitle = esc(p.title || "สรุปบทความ");
         var aeoCSS = p.style === "highlight"
@@ -4986,7 +5053,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks", "ตัวอักษรตัวแรกใหญ่": "Drop cap", "Dropcap สไตล์นิตยสาร": "Magazine-style dropcap", "ลิงก์หัวข้อ (Anchor)": "Heading anchors", "คัดลอกลิงก์ไปหัวข้อ": "Copy a link to a heading", "สีตัวอักษร": "Letter color", "สีเน้น (Accent)": "Accent color", "สีตัวอักษรปกติ": "Text color",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
