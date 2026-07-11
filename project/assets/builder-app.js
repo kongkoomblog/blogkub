@@ -415,7 +415,7 @@
     function bi(pp) { return "<svg class='bn-ic' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" + pp + "</svg>"; }
     var css = "<style>"
       + (hasDark ? "" : DARK_THEME_VARS)
-      + ".bxb-botnav{display:none}"
+      + ".bxb-botnav,.bxb-search-pop,.bxb-sp-scrim{display:none}"
       + "@media(max-width:768px){"
       + ".bxb-botnav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:200;background:var(--bg-header,#fff);border-top:1px solid var(--border,#e8eaf2);padding:6px 4px calc(6px + env(safe-area-inset-bottom,0px));box-shadow:0 -4px 20px rgba(0,0,0,.07);backdrop-filter:blur(10px)}"
       + ".bxb-bn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;background:none;border:0;cursor:pointer;text-decoration:none;color:var(--text-muted,#64748b);font-family:inherit;font-size:11px;font-weight:500;padding:6px 2px;border-radius:12px;-webkit-tap-highlight-color:transparent;transition:color .15s,background .15s}"
@@ -424,11 +424,29 @@
       + ".bxb-bn .bn-ic{width:23px;height:23px}"
       + ".bxb-bn span{line-height:1}"
       + "body{padding-bottom:calc(62px + env(safe-area-inset-bottom,0px))}"
+      // slide-down search overlay (opened from the bottom-nav Search button)
+      + ".bxb-search-pop{display:block;position:fixed;top:0;left:0;right:0;z-index:220;background:var(--bg-header,#fff);border-bottom:1px solid var(--border,#e8eaf2);box-shadow:0 8px 30px rgba(0,0,0,.12);padding:14px 16px calc(14px + 2px);transform:translateY(-110%);transition:transform .26s cubic-bezier(.22,1,.36,1);visibility:hidden}"
+      + ".bxb-search-pop.open{transform:translateY(0);visibility:visible}"
+      + ".bxb-search-pop form{display:flex;align-items:center;gap:8px;border:1px solid var(--border-med,#d6d9e8);border-radius:14px;background:var(--bg-surface,#f7f8fc);padding:4px 6px 4px 14px}"
+      + ".bxb-search-pop svg{width:19px;height:19px;flex:none;color:var(--text-subtle,#8b8fa6)}"
+      + ".bxb-search-pop input{flex:1;min-width:0;border:0;background:none;padding:11px 0;font-size:16px;font-family:inherit;color:var(--text-main,#0e0f1a);outline:none}"
+      + ".bxb-search-pop button[type=submit]{flex:none;border:0;background:var(--primary,#6366f1);color:#fff;font-family:inherit;font-weight:600;font-size:14px;padding:10px 16px;border-radius:10px;cursor:pointer}"
+      + ".bxb-sp-close{flex:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--border-med,#d6d9e8);background:transparent;color:var(--text-main,#0e0f1a);font-size:15px;cursor:pointer;margin-left:2px}"
+      + ".bxb-sp-scrim{position:fixed;inset:0;z-index:210;background:rgba(0,0,0,.42);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .25s}"
+      + ".bxb-sp-scrim.open{display:block;opacity:1;pointer-events:auto}"
       + "}"
       + "</style>";
+    var pop = "<div class='bxb-sp-scrim' id='bxbSpScrim'></div>"
+      + "<div class='bxb-search-pop' id='bxbSearchPop' role='dialog' aria-label='" + tpl("ค้นหา", "Search") + "'>"
+      + "<form action='/search' method='get' role='search'>"
+      + "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-hidden='true'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>"
+      + "<input name='q' type='search' placeholder='" + tpl("ค้นหาในบล็อกนี้…", "Search this blog…") + "' aria-label='" + tpl("ค้นหา", "Search") + "'/>"
+      + "<button type='submit'>" + tpl("ค้นหา", "Search") + "</button>"
+      + "<button type='button' class='bxb-sp-close' id='bxbSpClose' aria-label='" + tpl("ปิด", "Close") + "'>✕</button>"
+      + "</form></div>";
     var bar = "<nav class='bxb-botnav' aria-label='" + tpl("เมนูล่าง", "Bottom menu") + "'>"
       + "<a class='bxb-bn' href='/'>" + bi(BOTNAV_ICONS.home) + "<span>" + L.home + "</span></a>"
-      + "<a class='bxb-bn' href='/search'>" + bi(BOTNAV_ICONS.search) + "<span>" + L.search + "</span></a>"
+      + "<button type='button' class='bxb-bn' id='bxbSearchTgl'>" + bi(BOTNAV_ICONS.search) + "<span>" + L.search + "</span></button>"
       + "<label class='bxb-bn' for='navtoggle'>" + bi(BOTNAV_ICONS.menu) + "<span>" + L.menu + "</span></label>"
       + "<button type='button' class='bxb-bn' id='bxbModeBtn'>" + bi(BOTNAV_ICONS.mode) + "<span>" + L.mode + "</span></button>"
       + "<button type='button' class='bxb-bn' id='bxbShareBtn'>" + bi(BOTNAV_ICONS.share) + "<span>" + L.share + "</span></button>"
@@ -444,8 +462,16 @@
       + "else if(navigator.clipboard){navigator.clipboard.writeText(location.href);var sp=s.querySelector('span');if(sp){var o=sp.textContent;sp.textContent='" + tpl("คัดลอกแล้ว", "Copied!") + "';setTimeout(function(){sp.textContent=o;},1500);}}"
       + "else{location.href='https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href);}"
       + "});}"
+      // search overlay: toggle from bottom-nav, close via ✕ / scrim / Escape
+      + "var pop=document.getElementById('bxbSearchPop'),tgl=document.getElementById('bxbSearchTgl'),scr=document.getElementById('bxbSpScrim'),cls=document.getElementById('bxbSpClose');"
+      + "function spSet(o){if(!pop)return;pop.classList.toggle('open',o);if(scr)scr.classList.toggle('open',o);"
+      + "if(o){var inp=pop.querySelector('input');if(inp)setTimeout(function(){inp.focus();},280);}}"
+      + "if(tgl)tgl.addEventListener('click',function(){spSet(!pop.classList.contains('open'));});"
+      + "if(cls)cls.addEventListener('click',function(){spSet(false);});"
+      + "if(scr)scr.addEventListener('click',function(){spSet(false);});"
+      + "document.addEventListener('keydown',function(e){if(e.key==='Escape')spSet(false);});"
       + "}());/*]]>*/<\/script>";
-    return css + bar + sc;
+    return css + pop + bar + sc;
   }
   // in-builder preview of the bottom nav (mobile view only)
   function botNavPreview() {
@@ -2747,7 +2773,7 @@ tplStyleVars(),
 ".site-nav li a[aria-current='page']{color:var(--primary);background:var(--hover-bg)}",
 ".site-nav .nav-ic{width:17px;height:17px;flex:none;opacity:.82;transition:opacity .15s}",
 ".site-nav li a:hover .nav-ic,.site-nav li a[aria-current='page'] .nav-ic{opacity:1}",
-".nav-toggle-cb,.nav-burger,.nav-scrim,.nav-close{display:none}",
+".nav-toggle-cb,.nav-burger,.nav-scrim,.nav-close,.nav-drawer-head,.nav-drawer-search{display:none}",
 ".nav-burger{flex-direction:column;justify-content:center;gap:5px;cursor:pointer;width:40px;height:40px;border-radius:8px;background:transparent;border:1px solid var(--border-med);margin-left:auto;flex:none}",
 ".nav-burger span{display:block;width:20px;height:2px;background:var(--text-main);border-radius:2px;margin:0 auto}",
 ".site-nav li{position:relative}",
@@ -2764,7 +2790,15 @@ tplStyleVars(),
 ".nav-search{display:none}",
 ".nav-burger{display:flex}",
 ".nav-close{display:flex;position:absolute;top:14px;right:14px;width:36px;height:36px;align-items:center;justify-content:center;border-radius:50%;background:var(--hover-bg);border:1px solid var(--border-med);font-size:18px;cursor:pointer;color:var(--text-main);z-index:2}",
-".site-nav{position:fixed;top:0;bottom:0;width:82%;max-width:320px;background:var(--bg-header);z-index:60;padding:70px 0 32px;transition:transform .28s cubic-bezier(.22,1,.36,1);box-shadow:var(--nav-shadow);overflow-y:auto}",
+".site-nav{position:fixed;top:0;bottom:0;width:82%;max-width:320px;background:var(--bg-header);z-index:60;padding:16px 0 32px;transition:transform .28s cubic-bezier(.22,1,.36,1);box-shadow:var(--nav-shadow);overflow-y:auto}",
+".nav-drawer-head{display:flex;align-items:center;gap:10px;padding:6px 60px 0 20px;font-weight:700;font-size:18px;color:var(--primary);min-height:40px}",
+".nav-drawer-head img{height:30px;width:auto;max-width:110px;object-fit:contain;display:block}",
+".nav-drawer-head span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}",
+".nav-drawer-search{display:flex;align-items:center;gap:8px;margin:14px 16px 8px;padding:4px 6px 4px 14px;border:1px solid var(--border-med);border-radius:14px;background:var(--bg-surface)}",
+".nav-drawer-search svg{width:18px;height:18px;flex:none;color:var(--text-subtle)}",
+".nav-drawer-search input{flex:1;min-width:0;border:0;background:none;padding:10px 0;font-size:15px;font-family:inherit;color:var(--text-main);outline:none}",
+".nav-drawer-search button{flex:none;border:0;background:var(--primary);color:#fff;font-family:inherit;font-weight:600;font-size:13.5px;padding:9px 14px;border-radius:10px;cursor:pointer}",
+".nav-drawer-search + ul{border-top:1px solid var(--border);margin-top:8px;padding-top:10px}",
 ".site-nav ul{flex-direction:column;gap:0;margin:0;padding:0 12px}",
 ".site-nav li a{display:flex;align-items:center;padding:0 12px;min-height:52px;border-radius:10px;font-size:16px}",
 ".site-nav.nav-right{right:0;transform:translateX(100%)}",
@@ -3207,6 +3241,13 @@ tplStyleVars(),
             "<span>" + esc(p.logoText) + "</span></a>" +
           "<nav role='navigation' aria-label='เมนูหลัก' class='site-nav nav-" + side + "'>" +
             "<label for='navtoggle' class='nav-close' aria-label='ปิดเมนู'>✕</label>" +
+            "<div class='nav-drawer-head'>" +
+              (S.seo && S.seo.logoUrl ? "<img src='" + esc(S.seo.logoUrl) + "' alt=''/>" : "") +
+              "<span>" + esc(p.logoText) + "</span></div>" +
+            "<form action='/search' method='get' class='nav-drawer-search' role='search'>" +
+              "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-hidden='true'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>" +
+              "<input name='q' type='search' placeholder='" + tpl("ค้นหาในบล็อกนี้…", "Search this blog…") + "' aria-label='" + tpl("ค้นหา", "Search") + "'/>" +
+              "<button type='submit'>" + tpl("ค้นหา", "Search") + "</button></form>" +
             "<ul>" + hMenu + "</ul>" +
           "</nav>" +
           (p.showSearch ? "<form action='/search' method='get' class='nav-search' role='search'><input name='q' type='search' placeholder='ค้นหา…' aria-label='ค้นหา'/><button type='submit' aria-label='ค้นหา'>🔍</button></form>" : "") +
