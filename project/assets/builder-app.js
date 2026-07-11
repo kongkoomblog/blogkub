@@ -79,9 +79,40 @@
     aeo: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="13" y2="13"/>',
     toc: '<path d="M3 6h.01M3 12h.01M3 18h.01"/><path d="M7 6h14"/><path d="M7 12h10"/><path d="M7 18h7"/>',
     related: '<circle cx="9" cy="12" r="2"/><circle cx="17" cy="6" r="2"/><circle cx="17" cy="18" r="2"/><line x1="11" y1="12" x2="15" y2="12"/><line x1="15" y1="7" x2="11" y2="10.5"/><line x1="15" y1="17" x2="11" y2="13.5"/>',
-    progress: '<rect x="2" y="10" width="20" height="4" rx="2"/><rect x="2" y="10" width="11" height="4" rx="2" fill="currentColor" opacity=".4"/>'
+    progress: '<rect x="2" y="10" width="20" height="4" rx="2"/><rect x="2" y="10" width="11" height="4" rx="2" fill="currentColor" opacity=".4"/>',
+    callout: '<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 4v16" stroke-width="2.4"/><path d="M11 9h6M11 13h4"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
+
+  /* ---------- Callout / admonition boxes (for use inside Blogger post body) ---------- */
+  var CALLOUT_TYPES = [
+    { k: "note",     c: "#2563eb", th: "หมายเหตุ",     en: "Note",     p: '<circle cx="12" cy="12" r="9"/><path d="M12 16v-5M12 8h.01"/>' },
+    { k: "tip",      c: "#0891b2", th: "เคล็ดลับ",      en: "Tip",      p: '<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.4.3.6.8.6 1.2v.5h6v-.5c0-.4.2-.9.6-1.2A6 6 0 0 0 12 3z"/>' },
+    { k: "success",  c: "#16a34a", th: "สำเร็จ",        en: "Success",  p: '<circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/>' },
+    { k: "warning",  c: "#d97706", th: "คำเตือน",       en: "Warning",  p: '<path d="M12 3.5 2.8 20h18.4L12 3.5z"/><path d="M12 10v4M12 17h.01"/>' },
+    { k: "danger",   c: "#dc2626", th: "ข้อควรระวัง",   en: "Danger",   p: '<circle cx="12" cy="12" r="9"/><path d="M15 9l-6 6M9 9l6 6"/>' },
+    { k: "download", c: "#7c3aed", th: "ดาวน์โหลด",     en: "Download", p: '<path d="M12 3v11M8 10.5l4 4 4-4"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/>' }
+  ];
+  function calloutName(t) { return BL === "en" ? t.en : t.th; }
+  function hexRgba(hex, a) { hex = String(hex).replace("#", ""); var n = parseInt(hex, 16); return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")"; }
+  // colored icon as a CSS background-image data-URI (for ::before in the exported theme)
+  function calloutIconUrl(inner, color) {
+    var s = "<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='" + color + "' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" + inner + "</svg>";
+    return 'url("data:image/svg+xml,' + encodeURIComponent(s) + '")';
+  }
+  // full CSS injected into the exported theme so .bk-note / .bk-tip / … work in post content
+  function calloutCSS() {
+    var sel = CALLOUT_TYPES.map(function (t) { return ".bk-" + t.k; }).join(",");
+    var css = sel + "{position:relative;margin:1.25rem 0;padding:14px 18px 14px 48px;border-radius:0 10px 10px 0;line-height:1.65;font-style:normal;color:var(--text-main,#1e2333);overflow-wrap:anywhere}";
+    css += CALLOUT_TYPES.map(function (t) { return ".bk-" + t.k + "::before"; }).join(",") + "{content:'';position:absolute;left:14px;top:13px;width:22px;height:22px;background-repeat:no-repeat;background-position:center;background-size:contain}";
+    css += sel + " a{color:var(--link-color,#2563eb)}";
+    css += sel + ">:first-child{margin-top:0}" + sel + ">:last-child{margin-bottom:0}";
+    CALLOUT_TYPES.forEach(function (t) {
+      css += ".bk-" + t.k + "{background:" + hexRgba(t.c, ".1") + ";border-left:4px solid " + t.c + "}";
+      css += ".bk-" + t.k + "::before{background-image:" + calloutIconUrl(t.p, t.c) + "}";
+    });
+    return css;
+  }
 
   /* ---------- element library ---------- */
   var LIB = [
@@ -110,6 +141,7 @@
       ["share", "Social Share", "ปุ่มแชร์โซเชียล"]
     ]],
     ["บทความ & UX", [
+      ["callout", "กล่อง Callout", "note / tip / warning …"],
       ["aeo", "AEO Summary Box", "สรุปสำหรับ AI / Google"],
       ["toc", "สารบัญ (TOC)", "สร้างจาก h2/h3 อัตโนมัติ"],
       ["related", "บทความที่เกี่ยวข้อง", "JSON Feed API"],
@@ -156,6 +188,7 @@
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
       related: { heading: "Related Posts", count: 4, columns: 2, showImage: true },
       progress: { height: 3, color: "primary" },
+      callout: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
       header: { logoText: "MyBlog", menuItems: [
@@ -190,6 +223,7 @@
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
       related: { heading: "บทความที่เกี่ยวข้อง", count: 4, columns: 2, showImage: true },
       progress: { height: 3, color: "primary" },
+      callout: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
     return JSON.parse(JSON.stringify(d[type] || {}));
@@ -1148,6 +1182,28 @@
           + '<div style="font-size:11px;font-weight:700;color:' + pr + ';text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">&#128214; ' + esc(p.title || "สรุปบทความ") + '</div>'
           + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("สรุปเนื้อหาบทความอัตโนมัติจาก snippet · เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา","Article summary auto-pulled from snippet · improves chances for Google & AI to show in search results") + '</p>'
           + '</aside></div>';
+      case "callout":
+        var coSample = {
+          note: tpl("ข้อมูลเสริมที่ควรรู้เกี่ยวกับหัวข้อนี้", "Extra info worth knowing about this topic"),
+          tip: tpl("เคล็ดลับช่วยให้ทำได้เร็วและง่ายขึ้น", "A handy tip to do this faster and easier"),
+          success: tpl("ทำสำเร็จแล้ว! ทุกอย่างเรียบร้อยดี", "Done! Everything worked correctly"),
+          warning: tpl("โปรดตรวจสอบให้ดีก่อนดำเนินการต่อ", "Please double-check before continuing"),
+          danger: tpl("ระวัง! การกระทำนี้ย้อนกลับไม่ได้", "Caution! This action cannot be undone"),
+          download: tpl("ดาวน์โหลดไฟล์ได้จากลิงก์ด้านล่าง", "Download the file from the link below")
+        };
+        var coGallery = CALLOUT_TYPES.map(function (t) {
+          return '<div style="position:relative;margin:0 0 10px;padding:11px 14px 11px 42px;border-radius:0 8px 8px 0;background:' + hexRgba(t.c, ".1") + ';border-left:4px solid ' + t.c + ';color:#1e2333;font-size:13.5px;line-height:1.55">' +
+            '<span style="position:absolute;left:12px;top:11px;width:20px;height:20px;color:' + t.c + '">' +
+            '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + t.p + '</svg></span>' +
+            '<b>' + calloutName(t) + '</b> · ' + coSample[t.k] +
+            '<code style="float:right;font-size:10.5px;color:' + t.c + ';background:#fff;border-radius:5px;padding:1px 6px;opacity:.9">.bk-' + t.k + '</code>' +
+            '</div>';
+        }).join("");
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">' + tpl("กล่อง Callout · ใช้ในเนื้อหาบทความ", "Callout boxes · for use in post content") + '</div>' +
+          coGallery +
+          '<div style="margin-top:6px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("คัดลอกโค้ดจากแผงด้านขวา ไปวางในโพสต์ Blogger (โหมด HTML) · สไตล์จะถูกฝังในธีมอัตโนมัติ", "Copy a snippet from the right panel and paste it into your Blogger post (HTML view) · the styles ship with your theme automatically") + '</div>' +
+          '</div>';
       case "toc":
         return '<div style="padding:16px 32px"><nav style="border-left:3px solid ' + pr + ';border-radius:0 ' + r + ' ' + r + ' 0;background:#f7f8fc;overflow:hidden">'
           + '<div style="display:flex;align-items:center;gap:7px;padding:10px 14px;font-size:11px;font-weight:700;color:#4a5063;text-transform:uppercase;letter-spacing:.06em;cursor:pointer">'
@@ -1295,8 +1351,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1304,7 +1360,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -1635,6 +1691,18 @@
       case "aeo": return txt("title", "หัวข้อกล่องสรุป", p.title || "สรุปบทความ")
         + seg("style", "สไตล์", p.style || "card", [["card", "การ์ด"], ["highlight", "ไฮไลท์"], ["minimal", "เรียบ"]])
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ใช้ <code>.qt-aeo-summary</code> ซึ่งเชื่อมกับ SpeakableSpecification ใน Schema · ช่วยให้ Google Assistant และ AI อ่านสรุปบทความได้</div></div>';
+      case "callout":
+        var coRows = CALLOUT_TYPES.map(function (t) {
+          var snippet = '<div class="bk-' + t.k + '">' + tpl("เขียนข้อความตรงนี้", "Write your text here") + '</div>';
+          return '<div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">' +
+            '<span style="width:14px;height:14px;border-radius:4px;background:' + t.c + ';flex:none"></span>' +
+            '<code style="flex:1;font-size:11.5px;color:#c7c9e0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">.bk-' + t.k + '</code>' +
+            '<button class="callout-copy" data-copy="' + esc(snippet) + '" style="flex:none;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:#e9eaf2;border-radius:7px;padding:5px 11px;font-size:12px;cursor:pointer">' + tpl("คัดลอก", "Copy") + '</button>' +
+            '</div>';
+        }).join("");
+        return '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('กล่องเน้นข้อความสำหรับใส่ในเนื้อหาโพสต์ · กด "คัดลอก" แล้วนำไปวางใน Blogger → เขียนโพสต์ → สลับเป็นมุมมอง HTML', 'Highlight boxes for your post content · click "Copy", then paste it in Blogger → Post editor → switch to HTML view') + '</div></div>'
+          + '<div class="field"><label>' + tpl("คัดลอกโค้ดกล่อง", "Copy a box snippet") + '</label>' + coRows + '</div>'
+          + '<div class="hint">' + tpl('ใส่ตัวหนาเป็นหัวข้อได้ เช่น <code>&lt;div class="bk-tip"&gt;&lt;b&gt;เคล็ดลับ:&lt;/b&gt; …&lt;/div&gt;</code>', 'Add a bold lead, e.g. <code>&lt;div class="bk-tip"&gt;&lt;b&gt;Tip:&lt;/b&gt; …&lt;/div&gt;</code>') + '</div>';
       case "toc": return txt("title", "หัวข้อสารบัญ", p.title || "สารบัญ")
         + seg("maxDepth", "ความลึก heading", p.maxDepth || "3", [["2", "h2 เท่านั้น"], ["3", "h2 + h3"]])
         + tog("numbered", "แสดงลำดับตัวเลข", p.numbered !== false);
@@ -1676,6 +1744,15 @@
     });
     $$("[data-seg]", c).forEach(function (sg) {
       sg.addEventListener("click", function (e) { var btn = e.target.closest("button"); if (!btn) return; var v = btn.dataset.v; if (sg.dataset.seg === "cols") v = parseInt(v, 10); b.props[sg.dataset.seg] = v; $$("button", sg).forEach(function (x) { x.classList.toggle("on", x === btn); }); commit(); });
+    });
+    // copy-to-clipboard buttons (e.g. callout snippets)
+    $$("[data-copy]", c).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var txtVal = btn.dataset.copy;
+        function done() { var o = btn.textContent; btn.textContent = tpl("คัดลอกแล้ว ✓", "Copied ✓"); toast(tpl("คัดลอกโค้ดแล้ว", "Snippet copied")); setTimeout(function () { btn.textContent = o; }, 1400); }
+        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(txtVal).then(done, function () { done(); }); }
+        else { var ta = document.createElement("textarea"); ta.value = txtVal; document.body.appendChild(ta); ta.select(); try { document.execCommand("copy"); } catch (e) {} document.body.removeChild(ta); done(); }
+      });
     });
     // menu editor bindings
     $$("[data-ml]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = menuItemsOf(b.props); arr[+inp.dataset.ml].label = inp.value; b.props.menuItems = arr; renderCanvas(); save(); }); });
@@ -3915,6 +3992,8 @@ tplStyleVars(),
           + "}"
           + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',place);}else{place();}"
           + "})();/*]]>*/<\/script>";
+      case "callout":
+        return "<style>" + calloutCSS() + "</style>";
       case "aeo":
         var aeoTitle = esc(p.title || "สรุปบทความ");
         var aeoCSS = p.style === "highlight"
@@ -4666,7 +4745,7 @@ tplStyleVars(),
     "สีพื้นหลัง Footer": "Footer background color",
     "ข้อความโลโก้": "Logo text", "เมนูนำทาง · ใส่ลิงก์ได้แต่ละอัน": "Navigation · set a link per item",
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
-    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)",
+    "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
