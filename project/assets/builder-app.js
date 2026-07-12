@@ -2871,6 +2871,11 @@
     // so it always appears before the post body regardless of block order in the palette.
     var tocBlock = S.blocks.find(function (b) { return b.type === "toc"; });
     var inlineTocHtml = tocBlock ? genTocHtml(tocBlock.props || {}, true) : "";
+    // AEO summary box is injected inline inside the post includable (like the TOC) so that
+    // data:post.metaDescription / data:post.body are IN SCOPE — outside the post loop they
+    // are undefined and the box would render empty. Sits above the TOC, at the top of the post.
+    var aeoBlock = S.blocks.find(function (b) { return b.type === "aeo"; });
+    var inlineAeoHtml = aeoBlock ? renderBlockStatic(aeoBlock) : "";
 
     // Post includable body · clean and simple. JSON-LD is in mainIncludable's loop
     // (before <b:include name='post'/>) to keep data:post.* scope without risking
@@ -2890,6 +2895,7 @@
           "</div>" +
         "</b:if>" +
         "<div class='post-body entry-content' style='font-size:16px;line-height:1.8'>" +
+          inlineAeoHtml +
           inlineTocHtml +
           "<data:post.body/>" +
         "</div>" +
@@ -3134,6 +3140,7 @@
       }
       if (b.type === "sidebar") return; // already handled inside blogOrLayout
       if (b.type === "toc") return; // injected inline inside postIncludable, after <h1>
+      if (b.type === "aeo") return; // injected inline inside postIncludable (needs data:post scope)
       if (b.type === "footer") { footerParts.push(condWrap(renderBlockStatic(b), b)); return; }
       parts.push(condWrap(renderBlockStatic(b), b));
     });
