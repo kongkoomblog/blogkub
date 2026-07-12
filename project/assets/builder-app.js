@@ -1501,7 +1501,7 @@
           : "border:1px solid " + pr + "33;background:" + pr + "08;padding:16px 20px;border-radius:" + r;
         return '<div style="padding:16px 32px"><aside style="' + aeoSt + '">'
           + '<div style="font-size:11px;font-weight:700;color:' + pr + ';text-transform:uppercase;letter-spacing:.08em;margin-bottom:7px">&#128214; ' + esc(p.title || "สรุปบทความ") + '</div>'
-          + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("สรุปเนื้อหาบทความอัตโนมัติจาก snippet · เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้แสดงในผลการค้นหา","Article summary auto-pulled from snippet · improves chances for Google & AI to show in search results") + '</p>'
+          + '<p style="font-size:13.5px;color:#4a5063;margin:0;line-height:1.65">' + tpl("ดึงจาก “คำอธิบายสำหรับการค้นหา” ของโพสต์ (ถ้าไม่มี จะตัดจากเนื้อหาให้อัตโนมัติ) · เพิ่มโอกาสให้ Google และ AI ดึงข้อมูลนี้ไปแสดง","Pulled from the post’s Search Description (or auto-excerpted from the body) · improves chances for Google & AI to surface it") + '</p>'
           + '</aside></div>';
       case "callout":
         var coSample = {
@@ -2098,7 +2098,7 @@
       case "darkmode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ปุ่มฝังใน Header โดยอัตโนมัติ · <b>มือถือ</b>: วางก่อนปุ่มเมนู ☰ | <b>Desktop</b>: วางหลังช่องค้นหา 🔍<br>หากไม่มีบล็อก Header จะลอยตัวมุมขวาล่างแทน<br><small>รองรับ <code>prefers-color-scheme</code> + จดจำใน localStorage</small></div></div>';
       case "aeo": return txt("title", "หัวข้อกล่องสรุป", p.title || "สรุปบทความ")
         + seg("style", "สไตล์", p.style || "card", [["card", "การ์ด"], ["highlight", "ไฮไลท์"], ["minimal", "เรียบ"]])
-        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ใช้ <code>.qt-aeo-summary</code> ซึ่งเชื่อมกับ SpeakableSpecification ใน Schema · ช่วยให้ Google Assistant และ AI อ่านสรุปบทความได้</div></div>';
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ไม่ต้องใช้ AI/API · ดึง “คำอธิบายสำหรับการค้นหา” ของโพสต์ก่อน ถ้าไม่มีจะตัดจากเนื้อหาให้อัตโนมัติ (ฝั่งเซิร์ฟเวอร์ Blogger) · ใช้ <code>.qt-aeo-summary</code> คู่กับ SpeakableSpecification ให้ Google/AI อ่านสรุปได้</div></div>';
       case "callout":
         var coRows = CALLOUT_TYPES.map(function (t) {
           var snippet = '<div class="bk-' + t.k + '">' + tpl("เขียนข้อความตรงนี้", "Write your text here") + '</div>';
@@ -4442,10 +4442,18 @@ tplStyleVars(),
           ? "margin:20px 0;padding:18px 22px;background:var(--accent,#8b5cf6)0d;border-left:4px solid var(--accent,#8b5cf6);border-radius:0 var(--radius,8px) var(--radius,8px) 0"
           : p.style === "minimal" ? "margin:20px 0;padding:14px 0;border-top:2px solid var(--primary);border-bottom:1px solid #eef"
           : "margin:20px 0;padding:18px 22px;background:var(--primary)0d;border:1px solid var(--primary)22;border-radius:var(--radius,8px)";
+        // Summary text (server-side, no AI/API): prefer the author's Search Description,
+        // otherwise fall back to a guaranteed body excerpt via b:eval snippet.
         return "<b:if cond='data:view.isSingleItem'>"
           + "<aside class='qt-aeo-summary' aria-label='" + aeoTitle + "' style='" + aeoCSS + "'>"
           + "<div style='font-size:11.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>&#128214; " + aeoTitle + "</div>"
-          + "<p style='font-size:15px;line-height:1.7;margin:0'><data:post.snippet/></p>"
+          + "<p style='font-size:15px;line-height:1.7;margin:0'>"
+          + "<b:if cond='data:post.metaDescription'>"
+          + "<data:post.metaDescription/>"
+          + "<b:else/>"
+          + "<b:eval expr='data:post.body snippet {length: 320, links: false, linebreaks: false, ellipsis: true}'/>"
+          + "</b:if>"
+          + "</p>"
           + "</aside></b:if>";
       case "toc":
         return genTocHtml(p, false);
