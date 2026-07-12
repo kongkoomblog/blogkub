@@ -3174,7 +3174,9 @@
     if (v.scope && condMap[v.scope]) html = "<b:if cond='" + condMap[v.scope] + "'>\n" + html + "\n</b:if>";
     // Blocks with a specific page-scope already won't show on 404.
     // Blocks shown on "all pages" need explicit 404 exclusion · except navigation/utility/404 blocks.
-    var SHOW_ON_ERROR = { header: 1, footer: 1, darkmode: 1, notfound: 1 };
+    // Global UI (nav, floating buttons, banners) should also work on the 404 / error page.
+    // Content-processing utilities (lightbox, faq, toc, …) are left off — they have no content to act on there.
+    var SHOW_ON_ERROR = { header: 1, footer: 1, darkmode: 1, notfound: 1, themepicker: 1, cookie: 1, announce: 1, bookmark: 1, backtotop: 1 };
     if (!SHOW_ON_ERROR[b.type] && (!v.scope || !condMap[v.scope])) {
       html = "<b:if cond='!data:view.isError'>\n" + html + "\n</b:if>";
     }
@@ -4840,13 +4842,18 @@ tplStyleVars(),
           + "if(x)x.addEventListener('click',function(){bar.style.display='none';try{localStorage.setItem(KEY,'1');}catch(e){}});"
           + "}());/*]]>*/<\/script>";
       case "backtotop":
-        var bttSide = p.side === "left" ? "left:20px" : "right:20px";
+        var bttRight = p.side !== "left";
+        var bttSide = bttRight ? "right:20px" : "left:20px";
+        // Theme-picker FAB also lives bottom-right; when both are on the right, stack Back-to-Top above it.
+        var bttStack = bttRight && S.blocks.some(function (x) { return x.type === "themepicker"; });
+        var bttBotD = bttStack ? "80px" : "24px";
+        var bttBotM = bttStack ? "136px" : "82px";
         return "<style>"
-          + ".bxb-totop{position:fixed;bottom:24px;" + bttSide + ";z-index:120;width:44px;height:44px;border-radius:50%;border:0;background:var(--primary,#6366f1);color:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 16px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s,transform .25s,visibility .25s;padding:0}"
+          + ".bxb-totop{position:fixed;bottom:" + bttBotD + ";" + bttSide + ";z-index:120;width:44px;height:44px;border-radius:50%;border:0;background:var(--primary,#6366f1);color:#fff;cursor:pointer;display:grid;place-items:center;box-shadow:0 4px 16px rgba(0,0,0,.22);opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .25s,transform .25s,visibility .25s;padding:0}"
           + ".bxb-totop.show{opacity:1;visibility:visible;transform:none}"
           + ".bxb-totop:hover{filter:brightness(1.08)}"
           + ".bxb-totop svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}"
-          + "@media(max-width:768px){.bxb-totop{bottom:82px;width:42px;height:42px}}"
+          + "@media(max-width:768px){.bxb-totop{bottom:" + bttBotM + ";width:42px;height:42px}}"
           + "</style>"
           + "<script>/*<![CDATA[*/(function(){"
           + "if(document.getElementById('bxbToTop'))return;"
