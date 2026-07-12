@@ -96,6 +96,7 @@
     sharebar: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>',
     slider: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 15l4-4 3 3 4-4 3 3"/><path d="M7 4v0M17 4v0M7 20v0M17 20v0" stroke-width="2.4"/>',
     morefrom: '<path d="M4 5h7v6H4z"/><path d="M15 5h5M15 9h5M15 13h5"/><path d="M4 15h16v4H4z"/>',
+    stories: '<circle cx="7" cy="8" r="4"/><circle cx="7" cy="8" r="1.3"/><path d="M14 5.5a4 4 0 0 1 0 5M17 3.5a7 7 0 0 1 0 9"/><path d="M3 16h16v4H3z" opacity=".9"/>',
     themepicker: '<circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 2a10 10 0 1 0 0 20c1 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.8.7-1.3 1.5-1.3H16a5 5 0 0 0 5-5c0-4.7-4-8-9-8z"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
@@ -424,6 +425,86 @@
       + "}());/*]]>*/<\/script>";
     return css + sc;
   }
+  /* ---------- Web-Stories-style story bar + full-screen viewer (recent posts via feed) ---------- */
+  function storiesStatic(p) {
+    var count = p.count || 8;
+    var label = String(p.label || "").trim();
+    var dur = (p.duration || 5) * 1000;
+    var heading = p.heading ? esc(p.heading) : "";
+    var css = "<style>"
+      + ".bxb-stories{padding:16px 0}"
+      + ".bxb-stories-row{display:flex;gap:15px;overflow-x:auto;padding:4px 2px 8px;scrollbar-width:none;-ms-overflow-style:none}"
+      + ".bxb-stories-row::-webkit-scrollbar{display:none}"
+      + ".bxb-story-item{flex:0 0 auto;width:74px;cursor:pointer;text-align:center;border:0;background:none;padding:0;font:inherit}"
+      + ".bxb-story-ring{width:70px;height:70px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#f59e0b,#e11d48,#8b5cf6);margin:0 auto;box-sizing:border-box}"
+      + ".bxb-story-item.seen .bxb-story-ring{background:var(--border-med,#cbd5e1)}"
+      + ".bxb-story-ring img{width:100%;height:100%;border-radius:50%;object-fit:cover;border:2px solid var(--bg-header,#fff);background:var(--bg-surface-2,#eee);display:block}"
+      + ".bxb-story-cap{font-size:11px;color:var(--text-muted,#64748b);margin-top:6px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
+      + ".bxb-sv{position:fixed;inset:0;z-index:9999;background:#000;display:none;align-items:center;justify-content:center}"
+      + ".bxb-sv.open{display:flex}"
+      + ".bxb-sv-stage{position:relative;width:100%;max-width:440px;height:100%;background:#111;overflow:hidden}"
+      + ".bxb-sv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}"
+      + ".bxb-sv-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent 22%,transparent 52%,rgba(0,0,0,.88))}"
+      + ".bxb-sv-bars{position:absolute;top:12px;left:12px;right:12px;display:flex;gap:4px;z-index:4}"
+      + ".bxb-sv-bar{flex:1;height:3px;background:rgba(255,255,255,.35);border-radius:2px;overflow:hidden}"
+      + ".bxb-sv-bar>i{display:block;height:100%;width:0;background:#fff}"
+      + ".bxb-sv-content{position:absolute;left:0;right:0;bottom:0;padding:22px 20px 30px;color:#fff;z-index:3}"
+      + ".bxb-sv-date{font-size:12px;opacity:.85;margin-bottom:6px}"
+      + ".bxb-sv-title{font-size:20px;font-weight:700;line-height:1.35;margin:0}"
+      + ".bxb-sv-cta{display:inline-block;margin-top:14px;background:#fff;color:#111;font-weight:600;font-size:14px;padding:9px 20px;border-radius:22px;text-decoration:none}"
+      + ".bxb-sv-close{position:absolute;top:12px;right:12px;z-index:5;width:36px;height:36px;border:0;border-radius:50%;background:rgba(0,0,0,.35);color:#fff;font-size:18px;cursor:pointer;line-height:1}"
+      + ".bxb-sv-nav{position:absolute;top:0;bottom:0;width:34%;z-index:2;border:0;background:none;cursor:pointer;padding:0}"
+      + ".bxb-sv-prev{left:0}.bxb-sv-next{right:0}"
+      + "</style>";
+    var html = "<section class='bxb-stories' data-count='" + count + "' data-label='" + esc(label) + "' data-dur='" + dur + "'>"
+      + "<div class='wrap'>" + (heading ? "<h3 style='font-size:18px;font-weight:700;margin:0 0 12px'>" + heading + "</h3>" : "") + "<div class='bxb-stories-row'></div></div></section>"
+      + "<div class='bxb-sv' role='dialog' aria-modal='true' aria-label='" + tpl("สตอรี่บทความ", "Article stories") + "'>"
+      + "<div class='bxb-sv-stage'>"
+      + "<div class='bxb-sv-bars'></div>"
+      + "<img class='bxb-sv-img' alt=''/>"
+      + "<div class='bxb-sv-shade'></div>"
+      + "<button type='button' class='bxb-sv-nav bxb-sv-prev' aria-label='" + tpl("ก่อนหน้า", "Previous") + "'></button>"
+      + "<button type='button' class='bxb-sv-nav bxb-sv-next' aria-label='" + tpl("ถัดไป", "Next") + "'></button>"
+      + "<button type='button' class='bxb-sv-close' aria-label='" + tpl("ปิด", "Close") + "'>&#10005;</button>"
+      + "<div class='bxb-sv-content'><div class='bxb-sv-date'></div><h3 class='bxb-sv-title'></h3><a class='bxb-sv-cta' href='#'>" + tpl("อ่านบทความ", "Read article") + "</a></div>"
+      + "</div></div>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var sec=document.querySelector('.bxb-stories');if(!sec)return;"
+      + "var row=sec.querySelector('.bxb-stories-row');"
+      + "var count=parseInt(sec.getAttribute('data-count'),10)||8,label=sec.getAttribute('data-label')||'',DUR=parseInt(sec.getAttribute('data-dur'),10)||5000;"
+      + "var base='/feeds/posts/default'+(label?'/-/'+encodeURIComponent(label):'');"
+      + "var vw=document.querySelector('.bxb-sv'),stage=vw.querySelector('.bxb-sv-stage'),barsBox=vw.querySelector('.bxb-sv-bars');"
+      + "var svImg=vw.querySelector('.bxb-sv-img'),svTitle=vw.querySelector('.bxb-sv-title'),svDate=vw.querySelector('.bxb-sv-date'),svCta=vw.querySelector('.bxb-sv-cta');"
+      + "var slides=[],idx=0,timer=null;var SEEN='bxb-stories-seen';"
+      + "function seen(){try{return JSON.parse(localStorage.getItem(SEEN))||{};}catch(e){return {};}}"
+      + "function big(u){return u?u.replace(/\\/s\\d+(-c)?\\//,'/s720/'):u;}"
+      + "fetch(base+'?alt=json&max-results='+count).then(function(r){return r.json();}).then(function(d){"
+      + "var e=(d.feed&&d.feed.entry)||[];"
+      + "e.forEach(function(x){var al=(x.link||[]).filter(function(l){return l.rel==='alternate';})[0];if(!al)return;"
+      + "var tm=x['media$thumbnail'];var thumb=tm?tm.url:'';var t=(x.title&&x.title.$t)||'';"
+      + "var dt='';try{if(x.published&&x.published.$t){dt=new Date(x.published.$t).toLocaleDateString(undefined,{year:'numeric',month:'short',day:'numeric'});}}catch(_){}"
+      + "slides.push({url:al.href,title:t,thumb:thumb,big:big(thumb),date:dt});});"
+      + "if(!slides.length){sec.parentNode&&sec.parentNode.removeChild(sec);return;}"
+      + "var sv=seen();"
+      + "slides.forEach(function(s,i){var b=document.createElement('button');b.type='button';b.className='bxb-story-item'+(sv[s.url]?' seen':'');"
+      + "b.innerHTML='<span class=\"bxb-story-ring\"><img src=\"'+s.thumb+'\" alt=\"\" loading=\"lazy\"/></span><span class=\"bxb-story-cap\">'+ (s.title.replace(/</g,'&lt;')) +'</span>';"
+      + "b.addEventListener('click',function(){open(i);});row.appendChild(b);});"
+      + "});"
+      + "function renderBars(){barsBox.innerHTML='';slides.forEach(function(_,k){var bar=document.createElement('div');bar.className='bxb-sv-bar';var fi=document.createElement('i');bar.appendChild(fi);barsBox.appendChild(bar);});}"
+      + "function markSeen(u){try{var s=seen();s[u]=1;localStorage.setItem(SEEN,JSON.stringify(s));}catch(e){}var items=row.children;if(items[idx])items[idx].classList.add('seen');}"
+      + "function play(){clearTimeout(timer);var bars=barsBox.children;for(var k=0;k<bars.length;k++){var fi=bars[k].firstChild;fi.style.transition='none';fi.style.width=(k<idx?'100%':'0');}var cur=bars[idx].firstChild;void cur.offsetWidth;cur.style.transition='width '+DUR+'ms linear';cur.style.width='100%';timer=setTimeout(next,DUR);}"
+      + "function show(){var s=slides[idx];svImg.src=s.big||s.thumb;svTitle.textContent=s.title;svDate.textContent=s.date;svCta.href=s.url;markSeen(s.url);play();}"
+      + "function open(i){idx=i;renderBars();vw.classList.add('open');document.documentElement.style.overflow='hidden';show();}"
+      + "function close(){clearTimeout(timer);vw.classList.remove('open');document.documentElement.style.overflow='';}"
+      + "function next(){if(idx<slides.length-1){idx++;show();}else{close();}}"
+      + "function prev(){if(idx>0){idx--;show();}else{show();}}"
+      + "vw.querySelector('.bxb-sv-next').addEventListener('click',next);"
+      + "vw.querySelector('.bxb-sv-prev').addEventListener('click',prev);"
+      + "vw.querySelector('.bxb-sv-close').addEventListener('click',close);"
+      + "document.addEventListener('keydown',function(ev){if(!vw.classList.contains('open'))return;if(ev.key==='Escape')close();else if(ev.key==='ArrowRight')next();else if(ev.key==='ArrowLeft')prev();});"
+      + "}());/*]]>*/<\/script>";
+    return css + html + sc;
+  }
   function faqStatic() {
     var css = "<style>" + faqCSS() + "</style>";
     // Build FAQPage structured data from the .bk-faq items the author wrote in the post body.
@@ -535,6 +616,7 @@
       ["toc", "สารบัญ (TOC)", "สร้างจาก h2/h3 อัตโนมัติ"],
       ["related", "บทความที่เกี่ยวข้อง", "JSON Feed API"],
       ["morefrom", "สุ่ม / ล่าสุด ตามป้ายกำกับ", "Random / Recent posts"],
+      ["stories", "สตอรี่ (Web Stories)", "วงกลม + ดูเต็มจอ"],
       ["progress", "Progress Bar", "แถบความคืบหน้าการอ่าน"],
       ["darkmode", "Dark Mode Toggle", "ปุ่มสลับธีมมืด/สว่าง"]
     ]],
@@ -578,6 +660,7 @@
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
       related: { heading: "Related Posts", count: 4, columns: 2, showImage: true },
       morefrom: { mode: "recent", label: "", count: 6, columns: 3, showImage: true },
+      stories: { count: 8, label: "", duration: 5, heading: "" },
       progress: { height: 3, color: "primary" },
       callout: {},
       readtime: { cards: true },
@@ -629,6 +712,7 @@
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
       related: { heading: "บทความที่เกี่ยวข้อง", count: 4, columns: 2, showImage: true },
       morefrom: { mode: "recent", label: "", count: 6, columns: 3, showImage: true },
+      stories: { count: 8, label: "", duration: 5, heading: "" },
       progress: { height: 3, color: "primary" },
       callout: {},
       readtime: { cards: true },
@@ -1665,6 +1749,13 @@
           '</div>' +
           '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ดึงหมวดจากป้ายกำกับแรกของโพสต์อัตโนมัติ · สร้าง BreadcrumbList schema ให้ (แสดงใน Google)", "Category comes from the post's first label · generates BreadcrumbList schema (shows in Google)") + '</div>' +
           '</div>';
+      case "stories":
+        var stRing = function () { return '<div style="flex:0 0 auto;width:64px;text-align:center"><div style="width:60px;height:60px;border-radius:50%;padding:3px;background:linear-gradient(45deg,#f59e0b,#e11d48,#8b5cf6);margin:0 auto;box-sizing:border-box"><div style="width:100%;height:100%;border-radius:50%;border:2px solid #fff;background:linear-gradient(135deg,#e8eaf5,#dfe3f0)"></div></div><div style="height:6px;background:#e8eaf2;border-radius:3px;margin:6px 6px 0"></div></div>'; };
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("สตอรี่ (Web Stories) · แตะดูแบบเต็มจอ", "Web Stories · tap to view fullscreen") + '</div>' +
+          '<div style="display:flex;gap:13px;overflow:hidden">' + new Array(6).fill(stRing()).join("") + '</div>' +
+          '<div style="margin-top:12px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("วงกลมบทความล่าสุดจาก Feed · แตะเพื่อดูแบบสตอรี่เต็มจอ (แถบเวลา + เลื่อนถัดไป/ก่อนหน้า) · ทำงานบนบล็อกจริง", "Circular recent-post rings from the Feed · tap to open a fullscreen story view (progress bars + next/prev) · works on the live blog") + '</div>' +
+          '</div>';
       case "morefrom":
         var mfP = b.props || {};
         var mfPHeading = esc(mfP.heading || (mfP.mode === "random" ? tpl("สุ่มบทความ", "Random Posts") : tpl("บทความล่าสุด", "Recent Posts")));
@@ -1940,8 +2031,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", morefrom: "Random / Recent Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", slider: "Image Slider", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", themepicker: "Theme Color Picker", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", morefrom: "สุ่ม / บทความล่าสุด", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", slider: "สไลด์รูป/แกลเลอรี", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", morefrom: "Random / Recent Posts", stories: "Web Stories", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", slider: "Image Slider", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", morefrom: "สุ่ม / บทความล่าสุด", stories: "สตอรี่ (Web Stories)", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", slider: "สไลด์รูป/แกลเลอรี", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1949,7 +2040,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, morefrom: 1, themepicker: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, morefrom: 1, stories: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2315,6 +2406,11 @@
       case "breadcrumb": return txt("home", "ข้อความหน้าแรก", (p.home || tpl("หน้าแรก", "Home")))
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แสดงบนสุดของทุกหน้าบทความ: หน้าแรก › หมวดหมู่ › ชื่อบทความ · หมวดดึงจากป้ายกำกับแรกของโพสต์อัตโนมัติ", "Shows at the top of every post: Home › Category › Post Title · the category is taken from the post's first label automatically") + '</div></div>'
         + '<div class="hint">' + tpl("สร้าง BreadcrumbList schema (JSON-LD) ให้อัตโนมัติ · ช่วยให้ Google แสดงเส้นทางในผลการค้นหา", "Generates BreadcrumbList schema (JSON-LD) automatically · helps Google show the breadcrumb trail in search results") + '</div>';
+      case "stories": return txt("heading", "หัวข้อส่วน (เว้นว่างได้)", p.heading || "")
+        + txt("label", "กรองตามป้ายกำกับ (เว้นว่าง = ทุกป้าย)", p.label || "")
+        + num("count", "จำนวนสตอรี่", p.count || 8, 4, 15)
+        + num("duration", "เวลาต่อสตอรี่ (วินาที)", p.duration || 5, 3, 10)
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("วงกลมบทความล่าสุดแบบ Instagram/Web Stories · แตะเปิดดูเต็มจอ มีแถบเวลาเลื่อนอัตโนมัติ แตะซ้าย/ขวาเพื่อย้อน/ถัดไป และปุ่มไปอ่านบทความ · ดึงจาก Feed อัตโนมัติ", "Instagram/Web-Stories-style rings of recent posts · tap to open fullscreen with auto-advancing progress bars, tap left/right to go back/next, and a read-article button · auto-fetched from the Feed") + '</div></div>';
       case "morefrom": return seg("mode", "โหมด", p.mode || "recent", [["recent", "ล่าสุด"], ["random", "สุ่ม"]])
         + txt("heading", "หัวข้อส่วน", p.heading || "")
         + txt("label", "กรองตามป้ายกำกับ (เว้นว่าง = ทุกป้าย)", p.label || "")
@@ -4673,6 +4769,8 @@ tplStyleVars(),
         return faqStatic();
       case "slider":
         return sliderStatic();
+      case "stories":
+        return storiesStatic(p);
       case "sharebar":
         var shbSide = p.side === "right" ? "right:16px" : "left:16px";
         var shbBrand = function (k, c) { return "<a href='#' data-share='" + k + "' rel='noopener noreferrer' aria-label='" + k + "' style='background:" + c + "'><svg viewBox='0 0 24 24' fill='currentColor'>" + SOCIAL_ICONS[k].svg + "</svg></a>"; };
@@ -5630,6 +5728,7 @@ tplStyleVars(),
     "แถบแชร์ลอยข้างจอ": "Sticky Share Bar", "sticky share (บนหน้าบทความ)": "sticky share (post pages)", "ตำแหน่งแถบ": "Bar position",
     "สไลด์รูป/แกลเลอรี": "Image Slider", "เลื่อนรูป + คำบรรยาย": "Swipe images + captions", "คัดลอกโค้ดสไลด์": "Copy the slider snippet",
     "สุ่ม / ล่าสุด ตามป้ายกำกับ": "Random / Recent by label", "Random / Recent posts": "Random / Recent posts", "โหมด": "Mode", "ล่าสุด": "Recent", "สุ่ม": "Random", "กรองตามป้ายกำกับ (เว้นว่าง = ทุกป้าย)": "Filter by label (blank = all)",
+    "สตอรี่ (Web Stories)": "Web Stories", "วงกลม + ดูเต็มจอ": "Rings + fullscreen viewer", "หัวข้อส่วน (เว้นว่างได้)": "Section heading (optional)", "จำนวนสตอรี่": "Story count", "เวลาต่อสตอรี่ (วินาที)": "Seconds per story",
     "เส้นทางนำทาง (Breadcrumb)": "Breadcrumbs", "หน้าแรก › หมวด › บทความ + schema": "Home › Category › Post + schema", "ข้อความหน้าแรก": "Home label",
     "ปุ่มกลับขึ้นบน": "Back to Top", "ปุ่มลอยเลื่อนขึ้นบนสุด": "Floating scroll-to-top button",
     "แถบประกาศ": "Announcement Bar", "แถบแจ้งเตือนด้านบนสุด ปิดได้": "Dismissible top notice bar", "ข้อความประกาศ": "Announcement text", "ข้อความลิงก์ (เว้นว่างได้)": "Link text (optional)", "URL ลิงก์": "Link URL", "สีพื้นหลังแถบ": "Bar background color",
