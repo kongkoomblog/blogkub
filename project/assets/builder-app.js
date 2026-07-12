@@ -92,6 +92,7 @@
     breadcrumb: '<path d="M4 7h5l2.5 5L9 17H4"/><path d="M13 7h5l2.5 5L18 17h-5"/>',
     backtotop: '<circle cx="12" cy="12" r="9.5"/><path d="M12 16V9M8.5 12.5 12 9l3.5 3.5"/>',
     announce: '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/>',
+    cookie: '<path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/><path d="M8.5 10h.01M12 14h.01M15.5 15h.01M9 16h.01M16 9h.01"/>',
     themepicker: '<circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 2a10 10 0 1 0 0 20c1 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.8.7-1.3 1.5-1.3H16a5 5 0 0 0 5-5c0-4.7-4-8-9-8z"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
@@ -466,6 +467,7 @@
     ]],
     ["ส่วนเสริม", [
       ["announce", "แถบประกาศ", "แถบแจ้งเตือนด้านบนสุด ปิดได้"],
+      ["cookie", "แถบคุกกี้ (Consent)", "AdSense / PDPA · ยอมรับคุกกี้"],
       ["ad", "ช่องโฆษณา", "AdSense Safe"],
       ["newsletter", "Newsletter", "รับอีเมลสมัครสมาชิก"],
       ["share", "Social Share", "ปุ่มแชร์โซเชียล"]
@@ -541,6 +543,7 @@
       breadcrumb: { home: "Home" },
       backtotop: { side: "right" },
       announce: { message: "🎉 Welcome! New articles every week — subscribe for updates", linkText: "Subscribe", linkUrl: "/search", bg: "#6366f1" },
+      cookie: { message: "This site uses cookies to improve your experience and analyze traffic.", acceptText: "Accept", policyText: "Privacy Policy", policyUrl: "/p/privacy.html", bg: "#1e293b" },
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
@@ -588,6 +591,7 @@
       breadcrumb: { home: "หน้าแรก" },
       backtotop: { side: "right" },
       announce: { message: "🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์", linkText: "ดูบทความ", linkUrl: "/search", bg: "#6366f1" },
+      cookie: { message: "เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์การใช้งานและวิเคราะห์การเข้าชม", acceptText: "ยอมรับ", policyText: "นโยบายความเป็นส่วนตัว", policyUrl: "/p/privacy.html", bg: "#1e293b" },
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
@@ -1608,6 +1612,16 @@
           '</div>' +
           '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ดึงหมวดจากป้ายกำกับแรกของโพสต์อัตโนมัติ · สร้าง BreadcrumbList schema ให้ (แสดงใน Google)", "Category comes from the post's first label · generates BreadcrumbList schema (shows in Google)") + '</div>' +
           '</div>';
+      case "cookie":
+        var ckP = b.props || {};
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("แถบคุกกี้ · มุมล่างซ้ายของเว็บ", "Cookie consent · bottom-left of the site") + '</div>' +
+          '<div style="max-width:320px;background:' + (ckP.bg || "#1e293b") + ';color:#fff;border-radius:14px;padding:15px 16px;box-shadow:0 10px 30px rgba(0,0,0,.18);font-size:13px;line-height:1.6">' +
+            '<div style="margin-bottom:11px">🍪 ' + esc(ckP.message || tpl("เว็บไซต์นี้ใช้คุกกี้…", "This site uses cookies…")) + (ckP.policyText ? ' <span style="text-decoration:underline;opacity:.9">' + esc(ckP.policyText) + '</span>' : "") + '</div>' +
+            '<div style="background:' + pr + ';color:#fff;font-weight:600;text-align:center;padding:9px;border-radius:9px">' + esc(ckP.acceptText || tpl("ยอมรับ", "Accept")) + '</div>' +
+          '</div>' +
+          '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("จำเป็นสำหรับ AdSense / PDPA · กดยอมรับแล้วจำไว้ ไม่แสดงอีก", "Needed for AdSense / PDPA · remembered after Accept, won't show again") + '</div>' +
+          '</div>';
       case "announce":
         var anP = b.props || {};
         return '<div style="background:' + (anP.bg || pr) + ';color:#fff;padding:10px 40px;position:relative;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;font-size:13.5px">' +
@@ -1841,8 +1855,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", themepicker: "Theme Color Picker", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1850,7 +1864,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, breadcrumb: 1, backtotop: 1, announce: 1, themepicker: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2216,6 +2230,12 @@
       case "breadcrumb": return txt("home", "ข้อความหน้าแรก", (p.home || tpl("หน้าแรก", "Home")))
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แสดงบนสุดของทุกหน้าบทความ: หน้าแรก › หมวดหมู่ › ชื่อบทความ · หมวดดึงจากป้ายกำกับแรกของโพสต์อัตโนมัติ", "Shows at the top of every post: Home › Category › Post Title · the category is taken from the post's first label automatically") + '</div></div>'
         + '<div class="hint">' + tpl("สร้าง BreadcrumbList schema (JSON-LD) ให้อัตโนมัติ · ช่วยให้ Google แสดงเส้นทางในผลการค้นหา", "Generates BreadcrumbList schema (JSON-LD) automatically · helps Google show the breadcrumb trail in search results") + '</div>';
+      case "cookie": return txt("message", "ข้อความคุกกี้", p.message || "")
+        + txt("acceptText", "ปุ่มยอมรับ", p.acceptText || "")
+        + txt("policyText", "ข้อความลิงก์นโยบาย (เว้นว่างได้)", p.policyText || "")
+        + txt("policyUrl", "URL นโยบายความเป็นส่วนตัว", p.policyUrl || "")
+        + col("bg", "สีพื้นหลังแถบ", p.bg || "#1e293b")
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แถบขอความยินยอมคุกกี้ (มุมล่างซ้าย) · จำเป็นสำหรับ AdSense และ PDPA/GDPR · กดยอมรับแล้วจำไว้ (localStorage) ไม่แสดงอีก · บนมือถือจะยกให้พ้นแถบเมนูล่าง", "A cookie consent banner (bottom-left) · required for AdSense and PDPA/GDPR · remembered after Accept (localStorage) and won't show again · auto-raised above the mobile bottom nav") + '</div></div>';
       case "announce": return txt("message", "ข้อความประกาศ", p.message || "")
         + txt("linkText", "ข้อความลิงก์ (เว้นว่างได้)", p.linkText || "")
         + txt("linkUrl", "URL ลิงก์", p.linkUrl || "")
@@ -4541,6 +4561,26 @@ tplStyleVars(),
         return reviewkitStatic();
       case "faq":
         return faqStatic();
+      case "cookie":
+        var ckBg = p.bg || "#1e293b";
+        var ckMsg = esc(p.message || "เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์การใช้งานและวิเคราะห์การเข้าชม");
+        var ckAccept = esc(p.acceptText || "ยอมรับ");
+        var ckPolicy = (p.policyText && String(p.policyText).trim())
+          ? " <a href='" + esc(p.policyUrl || "#") + "' style='color:#fff;text-decoration:underline;text-underline-offset:2px;opacity:.9'>" + esc(p.policyText) + "</a>"
+          : "";
+        return "<div id='bxbCookie' class='bxb-cookie' role='dialog' aria-label='" + tpl("ความยินยอมคุกกี้", "Cookie consent") + "' style='display:none;position:fixed;left:16px;bottom:16px;z-index:130;max-width:360px;background:" + ckBg + ";color:#fff;border-radius:14px;padding:16px 18px;box-shadow:0 10px 40px rgba(0,0,0,.28);font-size:13.5px;line-height:1.6'>"
+          + "<div style='margin-bottom:12px'>&#127850; <span class='bxb-cookie-msg'>" + ckMsg + "</span>" + ckPolicy + "</div>"
+          + "<button type='button' class='bxb-cookie-ok' style='width:100%;border:0;background:var(--primary,#6366f1);color:#fff;font-weight:600;font-size:13.5px;padding:10px 22px;border-radius:9px;cursor:pointer'>" + ckAccept + "</button>"
+          + "<style>@media(max-width:768px){.bxb-cookie{left:12px!important;right:12px!important;bottom:76px!important;max-width:none!important}}</style>"
+          + "</div>"
+          + "<script>/*<![CDATA[*/(function(){"
+          + "var bar=document.getElementById('bxbCookie');if(!bar)return;"
+          + "var KEY='bxb-cookie-consent';"
+          + "try{if(localStorage.getItem(KEY)==='1')return;}catch(e){}"
+          + "bar.style.display='';"
+          + "var ok=bar.querySelector('.bxb-cookie-ok');"
+          + "if(ok)ok.addEventListener('click',function(){bar.style.display='none';try{localStorage.setItem(KEY,'1');}catch(e){}});"
+          + "}());/*]]>*/<\/script>";
       case "announce":
         var anBg = p.bg || "#6366f1";
         var anMsg = esc(p.message || "🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์");
@@ -5409,6 +5449,7 @@ tplStyleVars(),
     "เส้นทางนำทาง (Breadcrumb)": "Breadcrumbs", "หน้าแรก › หมวด › บทความ + schema": "Home › Category › Post + schema", "ข้อความหน้าแรก": "Home label",
     "ปุ่มกลับขึ้นบน": "Back to Top", "ปุ่มลอยเลื่อนขึ้นบนสุด": "Floating scroll-to-top button",
     "แถบประกาศ": "Announcement Bar", "แถบแจ้งเตือนด้านบนสุด ปิดได้": "Dismissible top notice bar", "ข้อความประกาศ": "Announcement text", "ข้อความลิงก์ (เว้นว่างได้)": "Link text (optional)", "URL ลิงก์": "Link URL", "สีพื้นหลังแถบ": "Bar background color",
+    "แถบคุกกี้ (Consent)": "Cookie Consent", "AdSense / PDPA · ยอมรับคุกกี้": "AdSense / PDPA · accept cookies", "ข้อความคุกกี้": "Cookie message", "ปุ่มยอมรับ": "Accept button", "ข้อความลิงก์นโยบาย (เว้นว่างได้)": "Policy link text (optional)", "URL นโยบายความเป็นส่วนตัว": "Privacy policy URL",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
