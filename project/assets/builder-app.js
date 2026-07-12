@@ -4447,14 +4447,25 @@ tplStyleVars(),
         return "<b:if cond='data:view.isSingleItem'>"
           + "<aside class='qt-aeo-summary' aria-label='" + aeoTitle + "' style='" + aeoCSS + "'>"
           + "<div style='font-size:11.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>&#128214; " + aeoTitle + "</div>"
-          + "<p style='font-size:15px;line-height:1.7;margin:0'>"
+          + "<p class='qt-aeo-text' style='font-size:15px;line-height:1.7;margin:0'>"
           + "<b:if cond='data:post.metaDescription'>"
           + "<data:post.metaDescription/>"
           + "<b:else/>"
           + "<b:eval expr='data:post.body snippet {length: 320, links: false, linebreaks: false, ellipsis: true}'/>"
           + "</b:if>"
           + "</p>"
-          + "</aside></b:if>";
+          + "</aside>"
+          // safety net: if the server-side snippet renders empty on this post, fill from the visible article text
+          + "<script>/*<![CDATA[*/(function(){"
+          + "function run(){var box=document.querySelector('.qt-aeo-text');if(!box)return;"
+          + "if((box.textContent||'').replace(/\\s+/g,' ').trim().length>2)return;"
+          + "var body=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body');if(!body)return;"
+          + "var t=(body.textContent||'').replace(/\\s+/g,' ').trim();if(!t)return;"
+          + "if(t.length>320){t=t.slice(0,320).replace(/\\s+\\S*$/,'')+'\\u2026';}"
+          + "box.textContent=t;}"
+          + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
+          + "})();/*]]>*/<\/script>"
+          + "</b:if>";
       case "toc":
         return genTocHtml(p, false);
       case "related":
