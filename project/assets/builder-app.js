@@ -93,6 +93,7 @@
     backtotop: '<circle cx="12" cy="12" r="9.5"/><path d="M12 16V9M8.5 12.5 12 9l3.5 3.5"/>',
     announce: '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/>',
     cookie: '<path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/><path d="M8.5 10h.01M12 14h.01M15.5 15h.01M9 16h.01M16 9h.01"/>',
+    sharebar: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>',
     themepicker: '<circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 2a10 10 0 1 0 0 20c1 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.8.7-1.3 1.5-1.3H16a5 5 0 0 0 5-5c0-4.7-4-8-9-8z"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
@@ -476,6 +477,7 @@
       ["callout", "กล่อง Callout", "note / tip / warning …"],
       ["proscons", "Pros/Cons + คะแนน", "ข้อดี-ข้อเสีย + กล่องรีวิว"],
       ["faq", "คำถามที่พบบ่อย (FAQ)", "accordion + FAQ schema"],
+      ["sharebar", "แถบแชร์ลอยข้างจอ", "sticky share (บนหน้าบทความ)"],
       ["breadcrumb", "เส้นทางนำทาง (Breadcrumb)", "หน้าแรก › หมวด › บทความ + schema"],
       ["backtotop", "ปุ่มกลับขึ้นบน", "ปุ่มลอยเลื่อนขึ้นบนสุด"],
       ["readtime", "เวลาในการอ่าน", "⏱ X นาที บนการ์ด + บทความ"],
@@ -540,6 +542,7 @@
       anchorlink: {},
       proscons: {},
       faq: {},
+      sharebar: { side: "left", facebook: true, twitter: true, line: true, copy: true },
       breadcrumb: { home: "Home" },
       backtotop: { side: "right" },
       announce: { message: "🎉 Welcome! New articles every week — subscribe for updates", linkText: "Subscribe", linkUrl: "/search", bg: "#6366f1" },
@@ -588,6 +591,7 @@
       anchorlink: {},
       proscons: {},
       faq: {},
+      sharebar: { side: "left", facebook: true, twitter: true, line: true, copy: true },
       breadcrumb: { home: "หน้าแรก" },
       backtotop: { side: "right" },
       announce: { message: "🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์", linkText: "ดูบทความ", linkUrl: "/search", bg: "#6366f1" },
@@ -1612,6 +1616,15 @@
           '</div>' +
           '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ดึงหมวดจากป้ายกำกับแรกของโพสต์อัตโนมัติ · สร้าง BreadcrumbList schema ให้ (แสดงใน Google)", "Category comes from the post's first label · generates BreadcrumbList schema (shows in Google)") + '</div>' +
           '</div>';
+      case "sharebar":
+        var shP = b.props || {};
+        var shDot = function (c) { return '<span style="width:38px;height:38px;border-radius:11px;background:' + c + ';display:grid;place-items:center;box-shadow:0 2px 8px rgba(0,0,0,.15)"><span style="width:15px;height:15px;border-radius:3px;background:rgba(255,255,255,.9)"></span></span>'; };
+        var shList = [shP.facebook !== false ? "#1877f2" : null, shP.twitter !== false ? "#000" : null, shP.line !== false ? "#06c755" : null, shP.copy !== false ? (pr) : null].filter(Boolean);
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("แถบแชร์ลอยข้างจอ · เฉพาะหน้าบทความ (เดสก์ท็อป)", "Sticky share bar · post pages only (desktop)") + '</div>' +
+          '<div style="display:flex;flex-direction:column;gap:8px;width:max-content">' + shList.map(shDot).join("") + '</div>' +
+          '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ลอยกลาง" + (shP.side === "right" ? "ขวา" : "ซ้าย") + "ของจอ · ซ่อนบนมือถือ (ใช้แถบเมนูล่างแทน) · แชร์ Facebook / X / LINE + คัดลอกลิงก์", "Floats " + (shP.side === "right" ? "right" : "left") + " · hidden on mobile (bottom nav handles it) · Facebook / X / LINE + copy link") + '</div>' +
+          '</div>';
       case "cookie":
         var ckP = b.props || {};
         return '<div style="padding:18px 32px">' +
@@ -1855,8 +1868,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", themepicker: "Theme Color Picker", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1864,7 +1877,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, themepicker: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2230,6 +2243,12 @@
       case "breadcrumb": return txt("home", "ข้อความหน้าแรก", (p.home || tpl("หน้าแรก", "Home")))
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แสดงบนสุดของทุกหน้าบทความ: หน้าแรก › หมวดหมู่ › ชื่อบทความ · หมวดดึงจากป้ายกำกับแรกของโพสต์อัตโนมัติ", "Shows at the top of every post: Home › Category › Post Title · the category is taken from the post's first label automatically") + '</div></div>'
         + '<div class="hint">' + tpl("สร้าง BreadcrumbList schema (JSON-LD) ให้อัตโนมัติ · ช่วยให้ Google แสดงเส้นทางในผลการค้นหา", "Generates BreadcrumbList schema (JSON-LD) automatically · helps Google show the breadcrumb trail in search results") + '</div>';
+      case "sharebar": return seg("side", "ตำแหน่งแถบ", p.side || "left", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]])
+        + tog("facebook", "Facebook", p.facebook !== false)
+        + tog("twitter", "X (Twitter)", p.twitter !== false)
+        + tog("line", "LINE", p.line !== false)
+        + tog("copy", "คัดลอกลิงก์", p.copy !== false)
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แถบปุ่มแชร์ลอยติดข้างจอ แสดงเฉพาะหน้าบทความ/หน้าเพจ · ซ่อนอัตโนมัติบนมือถือ (ใช้แถบเมนูล่างแทน)", "A sticky share bar that shows only on post/page views · auto-hidden on mobile (the bottom nav covers it)") + '</div></div>';
       case "cookie": return txt("message", "ข้อความคุกกี้", p.message || "")
         + txt("acceptText", "ปุ่มยอมรับ", p.acceptText || "")
         + txt("policyText", "ข้อความลิงก์นโยบาย (เว้นว่างได้)", p.policyText || "")
@@ -4561,6 +4580,32 @@ tplStyleVars(),
         return reviewkitStatic();
       case "faq":
         return faqStatic();
+      case "sharebar":
+        var shbSide = p.side === "right" ? "right:16px" : "left:16px";
+        var shbBrand = function (k, c) { return "<a href='#' data-share='" + k + "' rel='noopener noreferrer' aria-label='" + k + "' style='background:" + c + "'><svg viewBox='0 0 24 24' fill='currentColor'>" + SOCIAL_ICONS[k].svg + "</svg></a>"; };
+        var shbBtns = (p.facebook !== false ? shbBrand("facebook", "#1877f2") : "")
+          + (p.twitter !== false ? shbBrand("twitter", "#000000") : "")
+          + (p.line !== false ? shbBrand("line", "#06c755") : "");
+        var shbCopy = p.copy !== false
+          ? "<button type='button' class='bxb-shb-copy' aria-label='" + tpl("คัดลอกลิงก์", "Copy link") + "' style='background:var(--primary,#6366f1)'><svg viewBox='0 0 24 24'><rect x='9' y='9' width='11' height='11' rx='2'/><path d='M5 15V5a2 2 0 0 1 2-2h8'/></svg></button>"
+          : "";
+        return "<b:if cond='data:view.isSingleItem'>"
+          + "<style>.bxb-sharebar{position:fixed;top:50%;transform:translateY(-50%);" + shbSide + ";z-index:80;display:flex;flex-direction:column;gap:9px}"
+          + ".bxb-sharebar a,.bxb-sharebar button{width:42px;height:42px;border-radius:12px;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.16);transition:transform .15s,filter .15s;padding:0}"
+          + ".bxb-sharebar a:hover,.bxb-sharebar button:hover{transform:translateY(-2px);filter:brightness(1.08)}"
+          + ".bxb-sharebar a svg{width:19px;height:19px;fill:currentColor}"
+          + ".bxb-sharebar button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}"
+          + ".bxb-sharebar .bxb-shb-copy.ok{background:#16a34a!important}"
+          + "@media(max-width:980px){.bxb-sharebar{display:none}}"
+          + "</style>"
+          + "<div class='bxb-sharebar' aria-label='" + tpl("แชร์บทความ", "Share this article") + "'>" + shbBtns + shbCopy + "</div>"
+          + "<script>/*<![CDATA[*/(function(){"
+          + "function cu(){var l=document.querySelector('link[rel=\"canonical\"]');var u=l?l.href:location.href;return u.replace(/([?&])m=[01](&|$)/g,function(_,a,b){return b==='&'?a:'';}).replace(/[?&]$/,'').split('#')[0];}"
+          + "var t=encodeURIComponent(document.title);"
+          + "[].slice.call(document.querySelectorAll('.bxb-sharebar [data-share]')).forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var u=encodeURIComponent(cu());var s=a.getAttribute('data-share'),url='';if(s==='facebook')url='https://www.facebook.com/sharer/sharer.php?u='+u;else if(s==='twitter')url='https://twitter.com/intent/tweet?text='+t+'%20'+u;else if(s==='line')url='https://social-plugins.line.me/lineit/share?url='+u;if(url){var w=window.open(url,'_blank','noopener,noreferrer');if(!w)location.href=url;}});});"
+          + "var cb=document.querySelector('.bxb-shb-copy');if(cb){cb.addEventListener('click',function(){var done=function(){cb.classList.add('ok');setTimeout(function(){cb.classList.remove('ok');},1500);};if(navigator.clipboard){navigator.clipboard.writeText(cu()).then(done,done);}else{var ta=document.createElement('textarea');ta.value=cu();document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);done();}});}"
+          + "}());/*]]>*/<\/script>"
+          + "</b:if>";
       case "cookie":
         var ckBg = p.bg || "#1e293b";
         var ckMsg = esc(p.message || "เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์การใช้งานและวิเคราะห์การเข้าชม");
@@ -5446,6 +5491,7 @@ tplStyleVars(),
     "+ เพิ่มเมนู": "+ Add menu item", "เมนูมือถือเด้งจาก": "Mobile menu slides from",
     "◧ ซ้าย": "◧ Left", "ขวา ◨": "Right ◨", "ติดด้านบน (Sticky)": "Sticky top", "แสดงปุ่มค้นหา": "Show search", "แสดงไอคอนหน้าเมนู": "Show menu icons", "แสดงไอคอนหน้าลิงก์": "Show link icons", "แถบเมนูล่าง (มือถือ)": "Bottom nav bar (mobile)", "กล่อง Callout": "Callout boxes", "Pros/Cons + คะแนน": "Pros/Cons + score", "ข้อดี-ข้อเสีย + กล่องรีวิว": "Pros-cons + review box", "เวลาในการอ่าน": "Reading time", "บุ๊กมาร์ก": "Bookmarks", "⏱ X นาที บนการ์ด + บทความ": "⏱ X min on cards + posts", "บันทึกบทความไว้อ่านทีหลัง": "Save posts to read later", "คำนวณบนการ์ดหน้าแรกด้วย": "Also calculate on homepage cards", "ซูมรูปภาพ (Lightbox)": "Image Lightbox", "คลิกรูปในบทความเพื่อขยาย": "Click a post image to zoom", "ปุ่มคัดลอกโค้ด": "Copy code button", "ปุ่ม Copy บนกล่องโค้ด": "Copy button on code blocks", "ตัวอักษรตัวแรกใหญ่": "Drop cap", "Dropcap สไตล์นิตยสาร": "Magazine-style dropcap", "ลิงก์หัวข้อ (Anchor)": "Heading anchors", "คัดลอกลิงก์ไปหัวข้อ": "Copy a link to a heading", "สีตัวอักษร": "Letter color", "สีเน้น (Accent)": "Accent color", "สีตัวอักษรปกติ": "Text color", "เลือกสีธีม": "Theme color picker", "ผู้อ่านเปลี่ยนสีเว็บเองได้": "Readers switch the site color",
     "คำถามที่พบบ่อย (FAQ)": "FAQ Accordion", "accordion + FAQ schema": "accordion + FAQ schema", "คัดลอกโค้ด FAQ": "Copy the FAQ snippet",
+    "แถบแชร์ลอยข้างจอ": "Sticky Share Bar", "sticky share (บนหน้าบทความ)": "sticky share (post pages)", "ตำแหน่งแถบ": "Bar position",
     "เส้นทางนำทาง (Breadcrumb)": "Breadcrumbs", "หน้าแรก › หมวด › บทความ + schema": "Home › Category › Post + schema", "ข้อความหน้าแรก": "Home label",
     "ปุ่มกลับขึ้นบน": "Back to Top", "ปุ่มลอยเลื่อนขึ้นบนสุด": "Floating scroll-to-top button",
     "แถบประกาศ": "Announcement Bar", "แถบแจ้งเตือนด้านบนสุด ปิดได้": "Dismissible top notice bar", "ข้อความประกาศ": "Announcement text", "ข้อความลิงก์ (เว้นว่างได้)": "Link text (optional)", "URL ลิงก์": "Link URL", "สีพื้นหลังแถบ": "Bar background color",
