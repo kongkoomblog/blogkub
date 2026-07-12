@@ -220,6 +220,8 @@ BXBApp.genXML()   // ดู XML ที่จะ export
 - ทดสอบ XML export กับ Blogger จริงทุก block type combination
 - ตรวจ `<Variable>` ทุกตัวว่า valid ใน Blogger Theme Designer
 - AEO block (sidebar) ต้องทดสอบว่า `data:post.snippet` หรือ body snippet filter ใช้งานได้
+  - ✅ 2026-07-12: เปลี่ยนมาใช้ `data:post.metaDescription` → fallback `data:post.body snippet` (เชื่อถือได้ ไม่ต้องใช้ AI)
+  - 📋 แผนต่อยอด "สรุปด้วย AI จริง" (Cloudflare Worker proxy) → ดู `AI-SUMMARY-DESIGN.md`
 - WebSub hub link, IndexNow (mention ใน marketing แต่ยังไม่ implement)
 - i18n audit — บาง string อาจยังเป็นแค่ภาษาไทย
 - Consider unit tests สำหรับ `genXML()`
