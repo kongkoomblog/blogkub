@@ -91,6 +91,7 @@
     faq: '<circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.8 2.8 0 0 1 5.3 1c0 1.8-2.7 2.4-2.7 4"/><path d="M12 17h.01"/>',
     breadcrumb: '<path d="M4 7h5l2.5 5L9 17H4"/><path d="M13 7h5l2.5 5L18 17h-5"/>',
     backtotop: '<circle cx="12" cy="12" r="9.5"/><path d="M12 16V9M8.5 12.5 12 9l3.5 3.5"/>',
+    announce: '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/>',
     themepicker: '<circle cx="13.5" cy="6.5" r="1.3"/><circle cx="17.5" cy="10.5" r="1.3"/><circle cx="8.5" cy="7.5" r="1.3"/><circle cx="6.5" cy="12.5" r="1.3"/><path d="M12 2a10 10 0 1 0 0 20c1 0 1.5-.7 1.5-1.5 0-.4-.2-.8-.5-1.1-.3-.3-.5-.7-.5-1.1 0-.8.7-1.3 1.5-1.3H16a5 5 0 0 0 5-5c0-4.7-4-8-9-8z"/>'
   };
   function svg(p, w) { return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="' + (w || 2) + '" stroke-linecap="round" stroke-linejoin="round">' + p + '</svg>'; }
@@ -464,6 +465,7 @@
       ["search", "ช่องค้นหา", "Search Box"]
     ]],
     ["ส่วนเสริม", [
+      ["announce", "แถบประกาศ", "แถบแจ้งเตือนด้านบนสุด ปิดได้"],
       ["ad", "ช่องโฆษณา", "AdSense Safe"],
       ["newsletter", "Newsletter", "รับอีเมลสมัครสมาชิก"],
       ["share", "Social Share", "ปุ่มแชร์โซเชียล"]
@@ -538,6 +540,7 @@
       faq: {},
       breadcrumb: { home: "Home" },
       backtotop: { side: "right" },
+      announce: { message: "🎉 Welcome! New articles every week — subscribe for updates", linkText: "Subscribe", linkUrl: "/search", bg: "#6366f1" },
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
@@ -584,6 +587,7 @@
       faq: {},
       breadcrumb: { home: "หน้าแรก" },
       backtotop: { side: "right" },
+      announce: { message: "🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์", linkText: "ดูบทความ", linkUrl: "/search", bg: "#6366f1" },
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
@@ -1604,6 +1608,13 @@
           '</div>' +
           '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ดึงหมวดจากป้ายกำกับแรกของโพสต์อัตโนมัติ · สร้าง BreadcrumbList schema ให้ (แสดงใน Google)", "Category comes from the post's first label · generates BreadcrumbList schema (shows in Google)") + '</div>' +
           '</div>';
+      case "announce":
+        var anP = b.props || {};
+        return '<div style="background:' + (anP.bg || pr) + ';color:#fff;padding:10px 40px;position:relative;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center;font-size:13.5px">' +
+          '<span>' + esc(anP.message || tpl("🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์", "🎉 Welcome! New articles every week")) + '</span>' +
+          (anP.linkText ? '<span style="font-weight:600;text-decoration:underline;text-underline-offset:2px">' + esc(anP.linkText) + '</span>' : "") +
+          '<span style="position:absolute;right:14px;top:50%;transform:translateY(-50%);opacity:.85;font-size:15px">✕</span>' +
+          '</div>';
       case "backtotop":
         var bttLeft = (b.props && b.props.side) === "left";
         return '<div style="position:relative;height:120px;border-radius:12px;background:#f7f8fc;border:1px solid #eef;overflow:hidden">' +
@@ -1830,8 +1841,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", themepicker: "Theme Color Picker", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -1839,7 +1850,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, breadcrumb: 1, backtotop: 1, themepicker: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, breadcrumb: 1, backtotop: 1, announce: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2205,6 +2216,11 @@
       case "breadcrumb": return txt("home", "ข้อความหน้าแรก", (p.home || tpl("หน้าแรก", "Home")))
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แสดงบนสุดของทุกหน้าบทความ: หน้าแรก › หมวดหมู่ › ชื่อบทความ · หมวดดึงจากป้ายกำกับแรกของโพสต์อัตโนมัติ", "Shows at the top of every post: Home › Category › Post Title · the category is taken from the post's first label automatically") + '</div></div>'
         + '<div class="hint">' + tpl("สร้าง BreadcrumbList schema (JSON-LD) ให้อัตโนมัติ · ช่วยให้ Google แสดงเส้นทางในผลการค้นหา", "Generates BreadcrumbList schema (JSON-LD) automatically · helps Google show the breadcrumb trail in search results") + '</div>';
+      case "announce": return txt("message", "ข้อความประกาศ", p.message || "")
+        + txt("linkText", "ข้อความลิงก์ (เว้นว่างได้)", p.linkText || "")
+        + txt("linkUrl", "URL ลิงก์", p.linkUrl || "")
+        + col("bg", "สีพื้นหลังแถบ", p.bg || "#6366f1")
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แถบประกาศด้านบนสุดของทุกหน้า · ผู้อ่านกดปิดได้ และจะจำไว้ (localStorage) · แก้ข้อความใหม่จะแสดงให้ทุกคนอีกครั้ง", "A top announcement bar on every page · readers can dismiss it and it's remembered (localStorage) · changing the message re-shows it to everyone") + '</div></div>';
       case "backtotop": return seg("side", "ตำแหน่งปุ่ม", p.side || "right", [["right", "ขวาล่าง"], ["left", "ซ้ายล่าง"]])
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("ปุ่มลอยกลับขึ้นบนสุด แสดงเมื่อผู้อ่านเลื่อนลงเกิน 400px · บนมือถือจะยกให้พ้นแถบเมนูล่างอัตโนมัติ", "A floating back-to-top button that appears after scrolling 400px · auto-raised above the mobile bottom nav") + '</div></div>';
       case "readtime": return tog("cards", "คำนวณบนการ์ดหน้าแรกด้วย", p.cards !== false, tpl("ดึงเนื้อหาผ่าน Feed มาคำนวณ (แคช 12 ชม.) · ปิดได้ถ้าต้องการเฉพาะหน้าบทความ", "Fetches content via Feed to calculate (cached 12h) · turn off for post pages only"))
@@ -3220,7 +3236,7 @@
 
     // Assemble body in document order; drop the Blog widget in at the first post block's spot.
     // Footer is always moved to the very end so it sits below the 404 block on error pages.
-    var parts = [], footerParts = [], placed = false;
+    var parts = [], footerParts = [], topParts = [], placed = false;
     S.blocks.forEach(function (b, i) {
       if (POST_BLOCKS[b.type]) {
         if (i === firstPostIdx) {
@@ -3233,13 +3249,15 @@
       if (b.type === "toc") return; // injected inline inside postIncludable, after <h1>
       if (b.type === "aeo") return; // injected inline inside postIncludable (needs data:post scope)
       if (b.type === "breadcrumb") return; // injected inline at the top of postIncludable (needs data:post scope)
+      if (b.type === "announce") { topParts.push(condWrap(renderBlockStatic(b), b)); return; } // always at the very top of <body>
       if (b.type === "footer") { footerParts.push(condWrap(renderBlockStatic(b), b)); return; }
       parts.push(condWrap(renderBlockStatic(b), b));
     });
     if (!placed) parts.push("<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>");
     // Append footer after all other blocks (including 404 block) so it's always at page bottom
     footerParts.forEach(function (f) { parts.push(f); });
-    var bodyHTML = parts.join("\n");
+    // Announcement bar is prepended so it sits above the header on every page
+    var bodyHTML = topParts.join("\n") + (topParts.length ? "\n" : "") + parts.join("\n");
 
     // label robots logic
     var labelRobotsVal = seo.labelIndex ? "index,follow,max-image-preview:large" : "noindex,follow";
@@ -4523,6 +4541,28 @@ tplStyleVars(),
         return reviewkitStatic();
       case "faq":
         return faqStatic();
+      case "announce":
+        var anBg = p.bg || "#6366f1";
+        var anMsg = esc(p.message || "🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์");
+        var anHasLink = p.linkText && String(p.linkText).trim();
+        var anLink = anHasLink
+          ? "<a class='bxb-announce-cta' href='" + esc(p.linkUrl || "#") + "' style='color:#fff;font-weight:600;text-decoration:underline;text-underline-offset:2px;white-space:nowrap'>" + esc(p.linkText) + "</a>"
+          : "";
+        return "<div id='bxbAnnounce' class='bxb-announce' style='display:none;background:" + anBg + ";color:#fff;font-size:13.5px;line-height:1.4'>"
+          + "<div style='max-width:1200px;margin:0 auto;padding:9px 44px 9px 16px;position:relative;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center'>"
+          + "<span class='bxb-announce-msg'>" + anMsg + "</span>" + anLink
+          + "<button type='button' class='bxb-announce-x' aria-label='" + tpl("ปิด", "Dismiss") + "' style='position:absolute;right:12px;top:50%;transform:translateY(-50%);border:0;background:none;color:#fff;font-size:17px;line-height:1;cursor:pointer;opacity:.85;padding:4px'>&#10005;</button>"
+          + "</div></div>"
+          + "<script>/*<![CDATA[*/(function(){"
+          + "var bar=document.getElementById('bxbAnnounce');if(!bar)return;"
+          + "var m=bar.querySelector('.bxb-announce-msg');var msg=m?(m.textContent||''):'';"
+          + "var h=5381;for(var i=0;i<msg.length;i++){h=((h*33)^msg.charCodeAt(i))>>>0;}"
+          + "var KEY='bxb-announce-'+h;"
+          + "try{if(localStorage.getItem(KEY)==='1')return;}catch(e){}"
+          + "bar.style.display='';"
+          + "var x=bar.querySelector('.bxb-announce-x');"
+          + "if(x)x.addEventListener('click',function(){bar.style.display='none';try{localStorage.setItem(KEY,'1');}catch(e){}});"
+          + "}());/*]]>*/<\/script>";
       case "backtotop":
         var bttSide = p.side === "left" ? "left:20px" : "right:20px";
         return "<style>"
@@ -5368,6 +5408,7 @@ tplStyleVars(),
     "คำถามที่พบบ่อย (FAQ)": "FAQ Accordion", "accordion + FAQ schema": "accordion + FAQ schema", "คัดลอกโค้ด FAQ": "Copy the FAQ snippet",
     "เส้นทางนำทาง (Breadcrumb)": "Breadcrumbs", "หน้าแรก › หมวด › บทความ + schema": "Home › Category › Post + schema", "ข้อความหน้าแรก": "Home label",
     "ปุ่มกลับขึ้นบน": "Back to Top", "ปุ่มลอยเลื่อนขึ้นบนสุด": "Floating scroll-to-top button",
+    "แถบประกาศ": "Announcement Bar", "แถบแจ้งเตือนด้านบนสุด ปิดได้": "Dismissible top notice bar", "ข้อความประกาศ": "Announcement text", "ข้อความลิงก์ (เว้นว่างได้)": "Link text (optional)", "URL ลิงก์": "Link URL", "สีพื้นหลังแถบ": "Bar background color",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
