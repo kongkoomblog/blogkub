@@ -317,10 +317,20 @@
   /* ---------- Dropcap (magazine-style large first letter on the first paragraph) ---------- */
   function dropcapStatic(p) {
     var col = p.style === "plain" ? "var(--text-main,#1a1b1e)" : "var(--primary,#6366f1)";
+    // JS tags the first real text paragraph (skips image-only leads, the AEO box, and the TOC),
+    // so the drop cap lands on actual text instead of failing on a CSS :first-of-type mismatch.
     return "<style>"
-      + ".bxb-post-article .post-body > p:first-of-type::first-letter{float:left;font-weight:700;font-size:3.4em;line-height:.72;margin:.05em .1em 0 0;color:" + col + "}"
-      + "@media(max-width:600px){.bxb-post-article .post-body > p:first-of-type::first-letter{font-size:2.9em}}"
-      + "</style>";
+      + ".bxb-dropcap::first-letter{float:left;font-weight:700;font-size:3.4em;line-height:.72;margin:.05em .1em 0 0;color:" + col + "}"
+      + "@media(max-width:600px){.bxb-dropcap::first-letter{font-size:2.9em}}"
+      + "</style>"
+      + "<script>/*<![CDATA[*/(function(){"
+      + "function run(){var scope=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body,.entry-content');if(!scope)return;"
+      + "var kids=[].slice.call(scope.children).filter(function(el){return el.tagName==='P'&&(el.textContent||'').replace(/\\s+/g,'').length>1;});"
+      + "var target=kids[0];"
+      + "if(!target){var all=[].slice.call(scope.querySelectorAll('p'));for(var i=0;i<all.length;i++){if(all[i].closest&&all[i].closest('.qt-aeo-summary,#bxbToc'))continue;if((all[i].textContent||'').replace(/\\s+/g,'').length>1){target=all[i];break;}}}"
+      + "if(target)target.classList.add('bxb-dropcap');}"
+      + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
+      + "}());/*]]>*/<\/script>";
   }
 
   /* ---------- Heading anchor links (hover a heading to copy a link to it) ---------- */
@@ -4783,13 +4793,13 @@ tplStyleVars(),
           ? "<button type='button' class='bxb-shb-copy' aria-label='" + tpl("คัดลอกลิงก์", "Copy link") + "' style='background:var(--primary,#6366f1)'><svg viewBox='0 0 24 24'><rect x='9' y='9' width='11' height='11' rx='2'/><path d='M5 15V5a2 2 0 0 1 2-2h8'/></svg></button>"
           : "";
         return "<b:if cond='data:view.isSingleItem'>"
-          + "<style>.bxb-sharebar{position:fixed;top:50%;transform:translateY(-50%);" + shbSide + ";z-index:80;display:flex;flex-direction:column;gap:9px}"
+          + "<style>.bxb-sharebar{position:fixed;top:50%;transform:translateY(-50%);" + shbSide + ";z-index:95;display:flex;flex-direction:column;gap:9px}"
           + ".bxb-sharebar a,.bxb-sharebar button{width:42px;height:42px;border-radius:12px;border:0;display:grid;place-items:center;cursor:pointer;color:#fff;box-shadow:0 3px 12px rgba(0,0,0,.16);transition:transform .15s,filter .15s;padding:0}"
           + ".bxb-sharebar a:hover,.bxb-sharebar button:hover{transform:translateY(-2px);filter:brightness(1.08)}"
           + ".bxb-sharebar a svg{width:19px;height:19px;fill:currentColor}"
           + ".bxb-sharebar button svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}"
           + ".bxb-sharebar .bxb-shb-copy.ok{background:#16a34a!important}"
-          + "@media(max-width:980px){.bxb-sharebar{display:none}}"
+          + "@media(max-width:900px){.bxb-sharebar{display:none}}"
           + "</style>"
           + "<div class='bxb-sharebar' aria-label='" + tpl("แชร์บทความ", "Share this article") + "'>" + shbBtns + shbCopy + "</div>"
           + "<script>/*<![CDATA[*/(function(){"
