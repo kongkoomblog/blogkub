@@ -4449,25 +4449,30 @@ tplStyleVars(),
           ? "margin:20px 0;padding:18px 22px;background:var(--accent,#8b5cf6)0d;border-left:4px solid var(--accent,#8b5cf6);border-radius:0 var(--radius,8px) var(--radius,8px) 0"
           : p.style === "minimal" ? "margin:20px 0;padding:14px 0;border-top:2px solid var(--primary);border-bottom:1px solid #eef"
           : "margin:20px 0;padding:18px 22px;background:var(--primary)0d;border:1px solid var(--primary)22;border-radius:var(--radius,8px)";
-        // Summary text (server-side, no AI/API): prefer the author's Search Description,
-        // otherwise fall back to a guaranteed body excerpt via b:eval snippet.
+        // Summary text (server-side, no AI/API): data:view.description holds this post's
+        // Search Description on item pages (same value Blogger renders into <meta name=description>).
+        // data:post.metaDescription does NOT exist as a Blogger tag, which is why it was blank.
         return "<b:if cond='data:view.isSingleItem'>"
           + "<aside class='qt-aeo-summary' aria-label='" + aeoTitle + "' style='" + aeoCSS + "'>"
           + "<div style='font-size:11.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>&#128214; " + aeoTitle + "</div>"
           + "<p class='qt-aeo-text' style='font-size:15px;line-height:1.7;margin:0'>"
-          + "<b:if cond='data:post.metaDescription'>"
-          + "<data:post.metaDescription/>"
+          + "<b:if cond='data:view.description'>"
+          + "<b:eval expr='data:view.description'/>"
           + "<b:else/>"
           + "<b:eval expr='data:post.body snippet {length: 320, links: false, linebreaks: false, ellipsis: true}'/>"
           + "</b:if>"
           + "</p>"
           + "</aside>"
-          // safety net: if the server-side snippet renders empty on this post, fill from the
-          // real article paragraphs — skipping the injected TOC, scripts, code, tables, etc.
+          // Client fallback fills the box if the server-side value was blank, in priority order:
+          //   1) the rendered <meta name=description> (= this post's Search Description, always present)
+          //   2) the first real article paragraphs — skipping the injected TOC, scripts, code, tables.
           + "<script>/*<![CDATA[*/(function(){"
           + "var SKIP='#bxbToc,.qt-aeo-summary,pre,code,blockquote,table,figure,.bxb-callout';"
+          + "function clip(t){t=(t||'').replace(/\\s+/g,' ').trim();if(t.length>320){t=t.slice(0,320).replace(/\\s+\\S*$/,'')+'\\u2026';}return t;}"
           + "function run(){var box=document.querySelector('.qt-aeo-text');if(!box)return;"
           + "if((box.textContent||'').replace(/\\s+/g,' ').trim().length>2)return;"
+          + "var md=document.querySelector('meta[name=\"description\"]');var desc=md?(md.getAttribute('content')||'').trim():'';"
+          + "if(desc.length>=20){box.textContent=clip(desc);return;}"
           + "var body=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body');if(!body)return;"
           + "var t='',ps=[].slice.call(body.querySelectorAll('p'));"
           + "for(var i=0;i<ps.length&&t.length<220;i++){var el=ps[i];"
@@ -4476,9 +4481,8 @@ tplStyleVars(),
           + "t=t?(t+' '+s):s;}"
           + "if(!t){var cl=body.cloneNode(true);"
           + "[].slice.call(cl.querySelectorAll('script,style,#bxbToc,nav,.qt-aeo-summary,pre,code,table,figure')).forEach(function(n){if(n.parentNode)n.parentNode.removeChild(n);});"
-          + "t=(cl.textContent||'').replace(/\\s+/g,' ').trim();}"
-          + "if(!t)return;"
-          + "if(t.length>320){t=t.slice(0,320).replace(/\\s+\\S*$/,'')+'\\u2026';}"
+          + "t=cl.textContent;}"
+          + "t=clip(t);if(!t)return;"
           + "box.textContent=t;}"
           + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',run);}else{run();}"
           + "})();/*]]>*/<\/script>"
