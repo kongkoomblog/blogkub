@@ -94,6 +94,7 @@
     announce: '<path d="M3 11v2a1 1 0 0 0 1 1h2l4 4V6L6 10H4a1 1 0 0 0-1 1z"/><path d="M15 8a4 4 0 0 1 0 8"/><path d="M18 5a8 8 0 0 1 0 14"/>',
     cookie: '<path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5z"/><path d="M8.5 10h.01M12 14h.01M15.5 15h.01M9 16h.01M16 9h.01"/>',
     sharebar: '<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.6" y1="10.5" x2="15.4" y2="6.5"/><line x1="8.6" y1="13.5" x2="15.4" y2="17.5"/>',
+    translate: '<path d="M13 14h4m0 0h4m-4 0v-1.5m3 1.5a7 7 0 0 1-7 7m1.674-4A7 7 0 0 0 21 21M9 7.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2.5m6 0V10m0-2.5H3M3 10V7.5m10-3h5a2 2 0 0 1 2 2V8M5 14v5a2 2 0 0 0 2 2h1.5"/>',
     slider: '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 15l4-4 3 3 4-4 3 3"/><path d="M7 4v0M17 4v0M7 20v0M17 20v0" stroke-width="2.4"/>',
     morefrom: '<path d="M4 5h7v6H4z"/><path d="M15 5h5M15 9h5M15 13h5"/><path d="M4 15h16v4H4z"/>',
     stories: '<circle cx="7" cy="8" r="4"/><circle cx="7" cy="8" r="1.3"/><path d="M14 5.5a4 4 0 0 1 0 5M17 3.5a7 7 0 0 1 0 9"/><path d="M3 16h16v4H3z" opacity=".9"/>',
@@ -358,6 +359,77 @@
     return css + sc;
   }
 
+  /* ---------- Language switcher (Google Translate + custom header dropdown, no API key) ---------- */
+  var TRANSLATE_LANGS = [
+    { id: "en", code: "en",    th: "อังกฤษ",       en: "English" },
+    { id: "zh", code: "zh-CN", th: "จีน (ตัวย่อ)",  en: "Chinese" },
+    { id: "ja", code: "ja",    th: "ญี่ปุ่น",       en: "Japanese" },
+    { id: "ko", code: "ko",    th: "เกาหลี",        en: "Korean" },
+    { id: "lo", code: "lo",    th: "ลาว",          en: "Lao" },
+    { id: "vi", code: "vi",    th: "เวียดนาม",      en: "Vietnamese" },
+    { id: "id", code: "id",    th: "อินโดนีเซีย",   en: "Indonesian" },
+    { id: "hi", code: "hi",    th: "ฮินดี",         en: "Hindi" },
+    { id: "fr", code: "fr",    th: "ฝรั่งเศส",       en: "French" },
+    { id: "de", code: "de",    th: "เยอรมัน",       en: "German" },
+    { id: "es", code: "es",    th: "สเปน",         en: "Spanish" },
+    { id: "ru", code: "ru",    th: "รัสเซีย",        en: "Russian" }
+  ];
+  function translateStatic(p) {
+    var orig = String(p.original || "th").trim() || "th";
+    var enabled = TRANSLATE_LANGS.filter(function (l) { return p[l.id]; });
+    if (!enabled.length) enabled = TRANSLATE_LANGS.filter(function (l) { return ["en", "zh", "ja", "ko"].indexOf(l.id) > -1; });
+    var TIC = "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'><path d='M13 14h4m0 0h4m-4 0v-1.5m3 1.5a7 7 0 0 1-7 7m1.674-4A7 7 0 0 0 21 21M9 7.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2.5m6 0V10m0-2.5H3M3 10V7.5m10-3h5a2 2 0 0 1 2 2V8M5 14v5a2 2 0 0 0 2 2h1.5'/></svg>";
+    var opts = enabled.map(function (l) { return "<button type='button' class='bxb-tr-opt' data-lang='" + l.code + "'>" + esc(tpl(l.th, l.en)) + "</button>"; }).join("");
+    var css = "<style>"
+      + ".bxb-tr{position:relative}"
+      + ".bxb-tr-btn{width:40px;height:40px;border-radius:10px;border:1px solid var(--border-med,#e8eaf2);background:transparent;color:var(--text-main,#1a1b1e);display:grid;place-items:center;cursor:pointer;flex:none;padding:0;transition:background .15s,color .15s}"
+      + ".bxb-tr-btn:hover{background:var(--hover-bg,rgba(0,0,0,.05));color:var(--primary,#6366f1)}"
+      + ".bxb-tr-btn svg{width:22px;height:22px}"
+      + ".bxb-tr.bxb-tr-fixed{position:fixed;top:14px;right:14px;z-index:120}"
+      + ".bxb-tr.bxb-tr-fixed .bxb-tr-btn{background:var(--bg-header,#fff);box-shadow:0 4px 16px rgba(0,0,0,.16)}"
+      + ".bxb-tr-pop{position:absolute;top:calc(100% + 8px);right:0;z-index:200;min-width:224px;max-height:70vh;overflow:auto;background:var(--bg-header,#fff);border:1px solid var(--border,#e8eaf2);border-radius:14px;box-shadow:0 14px 38px rgba(0,0,0,.18);padding:8px;display:none}"
+      + ".bxb-tr-pop.open{display:block}"
+      + ".bxb-tr-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-subtle,#94a3b8);padding:8px 12px 6px}"
+      + ".bxb-tr-opt{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:8px;font:inherit;font-size:14.5px;color:var(--text-main,#1a1b1e);cursor:pointer}"
+      + ".bxb-tr-opt:hover{background:var(--hover-bg,rgba(0,0,0,.05))}"
+      + ".bxb-tr-opt.on{color:var(--primary,#6366f1);font-weight:600}"
+      + ".bxb-tr-sep{height:1px;background:var(--border,#eef);margin:6px 8px}"
+      // hide Google Translate's injected banner/tooltip chrome so the page doesn't shift
+      + ".goog-te-banner-frame,.goog-te-banner-frame.skiptranslate,.skiptranslate iframe{display:none!important}"
+      + "body{top:0!important}"
+      + "#goog-gt-tt,.goog-te-balloon-frame{display:none!important}"
+      + ".goog-text-highlight{background:none!important;box-shadow:none!important}"
+      + ".goog-te-gadget{font-size:0!important;color:transparent!important}"
+      + "</style>";
+    var markup = "<div id='google_translate_element' style='display:none'></div>"
+      + "<div class='bxb-tr notranslate' id='bxbTrWrap' translate='no' style='display:none'>"
+      + "<button type='button' id='bxbTrBtn' class='bxb-tr-btn' aria-label='" + tpl("แปลภาษา", "Translate") + "'>" + TIC + "</button>"
+      + "<div class='bxb-tr-pop' id='bxbTrPop'>"
+      + "<div class='bxb-tr-h'>" + esc(tpl("แปลภาษา", "Translate")) + "</div>"
+      + "<button type='button' class='bxb-tr-opt on' data-lang=''>" + esc(tpl("ต้นฉบับ", "Original")) + "</button>"
+      + "<div class='bxb-tr-sep'></div>" + opts
+      + "</div></div>";
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var wrap=document.getElementById('bxbTrWrap');if(!wrap||wrap.getAttribute('data-init'))return;wrap.setAttribute('data-init','1');"
+      + "var ORIG='" + orig + "';"
+      + "var bar=document.querySelector('.site-bar');"
+      + "if(bar){var bg=bar.querySelector('.nav-burger');if(bg){bar.insertBefore(wrap,bg);}else{bar.appendChild(wrap);}}else{wrap.classList.add('bxb-tr-fixed');document.body.appendChild(wrap);}"
+      + "wrap.style.display='';"
+      + "var btn=document.getElementById('bxbTrBtn'),pop=document.getElementById('bxbTrPop');"
+      + "btn.addEventListener('click',function(e){e.stopPropagation();pop.classList.toggle('open');});"
+      + "document.addEventListener('click',function(){pop.classList.remove('open');});"
+      + "pop.addEventListener('click',function(e){e.stopPropagation();});"
+      + "function cookieLang(){var m=document.cookie.match(/googtrans=\\/[a-zA-Z-]+\\/([a-zA-Z-]+)/);return m?m[1]:'';}"
+      + "function mark(code){[].slice.call(pop.querySelectorAll('.bxb-tr-opt')).forEach(function(o){o.classList.toggle('on',(o.getAttribute('data-lang')||'')===(code||''));});}"
+      + "function resetOrig(){var d='expires=Thu, 01 Jan 1970 00:00:00 UTC';var h=location.hostname;document.cookie='googtrans=; '+d+'; path=/;';document.cookie='googtrans=; '+d+'; path=/; domain='+h;document.cookie='googtrans=; '+d+'; path=/; domain=.'+h;location.reload();}"
+      + "function wire(combo){mark(cookieLang());[].slice.call(pop.querySelectorAll('.bxb-tr-opt')).forEach(function(o){o.addEventListener('click',function(){var lang=o.getAttribute('data-lang')||'';pop.classList.remove('open');if(!lang||lang===ORIG){resetOrig();return;}if(combo.value!==lang){combo.value=lang;combo.dispatchEvent(new Event('change'));}mark(lang);});});}"
+      + "var tries=0;function waitCombo(){var c=document.querySelector('.goog-te-combo');if(c){wire(c);}else if(tries++<60){setTimeout(waitCombo,150);}}"
+      + "window.googleTranslateElementInit=function(){try{new google.translate.TranslateElement({pageLanguage:ORIG,autoDisplay:false},'google_translate_element');}catch(e){}waitCombo();};"
+      + "var s=document.createElement('script');s.src='https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';s.async=true;document.body.appendChild(s);"
+      + "}());/*]]>*/<\/script>";
+    return css + markup + sc;
+  }
+
   /* ---------- Review kit: Pros/Cons boxes + verdict score (for post content) ---------- */
   function reviewkitCSS() {
     var chk = calloutIconUrl('<path d="M20 6 9 17l-5-5"/>', "#16a34a");
@@ -601,6 +673,7 @@
       ["search", "ช่องค้นหา", "Search Box"]
     ]],
     ["ส่วนเสริม", [
+      ["translate", "แปลภาษา (Translate)", "Google Translate หลายภาษา"],
       ["announce", "แถบประกาศ", "แถบแจ้งเตือนด้านบนสุด ปิดได้"],
       ["cookie", "แถบคุกกี้ (Consent)", "AdSense / PDPA · ยอมรับคุกกี้"],
       ["ad", "ช่องโฆษณา", "AdSense Safe"],
@@ -687,6 +760,7 @@
       backtotop: { side: "right" },
       announce: { message: "🎉 Welcome! New articles every week — subscribe for updates", linkText: "Subscribe", linkUrl: "/search", bg: "#6366f1" },
       cookie: { message: "This site uses cookies to improve your experience and analyze traffic.", acceptText: "Accept", policyText: "Privacy Policy", policyUrl: "/p/privacy.html", bg: "#1e293b" },
+      translate: { original: "th", en: true, zh: true, ja: true, ko: true },
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "Sorry · Page Not Found", desc: "The page you're looking for may have been moved, deleted, or the URL is incorrect.", btnText: "Back to Home", btnUrl: "/", showSearch: true }
     } : {
@@ -739,6 +813,7 @@
       backtotop: { side: "right" },
       announce: { message: "🎉 ยินดีต้อนรับ! ติดตามบทความใหม่ได้ทุกสัปดาห์", linkText: "ดูบทความ", linkUrl: "/search", bg: "#6366f1" },
       cookie: { message: "เว็บไซต์นี้ใช้คุกกี้เพื่อปรับปรุงประสบการณ์การใช้งานและวิเคราะห์การเข้าชม", acceptText: "ยอมรับ", policyText: "นโยบายความเป็นส่วนตัว", policyUrl: "/p/privacy.html", bg: "#1e293b" },
+      translate: { original: "th", en: true, zh: true, ja: true, ko: true },
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
@@ -1798,6 +1873,22 @@
           '<div style="display:flex;flex-direction:column;gap:8px;width:max-content">' + shList.map(shDot).join("") + '</div>' +
           '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ลอยกลาง" + (shP.side === "right" ? "ขวา" : "ซ้าย") + "ของจอ · ซ่อนบนมือถือ (ใช้แถบเมนูล่างแทน) · แชร์ Facebook / X / LINE + คัดลอกลิงก์", "Floats " + (shP.side === "right" ? "right" : "left") + " · hidden on mobile (bottom nav handles it) · Facebook / X / LINE + copy link") + '</div>' +
           '</div>';
+      case "translate":
+        var trP = b.props || {};
+        var trEnabled = TRANSLATE_LANGS.filter(function (l) { return trP[l.id]; });
+        if (!trEnabled.length) trEnabled = TRANSLATE_LANGS.filter(function (l) { return ["en", "zh", "ja", "ko"].indexOf(l.id) > -1; });
+        var trRow = function (label, on) { return '<div style="padding:9px 12px;border-radius:8px;font-size:13.5px;color:' + (on ? pr : "#1e2333") + ';font-weight:' + (on ? "600" : "400") + ';background:' + (on ? "#f7f8fc" : "transparent") + '">' + label + '</div>'; };
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("แปลภาษา · ปุ่มบนส่วนหัว", "Translate · button in the header") + '</div>' +
+          '<div style="display:inline-flex;align-items:center;gap:8px;margin-bottom:12px"><span style="width:38px;height:38px;border:1px solid #e8eaf2;border-radius:10px;display:grid;place-items:center;color:' + pr + '">' + svg('<path d="M13 14h4m0 0h4m-4 0v-1.5m3 1.5a7 7 0 0 1-7 7m1.674-4A7 7 0 0 0 21 21M9 7.5V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v2.5m6 0V10m0-2.5H3M3 10V7.5m10-3h5a2 2 0 0 1 2 2V8M5 14v5a2 2 0 0 0 2 2h1.5"/>', 1.6) + '</span><span style="font-size:12px;color:#828aa0">' + tpl("แตะเพื่อเปิดเมนูภาษา", "tap to open the language menu") + '</span></div>' +
+          '<div style="max-width:230px;background:#fff;border:1px solid #eef;border-radius:12px;padding:8px;box-shadow:0 8px 24px rgba(0,0,0,.1)">' +
+            '<div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#94a3b8;padding:6px 12px">' + tpl("แปลภาษา", "Translate") + '</div>' +
+            trRow(tpl("ต้นฉบับ", "Original"), true) +
+            '<div style="height:1px;background:#eef;margin:5px 8px"></div>' +
+            trEnabled.slice(0, 5).map(function (l) { return trRow(tpl(l.th, l.en), false); }).join("") +
+          '</div>' +
+          '<div style="margin-top:11px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("ใช้ Google Translate แปลทั้งหน้าให้ผู้อ่าน · ฟรี ไม่ต้องมี API key · ทำงานบนบล็อกจริง", "Uses Google Translate to translate the whole page · free, no API key · works on the live blog") + '</div>' +
+          '</div>';
       case "cookie":
         var ckP = b.props || {};
         return '<div style="padding:18px 32px">' +
@@ -2041,8 +2132,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", morefrom: "Random / Recent Posts", stories: "Web Stories", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", slider: "Image Slider", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", themepicker: "Theme Color Picker", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", morefrom: "สุ่ม / บทความล่าสุด", stories: "สตอรี่ (Web Stories)", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", slider: "สไลด์รูป/แกลเลอรี", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", morefrom: "Random / Recent Posts", stories: "Web Stories", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", slider: "Image Slider", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", translate: "Language / Translate", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", morefrom: "สุ่ม / บทความล่าสุด", stories: "สตอรี่ (Web Stories)", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", slider: "สไลด์รูป/แกลเลอรี", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", translate: "แปลภาษา (Translate)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -2050,7 +2141,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, morefrom: 1, stories: 1, themepicker: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, morefrom: 1, stories: 1, translate: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2446,6 +2537,12 @@
         + tog("line", "LINE", p.line !== false)
         + tog("copy", "คัดลอกลิงก์", p.copy !== false)
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("แถบปุ่มแชร์ลอยติดข้างจอ แสดงเฉพาะหน้าบทความ/หน้าเพจ · ซ่อนอัตโนมัติบนมือถือ (ใช้แถบเมนูล่างแทน)", "A sticky share bar that shows only on post/page views · auto-hidden on mobile (the bottom nav covers it)") + '</div></div>';
+      case "translate":
+        var trToggles = TRANSLATE_LANGS.map(function (l) { return tog(l.id, tpl(l.th, l.en), p[l.id]); }).join("");
+        return txt("original", "รหัสภาษาต้นฉบับของบล็อก", p.original || "th", tpl("เช่น th (ไทย), en (อังกฤษ) · ภาษาที่คุณเขียนบทความ", "e.g. th (Thai), en (English) · the language your posts are written in"))
+        + '<div class="field"><label>' + tpl("ภาษาที่ให้ผู้อ่านเลือกแปล", "Languages readers can translate to") + '</label>' + trToggles + '</div>'
+        + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>' + tpl("เพิ่มปุ่มแปลภาษาบนส่วนหัว · ใช้ Google Translate แปลทั้งหน้าให้ผู้อ่านแบบฟรี ไม่ต้องมี API key · เลือก “ต้นฉบับ” เพื่อกลับเป็นภาษาเดิม", "Adds a translate button in the header · uses Google Translate to translate the whole page for readers, free and with no API key · choose “Original” to revert") + '</div></div>'
+        + '<div class="hint">' + tpl("ทำงานบนบล็อก Blogger จริงเท่านั้น (ในตัวอย่างนี้เป็นภาพจำลอง) · แนะนำให้บทความเป็นภาษาเดียวกันทั้งบล็อก", "Works only on the live Blogger blog (mockup here) · works best when all posts share one language") + '</div>';
       case "cookie": return txt("message", "ข้อความคุกกี้", p.message || "")
         + txt("acceptText", "ปุ่มยอมรับ", p.acceptText || "")
         + txt("policyText", "ข้อความลิงก์นโยบาย (เว้นว่างได้)", p.policyText || "")
@@ -3186,7 +3283,7 @@
     // Blocks shown on "all pages" need explicit 404 exclusion · except navigation/utility/404 blocks.
     // Global UI (nav, floating buttons, banners) should also work on the 404 / error page.
     // Content-processing utilities (lightbox, faq, toc, …) are left off — they have no content to act on there.
-    var SHOW_ON_ERROR = { header: 1, footer: 1, darkmode: 1, notfound: 1, themepicker: 1, cookie: 1, announce: 1, bookmark: 1, backtotop: 1 };
+    var SHOW_ON_ERROR = { header: 1, footer: 1, darkmode: 1, notfound: 1, themepicker: 1, cookie: 1, announce: 1, bookmark: 1, backtotop: 1, translate: 1 };
     if (!SHOW_ON_ERROR[b.type] && (!v.scope || !condMap[v.scope])) {
       html = "<b:if cond='!data:view.isError'>\n" + html + "\n</b:if>";
     }
@@ -4779,6 +4876,8 @@ tplStyleVars(),
         return reviewkitStatic();
       case "faq":
         return faqStatic();
+      case "translate":
+        return translateStatic(p);
       case "slider":
         return sliderStatic();
       case "stories":
@@ -5750,6 +5849,8 @@ tplStyleVars(),
     "ปุ่มกลับขึ้นบน": "Back to Top", "ปุ่มลอยเลื่อนขึ้นบนสุด": "Floating scroll-to-top button",
     "แถบประกาศ": "Announcement Bar", "แถบแจ้งเตือนด้านบนสุด ปิดได้": "Dismissible top notice bar", "ข้อความประกาศ": "Announcement text", "ข้อความลิงก์ (เว้นว่างได้)": "Link text (optional)", "URL ลิงก์": "Link URL", "สีพื้นหลังแถบ": "Bar background color",
     "แถบคุกกี้ (Consent)": "Cookie Consent", "AdSense / PDPA · ยอมรับคุกกี้": "AdSense / PDPA · accept cookies", "ข้อความคุกกี้": "Cookie message", "ปุ่มยอมรับ": "Accept button", "ข้อความลิงก์นโยบาย (เว้นว่างได้)": "Policy link text (optional)", "URL นโยบายความเป็นส่วนตัว": "Privacy policy URL",
+    "แปลภาษา (Translate)": "Language / Translate", "Google Translate หลายภาษา": "Google Translate · multi-language", "รหัสภาษาต้นฉบับของบล็อก": "Blog's original language code", "ภาษาที่ให้ผู้อ่านเลือกแปล": "Languages readers can translate to",
+    "อังกฤษ": "English", "จีน (ตัวย่อ)": "Chinese", "ญี่ปุ่น": "Japanese", "เกาหลี": "Korean", "ลาว": "Lao", "เวียดนาม": "Vietnamese", "อินโดนีเซีย": "Indonesian", "ฮินดี": "Hindi", "ฝรั่งเศส": "French", "เยอรมัน": "German", "สเปน": "Spanish", "รัสเซีย": "Russian",
     "หัวข้อ": "Heading", "คำโปรย": "Subtitle", "ข้อความปุ่ม": "Button text",
     "ป้ายกำกับเล็ก (Eyebrow)": "Small label (Eyebrow)", "ข้อความปุ่มอ่านต่อ": "Read more button text",
     "แสดงรูปภาพ (วงกลม)": "Show image (circle)", "URL รูปภาพ Hero": "Hero image URL",
