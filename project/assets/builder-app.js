@@ -5684,12 +5684,21 @@ tplStyleVars(),
     $$("#catTabs .cat-tab").forEach(function (b) { b.addEventListener("click", function () { curCat = b.dataset.c; renderStart(); }); });
     $$("#startGrid .tpl-card").forEach(function (card) { card.addEventListener("click", function () { startFromTemplate(card.dataset.tpl); }); });
   }
+  // Essential, zero-config, universally-useful utilities pre-installed with every template.
+  // All are singletons that self-place (inline into posts / header / floating) and self-hide when
+  // not applicable, so they add value out of the box without cluttering the layout. Inserted
+  // just before the footer so body-flow blocks (related) sit above it.
+  var DEFAULT_UTILITIES = ["notfound", "darkmode", "breadcrumb", "readtime", "toc", "aeo", "related", "lightbox", "anchorlink", "backtotop", "progress", "copycode"];
   function startFromTemplate(id) {
     var t = TEMPLATES.find(function (x) { return x.id === id; });
     S = freshProject(t.name, JSON.parse(JSON.stringify(t.design)));
     S.templateId = id;
     S.seo.blogTitle = t.name;
-    S.blocks = t.blocks.map(function (type) { return { id: uid(), type: type, props: blockDefaults(type) }; });
+    var base = t.blocks.slice();
+    var utils = DEFAULT_UTILITIES.filter(function (u) { return base.indexOf(u) === -1; });
+    var fIdx = base.indexOf("footer");
+    var ordered = fIdx > -1 ? base.slice(0, fIdx).concat(utils, base.slice(fIdx)) : base.concat(utils);
+    S.blocks = ordered.map(function (type) { return { id: uid(), type: type, props: blockDefaults(type) }; });
     enterBuilder();
   }
   $("#blankBtn").addEventListener("click", function () { S = freshProject(); enterBuilder(); });
