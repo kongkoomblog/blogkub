@@ -839,7 +839,7 @@
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
     { id: "company", hidden: true, cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
     { id: "course", hidden: true, cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
-    { id: "review", hidden: true, cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
+    { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
   ];
 
   /* ---------- STATE ---------- */
@@ -1223,8 +1223,9 @@
           '</div>';
         }
         if (S && S.templateId === "review") {
-          return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
-            '<div style="max-width:860px;margin:0 auto">' +
+          return '<div style="position:relative;overflow:hidden;padding:80px 32px;background:radial-gradient(58% 80% at 84% 8%,rgba(255,255,255,.28),transparent 60%),linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
+            '<div aria-hidden="true" style="position:absolute;right:-8px;bottom:-56px;font-size:230px;line-height:1;color:rgba(255,255,255,.1);transform:rotate(-8deg);pointer-events:none">★</div>' +
+            '<div style="position:relative;max-width:860px;margin:0 auto">' +
               '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:18px">🏆 ' + tpl("รีวิวสินค้า", "Product Reviews") + '</div>' +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;margin:0 0 22px;max-width:500px">' + esc(p.subtitle) + '</p>' +
@@ -4037,8 +4038,12 @@ tplStyleVars(),
 ".edu-trust-label{font-size:13px;color:rgba(255,255,255,.72);margin-top:5px}",
 ".edu-cta-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:14px 34px;border-radius:var(--radius);text-decoration:none;font-size:16px}",
 "@media(max-width:640px){.edu-hero{padding:64px 20px}.edu-cta{padding:64px 20px}.edu-trust{gap:28px}}",
-".rv-hero{padding:80px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}",
-".rv-hero .wrap{max-width:900px}",
+".rv-hero{position:relative;overflow:hidden;padding:82px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}",
+".rv-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(58% 80% at 84% 8%,rgba(255,255,255,.3),transparent 60%);pointer-events:none}",
+".rv-hero::after{content:'\\2605';position:absolute;right:-8px;bottom:-56px;font-size:270px;line-height:1;color:rgba(255,255,255,.1);pointer-events:none;transform:rotate(-8deg)}",
+".rv-hero .wrap{position:relative;z-index:1;max-width:900px}",
+".rv-h2{position:relative;display:inline-block;font-size:22px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font);padding-bottom:11px}",
+".rv-h2::after{content:'';position:absolute;left:0;bottom:0;width:44px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--accent))}",
 ".rv-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:18px}",
 ".rv-hero-title{font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px;font-family:var(--font)}",
 ".rv-hero-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;margin:0 0 22px;max-width:500px}",
@@ -4053,7 +4058,7 @@ tplStyleVars(),
 ".rv-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.12)}",
 ".rv-card-img{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)25,var(--accent)50)}",
 ".rv-card-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}",
-".rv-card-best{position:absolute;top:10px;left:10px;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:var(--primary);color:#fff}",
+".rv-card-best{position:absolute;top:16px;left:-36px;width:142px;transform:rotate(-45deg);text-align:center;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 0;background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.28);z-index:3}",
 ".rv-card-score{position:absolute;top:10px;right:10px;font-size:14px;font-weight:800;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.96);color:var(--primary);line-height:1}",
 ".rv-card-body{padding:14px 18px 4px}",
 ".rv-card-cat{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--primary);margin-bottom:5px}",
@@ -4367,7 +4372,7 @@ tplStyleVars(),
         }
         if (S && S.templateId === "review") {
           return "<section class='rv-reviews' id='main'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:22px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='rv-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='rv-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
               "<b:loop values='data:posts' var='post'>" +
                 "<article class='rv-card'>" +
