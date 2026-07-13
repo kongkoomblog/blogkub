@@ -838,7 +838,7 @@
     { id: "sidebar-blog", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
     { id: "company", hidden: true, cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
-    { id: "course", hidden: true, cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
+    { id: "course", cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
     { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
   ];
 
@@ -1260,8 +1260,8 @@
               '<span style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:10px;flex:none">✓</span>' + c +
             '</div>';
           }).join("");
-          return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
-            '<div style="max-width:860px;margin:0 auto">' +
+          return '<div style="position:relative;overflow:hidden;padding:80px 32px;background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.17),transparent 26%),radial-gradient(circle at 88% 84%,rgba(255,255,255,.13),transparent 24%),linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
+            '<div style="position:relative;max-width:860px;margin:0 auto">' +
               '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px">📚 ' + tpl("คอร์สออนไลน์", "Online Course") + '</div>' +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 22px;max-width:520px">' + esc(p.subtitle) + '</p>' +
@@ -4005,8 +4005,10 @@ tplStyleVars(),
 ".corp-cta-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:15px 36px;border-radius:var(--radius);text-decoration:none;font-size:16px}",
 "@media(max-width:768px){.corp-about-grid{grid-template-columns:1fr;gap:40px}.corp-visual{display:none}}",
 "@media(max-width:640px){.corp-hero{padding:64px 20px}.corp-cta{padding:64px 20px}}",
-".edu-hero{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff}",
-".edu-hero .wrap{max-width:900px}",
+".edu-hero{position:relative;overflow:hidden;padding:88px 20px;background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.17),transparent 26%),radial-gradient(circle at 88% 84%,rgba(255,255,255,.13),transparent 24%),linear-gradient(135deg,var(--primary),var(--accent));color:#fff}",
+".edu-hero .wrap{position:relative;z-index:1;max-width:900px}",
+".edu-h2{position:relative;display:inline-block;font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font);padding-bottom:12px}",
+".edu-h2::after{content:'';position:absolute;left:0;bottom:0;width:46px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--accent))}",
 ".edu-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:20px}",
 ".edu-hero-title{font-size:clamp(30px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px;font-family:var(--font)}",
 ".edu-hero-sub{font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 24px;max-width:540px}",
@@ -4020,6 +4022,9 @@ tplStyleVars(),
 ".edu-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.12)}",
 ".edu-card-thumb{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)25,var(--accent)50)}",
 ".edu-card-thumb img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}",
+".edu-card-thumb::after{content:'';position:absolute;top:50%;left:50%;width:48px;height:48px;transform:translate(-50%,-50%);border-radius:50%;background:rgba(255,255,255,.94);box-shadow:0 4px 16px rgba(0,0,0,.3);z-index:2;transition:transform .2s}",
+".edu-card:hover .edu-card-thumb::after{transform:translate(-50%,-50%) scale(1.1)}",
+".edu-card-thumb::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-40%,-50%);z-index:3;border-style:solid;border-width:9px 0 9px 15px;border-color:transparent transparent transparent var(--primary)}",
 ".edu-card-badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;letter-spacing:.05em;padding:3px 9px;border-radius:20px;background:rgba(255,255,255,.95);color:var(--primary)}",
 ".edu-card-body{padding:16px 18px 4px}",
 ".edu-card-title{font-size:17px;font-weight:700;color:var(--text-main);margin:0 0 10px;line-height:1.35}",
@@ -4030,7 +4035,7 @@ tplStyleVars(),
 ".edu-card-foot{border-top:1px solid var(--border);padding:12px 18px;display:flex;justify-content:space-between;align-items:center}",
 ".edu-card-price{font-size:19px;font-weight:800;color:var(--primary);font-family:var(--font)}",
 ".edu-card-enroll{font-size:13px;font-weight:700;color:#fff;background:var(--primary);padding:7px 16px;border-radius:calc(var(--radius)*0.7);text-decoration:none;display:inline-block}",
-".edu-cta{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));text-align:center;color:#fff}",
+".edu-cta{position:relative;padding:88px 20px;background:radial-gradient(circle at 15% 22%,rgba(255,255,255,.15),transparent 25%),radial-gradient(circle at 85% 78%,rgba(255,255,255,.12),transparent 22%),linear-gradient(135deg,var(--primary),var(--accent));text-align:center;color:#fff}",
 ".edu-cta-title{font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px;font-family:var(--font)}",
 ".edu-cta-sub{font-size:17px;color:rgba(255,255,255,.82);margin:0 auto 34px;max-width:500px;line-height:1.6}",
 ".edu-trust{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-bottom:38px}",
@@ -4558,7 +4563,7 @@ tplStyleVars(),
       case "featured":
         if (S && S.templateId === "course") {
           return "<section class='edu-courses' id='main'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='edu-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='edu-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
               "<b:loop values='data:posts' index='ei' var='post'>" +
                 "<b:if cond='data:ei &lt; " + (p.count || 3) + "'>" +
