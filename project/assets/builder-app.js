@@ -817,8 +817,36 @@
       themepicker: {},
       notfound: { template: "minimal", heading: "404", sub: "ขออภัย · ไม่พบหน้านี้", desc: "หน้าที่คุณต้องการอาจถูกย้าย ลบ หรือ URL ไม่ถูกต้อง", btnText: "กลับหน้าแรก", btnUrl: "/", showSearch: true }
     };
-    return JSON.parse(JSON.stringify(d[type] || {}));
+    var out = JSON.parse(JSON.stringify(d[type] || {}));
+    // Template-aware editable text defaults: the styled template variants used to
+    // hardcode their eyebrow / chips / stats / rating copy. Seed them as real props
+    // here (based on the active template) so every string is editable & removable.
+    var tid = S && S.templateId, en = BL === "en";
+    if (type === "hero") {
+      var heroEb = { review: en ? "🏆 Product Reviews" : "🏆 รีวิวสินค้า",
+        course: en ? "📚 Online Course" : "📚 คอร์สออนไลน์",
+        company: en ? "Our Company" : "บริษัทของเรา",
+        tech: ">_ Tech Blog", travel: "✈ Travel Blog", "sidebar-blog": "✦ Classic Blog" };
+      if (heroEb[tid] != null) out.eyebrow = heroEb[tid];
+      if (tid === "review") { out.showRating = true; out.rating = "4.8/5"; out.ratingCount = en ? "from 1,200+ reviews" : "จาก 1,200+ รีวิว"; }
+      if (tid === "course") out.chips = en ? "Expert Instructors\nCertificate Included\nLifetime Access" : "สอนโดยผู้เชี่ยวชาญ\nรับใบประกาศนียบัตร\nเข้าถึงได้ตลอดชีพ";
+      if (tid === "sidebar-blog") out.chips = en ? "Blog\nTutorials\nTips & Tricks" : "บล็อก\nบทสอน\nเคล็ดลับ";
+      if (tid === "company") { out.btnText2 = en ? "Learn More" : "เรียนรู้เพิ่มเติม"; out.btnUrl2 = "/"; }
+    }
+    if (type === "about") {
+      if (tid === "review") { out.eyebrow = en ? "Product Reviewer" : "นักรีวิวสินค้า"; out.stats = en ? "500+ | Reviews\n8 | Years Exp.\n100% | Independent" : "500+ | รีวิวสินค้า\n8 | ปีประสบการณ์\n100% | อิสระ"; out.badge = en ? "Independent Verified Reviewer" : "ผู้รีวิวอิสระที่ได้รับการรับรอง"; }
+      if (tid === "company") { out.eyebrow = en ? "About Us" : "เกี่ยวกับเรา"; out.stats = en ? "10+ | Years\n500+ | Clients\n99% | Satisfaction" : "10+ | ปีประสบการณ์\n500+ | ลูกค้า\n99% | ความพึงพอใจ"; }
+    }
+    if (type === "cta") {
+      if (tid === "course") { out.sub = en ? "Start learning today. No hidden fees." : "เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น"; out.stats = en ? "20,000+ | Students\n50+ | Courses\n100+ | Instructors" : "20,000+ | นักเรียน\n50+ | คอร์ส\n100+ | ผู้สอน"; }
+      if (tid === "company") out.sub = en ? "Ready to get started with us?" : "พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?";
+    }
+    return out;
   }
+  // Parse a newline-separated list field into trimmed non-empty items.
+  function parseLines(s) { return String(s == null ? "" : s).split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean); }
+  // Parse "number | label" lines into {n,l} pairs (label optional).
+  function parsePairs(s) { return parseLines(s).map(function (line) { var i = line.indexOf("|"); return i < 0 ? { n: line.trim(), l: "" } : { n: line.slice(0, i).trim(), l: line.slice(i + 1).trim() }; }); }
 
   /* ---------- template presets ---------- */
   var CATS = [
@@ -1206,34 +1234,36 @@
           (p.showSearch ? '<div style="width:34px;height:34px;border-radius:50%;background:#f1f2f9;display:grid;place-items:center">🔍</div>' : "") + "</div>";
       case "hero":
         if (S && S.templateId === "sidebar-blog") {
-          var sbHeroTags = BL === "en"
-            ? ["Blog", "Tutorials", "Tips & Tricks"]
-            : ["บล็อก", "บทสอน", "เคล็ดลับ"];
+          var sbHeroTags = p.chips != null ? parseLines(p.chips) : (BL === "en" ? ["Blog", "Tutorials", "Tips & Tricks"] : ["บล็อก", "บทสอน", "เคล็ดลับ"]);
           var sbTagsHtml = sbHeroTags.map(function(t) {
-            return '<span style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;color:' + pr + ';border:1.5px solid ' + pr + '">' + t + '</span>';
+            return '<span style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;color:' + pr + ';border:1.5px solid ' + pr + '">' + esc(t) + '</span>';
           }).join("");
+          var sbEb = p.eyebrow != null ? p.eyebrow : "✦ Classic Blog";
           return '<div style="padding:58px 32px 50px;background:#fffefb;border-top:4px solid ' + pr + ';border-bottom:1px solid #ece7dd">' +
             '<div style="max-width:820px;margin:0 auto">' +
-              '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:14px">✦ Classic Blog</div>' +
+              (sbEb ? '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:14px">' + esc(sbEb) + '</div>' : '') +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#0f172a;margin:0 0 14px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:16px;color:#64748b;line-height:1.65;margin:0 0 22px;max-width:500px">' + esc(p.subtitle) + '</p>' +
-              '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px">' + sbTagsHtml + '</div>' +
+              (sbTagsHtml ? '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px">' + sbTagsHtml + '</div>' : '') +
               '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
             '</div>' +
           '</div>';
         }
         if (S && S.templateId === "review") {
+          var rvEb = p.eyebrow != null ? p.eyebrow : "🏆 " + tpl("รีวิวสินค้า", "Product Reviews");
+          var rvScore = p.rating != null ? p.rating : "4.8/5";
+          var rvCount = p.ratingCount != null ? p.ratingCount : tpl("จาก 1,200+ รีวิว", "from 1,200+ reviews");
           return '<div style="position:relative;overflow:hidden;padding:80px 32px;background:radial-gradient(58% 80% at 84% 8%,rgba(255,255,255,.28),transparent 60%),linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
             '<div aria-hidden="true" style="position:absolute;right:-8px;bottom:-56px;font-size:230px;line-height:1;color:rgba(255,255,255,.1);transform:rotate(-8deg);pointer-events:none">★</div>' +
             '<div style="position:relative;max-width:860px;margin:0 auto">' +
-              '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:18px">🏆 ' + tpl("รีวิวสินค้า", "Product Reviews") + '</div>' +
+              (rvEb ? '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-bottom:18px">' + esc(rvEb) + '</div>' : '') +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;margin:0 0 22px;max-width:500px">' + esc(p.subtitle) + '</p>' +
-              '<div style="display:flex;align-items:center;gap:10px;margin-bottom:30px">' +
+              (p.showRating !== false && (rvScore || rvCount) ? '<div style="display:flex;align-items:center;gap:10px;margin-bottom:30px">' +
                 '<span style="color:#fff;font-size:18px;letter-spacing:2px">★★★★★</span>' +
-                '<span style="font-size:16px;font-weight:700;color:#fff">4.8/5</span>' +
-                '<span style="font-size:14px;color:rgba(255,255,255,.7)">' + tpl("จาก 1,200+ รีวิว", "from 1,200+ reviews") + '</span>' +
-              '</div>' +
+                (rvScore ? '<span style="font-size:16px;font-weight:700;color:#fff">' + esc(rvScore) + '</span>' : '') +
+                (rvCount ? '<span style="font-size:14px;color:rgba(255,255,255,.7)">' + esc(rvCount) + '</span>' : '') +
+              '</div>' : '') +
               '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:13px 30px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
             '</div>' +
           '</div>';
@@ -1243,7 +1273,7 @@
             '<div style="position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.13) 1px,transparent 1.7px) 0 0/26px 26px,radial-gradient(120% 95% at 12% 0%,rgba(255,255,255,.22),transparent 52%),linear-gradient(135deg,' + pr + ',' + ac + ')"></div>' +
             '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.2) 55%,transparent 100%)"></div>' +
             '<div style="position:relative;z-index:3;padding:44px 32px 64px;color:#fff;max-width:740px">' +
-              '<div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.88;margin-bottom:12px">✈ Travel Blog</div>' +
+              ((p.eyebrow != null ? p.eyebrow : "✈ Travel Blog") ? '<div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.88;margin-bottom:12px">' + esc(p.eyebrow != null ? p.eyebrow : "✈ Travel Blog") + '</div>' : '') +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.02em;margin:0 0 16px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:16px;opacity:.88;margin:0 0 22px;max-width:460px;line-height:1.6">' + esc(p.subtitle) + '</p>' +
               '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px;box-shadow:0 10px 26px rgba(0,0,0,.2)">' + esc(p.btnText) + ' →</a>' +
@@ -1252,20 +1282,19 @@
           '</div>';
         }
         if (S && S.templateId === "course") {
-          var eduChips = BL === "en"
-            ? ["Expert Instructors", "Certificate Included", "Lifetime Access"]
-            : ["สอนโดยผู้เชี่ยวชาญ", "รับใบประกาศนียบัตร", "เข้าถึงได้ตลอดชีพ"];
+          var eduChips = p.chips != null ? parseLines(p.chips) : (BL === "en" ? ["Expert Instructors", "Certificate Included", "Lifetime Access"] : ["สอนโดยผู้เชี่ยวชาญ", "รับใบประกาศนียบัตร", "เข้าถึงได้ตลอดชีพ"]);
           var chipsHtml = eduChips.map(function (c) {
             return '<div style="display:flex;align-items:center;gap:7px;font-size:13px;color:rgba(255,255,255,.9)">' +
-              '<span style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:10px;flex:none">✓</span>' + c +
+              '<span style="width:18px;height:18px;border-radius:50%;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:10px;flex:none">✓</span>' + esc(c) +
             '</div>';
           }).join("");
+          var eduEb = p.eyebrow != null ? p.eyebrow : "📚 " + tpl("คอร์สออนไลน์", "Online Course");
           return '<div style="position:relative;overflow:hidden;padding:80px 32px;background:radial-gradient(circle at 12% 18%,rgba(255,255,255,.17),transparent 26%),radial-gradient(circle at 88% 84%,rgba(255,255,255,.13),transparent 24%),linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff">' +
             '<div style="position:relative;max-width:860px;margin:0 auto">' +
-              '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px">📚 ' + tpl("คอร์สออนไลน์", "Online Course") + '</div>' +
+              (eduEb ? '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px">' + esc(eduEb) + '</div>' : '') +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,50px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 22px;max-width:520px">' + esc(p.subtitle) + '</p>' +
-              '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px">' + chipsHtml + '</div>' +
+              (chipsHtml ? '<div style="display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px">' + chipsHtml + '</div>' : '') +
               '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:13px 30px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
             '</div>' +
           '</div>';
@@ -1275,15 +1304,15 @@
             '<div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px) 0 0/100% 42px,linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px) 0 0/42px 100%;-webkit-mask-image:radial-gradient(120% 105% at 100% 0%,#000,transparent 68%);mask-image:radial-gradient(120% 105% at 100% 0%,#000,transparent 68%)"></div>' +
             '<div aria-hidden="true" style="position:absolute;top:-150px;right:-110px;width:430px;height:430px;border-radius:50%;border:44px solid rgba(255,255,255,.06);pointer-events:none"></div>' +
             '<div style="max-width:860px;margin:0 auto;position:relative;z-index:1">' +
-              '<div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px">' +
+              ((p.eyebrow != null ? p.eyebrow : tpl("บริษัทของเรา", "Our Company")) ? '<div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px">' +
                 '<span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block"></span>' +
-                tpl("บริษัทของเรา", "Our Company") +
-              '</div>' +
+                esc(p.eyebrow != null ? p.eyebrow : tpl("บริษัทของเรา", "Our Company")) +
+              '</div>' : '') +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 18px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:rgba(255,255,255,.82);line-height:1.65;margin:0 0 32px;max-width:500px">' + esc(p.subtitle) + '</p>' +
               '<div style="display:flex;gap:12px;flex-wrap:wrap">' +
                 '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:13px 28px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + '</a>' +
-                '<a style="display:inline-block;background:transparent;color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px;border:2px solid rgba(255,255,255,.45)">' + tpl("เรียนรู้เพิ่มเติม", "Learn More") + '</a>' +
+                ((p.btnText2 != null ? p.btnText2 : tpl("เรียนรู้เพิ่มเติม", "Learn More")) ? '<a style="display:inline-block;background:transparent;color:#fff;font-weight:600;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px;border:2px solid rgba(255,255,255,.45)">' + esc(p.btnText2 != null ? p.btnText2 : tpl("เรียนรู้เพิ่มเติม", "Learn More")) + '</a>' : '') +
               '</div>' +
             '</div>' +
           '</div>';
@@ -1292,7 +1321,7 @@
           return '<div style="position:relative;overflow:hidden;padding:68px 32px;background:radial-gradient(440px 300px at 88% 0%,' + hexRgba(pr, ".28") + ',transparent 70%),#0f172a;color:#e2e8f0">' +
             '<div style="position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/100% 34px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/34px 100%;-webkit-mask-image:radial-gradient(125% 95% at 18% 0%,#000,transparent 72%);mask-image:radial-gradient(125% 95% at 18% 0%,#000,transparent 72%)"></div>' +
             '<div style="position:relative;max-width:760px;margin:0 auto">' +
-              '<div style="font-family:monospace;font-size:13px;color:' + pr + ';font-weight:700;letter-spacing:.05em;margin-bottom:18px">&gt;_ Tech Blog ▋</div>' +
+              ((p.eyebrow != null ? p.eyebrow : ">_ Tech Blog") ? '<div style="font-family:monospace;font-size:13px;color:' + pr + ';font-weight:700;letter-spacing:.05em;margin-bottom:18px">' + esc(p.eyebrow != null ? p.eyebrow : ">_ Tech Blog") + ' ▋</div>' : '') +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:40px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:#94a3b8;line-height:1.65;margin:0 0 28px;max-width:480px">' + esc(p.subtitle) + '</p>' +
               '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
@@ -1324,6 +1353,7 @@
         var bg = p.bg === "gradient" ? "linear-gradient(120deg," + pr + "," + ac + ")" : p.bg === "dark" ? "#0f172a" : "#f7f8fc";
         var fg = (p.bg === "soft") ? "#1e2333" : "#fff";
         return '<div style="padding:84px 32px;text-align:' + p.align + ';background:' + bg + ';color:' + fg + '">' +
+          (p.eyebrow ? '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-bottom:14px">' + esc(p.eyebrow) + '</div>' : '') +
           '<h1 style="font-family:' + fontStack(d.font) + ';font-size:42px;font-weight:700;margin:0;line-height:1.15;letter-spacing:-.02em">' + esc(p.title) + "</h1>" +
           '<p style="font-size:18px;margin:18px auto 0;max-width:560px;opacity:.9;' + (p.align === "center" ? "" : "margin-left:0;margin-right:0") + '">' + esc(p.subtitle) + "</p>" +
           '<a style="display:inline-block;margin-top:28px;background:' + (p.bg === "soft" ? pr : "#fff") + ';color:' + (p.bg === "soft" ? "#fff" : pr) + ';font-weight:600;padding:13px 26px;border-radius:' + r + '">' + esc(p.btnText) + "</a></div>";
@@ -1608,38 +1638,40 @@
         return section(p.heading, d, '<div style="position:relative;border-radius:' + r + ';overflow:hidden;aspect-ratio:21/9;background:linear-gradient(120deg,' + pr + ',' + ac + ');display:flex;align-items:flex-end;padding:28px"><div><span style="background:#fff;color:' + pr + ';font-size:12px;font-weight:700;padding:4px 11px;border-radius:20px">' + tpl("บทความเด่น", "Featured") + '</span><h3 style="color:#fff;font-size:26px;margin:12px 0 0;font-family:' + fontStack(d.font) + '">' + tpl("หัวข้อบทความแนะนำที่น่าสนใจที่สุด", "The Most Recommended Article This Week") + '</h3></div></div>');
       case "about":
         if (S && S.templateId === "review") {
-          var rvTrustItems = BL === "en"
+          var rvTrustItems = p.stats != null ? parsePairs(p.stats) : (BL === "en"
             ? [{n:"500+", l:"Reviews"}, {n:"8", l:"Years Exp."}, {n:"100%", l:"Independent"}]
-            : [{n:"500+", l:"รีวิวสินค้า"}, {n:"8", l:"ปีประสบการณ์"}, {n:"100%", l:"อิสระ"}];
+            : [{n:"500+", l:"รีวิวสินค้า"}, {n:"8", l:"ปีประสบการณ์"}, {n:"100%", l:"อิสระ"}]);
           var rvTrustHtml = rvTrustItems.map(function(t) {
             return '<div style="text-align:center">' +
-              '<div style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;color:' + pr + ';line-height:1">' + t.n + '</div>' +
-              '<div style="font-size:11px;color:#94a3b8;margin-top:3px">' + t.l + '</div>' +
+              '<div style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;color:' + pr + ';line-height:1">' + esc(t.n) + '</div>' +
+              (t.l ? '<div style="font-size:11px;color:#94a3b8;margin-top:3px">' + esc(t.l) + '</div>' : '') +
             '</div>';
           }).join("");
+          var rvRole = p.eyebrow != null ? p.eyebrow : tpl("นักรีวิวสินค้า", "Product Reviewer");
+          var rvBadge = p.badge != null ? p.badge : tpl("ผู้รีวิวอิสระที่ได้รับการรับรอง", "Independent Verified Reviewer");
           return '<section style="padding:60px 32px;background:#f8fafc">' +
             '<div style="max-width:780px;margin:0 auto;display:flex;gap:36px;align-items:center;flex-wrap:wrap">' +
               (p.avatarUrl
                 ? '<div style="width:100px;height:100px;border-radius:50%;overflow:hidden;flex:none"><img src="' + esc(p.avatarUrl) + '" alt="' + esc(p.name) + '" style="width:100%;height:100%;object-fit:cover"></div>'
                 : '<div style="width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,' + pr + ',' + ac + ');display:flex;align-items:center;justify-content:center;font-size:38px;flex:none">👤</div>') +
               '<div style="flex:1;min-width:200px">' +
-                '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:6px">' + tpl("นักรีวิวสินค้า", "Product Reviewer") + '</div>' +
+                (rvRole ? '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:6px">' + esc(rvRole) + '</div>' : '') +
                 '<h2 style="font-family:' + fontStack(d.font) + ';font-size:24px;font-weight:800;color:#0f172a;margin:0 0 10px">' + esc(p.name) + '</h2>' +
                 '<p style="font-size:15px;color:#64748b;line-height:1.7;margin:0 0 18px">' + richHTML(p.bio) + '</p>' +
-                '<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:14px">' + rvTrustHtml + '</div>' +
-                '<span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:' + pr + ';padding:5px 12px;border-radius:20px;border:1.5px solid ' + pr + '">✓ ' + tpl("ผู้รีวิวอิสระที่ได้รับการรับรอง", "Independent Verified Reviewer") + '</span>' +
+                (rvTrustHtml ? '<div style="display:flex;gap:24px;flex-wrap:wrap;margin-bottom:14px">' + rvTrustHtml + '</div>' : '') +
+                (rvBadge ? '<span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:' + pr + ';padding:5px 12px;border-radius:20px;border:1.5px solid ' + pr + '">✓ ' + esc(rvBadge) + '</span>' : '') +
               '</div>' +
             '</div>' +
           '</section>';
         }
         if (S && S.templateId === "company") {
-          var corpStats = BL === "en"
+          var corpStats = p.stats != null ? parsePairs(p.stats) : (BL === "en"
             ? [{ n: "10+", l: "Years" }, { n: "500+", l: "Clients" }, { n: "99%", l: "Satisfaction" }]
-            : [{ n: "10+", l: "ปีประสบการณ์" }, { n: "500+", l: "ลูกค้า" }, { n: "99%", l: "ความพึงพอใจ" }];
+            : [{ n: "10+", l: "ปีประสบการณ์" }, { n: "500+", l: "ลูกค้า" }, { n: "99%", l: "ความพึงพอใจ" }]);
           var statsHtml = corpStats.map(function (s) {
             return '<div>' +
-              '<div style="font-family:' + fontStack(d.font) + ';font-size:30px;font-weight:800;color:' + pr + ';line-height:1">' + s.n + '</div>' +
-              '<div style="font-size:12px;color:#64748b;margin-top:5px">' + s.l + '</div>' +
+              '<div style="font-family:' + fontStack(d.font) + ';font-size:30px;font-weight:800;color:' + pr + ';line-height:1">' + esc(s.n) + '</div>' +
+              (s.l ? '<div style="font-size:12px;color:#64748b;margin-top:5px">' + esc(s.l) + '</div>' : '') +
             '</div>';
           }).join("");
           var visualHtml = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">' +
@@ -1651,10 +1683,10 @@
           return '<div style="padding:72px 32px">' +
             '<div style="max-width:1020px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center">' +
               '<div>' +
-                '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:16px">' + tpl("เกี่ยวกับเรา", "About Us") + '</div>' +
+                ((p.eyebrow != null ? p.eyebrow : tpl("เกี่ยวกับเรา", "About Us")) ? '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:16px">' + esc(p.eyebrow != null ? p.eyebrow : tpl("เกี่ยวกับเรา", "About Us")) + '</div>' : '') +
                 '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(22px,3.5vw,36px);font-weight:800;line-height:1.15;color:#0f172a;margin:0 0 18px">' + esc(p.name) + '</h2>' +
                 '<p style="font-size:16px;color:#64748b;line-height:1.7;margin:0 0 32px">' + richHTML(p.bio) + '</p>' +
-                '<div style="display:flex;gap:28px;flex-wrap:wrap">' + statsHtml + '</div>' +
+                (statsHtml ? '<div style="display:flex;gap:28px;flex-wrap:wrap">' + statsHtml + '</div>' : '') +
               '</div>' +
               visualHtml +
             '</div>' +
@@ -1689,26 +1721,28 @@
         return section(p.heading, d, '<div style="display:grid;grid-template-columns:' + colsCols + ';gap:24px">' + cells + '</div>');
       case "cta":
         if (S && S.templateId === "course") {
-          var eduTrust = BL === "en"
+          var eduTrust = p.stats != null ? parsePairs(p.stats) : (BL === "en"
             ? [{n:"20,000+", l:"Students"}, {n:"50+", l:"Courses"}, {n:"100+", l:"Instructors"}]
-            : [{n:"20,000+", l:"นักเรียน"}, {n:"50+", l:"คอร์ส"}, {n:"100+", l:"ผู้สอน"}];
+            : [{n:"20,000+", l:"นักเรียน"}, {n:"50+", l:"คอร์ส"}, {n:"100+", l:"ผู้สอน"}]);
           var eduTrustHtml = eduTrust.map(function(t) {
             return '<div style="text-align:center">' +
-              '<div style="font-family:' + fontStack(d.font) + ';font-size:28px;font-weight:800;color:#fff;line-height:1">' + t.n + '</div>' +
-              '<div style="font-size:12px;color:rgba(255,255,255,.72);margin-top:5px">' + t.l + '</div>' +
+              '<div style="font-family:' + fontStack(d.font) + ';font-size:28px;font-weight:800;color:#fff;line-height:1">' + esc(t.n) + '</div>' +
+              (t.l ? '<div style="font-size:12px;color:rgba(255,255,255,.72);margin-top:5px">' + esc(t.l) + '</div>' : '') +
             '</div>';
           }).join("");
+          var eduSub = p.sub != null ? p.sub : tpl("เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น", "Start learning today. No hidden fees.");
           return '<div style="padding:84px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');text-align:center;color:#fff">' +
             '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(24px,4.5vw,42px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px">' + esc(p.title) + '</h2>' +
-            '<p style="font-size:17px;color:rgba(255,255,255,.82);margin:0 auto 32px;max-width:480px;line-height:1.6">' + tpl("เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น", "Start learning today. No hidden fees.") + '</p>' +
-            '<div style="display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-bottom:36px">' + eduTrustHtml + '</div>' +
+            (eduSub ? '<p style="font-size:17px;color:rgba(255,255,255,.82);margin:0 auto 32px;max-width:480px;line-height:1.6">' + esc(eduSub) + '</p>' : '') +
+            (eduTrustHtml ? '<div style="display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-bottom:36px">' + eduTrustHtml + '</div>' : '') +
             '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:14px 34px;border-radius:' + r + ';text-decoration:none;font-size:16px">' + esc(p.btnText) + '</a>' +
           '</div>';
         }
         if (S && S.templateId === "company") {
+          var corpSub = p.sub != null ? p.sub : tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?");
           return '<div style="padding:84px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');text-align:center;color:#fff">' +
             '<h2 style="font-family:' + fontStack(d.font) + ';font-size:clamp(24px,4.5vw,42px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px">' + esc(p.title) + '</h2>' +
-            '<p style="font-size:17px;color:rgba(255,255,255,.8);margin:0 auto 32px;max-width:480px;line-height:1.6">' + tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?") + '</p>' +
+            (corpSub ? '<p style="font-size:17px;color:rgba(255,255,255,.8);margin:0 auto 32px;max-width:480px;line-height:1.6">' + esc(corpSub) + '</p>' : '') +
             '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:14px 34px;border-radius:' + r + ';text-decoration:none;font-size:16px">' + esc(p.btnText) + '</a>' +
           '</div>';
         }
@@ -2453,7 +2487,14 @@
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB · ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB · synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
         + menuEditor(p) + tog("showMenuIcons", "แสดงไอคอนหน้าเมนู", p.showMenuIcons !== false) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch) + tog("mobileBottomNav", "แถบเมนูล่าง (มือถือ)", p.mobileBottomNav !== false, tpl("หน้าแรก · ค้นหา · เมนู · โหมด · แชร์", "Home · Search · Menu · Mode · Share"));
-      case "hero": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
+      case "hero": {
+        var heroTid = S && S.templateId, heroExtra = "";
+        if (heroTid === "review") heroExtra = tog("showRating", tpl("แสดงแถบคะแนนรีวิว", "Show rating bar"), p.showRating !== false) + txt("rating", tpl("คะแนน (เช่น 4.8/5)", "Score (e.g. 4.8/5)"), p.rating != null ? p.rating : "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("ratingCount", tpl("ข้อความจำนวนรีวิว", "Rating count text"), p.ratingCount != null ? p.ratingCount : "", tpl("เช่น จาก 1,200+ รีวิว · เว้นว่าง = ซ่อน", "e.g. from 1,200+ reviews · blank = hide"));
+        else if (heroTid === "course") heroExtra = area("chips", tpl("รายการจุดเด่น (บรรทัดละ 1 ข้อ · เว้นว่าง = ซ่อน)", "Feature chips (one per line · blank = hide)"), p.chips != null ? p.chips : "");
+        else if (heroTid === "sidebar-blog") heroExtra = area("chips", tpl("แท็ก (บรรทัดละ 1 อัน · เว้นว่าง = ซ่อน)", "Tags (one per line · blank = hide)"), p.chips != null ? p.chips : "");
+        else if (heroTid === "company") heroExtra = txt("btnText2", tpl("ปุ่มรอง · ข้อความ", "Secondary button · text"), p.btnText2 != null ? p.btnText2 : "", tpl("เว้นว่าง = ซ่อนปุ่ม", "Leave blank to hide the button")) + txt("btnUrl2", tpl("ปุ่มรอง · ลิงก์", "Secondary button · link"), p.btnUrl2 || "");
+        return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("title", "หัวข้อ", p.title) + area("subtitle", "คำโปรย", p.subtitle) + txt("btnText", "ข้อความปุ่ม", p.btnText) + heroExtra + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["dark", "เข้ม"], ["soft", "อ่อน"]]) + tog("showImage", "แสดงรูปภาพ (วงกลม)", p.showImage !== false) + imgUrl("imageUrl", "URL รูปภาพ Hero", p.imageUrl || "");
+      }
       case "footer": return col("bgColor", "สีพื้นหลัง Footer", p.bgColor || "#0f172a", tpl("ตัวอักษรจะปรับเป็นสีขาว/ดำให้อ่านง่ายอัตโนมัติ", "Text auto-switches to white/black for readability")) + area("about", "เกี่ยวกับ (คำอธิบายสั้น)", p.about) + footerEditor(p) + txt("copyright", "ข้อความลิขสิทธิ์", p.copyright);
       case "postgrid": return txt("heading", "หัวข้อส่วน", p.heading) + num("columns", "จำนวนคอลัมน์", p.columns, 2, 4) + num("count", "จำนวนบทความ", p.count, 2, 12) + tog("showImage", "แสดงรูปภาพ", p.showImage) + tog("showExcerpt", "แสดงคำโปรย", p.showExcerpt) + txt("readMore", "ข้อความปุ่มอ่านต่อ", p.readMore || "", tpl("เว้นว่าง = ซ่อนลิงก์", "Leave blank to hide the link")) + num("cardRadius", "มุมโค้งการ์ด (px)", p.cardRadius != null ? p.cardRadius : 14, 0, 28) + seg("cardStyle", "สไตล์การ์ด", p.cardStyle || "shadow", [["shadow", "เงา"], ["border", "เส้นขอบ"], ["flat", "แบน"]]);
       case "postlist": return txt("heading", "หัวข้อส่วน", p.heading) + num("count", "จำนวนบทความ", p.count, 2, 10) + tog("showImage", "แสดงรูปภาพ", p.showImage);
@@ -2463,10 +2504,20 @@
               tpl("📌 วิธีใช้: เข้า blogger.com → แก้ไขโพสต์ที่ต้องการ → ช่อง \"ป้ายกำกับ\" ใส่คำว่า <b>แนะนำ</b> (หรือคำที่ตั้งไว้ข้างบน) → เผยแพร่ · โพสต์นั้นจะขึ้นเป็นบทความแนะนำทันที ปักหมุดได้หลายโพสต์ (ใบแรก = ข่าวเด่นใหญ่) • ถ้ายังไม่มีโพสต์ติดป้ายนี้เลย ระบบจะแสดงบทความล่าสุดให้อัตโนมัติ • เว้นว่าง = ใช้บทความล่าสุดเสมอ",
                   "📌 How to: in blogger.com → edit a post → add the label <b>Featured</b> (or the word you set above) → publish · that post is pinned as featured. Pin several posts (first = the big lead). • If no post has this label yet, the newest posts show automatically. • Leave blank = always use latest posts"))
           : "");
-      case "about": return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
+      case "about": {
+        var aboutTid = S && S.templateId, aboutExtra = "";
+        if (aboutTid === "review" || aboutTid === "company") aboutExtra += area("stats", tpl("สถิติ (รูปแบบ: ตัวเลข | คำอธิบาย · บรรทัดละ 1 · เว้นว่าง = ซ่อน)", "Stats (format: number | label · one per line · blank = hide)"), p.stats != null ? p.stats : "");
+        if (aboutTid === "review") aboutExtra += txt("badge", tpl("ป้ายรับรอง", "Trust badge"), p.badge != null ? p.badge : "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide"));
+        return txt("eyebrow", "ป้ายกำกับเล็ก (Eyebrow)", p.eyebrow || "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("name", "ชื่อ/ผู้เขียน", p.name) + area("bio", "ประวัติ (E-E-A-T)", p.bio, true) + aboutExtra + tog("showAvatar", "แสดงรูปโปรไฟล์", p.showAvatar) + imgUrl("avatarUrl", "URL รูปโปรไฟล์", p.avatarUrl || "");
+      }
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
       case "columns": return columnsFields(b, p);
-      case "cta": return txt("title", "หัวข้อ", p.title) + txt("btnText", "ข้อความปุ่ม", p.btnText) + txt("btnUrl", "ลิงก์ปุ่ม", p.btnUrl || "", tpl("เช่น /p/contact.html หรือ https://…", "e.g. /p/contact.html or https://…")) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["soft", "อ่อน"]]);
+      case "cta": {
+        var ctaTid = S && S.templateId, ctaExtra = "";
+        if (ctaTid === "course" || ctaTid === "company") ctaExtra += txt("sub", tpl("คำโปรย", "Subtitle"), p.sub != null ? p.sub : "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide"));
+        if (ctaTid === "course") ctaExtra += area("stats", tpl("สถิติ (รูปแบบ: ตัวเลข | คำอธิบาย · บรรทัดละ 1 · เว้นว่าง = ซ่อน)", "Stats (format: number | label · one per line · blank = hide)"), p.stats != null ? p.stats : "");
+        return txt("title", "หัวข้อ", p.title) + ctaExtra + txt("btnText", "ข้อความปุ่ม", p.btnText) + txt("btnUrl", "ลิงก์ปุ่ม", p.btnUrl || "", tpl("เช่น /p/contact.html หรือ https://…", "e.g. /p/contact.html or https://…")) + seg("bg", "พื้นหลัง", p.bg, [["gradient", "ไล่สี"], ["soft", "อ่อน"]]);
+      }
       case "image": return imgUrl("src", "URL รูปภาพ", p.src || "") + txt("alt", "ข้อความ ALT (SEO)", p.alt, "สำคัญต่อ SEO และการเข้าถึง") + txt("caption", "คำบรรยายใต้ภาพ", p.caption) + seg("ratio", "สัดส่วน", p.ratio, [["16/9", "16:9"], ["4/3", "4:3"], ["1/1", "1:1"]]);
       case "ad": return seg("slot", "ตำแหน่ง", p.slot, [["ใต้ส่วนหัว", "บน"], ["ในบทความ", "กลาง"], ["ไซด์บาร์", "ข้าง"]]) + tog("label", 'แสดงป้าย "โฆษณา"', p.label, "แนะนำตามนโยบาย AdSense");
       case "newsletter": return txt("heading", "หัวข้อ", p.heading) + area("sub", "คำโปรย", p.sub) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg || "soft", [["soft", "อ่อน"], ["gradient", "ไล่สี"], ["dark", "เข้ม"]]);
@@ -4263,59 +4314,62 @@ tplStyleVars(),
           (p.mobileBottomNav !== false ? botNavStatic() : "");
       case "hero":
         if (S && S.templateId === "sidebar-blog") {
-          var sbStaticTags = BL === "en"
-            ? ["Blog", "Tutorials", "Tips &amp; Tricks"]
-            : ["บล็อก", "บทสอน", "เคล็ดลับ"];
+          var sbStaticTags = p.chips != null ? parseLines(p.chips) : (BL === "en" ? ["Blog", "Tutorials", "Tips & Tricks"] : ["บล็อก", "บทสอน", "เคล็ดลับ"]);
+          var sbStaticEb = p.eyebrow != null ? p.eyebrow : "✦ Classic Blog";
+          var sbTagsStatic = sbStaticTags.map(function(t) { return "<span class='sb-hero-tag'>" + esc(t) + "</span>"; }).join("");
           return "<section class='sb-hero'><div class='wrap'>" +
-            "<div class='sb-hero-eyebrow'>✦ Classic Blog</div>" +
+            (sbStaticEb ? "<div class='sb-hero-eyebrow'>" + esc(sbStaticEb) + "</div>" : "") +
             "<h1 class='sb-hero-title'>" + esc(p.title) + "</h1>" +
             "<p class='sb-hero-sub'>" + esc(p.subtitle) + "</p>" +
-            "<div class='sb-hero-tags'>" +
-              sbStaticTags.map(function(t) { return "<span class='sb-hero-tag'>" + t + "</span>"; }).join("") +
-            "</div>" +
+            (sbTagsStatic ? "<div class='sb-hero-tags'>" + sbTagsStatic + "</div>" : "") +
             "<a href='#main' class='sb-hero-btn'>" + esc(p.btnText) + "</a>" +
           "</div></section>";
         }
         if (S && S.templateId === "review") {
+          var rvEbS = p.eyebrow != null ? p.eyebrow : "🏆 " + tpl("รีวิวสินค้า", "Product Reviews");
+          var rvScoreS = p.rating != null ? p.rating : "4.8/5";
+          var rvCountS = p.ratingCount != null ? p.ratingCount : tpl("จาก 1,200+ รีวิว", "from 1,200+ reviews");
           return "<section class='rv-hero'><div class='wrap'>" +
-            "<div class='rv-hero-eyebrow'>🏆 " + tpl("รีวิวสินค้า", "Product Reviews") + "</div>" +
+            (rvEbS ? "<div class='rv-hero-eyebrow'>" + esc(rvEbS) + "</div>" : "") +
             "<h1 class='rv-hero-title'>" + esc(p.title) + "</h1>" +
             "<p class='rv-hero-sub'>" + esc(p.subtitle) + "</p>" +
-            "<div class='rv-hero-rating'>" +
+            (p.showRating !== false && (rvScoreS || rvCountS) ? "<div class='rv-hero-rating'>" +
               "<span class='rv-hero-stars'>★★★★★</span>" +
-              "<span class='rv-hero-score'>4.8/5</span>" +
-              "<span class='rv-hero-count'>" + tpl("จาก 1,200+ รีวิว", "from 1,200+ reviews") + "</span>" +
-            "</div>" +
+              (rvScoreS ? "<span class='rv-hero-score'>" + esc(rvScoreS) + "</span>" : "") +
+              (rvCountS ? "<span class='rv-hero-count'>" + esc(rvCountS) + "</span>" : "") +
+            "</div>" : "") +
             "<a href='#main' class='rv-hero-btn'>" + esc(p.btnText) + "</a>" +
           "</div></section>";
         }
         if (S && S.templateId === "course") {
+          var eduChipsS = p.chips != null ? parseLines(p.chips) : (BL === "en" ? ["Expert Instructors", "Certificate Included", "Lifetime Access"] : ["สอนโดยผู้เชี่ยวชาญ", "รับใบประกาศนียบัตร", "เข้าถึงได้ตลอดชีพ"]);
+          var eduEbS = p.eyebrow != null ? p.eyebrow : "📚 " + tpl("คอร์สออนไลน์", "Online Course");
+          var eduChipsHtmlS = eduChipsS.map(function(c) { return "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + esc(c) + "</div>"; }).join("");
           return "<section class='edu-hero'><div class='wrap'>" +
-            "<div class='edu-hero-eyebrow'>📚 " + tpl("คอร์สออนไลน์", "Online Course") + "</div>" +
+            (eduEbS ? "<div class='edu-hero-eyebrow'>" + esc(eduEbS) + "</div>" : "") +
             "<h1 class='edu-hero-title'>" + esc(p.title) + "</h1>" +
             "<p class='edu-hero-sub'>" + esc(p.subtitle) + "</p>" +
-            "<div class='edu-hero-chips'>" +
-              "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + tpl("สอนโดยผู้เชี่ยวชาญ", "Expert Instructors") + "</div>" +
-              "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + tpl("รับใบประกาศนียบัตร", "Certificate Included") + "</div>" +
-              "<div class='edu-hero-chip'><span class='edu-hero-chip-check'>✓</span>" + tpl("เข้าถึงได้ตลอดชีพ", "Lifetime Access") + "</div>" +
-            "</div>" +
+            (eduChipsHtmlS ? "<div class='edu-hero-chips'>" + eduChipsHtmlS + "</div>" : "") +
             "<a href='#main' class='edu-hero-btn'>" + esc(p.btnText) + "</a>" +
           "</div></section>";
         }
         if (S && S.templateId === "company") {
+          var corpEbS = p.eyebrow != null ? p.eyebrow : tpl("บริษัทของเรา", "Our Company");
+          var corpBtn2S = p.btnText2 != null ? p.btnText2 : tpl("เรียนรู้เพิ่มเติม", "Learn More");
           return "<section class='corp-hero'><div class='wrap'>" +
-            "<div class='corp-hero-eyebrow'><span class='corp-hero-eyebrow-dot'></span>" + tpl("บริษัทของเรา", "Our Company") + "</div>" +
+            (corpEbS ? "<div class='corp-hero-eyebrow'><span class='corp-hero-eyebrow-dot'></span>" + esc(corpEbS) + "</div>" : "") +
             "<h1 class='corp-hero-title'>" + esc(p.title) + "</h1>" +
             "<p class='corp-hero-sub'>" + esc(p.subtitle) + "</p>" +
             "<div class='corp-hero-actions'>" +
               "<a href='#main' class='corp-hero-btn'>" + esc(p.btnText) + "</a>" +
-              "<a href='#about' class='corp-hero-btn-out'>" + tpl("เรียนรู้เพิ่มเติม", "Learn More") + "</a>" +
+              (corpBtn2S ? "<a href='" + esc(absUrl(p.btnUrl2 || "#about")) + "' class='corp-hero-btn-out'>" + esc(corpBtn2S) + "</a>" : "") +
             "</div>" +
           "</div></section>";
         }
         if (S && S.templateId === "tech") {
+          var techEbS = p.eyebrow != null ? p.eyebrow : ">_ Tech Blog";
           return "<section class='tech-hero'><div class='wrap'>" +
-            "<div class='tech-hero-eyebrow'>&gt;_ Tech Blog</div>" +
+            (techEbS ? "<div class='tech-hero-eyebrow'>" + esc(techEbS) + "</div>" : "") +
             "<h1 class='tech-hero-title'>" + esc(p.title) + "</h1>" +
             "<p class='tech-hero-sub'>" + esc(p.subtitle) + "</p>" +
             "<a href='#main' class='tech-hero-btn'>" + esc(p.btnText) + " →</a>" +
@@ -4326,7 +4380,7 @@ tplStyleVars(),
             "<div class='tb-hero-bg'></div>" +
             "<div class='tb-hero-overlay'></div>" +
             "<div class='wrap tb-hero-content'>" +
-              "<div class='tb-hero-tag'>✈ Travel Blog</div>" +
+              ((p.eyebrow != null ? p.eyebrow : "✈ Travel Blog") ? "<div class='tb-hero-tag'>" + esc(p.eyebrow != null ? p.eyebrow : "✈ Travel Blog") + "</div>" : "") +
               "<h1 class='tb-hero-title'>" + esc(p.title) + "</h1>" +
               "<p class='tb-hero-sub'>" + esc(p.subtitle) + "</p>" +
               "<a href='#main' class='tb-hero-btn'>" + esc(p.btnText) + " →</a>" +
@@ -4357,7 +4411,7 @@ tplStyleVars(),
             "</div>" +
           "</section>";
         }
-        return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'><h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
+        return "<section class='hero' style='padding:80px 20px;text-align:" + p.align + ";background:linear-gradient(120deg,var(--primary),var(--accent));color:#fff'><div class='wrap'>" + (p.eyebrow ? "<div style='font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.85;margin-bottom:14px'>" + esc(p.eyebrow) + "</div>" : "") + "<h1 style='font-size:42px'>" + esc(p.title) + "</h1><p style='font-size:18px;margin-top:16px;opacity:.92'>" + esc(p.subtitle) + "</p><p style='margin-top:26px'><a href='#main' style='background:#fff;color:var(--primary);padding:13px 26px;border-radius:var(--radius);font-weight:600;display:inline-block'>" + esc(p.btnText) + "</a></p></div></section>";
       case "postgrid":
         if (S && S.templateId === "sidebar-blog") {
           return "<section class='sb-posts' id='main'><div class='wrap'>" +
@@ -4695,30 +4749,28 @@ tplStyleVars(),
                 : "<svg width='44' height='44' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round' style='color:#fff;opacity:.75'><circle cx='12' cy='8' r='4'/><path d='M4 20c0-4 3.6-7 8-7s8 3 8 7'/></svg>") +
             "</div>" +
             "<div class='rv-about-body'>" +
-              "<div class='rv-about-role'>" + tpl("นักรีวิวสินค้า", "Product Reviewer") + "</div>" +
+              ((p.eyebrow != null ? p.eyebrow : tpl("นักรีวิวสินค้า", "Product Reviewer")) ? "<div class='rv-about-role'>" + esc(p.eyebrow != null ? p.eyebrow : tpl("นักรีวิวสินค้า", "Product Reviewer")) + "</div>" : "") +
               "<h2 class='rv-about-name'>" + esc(p.name) + "</h2>" +
               "<p class='rv-about-bio'>" + richHTML(p.bio) + "</p>" +
-              "<div class='rv-about-trust'>" +
-                "<div><div class='rv-about-trust-num'>500+</div><div class='rv-about-trust-label'>" + tpl("รีวิวสินค้า", "Reviews") + "</div></div>" +
-                "<div><div class='rv-about-trust-num'>8</div><div class='rv-about-trust-label'>" + tpl("ปีประสบการณ์", "Years Exp.") + "</div></div>" +
-                "<div><div class='rv-about-trust-num'>100%</div><div class='rv-about-trust-label'>" + tpl("อิสระ", "Independent") + "</div></div>" +
-              "</div>" +
-              "<span class='rv-about-badge'>✓ " + tpl("ผู้รีวิวอิสระที่ได้รับการรับรอง", "Independent Verified Reviewer") + "</span>" +
+              (function () {
+                var items = p.stats != null ? parsePairs(p.stats) : (BL === "en" ? [{n:"500+",l:"Reviews"},{n:"8",l:"Years Exp."},{n:"100%",l:"Independent"}] : [{n:"500+",l:"รีวิวสินค้า"},{n:"8",l:"ปีประสบการณ์"},{n:"100%",l:"อิสระ"}]);
+                if (!items.length) return "";
+                return "<div class='rv-about-trust'>" + items.map(function (t) { return "<div><div class='rv-about-trust-num'>" + esc(t.n) + "</div>" + (t.l ? "<div class='rv-about-trust-label'>" + esc(t.l) + "</div>" : "") + "</div>"; }).join("") + "</div>";
+              })() +
+              ((p.badge != null ? p.badge : tpl("ผู้รีวิวอิสระที่ได้รับการรับรอง", "Independent Verified Reviewer")) ? "<span class='rv-about-badge'>✓ " + esc(p.badge != null ? p.badge : tpl("ผู้รีวิวอิสระที่ได้รับการรับรอง", "Independent Verified Reviewer")) + "</span>" : "") +
             "</div>" +
           "</div></section>";
         }
         if (S && S.templateId === "company") {
+          var corpAboutStats = p.stats != null ? parsePairs(p.stats) : (BL === "en" ? [{n:"10+",l:"Years"},{n:"500+",l:"Clients"},{n:"99%",l:"Satisfaction"}] : [{n:"10+",l:"ปีประสบการณ์"},{n:"500+",l:"ลูกค้า"},{n:"99%",l:"ความพึงพอใจ"}]);
+          var corpAboutEb = p.eyebrow != null ? p.eyebrow : tpl("เกี่ยวกับเรา", "About Us");
           return "<section class='corp-about' id='about'><div class='wrap'>" +
             "<div class='corp-about-grid'>" +
               "<div>" +
-                "<div class='corp-about-eyebrow'>" + tpl("เกี่ยวกับเรา", "About Us") + "</div>" +
+                (corpAboutEb ? "<div class='corp-about-eyebrow'>" + esc(corpAboutEb) + "</div>" : "") +
                 "<h2 class='corp-about-title'>" + esc(p.name) + "</h2>" +
                 "<p class='corp-about-body'>" + richHTML(p.bio) + "</p>" +
-                "<div class='corp-stats'>" +
-                  "<div><div class='corp-stat-num'>10+</div><div class='corp-stat-label'>" + tpl("ปีประสบการณ์", "Years") + "</div></div>" +
-                  "<div><div class='corp-stat-num'>500+</div><div class='corp-stat-label'>" + tpl("ลูกค้า", "Clients") + "</div></div>" +
-                  "<div><div class='corp-stat-num'>99%</div><div class='corp-stat-label'>" + tpl("ความพึงพอใจ", "Satisfaction") + "</div></div>" +
-                "</div>" +
+                (corpAboutStats.length ? "<div class='corp-stats'>" + corpAboutStats.map(function (t) { return "<div><div class='corp-stat-num'>" + esc(t.n) + "</div>" + (t.l ? "<div class='corp-stat-label'>" + esc(t.l) + "</div>" : "") + "</div>"; }).join("") + "</div>" : "") +
               "</div>" +
               "<div class='corp-visual'>" +
                 "<div class='corp-visual-block'></div>" +
@@ -4754,24 +4806,23 @@ tplStyleVars(),
         return "<section style='padding:48px 0'><div class='wrap'>" + (p.heading ? "<h2 style='font-size:26px;margin-bottom:24px;text-align:center'>" + esc(p.heading) + "</h2>" : "") + "<div class='grid' style='display:grid;grid-template-columns:repeat(" + ccn + ",1fr);gap:24px'>" + ccells + "</div></div></section>";
       case "cta":
         if (S && S.templateId === "course") {
+          var eduCtaSub = p.sub != null ? p.sub : tpl("เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น", "Start learning today. No hidden fees.");
+          var eduCtaStats = p.stats != null ? parsePairs(p.stats) : (BL === "en" ? [{n:"20,000+",l:"Students"},{n:"50+",l:"Courses"},{n:"100+",l:"Instructors"}] : [{n:"20,000+",l:"นักเรียน"},{n:"50+",l:"คอร์ส"},{n:"100+",l:"ผู้สอน"}]);
           return "<section class='edu-cta'>" +
             "<div class='wrap'>" +
               "<h2 class='edu-cta-title'>" + esc(p.title) + "</h2>" +
-              "<p class='edu-cta-sub'>" + tpl("เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น", "Start learning today. No hidden fees.") + "</p>" +
-              "<div class='edu-trust'>" +
-                "<div><div class='edu-trust-num'>20,000+</div><div class='edu-trust-label'>" + tpl("นักเรียน", "Students") + "</div></div>" +
-                "<div><div class='edu-trust-num'>50+</div><div class='edu-trust-label'>" + tpl("คอร์ส", "Courses") + "</div></div>" +
-                "<div><div class='edu-trust-num'>100+</div><div class='edu-trust-label'>" + tpl("ผู้สอน", "Instructors") + "</div></div>" +
-              "</div>" +
+              (eduCtaSub ? "<p class='edu-cta-sub'>" + esc(eduCtaSub) + "</p>" : "") +
+              (eduCtaStats.length ? "<div class='edu-trust'>" + eduCtaStats.map(function (t) { return "<div><div class='edu-trust-num'>" + esc(t.n) + "</div>" + (t.l ? "<div class='edu-trust-label'>" + esc(t.l) + "</div>" : "") + "</div>"; }).join("") + "</div>" : "") +
               "<a href='" + esc(absUrl(p.btnUrl || "/")) + "' class='edu-cta-btn'>" + esc(p.btnText) + "</a>" +
             "</div>" +
           "</section>";
         }
         if (S && S.templateId === "company") {
+          var corpCtaSub = p.sub != null ? p.sub : tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?");
           return "<section class='corp-cta'>" +
             "<div class='wrap' style='text-align:center'>" +
               "<h2 class='corp-cta-title'>" + esc(p.title) + "</h2>" +
-              "<p class='corp-cta-sub'>" + tpl("พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?", "Ready to get started with us?") + "</p>" +
+              (corpCtaSub ? "<p class='corp-cta-sub'>" + esc(corpCtaSub) + "</p>" : "") +
               "<a href='" + esc(absUrl(p.btnUrl || "/")) + "' class='corp-cta-btn'>" + esc(p.btnText) + "</a>" +
             "</div>" +
           "</section>";
