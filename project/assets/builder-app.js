@@ -3304,7 +3304,6 @@
     // Split blocks: post-driven blocks must live INSIDE the single Blog widget
     // (data:posts is only in scope there). Static blocks render directly in <body>.
     var postBlocks = S.blocks.filter(function (b) { return POST_BLOCKS[b.type]; });
-    var firstPostIdx = S.blocks.findIndex(function (b) { return POST_BLOCKS[b.type]; });
 
     // BlogPosting JSON-LD is now emitted in <head> via data:view.* (available outside Blog widget).
     // data:post.* is not reliably available outside Blog widget includables.
@@ -3574,30 +3573,39 @@
         "</div>";
     }
 
-    // Assemble body in document order; drop the Blog widget in at the first post block's spot.
-    // Footer is always moved to the very end so it sits below the 404 block on error pages.
-    var parts = [], footerParts = [], topParts = [], placed = false;
-    S.blocks.forEach(function (b, i) {
-      if (POST_BLOCKS[b.type]) {
-        if (i === firstPostIdx) {
-          parts.push("<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>");
-          placed = true;
-        }
-        return; // other post blocks already inside the widget
-      }
-      if (b.type === "sidebar") return; // already handled inside blogOrLayout
-      if (b.type === "toc") return; // injected inline inside postIncludable, after <h1>
-      if (b.type === "aeo") return; // injected inline inside postIncludable (needs data:post scope)
-      if (b.type === "breadcrumb") return; // injected inline at the top of postIncludable (needs data:post scope)
-      if (b.type === "announce") { topParts.push(condWrap(renderBlockStatic(b), b)); return; } // always at the very top of <body>
-      if (b.type === "footer") { footerParts.push(condWrap(renderBlockStatic(b), b)); return; }
+    // Emit the body in canonical document order regardless of how blocks were dragged, so the
+    // exported HTML stays clean and correctly structured — features land in the right place
+    // server-side instead of being repositioned by JS. Zones (top→bottom):
+    //   0 announce · 1 header · 2 hero · 4 content sections · 6 post extras (related/morefrom/
+    //   stories) · 7 error page (404) · 8 footer · 9 non-flow utilities (style/script/fixed-UI).
+    // A stable sort preserves the user's relative order WITHIN a zone (e.g. content blocks).
+    var UTIL_BOTTOM = { darkmode: 1, backtotop: 1, progress: 1, sharebar: 1, themepicker: 1, cookie: 1, translate: 1, bookmark: 1, readtime: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, callout: 1 };
+    function zoneOf(t) {
+      if (t === "announce") return 0;
+      if (t === "header") return 1;
+      if (t === "hero") return 2;
+      if (UTIL_BOTTOM[t]) return 9;
+      if (t === "related" || t === "morefrom" || t === "stories") return 6;
+      if (t === "notfound") return 7;
+      if (t === "footer") return 8;
+      return 4; // content sections (postgrid/postlist/featured/about/cta/text/columns/image/search/ad/newsletter/share/sidebar)
+    }
+    var ordered = S.blocks.map(function (b, i) { return { b: b, i: i, z: zoneOf(b.type) }; })
+      .sort(function (a, c) { return a.z - c.z || a.i - c.i; })
+      .map(function (x) { return x.b; });
+    var postIdx = ordered.findIndex(function (b) { return POST_BLOCKS[b.type]; });
+    var widgetHtml = "<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>";
+    var parts = [], widgetIn = false;
+    ordered.forEach(function (b, i) {
+      // no explicit post block? drop the Blog widget in just before the post-extras/footer zone
+      if (postIdx < 0 && !widgetIn && zoneOf(b.type) >= 6) { parts.push(widgetHtml); widgetIn = true; }
+      if (POST_BLOCKS[b.type]) { if (i === postIdx) { parts.push(widgetHtml); widgetIn = true; } return; }
+      if (b.type === "sidebar") return; // handled inside blogOrLayout
+      if (b.type === "toc" || b.type === "aeo" || b.type === "breadcrumb") return; // injected inline into the post includable
       parts.push(condWrap(renderBlockStatic(b), b));
     });
-    if (!placed) parts.push("<b:if cond='!data:view.isError'>\n" + blogOrLayout + "\n</b:if>");
-    // Append footer after all other blocks (including 404 block) so it's always at page bottom
-    footerParts.forEach(function (f) { parts.push(f); });
-    // Announcement bar is prepended so it sits above the header on every page
-    var bodyHTML = topParts.join("\n") + (topParts.length ? "\n" : "") + parts.join("\n");
+    if (postIdx < 0 && !widgetIn) parts.push(widgetHtml);
+    var bodyHTML = parts.join("\n");
 
     // label robots logic
     var labelRobotsVal = seo.labelIndex ? "index,follow,max-image-preview:large" : "noindex,follow";
