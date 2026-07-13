@@ -837,7 +837,7 @@
     { id: "tech", cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
     { id: "sidebar-blog", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
-    { id: "company", hidden: true, cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
+    { id: "company", cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
     { id: "course", cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
     { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
   ];
@@ -1272,6 +1272,8 @@
         }
         if (S && S.templateId === "company") {
           return '<div style="padding:80px 32px;background:linear-gradient(135deg,' + pr + ',' + ac + ');color:#fff;position:relative;overflow:hidden">' +
+            '<div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px) 0 0/100% 42px,linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px) 0 0/42px 100%;-webkit-mask-image:radial-gradient(120% 105% at 100% 0%,#000,transparent 68%);mask-image:radial-gradient(120% 105% at 100% 0%,#000,transparent 68%)"></div>' +
+            '<div aria-hidden="true" style="position:absolute;top:-150px;right:-110px;width:430px;height:430px;border-radius:50%;border:44px solid rgba(255,255,255,.06);pointer-events:none"></div>' +
             '<div style="max-width:860px;margin:0 auto;position:relative;z-index:1">' +
               '<div style="font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px">' +
                 '<span style="width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block"></span>' +
@@ -3979,6 +3981,8 @@ tplStyleVars(),
 "@media(max-width:900px){.mag-grid,.tb-grid,.tech-grid,.rv-grid,.edu-grid,.sb-grid{grid-template-columns:repeat(2,1fr)!important}}",
 "@media(max-width:600px){.mag-grid,.tb-grid,.tech-grid,.rv-grid,.edu-grid,.sb-grid{grid-template-columns:1fr!important}}",
 ".corp-hero{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;position:relative;overflow:hidden}",
+".corp-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px) 0 0/100% 42px,linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px) 0 0/42px 100%;-webkit-mask-image:radial-gradient(120% 105% at 100% 0%,#000,transparent 68%);mask-image:radial-gradient(120% 105% at 100% 0%,#000,transparent 68%)}",
+".corp-hero::after{content:'';position:absolute;top:-170px;right:-130px;width:500px;height:500px;border-radius:50%;border:46px solid rgba(255,255,255,.06);pointer-events:none}",
 ".corp-hero .wrap{max-width:900px;position:relative;z-index:1}",
 ".corp-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72);margin-bottom:20px;display:flex;align-items:center;gap:8px}",
 ".corp-hero-eyebrow-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.55);display:inline-block}",
@@ -3999,7 +4003,7 @@ tplStyleVars(),
 ".corp-visual-block{border-radius:var(--radius);aspect-ratio:1;background:linear-gradient(135deg,var(--primary)18,var(--accent)30)}",
 ".corp-visual-block:nth-child(1){background:linear-gradient(135deg,var(--primary),var(--accent))}",
 ".corp-visual-block:nth-child(3){background:linear-gradient(135deg,var(--accent),var(--primary))}",
-".corp-cta{padding:88px 20px;background:linear-gradient(135deg,var(--primary),var(--accent));text-align:center;color:#fff}",
+".corp-cta{padding:88px 20px;background:radial-gradient(circle at 8% 12%,transparent 30%,rgba(255,255,255,.06) 30.4%,rgba(255,255,255,.06) 33%,transparent 33.4%),radial-gradient(60% 90% at 92% 90%,rgba(255,255,255,.14),transparent 60%),linear-gradient(135deg,var(--primary),var(--accent));text-align:center;color:#fff}",
 ".corp-cta-title{font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.08;color:#fff;margin:0 0 14px;font-family:var(--font)}",
 ".corp-cta-sub{font-size:17px;color:rgba(255,255,255,.8);margin:0 0 34px;max-width:500px;margin-left:auto;margin-right:auto;line-height:1.6}",
 ".corp-cta-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:15px 36px;border-radius:var(--radius);text-decoration:none;font-size:16px}",
