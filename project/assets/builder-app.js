@@ -833,7 +833,7 @@
     { id: "personal", cat: "บล็อก", catEn: "Blog", name: "Personal Blog", desc: "บล็อกส่วนตัว อ่านง่าย", descEn: "Clean personal blog layout", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 } },
     // hidden:true → keep the code/render branches but remove from the start-screen picker.
     // Focusing on Personal Blog for now; unhide later by removing the flag.
-    { id: "travel", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
+    { id: "travel", cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
     { id: "tech", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
     { id: "sidebar-blog", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
@@ -1239,14 +1239,15 @@
         }
         if (S && S.templateId === "travel") {
           return '<div style="position:relative;min-height:380px;overflow:hidden;display:flex;align-items:flex-end">' +
-            '<div style="position:absolute;inset:0;background:linear-gradient(135deg,' + pr + ',' + ac + ')"></div>' +
+            '<div style="position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.13) 1px,transparent 1.7px) 0 0/26px 26px,radial-gradient(120% 95% at 12% 0%,rgba(255,255,255,.22),transparent 52%),linear-gradient(135deg,' + pr + ',' + ac + ')"></div>' +
             '<div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.2) 55%,transparent 100%)"></div>' +
-            '<div style="position:relative;z-index:1;padding:44px 32px;color:#fff;max-width:740px">' +
+            '<div style="position:relative;z-index:3;padding:44px 32px 64px;color:#fff;max-width:740px">' +
               '<div style="font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.88;margin-bottom:12px">✈ Travel Blog</div>' +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:40px;font-weight:800;line-height:1.05;letter-spacing:-.02em;margin:0 0 16px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:16px;opacity:.88;margin:0 0 22px;max-width:460px;line-height:1.6">' + esc(p.subtitle) + '</p>' +
-              '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px">' + esc(p.btnText) + ' →</a>' +
+              '<a style="display:inline-block;background:#fff;color:' + pr + ';font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none;font-size:15px;box-shadow:0 10px 26px rgba(0,0,0,.2)">' + esc(p.btnText) + ' →</a>' +
             '</div>' +
+            '<svg viewBox="0 0 1440 60" preserveAspectRatio="none" aria-hidden="true" style="position:absolute;left:0;bottom:-1px;width:100%;height:46px;z-index:2;display:block;fill:var(--bg-base,#fff)"><path d="M0,32 C240,60 480,8 720,28 C960,48 1200,64 1440,30 L1440,60 L0,60 Z"/></svg>' +
           '</div>';
         }
         if (S && S.templateId === "course") {
@@ -3862,13 +3863,17 @@ tplStyleVars(),
 ".pb-about-bio{font-size:15px;color:var(--text-muted);line-height:1.7;margin:0}",
 "@media(max-width:640px){.pb-hero .wrap{flex-direction:column-reverse;text-align:center}.pb-avatar-ring{width:130px;height:130px}.pb-about .wrap{flex-direction:column;align-items:center;text-align:center}}",
 ".tb-hero{position:relative;min-height:500px;overflow:hidden;display:flex;align-items:flex-end}",
-".tb-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--primary),var(--accent))}",
+".tb-hero-bg{position:absolute;inset:0;background:radial-gradient(circle,rgba(255,255,255,.13) 1px,transparent 1.7px) 0 0/26px 26px,radial-gradient(120% 95% at 12% 0%,rgba(255,255,255,.22),transparent 52%),linear-gradient(135deg,var(--primary),var(--accent))}",
 ".tb-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.72) 0%,rgba(0,0,0,.2) 55%,transparent 100%)}",
-".tb-hero-content{position:relative;z-index:1;padding:52px 32px;color:#fff;max-width:820px}",
+".tb-hero-content{position:relative;z-index:3;padding:56px 32px 76px;color:#fff;max-width:820px}",
 ".tb-hero-tag{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;opacity:.88;margin-bottom:14px}",
 ".tb-hero-title{font-size:clamp(30px,6vw,54px);font-weight:800;line-height:1.05;letter-spacing:-.02em;margin:0 0 22px;font-family:var(--font)}",
 ".tb-hero-sub{font-size:17px;opacity:.88;margin:0 0 26px;max-width:500px;line-height:1.6}",
-".tb-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:13px 28px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".tb-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:13px 28px;border-radius:var(--radius);text-decoration:none;font-size:15px;box-shadow:0 10px 26px rgba(0,0,0,.2);transition:transform .15s,box-shadow .15s}",
+".tb-hero-btn:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(0,0,0,.26)}",
+".tb-hero-wave{position:absolute;left:0;bottom:-1px;width:100%;height:clamp(34px,4.5vw,58px);z-index:2;display:block;fill:var(--bg-base,#fff)}",
+".tb-h2{position:relative;display:inline-block;font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font);padding-bottom:12px;letter-spacing:-.01em}",
+".tb-h2::after{content:'';position:absolute;left:0;bottom:0;width:48px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--accent))}",
 ".tb-feat{padding:52px 0}",
 ".tb-feat-grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px}",
 ".tb-feat-item{position:relative;border-radius:var(--radius);overflow:hidden;background:linear-gradient(135deg,var(--primary),var(--accent));display:block;text-decoration:none;min-height:180px}",
@@ -3885,7 +3890,8 @@ tplStyleVars(),
 ".tb-card-img{aspect-ratio:4/3;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary),var(--accent))}",
 ".tb-card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s;position:absolute;inset:0}",
 ".tb-card:hover .tb-card-img img{transform:scale(1.07)}",
-".tb-card-loc{position:absolute;top:10px;left:10px;background:rgba(0,0,0,.52);color:#fff;font-size:11px;font-weight:700;letter-spacing:.05em;padding:4px 10px;border-radius:20px;backdrop-filter:blur(4px)}",
+".tb-card-loc{position:absolute;top:11px;left:11px;background:rgba(15,23,42,.5);color:#fff;font-size:11px;font-weight:700;letter-spacing:.04em;padding:5px 11px;border-radius:20px;backdrop-filter:blur(5px);border:1px solid rgba(255,255,255,.28);box-shadow:0 3px 10px rgba(0,0,0,.22)}",
+".tb-feat-item:first-child .tb-feat-title{font-size:clamp(20px,2.4vw,27px);letter-spacing:-.01em}",
 ".tb-card-body{padding:15px 17px 18px}",
 ".tb-card-date{font-size:11.5px;color:var(--text-muted);margin-bottom:5px}",
 ".tb-card-title{font-size:16px;font-weight:700;line-height:1.35;margin:0 0 10px}",
@@ -4294,6 +4300,7 @@ tplStyleVars(),
               "<p class='tb-hero-sub'>" + esc(p.subtitle) + "</p>" +
               "<a href='#main' class='tb-hero-btn'>" + esc(p.btnText) + " →</a>" +
             "</div>" +
+            "<svg class='tb-hero-wave' viewBox='0 0 1440 60' preserveAspectRatio='none' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'><path d='M0,32 C240,60 480,8 720,28 C960,48 1200,64 1440,30 L1440,60 L0,60 Z'/></svg>" +
           "</section>";
         }
         if (S && S.templateId === "personal") {
@@ -4437,7 +4444,7 @@ tplStyleVars(),
         }
         if (S && S.templateId === "travel") {
           return "<section style='padding:52px 0'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='tb-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='tb-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
               "<b:loop values='data:posts' var='post'>" +
                 "<article class='tb-card'>" +
@@ -4627,7 +4634,7 @@ tplStyleVars(),
         }
         if (S && S.templateId === "travel") {
           return "<section class='tb-feat'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='tb-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='tb-feat-grid'>" +
               "<b:loop values='data:posts' index='fi' var='post'>" +
                 "<b:if cond='data:fi &lt; 3'>" +

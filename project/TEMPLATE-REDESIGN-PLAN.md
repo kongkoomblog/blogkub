@@ -28,7 +28,7 @@ The earlier cut already reduced the lineup to 8 distinct templates in code
 |---|---|---|---|---|
 | 1 | personal | Serif headings, warm cream tints, soft shadows | Avatar-ring hero + author band + card grid | ✅ live & upload-tested |
 | 2 | magazine | Serif display, red kickers, uppercase + border-left headings, dense | Featured lead + 2 stacked side stories + 3-col grid + dense news rows | ✅ upload-tested 2026-07-05 (blogkub-magazine.blogspot.com) — `b:loop index=` confirmed WORKING on Blogger |
-| 3 | travel | Airy sans, sky tints, photo-first | Full-bleed cinematic hero + 4:3 photo cards with location pills | built, hidden |
+| 3 | travel | Airy sans, sky tints, photo-first | Full-bleed cinematic hero + 4:3 photo cards with location pills | ✅ live 2026-07-13 · signature graphics: hero dot-grid map texture + light glow, wavy horizon divider, gradient heading underline, ringed 📍 location pills |
 | 4 | tech | System sans + mono eyebrows, slate tints | Dark hero + numbered list rows + bordered hover cards | built, hidden |
 | 5 | review | Sans, amber tints, score-forward | Score-badge cards + BEST-PICK ribbons + trust/about band | built, hidden |
 | 6 | course | Trebuchet, purple tints | Chip hero + pricing/enroll cards + trust stats CTA | built, hidden |
