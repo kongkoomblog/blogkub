@@ -835,7 +835,7 @@
     // Focusing on Personal Blog for now; unhide later by removing the flag.
     { id: "travel", cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
     { id: "tech", cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
-    { id: "sidebar-blog", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
+    { id: "sidebar-blog", cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
     { id: "company", cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
     { id: "course", cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
@@ -1212,7 +1212,7 @@
           var sbTagsHtml = sbHeroTags.map(function(t) {
             return '<span style="font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px;color:' + pr + ';border:1.5px solid ' + pr + '">' + t + '</span>';
           }).join("");
-          return '<div style="padding:60px 32px;background:#fff;border-top:4px solid ' + pr + '">' +
+          return '<div style="padding:58px 32px 50px;background:#fffefb;border-top:4px solid ' + pr + ';border-bottom:1px solid #ece7dd">' +
             '<div style="max-width:820px;margin:0 auto">' +
               '<div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:' + pr + ';margin-bottom:14px">✦ Classic Blog</div>' +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:clamp(26px,4.5vw,44px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#0f172a;margin:0 0 14px">' + esc(p.title) + '</h1>' +
@@ -4090,8 +4090,10 @@ tplStyleVars(),
 ".rv-about-trust-label{font-size:11px;color:var(--text-muted);margin-top:3px}",
 ".rv-about-badge{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:700;color:var(--primary);padding:5px 12px;border-radius:20px;border:1.5px solid var(--primary)}",
 "@media(max-width:640px){.rv-hero{padding:60px 20px}.rv-about-inner{gap:24px}.rv-about-avatar{width:80px;height:80px}}",
-".sb-hero{padding:60px 20px;background:#fff;border-top:4px solid var(--primary)}",
+".sb-hero{padding:58px 20px 50px;background:var(--bg-base);border-top:4px solid var(--primary);border-bottom:1px solid var(--border)}",
 ".sb-hero .wrap{max-width:860px}",
+".sb-h2{position:relative;font-size:22px;font-weight:800;color:var(--text-main);font-family:var(--font);margin:0 0 22px;padding-bottom:11px;border-bottom:2px solid var(--border)}",
+".sb-h2::after{content:'';position:absolute;left:0;bottom:-2px;width:62px;height:2px;background:var(--primary)}",
 ".sb-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--primary);margin-bottom:14px}",
 ".sb-hero-title{font-size:clamp(26px,4.5vw,46px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:var(--text-main);margin:0 0 14px;font-family:var(--font)}",
 ".sb-hero-sub{font-size:16px;color:var(--text-muted);line-height:1.65;margin:0 0 22px;max-width:500px}",
@@ -4100,8 +4102,8 @@ tplStyleVars(),
 ".sb-hero-btn{display:inline-block;background:var(--primary);color:#fff;font-weight:700;padding:12px 26px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
 ".sb-posts{padding:40px 20px}",
 ".sb-grid{display:grid;gap:18px}",
-".sb-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);border:1px solid var(--border);transition:box-shadow .2s}",
-".sb-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1)}",
+".sb-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);border:1px solid var(--border);transition:box-shadow .2s,transform .2s}",
+".sb-card:hover{box-shadow:0 8px 24px rgba(0,0,0,.1);transform:translateY(-3px)}",
 ".sb-card-img{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)12,var(--accent)25)}",
 ".sb-card-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}",
 ".sb-card-body{padding:14px 16px 16px}",
@@ -4351,7 +4353,7 @@ tplStyleVars(),
       case "postgrid":
         if (S && S.templateId === "sidebar-blog") {
           return "<section class='sb-posts' id='main'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:20px;font-weight:800;margin:0 0 18px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='sb-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='sb-grid' style='grid-template-columns:repeat(" + (p.columns || 2) + ",1fr)'>" +
               "<b:loop values='data:posts' var='post'>" +
                 "<article class='sb-card'>" +

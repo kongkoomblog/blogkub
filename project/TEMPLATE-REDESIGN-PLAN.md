@@ -29,14 +29,14 @@ The earlier cut already reduced the lineup to 8 distinct templates in code
 | 1 | personal | Serif headings, warm cream tints, soft shadows | Avatar-ring hero + author band + card grid | ✅ live & upload-tested |
 | 2 | magazine | Serif display, red kickers, uppercase + border-left headings, dense | Featured lead + 2 stacked side stories + 3-col grid + dense news rows | ✅ upload-tested 2026-07-05 (blogkub-magazine.blogspot.com) — `b:loop index=` confirmed WORKING on Blogger |
 | 3 | travel | Airy sans, sky tints, photo-first | Full-bleed cinematic hero + 4:3 photo cards with location pills | ✅ live 2026-07-13 · signature graphics: hero dot-grid map texture + light glow, wavy horizon divider, gradient heading underline, ringed 📍 location pills |
-| 4 | tech | System sans + mono eyebrows, slate tints | Dark hero + numbered list rows + bordered hover cards | built, hidden |
-| 5 | review | Sans, amber tints, score-forward | Score-badge cards + BEST-PICK ribbons + trust/about band | built, hidden |
-| 6 | course | Trebuchet, purple tints | Chip hero + pricing/enroll cards + trust stats CTA | built, hidden |
-| 7 | company | Corporate sans, blue tints | Gradient hero + stats row + visual grid + big CTA | built, hidden |
-| 8 | sidebar-blog | Serif, parchment tints | Classic 2-col: content + real Blogger sidebar widgets | sidebar section already upload-tested via Personal |
+| 4 | tech | System sans + mono eyebrows, slate tints | Dark hero + numbered list rows + bordered hover cards | ✅ live 2026-07-13 · blueprint grid + neon glow + terminal cursor hero, // headings, neon-hover cards |
+| 5 | review | Sans, amber tints, score-forward | Score-badge cards + BEST-PICK ribbons + trust/about band | ✅ live 2026-07-13 · star-watermark hero, diagonal BEST PICK corner ribbon, gradient heading |
+| 6 | course | Trebuchet, purple tints | Chip hero + pricing/enroll cards + trust stats CTA | ✅ live 2026-07-13 · bokeh hero+CTA, video play-button course thumbs, gradient heading |
+| 7 | company | Corporate sans, blue tints | Gradient hero + stats row + visual grid + big CTA | ✅ live 2026-07-13 · blueprint grid + ring hero, ring/glow CTA |
+| 8 | sidebar-blog | Serif, parchment tints | Classic 2-col: content + real Blogger sidebar widgets | ✅ live 2026-07-13 · parchment hero, newspaper section rule, editorial cards + real sidebar widgets |
 
 ## Build & test order (one at a time, real Blogger upload each)
-1. ~~personal~~ ✅ → 2. **magazine** (now) → 3. travel → 4. tech → 5. review → 6. course → 7. company → 8. sidebar-blog
+1. ~~personal~~ ✅ → 2. ~~magazine~~ ✅ → 3. ~~travel~~ ✅ → 4. ~~tech~~ ✅ → 5. ~~review~~ ✅ → 6. ~~course~~ ✅ → 7. ~~company~~ ✅ → 8. ~~sidebar-blog~~ ✅ · **ALL 8 TEMPLATES LIVE** with signature graphics (2026-07-13)
 
 ⚠️ Test note: magazine's featured block uses `b:loop index=` — the same
 construct suspected in the earlier blank-grid regression. Its upload test
