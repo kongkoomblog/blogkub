@@ -834,7 +834,7 @@
     // hidden:true → keep the code/render branches but remove from the start-screen picker.
     // Focusing on Personal Blog for now; unhide later by removing the flag.
     { id: "travel", cat: "บล็อก", catEn: "Blog", name: "Travel Blog", desc: "บล็อกท่องเที่ยว ภาพใหญ่", descEn: "Full-bleed cinematic travel blog", c: ["#0ea5e9", "#22d3ee"], blocks: ["header", "hero", "featured", "postgrid", "footer"], design: { primary: "#0ea5e9", accent: "#22d3ee", font: "sans", radius: 16 } },
-    { id: "tech", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
+    { id: "tech", cat: "บล็อก", catEn: "Blog", name: "Tech Blog", desc: "บล็อกเทคโนโลยี มินิมอล", descEn: "Minimal tech & coding blog", c: ["#10b981", "#06b6d4"], blocks: ["header", "hero", "postlist", "postgrid", "footer"], design: { primary: "#10b981", accent: "#06b6d4", font: "sans", radius: 10 } },
     { id: "sidebar-blog", hidden: true, cat: "บล็อก", catEn: "Blog", name: "Classic + Sidebar", desc: "2 คอลัมน์ เนื้อหา + ไซด์บาร์", descEn: "Two-column blog with sidebar", c: ["#6366f1", "#8b5cf6"], blocks: ["header", "hero", "postgrid", "sidebar", "footer"], design: { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 10 } },
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
     { id: "company", hidden: true, cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
@@ -1286,9 +1286,10 @@
           '</div>';
         }
         if (S && S.templateId === "tech") {
-          return '<div style="padding:68px 32px;background:#0f172a;color:#e2e8f0">' +
-            '<div style="max-width:760px;margin:0 auto">' +
-              '<div style="font-family:monospace;font-size:13px;color:' + pr + ';font-weight:700;letter-spacing:.05em;margin-bottom:18px">&gt;_ Tech Blog</div>' +
+          return '<div style="position:relative;overflow:hidden;padding:68px 32px;background:radial-gradient(440px 300px at 88% 0%,' + hexRgba(pr, ".28") + ',transparent 70%),#0f172a;color:#e2e8f0">' +
+            '<div style="position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/100% 34px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/34px 100%;-webkit-mask-image:radial-gradient(125% 95% at 18% 0%,#000,transparent 72%);mask-image:radial-gradient(125% 95% at 18% 0%,#000,transparent 72%)"></div>' +
+            '<div style="position:relative;max-width:760px;margin:0 auto">' +
+              '<div style="font-family:monospace;font-size:13px;color:' + pr + ';font-weight:700;letter-spacing:.05em;margin-bottom:18px">&gt;_ Tech Blog ▋</div>' +
               '<h1 style="font-family:' + fontStack(d.font) + ';font-size:40px;font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px">' + esc(p.title) + '</h1>' +
               '<p style="font-size:17px;color:#94a3b8;line-height:1.65;margin:0 0 28px;max-width:480px">' + esc(p.subtitle) + '</p>' +
               '<a style="display:inline-block;background:' + pr + ';color:#fff;font-weight:700;padding:12px 26px;border-radius:' + r + ';text-decoration:none">' + esc(p.btnText) + '</a>' +
@@ -3899,9 +3900,15 @@ tplStyleVars(),
 ".tb-card-title a:hover{color:var(--primary)}",
 ".tb-card-btn{display:inline-flex;align-items:center;gap:4px;font-size:13px;color:var(--primary);font-weight:600;text-decoration:none}",
 "@media(max-width:640px){.tb-feat-grid{grid-template-columns:1fr}.tb-feat-item:first-child{min-height:220px;grid-row:auto}.tb-hero-content{padding:36px 20px}}",
-".tech-hero{padding:72px 20px;background:#0f172a;color:#e2e8f0}",
-".tech-hero .wrap{max-width:820px}",
+".tech-hero{position:relative;padding:76px 20px;background:#0f172a;color:#e2e8f0;overflow:hidden}",
+".tech-hero::before{content:'';position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px) 0 0/100% 34px,linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px) 0 0/34px 100%;-webkit-mask-image:radial-gradient(125% 95% at 18% 0%,#000,transparent 72%);mask-image:radial-gradient(125% 95% at 18% 0%,#000,transparent 72%)}",
+".tech-hero::after{content:'';position:absolute;top:-140px;right:-90px;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,color-mix(in srgb,var(--primary) 60%,transparent),transparent 66%);filter:blur(14px);opacity:.5;pointer-events:none}",
+".tech-hero .wrap{position:relative;z-index:1;max-width:820px}",
 ".tech-hero-eyebrow{font-family:monospace;font-size:13px;color:var(--primary);font-weight:700;letter-spacing:.05em;margin-bottom:18px}",
+".tech-hero-eyebrow::after{content:'\\2588';margin-left:3px;animation:techBlink 1.1s steps(1) infinite}",
+"@keyframes techBlink{50%{opacity:0}}",
+".tech-h2{position:relative;font-size:24px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font);letter-spacing:-.01em}",
+".tech-h2::before{content:'//';font-family:monospace;color:var(--primary);margin-right:10px;font-weight:700}",
 ".tech-hero-title{font-size:clamp(28px,5vw,46px);font-weight:800;line-height:1.1;letter-spacing:-.02em;color:#f8fafc;margin:0 0 18px;font-family:var(--font)}",
 ".tech-hero-sub{font-size:17px;color:#94a3b8;line-height:1.65;margin:0 0 30px;max-width:500px}",
 ".tech-hero-btn{display:inline-block;background:var(--primary);color:#fff;font-weight:700;padding:12px 28px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
@@ -3916,7 +3923,7 @@ tplStyleVars(),
 ".tech-list-meta{font-size:12px;color:var(--text-muted)}",
 ".tech-grid{display:grid;gap:22px}",
 ".tech-card{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);background:var(--bg-surface);transition:border-color .2s,box-shadow .2s}",
-".tech-card:hover{border-color:var(--primary);box-shadow:0 8px 24px rgba(0,0,0,.08)}",
+".tech-card:hover{border-color:var(--primary);box-shadow:0 0 0 1px var(--primary),0 12px 30px color-mix(in srgb,var(--primary) 20%,transparent)}",
 ".tech-card-img{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)20,var(--accent)30)}",
 ".tech-card-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0;transition:transform .4s}",
 ".tech-card:hover .tech-card-img img{transform:scale(1.04)}",
@@ -4394,7 +4401,7 @@ tplStyleVars(),
         }
         if (S && S.templateId === "tech") {
           return "<section style='padding:52px 0'><div class='wrap'>" +
-            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 28px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='tech-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<div class='tech-grid' style='grid-template-columns:repeat(" + (p.columns || 3) + ",1fr)'>" +
               "<b:loop values='data:posts' var='post'>" +
                 "<article class='tech-card'>" +
@@ -4522,7 +4529,7 @@ tplStyleVars(),
         }
         if (S && S.templateId === "tech") {
           return "<section class='tech-list'><div class='wrap' style='max-width:800px'>" +
-            (p.heading ? "<h2 style='font-size:24px;font-weight:800;margin:0 0 8px;color:var(--text-main);font-family:var(--font)'>" + esc(p.heading) + "</h2>" : "") +
+            (p.heading ? "<h2 class='tech-h2'>" + esc(p.heading) + "</h2>" : "") +
             "<b:loop values='data:posts' index='tli' var='post'>" +
               "<div class='tech-list-row'>" +
                 "<div class='tech-list-num'><b:eval expr='data:tli + 1'/></div>" +
