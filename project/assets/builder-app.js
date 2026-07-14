@@ -4438,7 +4438,7 @@ tplStyleVars(),
               "<a href='" + href + "' aria-haspopup='true' aria-expanded='false'>" + ic + "<span>" + esc(m.label) + "</span></a>" +
               "<ul class='dropdown' role='menu'>" + subs + "</ul></li>";
           }
-          var cur = (t === "home") ? " aria-current='page'" : "";
+          var cur = (t === "home") ? " expr:aria-current='data:view.isHomepage ? \"page\" : \"false\"'" : "";
           return "<li><a href='" + href + "'" + cur + ">" + ic + "<span>" + esc(m.label) + "</span></a></li>";
         }).join("");
         var stickyStyle = p.sticky ? " style='position:sticky;top:0;z-index:50'" : "";
@@ -5654,7 +5654,9 @@ tplStyleVars(),
       .replace(/<data:post\.timestamp\/>/g, tpl("28 มิ.ย. 2569", "Jun 28, 2026"))
       .replace(/expr:src='data:post\.featuredImage'/g, "src='data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"400\" height=\"225\"><rect width=\"400\" height=\"225\" fill=\"%23e8eaf2\"/></svg>'")
       .replace(/expr:alt='data:post\.title'/g, "alt='ตัวอย่างรูปภาพ'")
-      .replace(/expr:href='data:post\.url'/g, "href='#'");
+      .replace(/expr:href='data:post\.url'/g, "href='#'")
+      // popup mocks the homepage → show the home item as active for real
+      .replace(/expr:aria-current='data:view\.isHomepage[^']*'/g, "aria-current='page'");
     return "<!DOCTYPE html><html lang='" + (S.lang || "th") + "'><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>พรีวิว · " + esc(S.name) + "</title><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&display=swap' rel='stylesheet'><style>" + css + "</style></head><body>" + body + "</body></html>";
   }
   var popWin = null;
