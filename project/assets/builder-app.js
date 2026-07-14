@@ -387,8 +387,10 @@
       + ".bxb-tr-btn svg{width:22px;height:22px}"
       + ".bxb-tr.bxb-tr-fixed{position:fixed;top:14px;right:14px;z-index:120}"
       + ".bxb-tr.bxb-tr-fixed .bxb-tr-btn{background:var(--bg-header,#fff);box-shadow:0 4px 16px rgba(0,0,0,.16)}"
-      + ".bxb-tr-pop{position:absolute;top:calc(100% + 8px);right:0;z-index:200;min-width:224px;max-height:70vh;overflow:auto;background:var(--bg-header,#fff);border:1px solid var(--border,#e8eaf2);border-radius:14px;box-shadow:0 14px 38px rgba(0,0,0,.18);padding:8px;display:none}"
+      + ".bxb-tr-pop{position:absolute;top:calc(100% + 8px);right:0;left:auto;z-index:200;min-width:224px;max-height:70vh;overflow:auto;background:var(--bg-header,#fff);border:1px solid var(--border,#e8eaf2);border-radius:14px;box-shadow:0 14px 38px rgba(0,0,0,.18);padding:8px;display:none}"
       + ".bxb-tr-pop.open{display:block}"
+      // mobile: anchor to the viewport so the menu can never clip off-screen (fixes left-overflow when the button sits on the left of the header)
+      + "@media(max-width:768px){.bxb-tr-pop{position:fixed;top:64px;left:12px;right:12px;min-width:0;max-height:calc(100vh - 88px)}}"
       + ".bxb-tr-h{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text-subtle,#94a3b8);padding:8px 12px 6px}"
       + ".bxb-tr-opt{display:block;width:100%;text-align:left;border:0;background:none;padding:10px 12px;border-radius:8px;font:inherit;font-size:14.5px;color:var(--text-main,#1a1b1e);cursor:pointer}"
       + ".bxb-tr-opt:hover{background:var(--hover-bg,rgba(0,0,0,.05))}"
