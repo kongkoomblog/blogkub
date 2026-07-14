@@ -54,4 +54,28 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://www.blogkub.com/learn/faq</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/faq.png</image:loc>
+      <image:title>ส่วน FAQ แบบ accordion พร้อม FAQPage schema</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.blogkub.com/learn/cookie</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/cookie.png</image:loc>
+      <image:title>แถบคุกกี้ Cookie Consent รองรับ PDPA และ AdSense</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.blogkub.com/learn/progress</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/progress.png</image:loc>
+      <image:title>แถบความคืบหน้าการอ่านด้านบนหน้าบทความ Blogger</image:title>
+    </image:image>
+  </url>
+
 </urlset>
