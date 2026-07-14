@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วิธีทำลิงก์หัวข้อ (Anchor Link) คัดลอกลิงก์ไปยังหัวข้อ ใน Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/learn/anchorlink">
+<meta property="og:url" content="https://www.blogkub.com/learn/anchorlink">
+<meta name="description" content="วิธีเพิ่มลิงก์หัวข้อ (Anchor Link) ในธีม Blogger ด้วย BlogKub ให้ผู้อ่านกดคัดลอกลิงก์ตรงไปยังหัวข้อ H2/H3 ที่ต้องการได้ ระบบสร้าง id อัตโนมัติ รองรับภาษาไทย พร้อมวิธีตั้งค่าและแก้ปัญหา">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="วิธีทำลิงก์หัวข้อ (Anchor Link) คัดลอกลิงก์ไปยังหัวข้อ ใน Blogger">
+<meta property="og:description" content="ให้ผู้อ่านกดคัดลอกลิงก์ตรงไปยังหัวข้อที่ต้องการ แชร์จุดที่แม่นยำในบทความยาว">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "th" },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://www.blogkub.com/" },
+      { "@type": "ListItem", "position": 2, "name": "เรียนรู้", "item": "https://www.blogkub.com/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "ลิงก์หัวข้อ (Anchor Link)" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "วิธีเพิ่มลิงก์หัวข้อ (Anchor Link) คัดลอกลิงก์ไปยังหัวข้อในธีม Blogger ด้วย BlogKub",
+      "description": "ขั้นตอนการเพิ่มไอคอนลิงก์บนหัวข้อ H2/H3/H4 ที่ให้ผู้อ่านกดคัดลอกลิงก์ตรงไปยังหัวข้อนั้นได้",
+      "inLanguage": "th",
+      "totalTime": "PT3M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "บัญชี Blogger" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "เพิ่มบล็อกลิงก์หัวข้อ", "text": "ลากบล็อก ‘ลิงก์หัวข้อ (Anchor)’ จากคลังหมวดบทความ & UX เข้ามาในหน้า", "url": "https://www.blogkub.com/learn/anchorlink#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Export XML และอัปโหลด", "text": "กด Export XML แล้วอัปโหลดเข้า Blogger ผ่าน ธีม → กู้คืน/สำรอง", "url": "https://www.blogkub.com/learn/anchorlink#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "ทดสอบบนหัวข้อ", "text": "เปิดบทความ นำเมาส์ไปที่หัวข้อจนไอคอนลิงก์ปรากฏ แล้วกดเพื่อคัดลอกลิงก์ไปยังหัวข้อนั้น", "url": "https://www.blogkub.com/learn/anchorlink#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "ตรวจการกระโดดไปหัวข้อ", "text": "วางลิงก์ที่คัดลอกในแท็บใหม่เพื่อยืนยันว่าหน้าเลื่อนไปยังหัวข้อที่ถูกต้อง", "url": "https://www.blogkub.com/learn/anchorlink#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/anchorlink.png","width":1440,"height":568},
+      "mainEntityOfPage": "https://www.blogkub.com/learn/anchorlink",
+      "headline": "วิธีทำลิงก์หัวข้อ (Anchor Link) คัดลอกลิงก์ไปยังหัวข้อ ใน Blogger",
+      "description": "คู่มือละเอียดการเพิ่มลิงก์หัวข้อที่ให้ผู้อ่านคัดลอกลิงก์ตรงไปยังหัวข้อในธีม Blogger ด้วย BlogKub",
+      "inLanguage": "th", "datePublished": "2026-07-14", "dateModified": "2026-07-14",
+      "author": { "@id": "https://www.blogkub.com/#org" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "ลิงก์หัวข้อ (Anchor Link) คืออะไร?", "acceptedAnswer": { "@type": "Answer", "text": "ลิงก์หัวข้อคือลิงก์ที่ชี้ตรงไปยังหัวข้อใดหัวข้อหนึ่งในหน้า เมื่อเปิดลิงก์ หน้าจะเลื่อนไปยังหัวข้อนั้นทันที ช่วยให้แชร์จุดที่ต้องการในบทความยาวได้แม่นยำ แทนที่จะส่งลิงก์ทั้งหน้าแล้วให้ผู้รับเลื่อนหาเอง" } },
+        { "@type": "Question", "name": "ต้องตั้ง id ให้หัวข้อเองไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ไม่ต้อง ระบบสร้าง id ให้หัวข้อทุกอันโดยอัตโนมัติจากข้อความของหัวข้อ และจัดการไม่ให้ id ซ้ำกัน หากมีหัวข้อชื่อเหมือนกันก็จะเติมเลขต่อท้ายให้ไม่ชนกัน" } },
+        { "@type": "Question", "name": "ลิงก์หัวข้อรองรับภาษาไทยไหม?", "acceptedAnswer": { "@type": "Answer", "text": "รองรับ ระบบสร้าง id จากข้อความหัวข้อภาษาไทยได้ โดยคงอักขระไทยไว้และแปลงช่องว่างเป็นขีด ทำให้ลิงก์ไปยังหัวข้อภาษาไทยทำงานได้ถูกต้อง" } },
+        { "@type": "Question", "name": "ลิงก์หัวข้อต่างจากสารบัญอย่างไร?", "acceptedAnswer": { "@type": "Answer", "text": "สารบัญคือรายการลิงก์รวมของทุกหัวข้อไว้ที่ต้นบทความเพื่อช่วยนำทางภายในหน้า ส่วนลิงก์หัวข้อคือไอคอนบนแต่ละหัวข้อที่ให้ผู้อ่านคัดลอกลิงก์ของหัวข้อนั้นไปแชร์ ทั้งสองเสริมกันและใช้ id หัวข้อร่วมกันได้" } },
+        { "@type": "Question", "name": "ลิงก์หัวข้อช่วยเรื่อง SEO ไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ช่วยทางอ้อม การมี id ที่หัวข้อทำให้ลิงก์ลึกไปยังส่วนของหน้าได้ ซึ่งเอื้อต่อการที่ Google แสดงผลลัพธ์แบบ jump-to หรือลิงก์ไปยังส่วนที่เกี่ยวข้อง และการที่ผู้อ่านแชร์ลิงก์ลึกก็เพิ่มการเข้าถึงเนื้อหาของคุณ" } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{--maxw:820px;--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2;--primary:#6366f1;--accent:#8b5cf6}
+  @media(prefers-color-scheme:dark){:root{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.09)}}
+  :root[data-theme="dark"]{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.09)}
+  :root[data-theme="light"]{--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);line-height:1.75;font-family:'IBM Plex Sans Thai',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:17px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 20px 80px}
+  nav.crumb{font-size:13px;color:var(--muted);margin-bottom:22px}
+  nav.crumb a{color:var(--muted);text-decoration:none}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.2;letter-spacing:-.02em;margin:.2em 0 .5em;font-weight:800}
+  h2{font-size:clamp(20px,3.6vw,27px);line-height:1.28;margin:2em 0 .6em;font-weight:800;padding-bottom:.3em;border-bottom:2px solid var(--border)}
+  h3{font-size:19px;margin:1.5em 0 .4em;font-weight:700;color:var(--primary)}
+  p{margin:.7em 0}a{color:var(--primary)}
+  ul,ol{padding-left:1.3em;margin:.6em 0}li{margin:.4em 0}
+  .lead{font-size:19px;color:var(--fg-soft)}
+  .tldr{background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 12%,var(--surface)),var(--surface));border:1px solid var(--border);border-left:5px solid var(--primary);border-radius:14px;padding:18px 22px;margin:24px 0}
+  .tldr strong{color:var(--primary)}
+  .meta{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+  .steps{counter-reset:s;list-style:none;padding:0}
+  .steps>li{counter-increment:s;position:relative;padding:14px 18px 14px 58px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:12px 0}
+  .steps>li::before{content:counter(s);position:absolute;left:16px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .steps>li strong{display:block;margin-bottom:2px}
+  details{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:10px 0;padding:2px 20px}
+  summary{cursor:pointer;font-weight:700;padding:14px 0;list-style:none;font-size:16.5px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"＋";color:var(--primary);font-weight:800;margin-right:10px}
+  details[open] summary::before{content:"－"}
+  details p{margin:0 0 16px;color:var(--fg-soft);font-size:15.5px}
+  .note{font-size:14.5px;color:var(--fg-soft);background:var(--surface);border-radius:10px;padding:13px 17px;margin:18px 0;border-left:4px solid var(--accent)}
+  code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:14px}
+  hr{border:0;border-top:1px solid var(--border);margin:2.4em 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/">หน้าแรก</a> › <a href="https://www.blogkub.com/learn/">เรียนรู้</a> › <span>ลิงก์หัวข้อ (Anchor Link)</span></nav>
+<article>
+<h1>วิธีทำลิงก์หัวข้อ (Anchor Link) คัดลอกลิงก์ไปยังหัวข้อ ใน Blogger</h1>
+<p class="lead">ในบทความยาว การส่งลิงก์ทั้งหน้าแล้วให้อีกฝ่ายเลื่อนหาหัวข้อเองเป็นเรื่องน่ารำคาญ ลิงก์หัวข้อ (Anchor Link) แก้ปัญหานี้ด้วยการให้ผู้อ่านคัดลอกลิงก์ที่ชี้ตรงไปยังหัวข้อที่ต้องการ บทความนี้สอนวิธีเพิ่มในธีม Blogger ด้วย BlogKub ที่สร้าง id ให้อัตโนมัติและรองรับภาษาไทย</p>
+<p class="meta">อัปเดต 14 กรกฎาคม 2026 · อ่านประมาณ 9 นาที · ระดับ: เริ่มต้น</p>
+
+<div class="tldr"><p><strong>สรุปสั้น:</strong> เพิ่มบล็อก <strong>ลิงก์หัวข้อ (Anchor)</strong> ใน BlogKub แล้ว Export XML ไปอัปโหลด Blogger ระบบจะเติมไอคอนลิงก์บนหัวข้อ H2/H3/H4 ทุกอัน สร้าง <code>id</code> ให้อัตโนมัติจากข้อความ (รองรับไทย ไม่ซ้ำกัน) เมื่อผู้อ่านกดจะ <strong>คัดลอกลิงก์ตรงไปยังหัวข้อนั้น</strong> เพื่อแชร์จุดที่แม่นยำในบทความยาวได้ทันที</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/anchorlink.png" aria-label="ดูรูป ไอคอนลิงก์หัวข้อ (Anchor) บนหัวข้อบทความ ขนาดเต็ม">
+    <img alt="หัวข้อในบทความ Blogger ที่มีไอคอนลิงก์ (Anchor) ปรากฏด้านซ้ายสำหรับคัดลอกลิงก์ไปยังหัวข้อ" title="ไอคอนลิงก์หัวข้อ (Anchor) บนหัวข้อบทความ" src="https://www.blogkub.com/learn/images/anchorlink.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="568" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">ไอคอนลิงก์ปรากฏข้างหัวข้อ — กดเพื่อคัดลอกลิงก์ตรงไปยังหัวข้อนั้นสำหรับแชร์</figcaption>
+</figure>
+
+
+<h2>ลิงก์หัวข้อคืออะไร และแก้ปัญหาอะไร</h2>
+<p><strong>ลิงก์หัวข้อ (Anchor Link หรือ heading link) คือลิงก์ที่ชี้ตรงไปยังหัวข้อใดหัวข้อหนึ่งในหน้า</strong> เมื่อเปิดลิงก์นั้น เบราว์เซอร์จะเลื่อนหน้าไปยังหัวข้อที่ระบุทันที แทนที่จะเปิดขึ้นมาที่บนสุดของหน้าแล้วปล่อยให้ผู้อ่านเลื่อนหาเอง เทคนิคนี้อาศัย <code>id</code> ที่ติดอยู่กับหัวข้อ และเครื่องหมาย <code>#</code> ในลิงก์เพื่อบอกว่าให้กระโดดไปที่ไหน</p>
+<p>ปัญหาที่ลิงก์หัวข้อแก้ได้ชัดเจนที่สุดคือการแชร์เนื้อหาในบทความยาว ลองนึกภาพบทความคู่มือ 3,000 คำที่มี 15 หัวข้อ เมื่อเพื่อนถามคำถามที่คุณเขียนตอบไว้แล้วในหัวข้อที่ 9 คุณอยากส่งลิงก์ที่พาเขาไปตรงจุดนั้นเลย ไม่ใช่ส่งลิงก์หน้าเปล่า ๆ แล้วบอกว่า “เลื่อนลงไปหาหัวข้อเรื่อง...” ลิงก์หัวข้อทำให้การแชร์แม่นยำและมืออาชีพ</p>
+
+<h2>ลิงก์หัวข้อของ BlogKub ทำงานอย่างไร</h2>
+<p>เมื่อเพิ่มบล็อกนี้ ระบบจะฝังสคริปต์ที่ไล่หาหัวข้อ <code>H2</code>, <code>H3</code> และ <code>H4</code> ทุกอันในเนื้อหาบทความ แล้วทำสองอย่างให้อัตโนมัติ อย่างแรกคือ <strong>สร้าง id ให้หัวข้อ</strong> ถ้าหัวข้อนั้นยังไม่มี และอย่างที่สองคือ <strong>เติมไอคอนลิงก์เล็ก ๆ</strong> ไว้ข้างหัวข้อ เมื่อผู้อ่านนำเมาส์ไปวางที่หัวข้อ ไอคอนจะจาง ๆ ปรากฏขึ้น และเมื่อกดจะคัดลอกลิงก์เต็มของหัวข้อนั้นเข้าคลิปบอร์ด พร้อมอัปเดต URL บนแถบที่อยู่ให้ตรงกัน</p>
+<p>จุดที่ประณีตคือการ <strong>สร้าง id แบบไม่ให้ซ้ำกัน</strong> ระบบแปลงข้อความหัวข้อเป็นสตริงที่ใช้เป็น id ได้ (คงอักขระไทยและอังกฤษ แปลงช่องว่างเป็นขีด) และถ้าบทความมีหัวข้อชื่อเหมือนกันหลายอัน ระบบจะเติมเลขต่อท้ายให้ไม่ชนกัน เช่น <code>สรุป</code>, <code>สรุป-2</code> ทำให้ลิงก์แต่ละหัวข้อชี้ไปยังจุดที่ถูกต้องเสมอ</p>
+<p>บนมือถือที่ไม่มีการ hover ระบบปรับให้ไอคอนลิงก์แสดงแบบจาง ๆ ข้างหัวข้ออยู่แล้ว เพื่อให้ผู้ใช้มือถือแตะใช้งานได้ ไม่ตกหล่นเพราะไม่มีเมาส์</p>
+
+<h2 id="step1">วิธีเพิ่มลิงก์หัวข้อใน BlogKub ทีละขั้น</h2>
+<ol class="steps">
+  <li><strong>เพิ่มบล็อกลิงก์หัวข้อ</strong> เปิดคลังบล็อกด้านซ้าย หมวด “บทความ &amp; UX” แล้วลากบล็อก “ลิงก์หัวข้อ (Anchor)” เข้ามาในหน้า เพื่อเปิดใช้งานทั่วทั้งธีม</li>
+  <li id="step2"><strong>Export XML และอัปโหลด</strong> กด Export แล้วนำไฟล์ไปที่ blogger.com → ธีม → เมนูสามจุด → กู้คืน/สำรอง → เลือกไฟล์ XML</li>
+  <li id="step3"><strong>ทดสอบบนหัวข้อ</strong> เปิดบทความจริง นำเมาส์ไปวางที่หัวข้อจนไอคอนลิงก์ปรากฏ (บนมือถือจะเห็นไอคอนจาง ๆ อยู่แล้ว) แล้วกดเพื่อคัดลอกลิงก์</li>
+  <li id="step4"><strong>ตรวจการกระโดดไปหัวข้อ</strong> เปิดแท็บใหม่แล้ววางลิงก์ที่คัดลอก ยืนยันว่าหน้าเลื่อนไปยังหัวข้อที่ถูกต้องทันที</li>
+</ol>
+
+<h2>ลิงก์หัวข้อ vs สารบัญ: ต่างกันอย่างไร และใช้ร่วมกันได้</h2>
+<p>หลายคนสับสนระหว่างลิงก์หัวข้อกับสารบัญ เพราะทั้งคู่เกี่ยวกับการนำทางภายในหน้าและใช้ <code>id</code> ของหัวข้อเหมือนกัน แต่บทบาทต่างกัน</p>
+<ul>
+  <li><strong>สารบัญ (Table of Contents):</strong> คือรายการลิงก์รวมของทุกหัวข้อที่วางไว้ต้นบทความ ช่วยให้ผู้อ่านเห็นภาพรวมและกระโดดไปยังส่วนที่สนใจได้จากที่เดียว เป็นเครื่องมือ “นำทางภายในหน้า”</li>
+  <li><strong>ลิงก์หัวข้อ (Anchor Link):</strong> คือไอคอนบนแต่ละหัวข้อที่ให้ผู้อ่าน “คัดลอกลิงก์ของหัวข้อนั้น” ไปแชร์ภายนอก เป็นเครื่องมือ “แชร์จุดที่แม่นยำ” ให้คนอื่น</li>
+</ul>
+<p>ทั้งสองไม่ได้แข่งกัน แต่เสริมกันอย่างลงตัว และเนื่องจากทั้งคู่ใช้ id หัวข้อร่วมกัน การเปิดทั้งสองฟีเจอร์พร้อมกันจึงทำให้ระบบนำทางในบทความของคุณสมบูรณ์ ถ้าคุณยังไม่ได้ตั้งสารบัญ แนะนำให้อ่านวิธีทำใน<a href="/learn/toc">คู่มือสารบัญ (Table of Contents)</a> เพื่อใช้คู่กับลิงก์หัวข้อ</p>
+
+<h2>ลิงก์หัวข้อกับ SEO และการค้นพบเนื้อหา</h2>
+<p>การมี <code>id</code> ที่หัวข้อทุกอันมีประโยชน์ต่อ SEO มากกว่าที่หลายคนคิด เพราะมันเปิดทางให้เกิด “ลิงก์ลึก” (deep link) ไปยังส่วนของหน้าได้ ซึ่งเป็นพื้นฐานของฟีเจอร์อย่างการที่ Google แสดงลิงก์กระโดด (jump-to links) ไปยังส่วนที่ตรงกับคำค้นในผลการค้นหา เมื่อหัวข้อของคุณมี id ที่ชัดเจนและสื่อความหมาย โอกาสที่เนื้อหาส่วนย่อยจะถูกเชื่อมโยงตรงก็เพิ่มขึ้น</p>
+<p>นอกจากนี้ เมื่อผู้อ่านแชร์ลิงก์ลึกไปยังหัวข้อที่เป็นประโยชน์ คนที่กดเข้ามาก็จะเจอคำตอบทันทีโดยไม่ต้องเลื่อนหา ประสบการณ์ที่ดีนี้เพิ่มโอกาสที่เขาจะอ่านต่อและกลับมาเว็บของคุณอีก เมื่อใช้ร่วมกับกล่องสรุปแบบ <a href="/learn/aeo">AEO</a> ที่ตอบคำถามอย่างกระชับ และ<a href="/learn/breadcrumb">เบรดครัมบ์</a> ที่ช่วยให้เข้าใจโครงสร้างเว็บ เนื้อหาของคุณก็จะทั้งค้นพบง่ายและนำทางสะดวก</p>
+
+<h2>ทำไม id ที่รองรับภาษาไทยถึงสำคัญ</h2>
+<p>บล็อกไทยส่วนใหญ่มีหัวข้อเป็นภาษาไทย การสร้าง id ที่รองรับอักขระไทยจึงจำเป็น หากระบบตัดอักขระไทยทิ้งเพื่อสร้าง id แบบภาษาอังกฤษล้วน หัวข้อภาษาไทยหลายอันอาจได้ id ว่างเปล่าหรือซ้ำกันจนลิงก์ใช้ไม่ได้ ระบบของ BlogKub จึงออกแบบให้คงอักขระไทยไว้ในการสร้าง id และแปลงช่องว่างเป็นขีด ทำให้ลิงก์ไปยังหัวข้อภาษาไทยทำงานได้จริง</p>
+<p>ผลลัพธ์คือไม่ว่าหัวข้อของคุณจะเขียนเป็นไทย อังกฤษ หรือผสมกัน ลิงก์หัวข้อก็สร้าง id ที่ถูกต้องและไม่ซ้ำให้อัตโนมัติ คุณจึงไม่ต้องมานั่งตั้ง id เองในมุมมอง HTML ทีละหัวข้อ ซึ่งเป็นงานที่น่าเบื่อและผิดพลาดง่ายมากถ้าทำมือ</p>
+
+<h2>ตัวอย่างการใช้ลิงก์หัวข้อในบล็อกแต่ละแนว</h2>
+<p>ลิงก์หัวข้อมีค่ามากเป็นพิเศษกับเนื้อหาที่ยาวและมีหลายส่วน ลองดูตัวอย่าง</p>
+<ul>
+  <li><strong>บล็อกคู่มือและ How-to:</strong> ผู้อ่านหรือทีมงานแชร์ลิงก์ไปยังขั้นตอนที่เป็นปัญหาได้ตรงจุด เช่นส่งลิงก์ไปที่หัวข้อ “วิธีแก้ปัญหา X” ให้เพื่อนร่วมงานทันที</li>
+  <li><strong>บล็อกรวมคำถามที่พบบ่อย:</strong> แต่ละคำถามเป็นหัวข้อ เมื่อมีคนถามคำถามเดิม คุณส่งลิงก์ไปที่คำตอบนั้นได้เลย ประหยัดเวลาและดูเป็นระบบ</li>
+  <li><strong>บล็อกรีวิวยาว:</strong> ผู้อ่านแชร์ลิงก์ไปยังหัวข้อ “ข้อดี-ข้อเสีย” หรือ “ราคาและความคุ้มค่า” ให้เพื่อนที่กำลังตัดสินใจซื้อ</li>
+  <li><strong>เอกสารและคู่มือทางเทคนิค:</strong> ลิงก์ลึกไปยังส่วนเฉพาะเป็นมาตรฐานของเอกสารที่ดี ช่วยให้อ้างอิงข้ามกันได้แม่นยำ</li>
+</ul>
+<p>จุดร่วมของทุกกรณีคือ “เนื้อหายาวที่ต้องชี้ไปยังส่วนใดส่วนหนึ่ง” ยิ่งบทความยาวและมีคุณค่ามากเท่าไร ลิงก์หัวข้อก็ยิ่งช่วยให้เนื้อหานั้นถูกแชร์และนำไปใช้ได้ง่ายขึ้น</p>
+
+<h2>ปัญหาที่พบบ่อยและวิธีแก้</h2>
+<h3>ไอคอนลิงก์ไม่ปรากฏ</h3>
+<p>ตรวจว่าเพิ่มบล็อกลิงก์หัวข้อและ Export ใหม่แล้ว ไอคอนจะปรากฏเมื่อนำเมาส์ไปวางที่หัวข้อบนเดสก์ท็อป ส่วนบนมือถือจะเห็นไอคอนจาง ๆ ข้างหัวข้ออยู่แล้ว หากไม่เห็นเลย ให้ยืนยันว่าหัวข้อใช้แท็ก H2/H3/H4 จริง</p>
+<h3>กดแล้วหน้าไม่เลื่อนไปหัวข้อ</h3>
+<p>ตรวจว่าลิงก์ที่คัดลอกมีเครื่องหมาย <code>#</code> ตามด้วย id ของหัวข้อ หากวางลิงก์ในแอปที่ตัดส่วน <code>#</code> ออก การกระโดดจะไม่ทำงาน ลองวางในเบราว์เซอร์โดยตรงเพื่อทดสอบ</p>
+<h3>id หัวข้อภาษาไทยดูแปลก</h3>
+<p>เป็นเรื่องปกติที่ id ภาษาไทยจะมีอักขระไทยอยู่ ซึ่งใช้งานได้จริง ระบบออกแบบให้คงอักขระไทยและไม่ซ้ำกัน ไม่ต้องกังวลเรื่องรูปร่างของ id ตราบใดที่ลิงก์กระโดดไปถูกหัวข้อ</p>
+<h3>หัวข้อที่ตั้ง id เองไว้แล้ว</h3>
+<p>ถ้าคุณตั้ง id ให้หัวข้อเองในมุมมอง HTML ระบบจะเคารพ id เดิมและไม่เขียนทับ ทำให้ลิงก์เดิมที่คุณเคยแชร์ไปยังใช้งานได้ ไม่พัง</p>
+
+<h2>แนวทางปฏิบัติที่ดี (Best Practices)</h2>
+<ul>
+  <li>ตั้งชื่อหัวข้อให้ชัดเจนและสื่อความหมาย เพราะ id ถูกสร้างจากข้อความหัวข้อ หัวข้อที่ดีทำให้ลิงก์อ่านเข้าใจง่ายขึ้น</li>
+  <li>เปิดลิงก์หัวข้อคู่กับ<a href="/learn/toc">สารบัญ</a> เพื่อให้บทความยาวมีทั้งการนำทางภายในและการแชร์จุดที่แม่นยำ</li>
+  <li>ทดสอบการคัดลอกและการกระโดดทั้งบนเดสก์ท็อปและมือถือหลังตั้งค่า</li>
+  <li>ใช้ร่วมกับ<a href="/learn/copycode">ปุ่มคัดลอกโค้ด</a> ในบทความสายเทค เพื่อให้ผู้อ่านทั้งกระโดดไปหัวข้อและคัดลอกโค้ดในส่วนนั้นได้สะดวก</li>
+</ul>
+
+<h2>สรุป</h2>
+<p>ลิงก์หัวข้อเป็นฟีเจอร์เล็ก ๆ ที่ทำให้บทความยาวของคุณแชร์ง่ายและดูเป็นระบบขึ้นมาก ด้วย BlogKub คุณเพียงเพิ่มบล็อกลิงก์หัวข้อครั้งเดียว แล้ว Export ไปใช้ ระบบจะเติมไอคอนลิงก์บนหัวข้อ H2/H3/H4 ทุกอัน สร้าง id ให้อัตโนมัติแบบรองรับภาษาไทยและไม่ซ้ำกัน ผู้อ่านกดคัดลอกลิงก์ไปยังหัวข้อที่ต้องการได้ทันที ช่วยให้แชร์จุดที่แม่นยำ เอื้อต่อการค้นพบเนื้อหา และใช้คู่กับสารบัญเพื่อระบบนำทางที่สมบูรณ์ โดยที่คุณไม่ต้องตั้ง id เองแม้แต่หัวข้อเดียว</p>
+
+<h2>คำถามที่พบบ่อย (FAQ)</h2>
+<details><summary>ลิงก์หัวข้อ (Anchor Link) คืออะไร?</summary><p>ลิงก์หัวข้อคือลิงก์ที่ชี้ตรงไปยังหัวข้อใดหัวข้อหนึ่งในหน้า เมื่อเปิดลิงก์ หน้าจะเลื่อนไปยังหัวข้อนั้นทันที ช่วยให้แชร์จุดที่ต้องการในบทความยาวได้แม่นยำ แทนที่จะส่งลิงก์ทั้งหน้าแล้วให้ผู้รับเลื่อนหาเอง</p></details>
+<details><summary>ต้องตั้ง id ให้หัวข้อเองไหม?</summary><p>ไม่ต้อง ระบบสร้าง id ให้หัวข้อทุกอันโดยอัตโนมัติจากข้อความของหัวข้อ และจัดการไม่ให้ id ซ้ำกัน หากมีหัวข้อชื่อเหมือนกันก็จะเติมเลขต่อท้ายให้ไม่ชนกัน</p></details>
+<details><summary>ลิงก์หัวข้อรองรับภาษาไทยไหม?</summary><p>รองรับ ระบบสร้าง id จากข้อความหัวข้อภาษาไทยได้ โดยคงอักขระไทยไว้และแปลงช่องว่างเป็นขีด ทำให้ลิงก์ไปยังหัวข้อภาษาไทยทำงานได้ถูกต้อง</p></details>
+<details><summary>ลิงก์หัวข้อต่างจากสารบัญอย่างไร?</summary><p>สารบัญคือรายการลิงก์รวมของทุกหัวข้อไว้ที่ต้นบทความเพื่อช่วยนำทางภายในหน้า ส่วนลิงก์หัวข้อคือไอคอนบนแต่ละหัวข้อที่ให้ผู้อ่านคัดลอกลิงก์ของหัวข้อนั้นไปแชร์ ทั้งสองเสริมกันและใช้ id หัวข้อร่วมกันได้</p></details>
+<details><summary>ลิงก์หัวข้อช่วยเรื่อง SEO ไหม?</summary><p>ช่วยทางอ้อม การมี id ที่หัวข้อทำให้ลิงก์ลึกไปยังส่วนของหน้าได้ ซึ่งเอื้อต่อการที่ Google แสดงผลลัพธ์แบบ jump-to หรือลิงก์ไปยังส่วนที่เกี่ยวข้อง และการที่ผู้อ่านแชร์ลิงก์ลึกก็เพิ่มการเข้าถึงเนื้อหาของคุณ</p></details>
+<hr>
+<p class="meta">บทความในชุดคู่มือฟีเจอร์ BlogKub · เนื้อหาและ Schema (HowTo + FAQPage) พร้อมเผยแพร่บน blogkub.com</p>
+</article>
+</main>
+</body>
+</html>

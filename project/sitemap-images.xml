@@ -99,5 +99,26 @@
       <image:title>Lightbox เปิดขยายรูปเต็มจอในบทความ Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/copycode</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/copycode.png</image:loc>
+      <image:title>ปุ่มคัดลอกโค้ดบนกล่อง pre ในบทความ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/dropcap</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/dropcap.png</image:loc>
+      <image:title>Dropcap อักษรตัวแรกใหญ่สไตล์นิตยสารในบทความ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/anchorlink</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/anchorlink.png</image:loc>
+      <image:title>ไอคอนลิงก์หัวข้อ (Anchor) บนหัวข้อบทความ Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>
