@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <url>
+    <loc>https://www.blogkub.com/learn/toc</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/toc.png</image:loc>
+      <image:title>สารบัญอัตโนมัติ (Table of Contents) ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.blogkub.com/learn/breadcrumb</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/breadcrumb.png</image:loc>
+      <image:title>เส้นทางนำทาง (Breadcrumb) บนหน้าบทความ Blogger</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.blogkub.com/learn/dark-mode</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/dark-mode-light.png</image:loc>
+      <image:title>หน้าบทความ Blogger โหมดสว่าง</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/dark-mode-dark.png</image:loc>
+      <image:title>หน้าบทความ Blogger โหมดมืด</image:title>
+    </image:image>
+  </url>
+
+</urlset>
