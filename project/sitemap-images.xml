@@ -30,4 +30,28 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://www.blogkub.com/learn/aeo</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/aeo.png</image:loc>
+      <image:title>กล่องสรุป AEO ต้นบทความ Blogger</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.blogkub.com/learn/related</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/related.png</image:loc>
+      <image:title>บทความที่เกี่ยวข้องท้ายบทความ Blogger</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://www.blogkub.com/learn/translate</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/translate.png</image:loc>
+      <image:title>ปุ่มแปลภาษาพร้อมเมนูเลือกภาษา Blogger</image:title>
+    </image:image>
+  </url>
+
 </urlset>
