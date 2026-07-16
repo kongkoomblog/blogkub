@@ -120,5 +120,26 @@
       <image:title>ไอคอนลิงก์หัวข้อ (Anchor) บนหัวข้อบทความ Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/sharebar</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/sharebar.png</image:loc>
+      <image:title>แถบแชร์ลอยข้างจอบนหน้าบทความ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/stories</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/stories.png</image:loc>
+      <image:title>แถบสตอรี่ (Web Stories) แบบวงกลมบนหน้าเว็บ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/themepicker</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/themepicker.png</image:loc>
+      <image:title>ปุ่มเลือกสีธีมและแผงชุดสีสำเร็จบนหน้าเว็บ Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>
