@@ -204,5 +204,33 @@
       <image:title>ช่องค้นหา (Search Box) ในบล็อก Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/header</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/header.png</image:loc>
+      <image:title>ส่วนหัว Header (โลโก้ + เมนู) ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/hero</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/hero.png</image:loc>
+      <image:title>Hero แบนเนอร์หลักหน้าแรกในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/footer</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/footer.png</image:loc>
+      <image:title>ส่วนท้าย Footer (ลิงก์ + ลิขสิทธิ์) ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/sidebar</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/sidebar.png</image:loc>
+      <image:title>เลย์เอาต์ Sidebar เนื้อหา + แถบข้าง ในธีม Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>
