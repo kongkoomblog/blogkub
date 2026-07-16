@@ -260,5 +260,40 @@
       <image:title>บล็อกเกี่ยวกับ/ผู้เขียน (About + E-E-A-T) ในธีม Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/cta</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/cta.png</image:loc>
+      <image:title>กล่อง Call To Action (CTA) ชวนคลิก ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/columns</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/columns.png</image:loc>
+      <image:title>คอลัมน์ฟีเจอร์ (Columns) 3 คอลัมน์ ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/image</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/image.png</image:loc>
+      <image:title>บล็อกรูปภาพ (Image) พร้อม ALT และคำบรรยาย ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/ad</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/ad.png</image:loc>
+      <image:title>ช่องโฆษณา AdSense (Ad Slot) พร้อมป้าย ‘โฆษณา’ ในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/templates</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/templates.png</image:loc>
+      <image:title>รวมเทมเพลตธีม Blogger ของ BlogKub</image:title>
+    </image:image>
+  </url>
 
 </urlset>
