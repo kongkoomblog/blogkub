@@ -232,5 +232,33 @@
       <image:title>เลย์เอาต์ Sidebar เนื้อหา + แถบข้าง ในธีม Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/postgrid</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/postgrid.png</image:loc>
+      <image:title>ตารางบทความ (Post Grid) การ์ดบทความหน้าแรกในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/postlist</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/postlist.png</image:loc>
+      <image:title>รายการบทความ (Post List) แบบรายการแนวนอนในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/featured</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/featured.png</image:loc>
+      <image:title>บทความเด่น (Featured) ปักหมุดข่าวเด่นในธีม Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/about</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/about.png</image:loc>
+      <image:title>บล็อกเกี่ยวกับ/ผู้เขียน (About + E-E-A-T) ในธีม Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>
