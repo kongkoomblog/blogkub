@@ -162,5 +162,26 @@
       <image:title>สไลด์รูป/แกลเลอรีพร้อมคำบรรยายในบทความ Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/announce</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/announce.png</image:loc>
+      <image:title>แถบประกาศด้านบน (Announcement Bar) ในเว็บ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/morefrom</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/morefrom.png</image:loc>
+      <image:title>ส่วนบทความล่าสุด/สุ่มบทความในเว็บ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/share</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/share.png</image:loc>
+      <image:title>ปุ่มแชร์โซเชียล (Social Share) ในบทความ Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>
