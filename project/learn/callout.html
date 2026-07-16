@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วิธีทำกล่อง Callout (Note / Tip / Warning) ในบทความ Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/learn/callout">
+<meta property="og:url" content="https://www.blogkub.com/learn/callout">
+<meta name="description" content="วิธีเพิ่มกล่อง Callout (หมายเหตุ เคล็ดลับ สำเร็จ คำเตือน ข้อควรระวัง ดาวน์โหลด) ในธีม Blogger ด้วย BlogKub มี 6 แบบพร้อมไอคอนและสี วางในโพสต์ด้วยคลาส .bk-note ฯลฯ พร้อมวิธีใช้และแก้ปัญหา">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="วิธีทำกล่อง Callout (Note / Tip / Warning) ในบทความ Blogger">
+<meta property="og:description" content="กล่องเน้นข้อความ 6 แบบพร้อมไอคอนและสี วางในโพสต์ด้วยคลาสง่าย ๆ">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "th" },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://www.blogkub.com/" },
+      { "@type": "ListItem", "position": 2, "name": "เรียนรู้", "item": "https://www.blogkub.com/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "กล่อง Callout" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "วิธีเพิ่มกล่อง Callout ในบทความธีม Blogger ด้วย BlogKub",
+      "description": "ขั้นตอนการเพิ่มกล่องเน้นข้อความ 6 แบบ (หมายเหตุ เคล็ดลับ สำเร็จ คำเตือน ข้อควรระวัง ดาวน์โหลด) ในเนื้อหาบทความ",
+      "inLanguage": "th",
+      "totalTime": "PT3M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "บัญชี Blogger" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "เพิ่มบล็อก Callout", "text": "ลากบล็อก ‘กล่อง Callout’ จากคลังเข้ามาในหน้า เพื่อฝังสไตล์กล่องทั้ง 6 แบบในธีม", "url": "https://www.blogkub.com/learn/callout#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Export XML และอัปโหลด", "text": "กด Export XML แล้วอัปโหลดเข้า Blogger ผ่าน ธีม → กู้คืน/สำรอง", "url": "https://www.blogkub.com/learn/callout#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "วางกล่องในโพสต์", "text": "ในโพสต์ (มุมมอง HTML) ครอบข้อความด้วย <div class='bk-tip'>…</div> โดยเลือกคลาสให้ตรงชนิดกล่องที่ต้องการ", "url": "https://www.blogkub.com/learn/callout#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "ตรวจการแสดงผล", "text": "เปิดบทความเพื่อยืนยันว่ากล่องแสดงสี ไอคอน และเส้นขอบด้านซ้ายถูกต้องตามชนิด", "url": "https://www.blogkub.com/learn/callout#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/callout.png","width":1440,"height":846},
+      "mainEntityOfPage": "https://www.blogkub.com/learn/callout",
+      "headline": "วิธีทำกล่อง Callout (Note / Tip / Warning) ในบทความ Blogger",
+      "description": "คู่มือละเอียดการเพิ่มกล่องเน้นข้อความ 6 แบบในเนื้อหาบทความธีม Blogger ด้วย BlogKub",
+      "inLanguage": "th", "datePublished": "2026-07-16", "dateModified": "2026-07-16",
+      "author": { "@id": "https://www.blogkub.com/#org" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "กล่อง Callout มีกี่แบบ?", "acceptedAnswer": { "@type": "Answer", "text": "มี 6 แบบ ได้แก่ หมายเหตุ (note) เคล็ดลับ (tip) สำเร็จ (success) คำเตือน (warning) ข้อควรระวัง (danger) และดาวน์โหลด (download) แต่ละแบบมีสีและไอคอนเฉพาะตัวเพื่อสื่อความหมายในทันที" } },
+        { "@type": "Question", "name": "ต้องใส่โค้ดยากไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ไม่ยาก เพียงครอบข้อความด้วย div และใส่คลาสให้ตรงชนิด เช่น <div class='bk-tip'>ข้อความ</div> ในมุมมอง HTML ของโพสต์ ระบบจัดการสี ไอคอน และเส้นขอบให้อัตโนมัติ เพราะสไตล์ถูกฝังในธีมแล้ว" } },
+        { "@type": "Question", "name": "ไอคอนในกล่องมาจากไหน ต้องโหลดรูปไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ไม่ต้องโหลดรูป ไอคอนเป็น SVG ที่ฝังอยู่ในสไตล์ของธีมโดยตรง จึงแสดงได้ทันทีโดยไม่เรียกไฟล์ภายนอกและไม่กระทบความเร็วหน้า" } },
+        { "@type": "Question", "name": "กล่อง Callout รองรับโหมดมืดไหม?", "acceptedAnswer": { "@type": "Answer", "text": "รองรับ ข้อความในกล่องใช้ตัวแปรสีของธีม จึงปรับตามโหมดสว่าง/มืดได้ ส่วนพื้นและเส้นขอบใช้สีโปร่งใสของแต่ละชนิด ทำให้อ่านง่ายทั้งสองโหมด" } },
+        { "@type": "Question", "name": "กล่อง Callout ช่วยเรื่องการอ่านและ SEO อย่างไร?", "acceptedAnswer": { "@type": "Answer", "text": "ช่วยให้ผู้อ่านสแกนหาจุดสำคัญได้เร็ว เน้นเคล็ดลับหรือคำเตือนให้เด่นชัด ทำให้เนื้อหาอ่านง่ายขึ้น ซึ่งเพิ่มเวลาบนหน้าและความพึงพอใจ อันเป็นสัญญาณคุณภาพทางอ้อมที่ดีต่อ SEO" } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{--maxw:820px;--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2;--primary:#6366f1;--accent:#8b5cf6}
+  @media(prefers-color-scheme:dark){:root{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.09)}}
+  :root[data-theme="dark"]{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.09)}
+  :root[data-theme="light"]{--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);line-height:1.75;font-family:'IBM Plex Sans Thai',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:17px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 20px 80px}
+  nav.crumb{font-size:13px;color:var(--muted);margin-bottom:22px}
+  nav.crumb a{color:var(--muted);text-decoration:none}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.2;letter-spacing:-.02em;margin:.2em 0 .5em;font-weight:800}
+  h2{font-size:clamp(20px,3.6vw,27px);line-height:1.28;margin:2em 0 .6em;font-weight:800;padding-bottom:.3em;border-bottom:2px solid var(--border)}
+  h3{font-size:19px;margin:1.5em 0 .4em;font-weight:700;color:var(--primary)}
+  p{margin:.7em 0}a{color:var(--primary)}
+  ul,ol{padding-left:1.3em;margin:.6em 0}li{margin:.4em 0}
+  .lead{font-size:19px;color:var(--fg-soft)}
+  .tldr{background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 12%,var(--surface)),var(--surface));border:1px solid var(--border);border-left:5px solid var(--primary);border-radius:14px;padding:18px 22px;margin:24px 0}
+  .tldr strong{color:var(--primary)}
+  .meta{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+  .steps{counter-reset:s;list-style:none;padding:0}
+  .steps>li{counter-increment:s;position:relative;padding:14px 18px 14px 58px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:12px 0}
+  .steps>li::before{content:counter(s);position:absolute;left:16px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .steps>li strong{display:block;margin-bottom:2px}
+  details{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:10px 0;padding:2px 20px}
+  summary{cursor:pointer;font-weight:700;padding:14px 0;list-style:none;font-size:16.5px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"＋";color:var(--primary);font-weight:800;margin-right:10px}
+  details[open] summary::before{content:"－"}
+  details p{margin:0 0 16px;color:var(--fg-soft);font-size:15.5px}
+  .note{font-size:14.5px;color:var(--fg-soft);background:var(--surface);border-radius:10px;padding:13px 17px;margin:18px 0;border-left:4px solid var(--accent)}
+  code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:14px}
+  hr{border:0;border-top:1px solid var(--border);margin:2.4em 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/">หน้าแรก</a> › <a href="https://www.blogkub.com/learn/">เรียนรู้</a> › <span>กล่อง Callout</span></nav>
+<article>
+<h1>วิธีทำกล่อง Callout (Note / Tip / Warning) ในบทความ Blogger</h1>
+<p class="lead">บทความที่อ่านง่ายมักมีจุดพักสายตาที่เน้นข้อมูลสำคัญให้เด่นชัด กล่อง Callout คือเครื่องมือนั้น — กล่องสีพร้อมไอคอนที่บอกผู้อ่านทันทีว่า “นี่คือเคล็ดลับ” หรือ “นี่คือคำเตือน” บทความนี้สอนวิธีเพิ่มกล่อง Callout ทั้ง 6 แบบในธีม Blogger ด้วย BlogKub พร้อมวิธีวางในโพสต์และการแก้ปัญหา</p>
+<p class="meta">อัปเดต 16 กรกฎาคม 2026 · อ่านประมาณ 8 นาที · ระดับ: เริ่มต้น</p>
+
+<div class="tldr"><p><strong>สรุปสั้น:</strong> เพิ่มบล็อก <strong>กล่อง Callout</strong> ใน BlogKub แล้ว Export XML ไปอัปโหลด Blogger จากนั้นในโพสต์ (มุมมอง HTML) ครอบข้อความด้วย <code>&lt;div class="bk-tip"&gt;…&lt;/div&gt;</code> เลือกคลาสได้ 6 แบบ (<strong>note, tip, success, warning, danger, download</strong>) ระบบจัดการสี ไอคอน SVG และเส้นขอบซ้ายให้อัตโนมัติ ไม่ต้องโหลดรูปและรองรับโหมดมืด</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/callout.png" aria-label="ดูรูป กล่อง Callout ทั้ง 6 แบบ ขนาดเต็ม">
+    <img alt="กล่อง Callout ทั้ง 6 แบบในบทความ Blogger — หมายเหตุ เคล็ดลับ สำเร็จ คำเตือน ข้อควรระวัง ดาวน์โหลด พร้อมสีและไอคอน" title="กล่อง Callout ทั้ง 6 แบบ" src="https://www.blogkub.com/learn/images/callout.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="846" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">กล่อง Callout ทั้ง 6 แบบ แต่ละแบบมีสีและไอคอนเฉพาะ วางในโพสต์ด้วยคลาส .bk-note, .bk-tip ฯลฯ</figcaption>
+</figure>
+
+
+<h2>กล่อง Callout คืออะไร และทำไมถึงช่วยการอ่าน</h2>
+<p><strong>กล่อง Callout คือกล่องเน้นข้อความที่แยกออกจากเนื้อหาปกติด้วยสีพื้น เส้นขอบด้านซ้าย และไอคอน เพื่อดึงความสนใจไปยังข้อมูลสำคัญ</strong> เช่น เคล็ดลับ คำเตือน หรือหมายเหตุ ผู้อ่านที่กวาดสายตาผ่านบทความจะสะดุดกับกล่องเหล่านี้ทันที ทำให้ไม่พลาดจุดที่คุณอยากเน้น</p>
+<p>ในการเขียนเนื้อหาที่ดี ไม่ใช่ทุกประโยคมีน้ำหนักเท่ากัน บางข้อมูลเป็นเพียงคำอธิบายทั่วไป แต่บางข้อมูลคือกุญแจสำคัญที่ถ้าพลาดแล้วอาจทำผิดพลาด กล่อง Callout ช่วยสร้าง “ลำดับความสำคัญเชิงสายตา” (visual hierarchy) ให้ผู้อ่านรู้ว่าอะไรควรใส่ใจเป็นพิเศษ ทำให้เนื้อหายาว ๆ ย่อยง่ายขึ้นมาก</p>
+
+<h2>กล่อง Callout ทั้ง 6 แบบและเมื่อไรควรใช้</h2>
+<p>BlogKub มีกล่อง Callout ให้ 6 แบบ แต่ละแบบมีสีและไอคอนที่สื่อความหมายตามธรรมเนียมสากล</p>
+<ul>
+  <li><strong>หมายเหตุ (note) — สีน้ำเงิน:</strong> สำหรับข้อมูลเสริมที่ควรรู้ แต่ไม่ถึงกับเร่งด่วน เช่นบริบทเพิ่มเติมหรือคำอธิบายประกอบ</li>
+  <li><strong>เคล็ดลับ (tip) — สีฟ้าเขียว:</strong> สำหรับเทคนิคที่ช่วยให้ทำได้เร็วและง่ายขึ้น เป็นกล่องที่ผู้อ่านมักชอบเพราะให้คุณค่าเพิ่ม</li>
+  <li><strong>สำเร็จ (success) — สีเขียว:</strong> สำหรับยืนยันว่าทำถูกต้องหรือขั้นตอนเสร็จสมบูรณ์ สร้างความมั่นใจให้ผู้อ่าน</li>
+  <li><strong>คำเตือน (warning) — สีส้ม:</strong> สำหรับสิ่งที่ต้องระวังหรือตรวจสอบก่อนดำเนินการต่อ ป้องกันความผิดพลาด</li>
+  <li><strong>ข้อควรระวัง (danger) — สีแดง:</strong> สำหรับเรื่องสำคัญที่พลาดแล้วย้อนกลับยาก เช่นการกระทำที่ลบข้อมูลถาวร</li>
+  <li><strong>ดาวน์โหลด (download) — สีม่วง:</strong> สำหรับชี้ไปยังไฟล์หรือทรัพยากรที่ให้ดาวน์โหลด ทำให้ลิงก์ดาวน์โหลดเด่นชัด</li>
+</ul>
+<p>การใช้สีให้ตรงความหมายเป็นเรื่องสำคัญ ผู้อ่านเรียนรู้จากประสบการณ์ว่าสีแดงคืออันตราย สีเขียวคือสำเร็จ เมื่อคุณใช้กล่องให้สอดคล้องกับความหมายเหล่านี้ ผู้อ่านก็เข้าใจได้ทันทีโดยไม่ต้องอ่านป้ายกำกับด้วยซ้ำ</p>
+
+<h2 id="step1">วิธีเพิ่มและใช้กล่อง Callout ทีละขั้น</h2>
+<ol class="steps">
+  <li><strong>เพิ่มบล็อก Callout</strong> เปิดคลังบล็อกด้านซ้าย หมวด “บทความ &amp; UX” แล้วลากบล็อก “กล่อง Callout” เข้ามา เพื่อฝังสไตล์ของกล่องทั้ง 6 แบบในธีม</li>
+  <li id="step2"><strong>Export XML และอัปโหลด</strong> กด Export แล้วนำไฟล์ไปที่ blogger.com → ธีม → เมนูสามจุด → กู้คืน/สำรอง → เลือกไฟล์ XML</li>
+  <li id="step3"><strong>วางกล่องในโพสต์</strong> เวลาเขียนโพสต์ สลับไปมุมมอง HTML แล้วครอบข้อความด้วย <code>&lt;div class="bk-tip"&gt;ข้อความเคล็ดลับ&lt;/div&gt;</code> เปลี่ยนคลาสเป็น bk-note, bk-warning, bk-danger ฯลฯ ตามชนิดที่ต้องการ</li>
+  <li id="step4"><strong>ตรวจการแสดงผล</strong> เปิดบทความจริงเพื่อยืนยันว่ากล่องแสดงสีพื้น ไอคอน และเส้นขอบด้านซ้ายถูกต้องตามชนิด และอ่านง่ายทั้งบนเดสก์ท็อปและมือถือ</li>
+</ol>
+<div class="note">เคล็ดลับ: คุณสามารถใส่หลายบรรทัด ลิงก์ หรือรายการภายในกล่องได้ เพราะกล่องรองรับเนื้อหา HTML ปกติ ระบบจัดระยะขอบของลูกองค์ประกอบตัวแรกและตัวสุดท้ายให้เรียบร้อยอยู่แล้ว</div>
+
+<h2>ทำไมไอคอนถึงเป็น SVG ฝังในธีม ไม่ใช่รูปโหลด</h2>
+<p>รายละเอียดทางเทคนิคที่ทำให้กล่อง Callout ของ BlogKub เร็วและเสถียรคือ <strong>ไอคอนถูกฝังเป็น SVG ในสไตล์ของธีมโดยตรง</strong> ไม่ใช่รูปภาพที่ต้องโหลดจากภายนอก ข้อดีคือไอคอนแสดงทันทีพร้อมเนื้อหา ไม่มีการกระพริบหรือรอโหลด ไม่เพิ่มคำขอเครือข่าย และไม่มีความเสี่ยงที่ไอคอนจะหายถ้าลิงก์รูปเสีย</p>
+<p>นี่สอดคล้องกับหลักการของ Blogger ที่<a href="/learn/faq">ทุกอย่างควรอยู่ในธีมเอง</a>ให้มากที่สุด การใช้ SVG ฝังในสไตล์ยังทำให้ไอคอนคมชัดทุกความละเอียดหน้าจอ และเปลี่ยนสีตามชนิดกล่องได้โดยไม่ต้องมีไฟล์รูปหลายเวอร์ชัน เป็นวิธีที่ทั้งเบาและยืดหยุ่น</p>
+
+<h2>กล่อง Callout กับโหมดมืดและความสม่ำเสมอของดีไซน์</h2>
+<p>เพราะข้อความในกล่องใช้ตัวแปรสีของธีม กล่อง Callout จึงปรับตาม<a href="/learn/dark-mode">โหมดมืด</a>ได้อย่างเป็นธรรมชาติ ตัวอักษรจะเปลี่ยนเป็นสีอ่อนในโหมดมืดและสีเข้มในโหมดสว่าง ส่วนสีพื้นและเส้นขอบของแต่ละชนิดใช้สีโปร่งใส จึงกลมกลืนกับพื้นหลังทั้งสองโหมดโดยยังคงเอกลักษณ์ของสีไว้</p>
+<p>ความสม่ำเสมอนี้สำคัญต่อภาพลักษณ์เว็บ เมื่อกล่องทุกชนิดมีสไตล์เดียวกันทั่วทั้งเว็บ — ระยะขอบ มุมโค้ง ตำแหน่งไอคอน — ผู้อ่านก็รับรู้ว่าเว็บของคุณได้รับการออกแบบอย่างเป็นระบบ ต่างจากการที่แต่ละบทความมีกล่องหน้าตาไม่เหมือนกันเพราะทำมือทีละครั้ง การมีสไตล์กลางที่ฝังในธีมรับประกันความสม่ำเสมอนี้ให้อัตโนมัติ</p>
+
+<h2>ตัวอย่างการใช้กล่อง Callout ในบล็อกแต่ละแนว</h2>
+<ul>
+  <li><strong>บล็อกสอน/ฮาวทู:</strong> ใช้กล่องเคล็ดลับเน้นทางลัด กล่องคำเตือนบอกจุดที่คนมักพลาด และกล่องข้อควรระวังสำหรับขั้นตอนที่ย้อนกลับยาก</li>
+  <li><strong>บล็อกสายเทค:</strong> กล่องหมายเหตุอธิบายบริบทเพิ่ม กล่องดาวน์โหลดชี้ไปยังไฟล์โค้ดหรือทรัพยากร ใช้คู่กับ<a href="/learn/copycode">ปุ่มคัดลอกโค้ด</a>ได้ดี</li>
+  <li><strong>บล็อกสูตรอาหาร:</strong> กล่องเคล็ดลับบอกทริกทำให้อร่อยขึ้น กล่องคำเตือนเรื่องเวลาหรืออุณหภูมิที่ต้องระวัง</li>
+  <li><strong>บล็อกรีวิวและคู่มือซื้อ:</strong> กล่องหมายเหตุสรุปประเด็นสำคัญ กล่องสำเร็จยืนยันว่าตัวเลือกไหนคุ้มค่า</li>
+</ul>
+<p>จุดร่วมคือกล่อง Callout ช่วยแยก “ข้อมูลที่ต้องเน้น” ออกจากเนื้อหาทั่วไป ทำให้บทความของคุณดูมีการจัดระเบียบและเป็นมิตรกับผู้อ่านที่ชอบสแกนหาจุดสำคัญ</p>
+
+<h2>ข้อควรระวัง: อย่าใช้กล่องมากเกินไป</h2>
+<p>กล่อง Callout ทรงพลังเพราะมันเด่น แต่ถ้าใช้มากเกินไปในบทความเดียว ทุกอย่างก็จะเด่นจนไม่มีอะไรเด่น กลายเป็นบทความที่เต็มไปด้วยกล่องสีจนลายตาและอ่านยากกว่าเดิม หลักการคือใช้กล่องเฉพาะข้อมูลที่สำคัญจริง ๆ ไม่กี่จุดต่อบทความ เพื่อรักษาพลังในการดึงสายตาไว้</p>
+<p>ลองคิดว่ากล่อง Callout เป็นเหมือนเครื่องหมายไฮไลต์ในหนังสือ ถ้าไฮไลต์ทุกบรรทัด การไฮไลต์ก็ไร้ความหมาย แต่ถ้าไฮไลต์เฉพาะประโยคสำคัญ มันก็โดดเด่นและมีประโยชน์ กล่อง Callout ก็เช่นกัน ใช้อย่างพอดีเพื่อให้มันทำหน้าที่ได้เต็มที่</p>
+
+<h2>กล่อง Callout กับการเข้าถึง (Accessibility)</h2>
+<p>ข้อดีอย่างหนึ่งของการใช้กล่อง Callout ที่ยึดข้อความจริงเป็นหลักคือมันเป็นมิตรกับการเข้าถึง เนื้อหาในกล่องยังคงเป็นข้อความ HTML ปกติที่โปรแกรมอ่านหน้าจอ (screen reader) อ่านได้ครบถ้วน ต่างจากการทำกล่องเน้นด้วยการฝังข้อความในรูปภาพ ซึ่งผู้ใช้ที่มองไม่เห็นจะเข้าไม่ถึงเลย การที่สีและไอคอนเป็นเพียงการเสริมด้วย CSS ไม่ใช่ตัวพาความหมายทั้งหมด ทำให้เนื้อหายังเข้าถึงได้แม้ในสภาพที่สไตล์ไม่โหลด</p>
+<p>อย่างไรก็ตาม ควรระวังไม่พึ่งพา “สี” เพียงอย่างเดียวในการสื่อความหมาย เพราะผู้อ่านบางคนตาบอดสี วิธีที่ดีคือให้ข้อความในกล่องบอกบริบทด้วยตัวเอง เช่นขึ้นต้นว่า “ข้อควรระวัง:” หรือ “เคล็ดลับ:” เพื่อให้ความหมายชัดเจนแม้ผู้อ่านจะแยกสีไม่ออก นี่เป็นหลักการออกแบบที่ครอบคลุมผู้อ่านทุกกลุ่มและสอดคล้องกับมาตรฐานการเข้าถึงเว็บที่ดี</p>
+
+<h2>ปัญหาที่พบบ่อยและวิธีแก้</h2>
+<h3>กล่องไม่มีสีหรือไอคอน แสดงเป็นข้อความธรรมดา</h3>
+<p>มักเกิดจากยังไม่ได้เพิ่มบล็อก Callout ในธีมหรือยังไม่ได้ Export ใหม่ ตรวจว่าเพิ่มบล็อกและอัปโหลดธีมล่าสุดแล้ว จากนั้นยืนยันว่าใช้ชื่อคลาสถูกต้อง เช่น <code>bk-tip</code> ไม่ใช่ <code>tip</code> เฉย ๆ</p>
+<h3>ใส่คลาสแล้วแต่กล่องเพี้ยน</h3>
+<p>ตรวจว่าเขียนใน “มุมมอง HTML” ของโพสต์ ไม่ใช่มุมมองเขียน เพราะมุมมองเขียนอาจแปลงแท็กหรือเพิ่มแท็กแทรก ทำให้โครงสร้างกล่องผิด</p>
+<h3>อยากได้กล่องสีอื่นนอกเหนือ 6 แบบ</h3>
+<p>ชุด 6 แบบครอบคลุมความหมายหลักที่ใช้บ่อยและออกแบบให้สอดคล้องกัน แนะนำให้เลือกจากชุดนี้เพื่อความสม่ำเสมอ แทนการสร้างสีใหม่ที่อาจทำให้ดีไซน์ไม่เป็นระบบ</p>
+
+<h2>แนวทางปฏิบัติที่ดี (Best Practices)</h2>
+<ul>
+  <li>ใช้สีให้ตรงความหมาย เช่นแดงสำหรับอันตราย เขียวสำหรับสำเร็จ เพื่อให้ผู้อ่านเข้าใจทันที</li>
+  <li>ใช้กล่องเฉพาะข้อมูลสำคัญไม่กี่จุดต่อบทความ เพื่อรักษาพลังในการดึงสายตา</li>
+  <li>เขียนคลาสในมุมมอง HTML เสมอ และตรวจชื่อคลาสให้ถูก (bk-note, bk-tip, …)</li>
+  <li>ทดสอบการแสดงผลทั้งโหมดสว่างและมืด รวมถึงบนมือถือ</li>
+  <li>จับคู่กับฟีเจอร์เนื้อหาอื่น เช่น <a href="/learn/faq">กล่อง FAQ</a> และ<a href="/learn/toc">สารบัญ</a> เพื่อให้บทความยาวอ่านง่ายครบทุกมิติ</li>
+</ul>
+
+<h2>สรุป</h2>
+<p>กล่อง Callout เป็นเครื่องมือเล็ก ๆ ที่ยกระดับความอ่านง่ายของบทความอย่างชัดเจน ด้วย BlogKub คุณเพียงเพิ่มบล็อกกล่อง Callout แล้ว Export ไปใช้ จากนั้นครอบข้อความด้วย div และคลาสที่ตรงชนิด (note, tip, success, warning, danger, download) ระบบจัดการสี ไอคอน SVG และเส้นขอบให้อัตโนมัติ ไม่ต้องโหลดรูป รองรับโหมดมืด และคงความสม่ำเสมอของดีไซน์ทั่วทั้งเว็บ เมื่อใช้อย่างพอดีเพื่อเน้นข้อมูลสำคัญ กล่อง Callout จะช่วยให้ผู้อ่านสแกนหาจุดสำคัญได้เร็ว เข้าใจง่าย และมีประสบการณ์การอ่านที่ดีขึ้น</p>
+
+<h2>คำถามที่พบบ่อย (FAQ)</h2>
+<details><summary>กล่อง Callout มีกี่แบบ?</summary><p>มี 6 แบบ ได้แก่ หมายเหตุ (note) เคล็ดลับ (tip) สำเร็จ (success) คำเตือน (warning) ข้อควรระวัง (danger) และดาวน์โหลด (download) แต่ละแบบมีสีและไอคอนเฉพาะตัวเพื่อสื่อความหมายในทันที</p></details>
+<details><summary>ต้องใส่โค้ดยากไหม?</summary><p>ไม่ยาก เพียงครอบข้อความด้วย div และใส่คลาสให้ตรงชนิด เช่น &lt;div class='bk-tip'&gt;ข้อความ&lt;/div&gt; ในมุมมอง HTML ของโพสต์ ระบบจัดการสี ไอคอน และเส้นขอบให้อัตโนมัติ เพราะสไตล์ถูกฝังในธีมแล้ว</p></details>
+<details><summary>ไอคอนในกล่องมาจากไหน ต้องโหลดรูปไหม?</summary><p>ไม่ต้องโหลดรูป ไอคอนเป็น SVG ที่ฝังอยู่ในสไตล์ของธีมโดยตรง จึงแสดงได้ทันทีโดยไม่เรียกไฟล์ภายนอกและไม่กระทบความเร็วหน้า</p></details>
+<details><summary>กล่อง Callout รองรับโหมดมืดไหม?</summary><p>รองรับ ข้อความในกล่องใช้ตัวแปรสีของธีม จึงปรับตามโหมดสว่าง/มืดได้ ส่วนพื้นและเส้นขอบใช้สีโปร่งใสของแต่ละชนิด ทำให้อ่านง่ายทั้งสองโหมด</p></details>
+<details><summary>กล่อง Callout ช่วยเรื่องการอ่านและ SEO อย่างไร?</summary><p>ช่วยให้ผู้อ่านสแกนหาจุดสำคัญได้เร็ว เน้นเคล็ดลับหรือคำเตือนให้เด่นชัด ทำให้เนื้อหาอ่านง่ายขึ้น ซึ่งเพิ่มเวลาบนหน้าและความพึงพอใจ อันเป็นสัญญาณคุณภาพทางอ้อมที่ดีต่อ SEO</p></details>
+<hr>
+<p class="meta">บทความในชุดคู่มือฟีเจอร์ BlogKub · เนื้อหาและ Schema (HowTo + FAQPage) พร้อมเผยแพร่บน blogkub.com</p>
+</article>
+</main>
+</body>
+</html>

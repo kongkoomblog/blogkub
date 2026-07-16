@@ -141,5 +141,26 @@
       <image:title>ปุ่มเลือกสีธีมและแผงชุดสีสำเร็จบนหน้าเว็บ Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/callout</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/callout.png</image:loc>
+      <image:title>กล่อง Callout ทั้ง 6 แบบในบทความ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/proscons</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/proscons.png</image:loc>
+      <image:title>กล่อง Pros/Cons และคะแนนรีวิว (Verdict) ในบทความ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/slider</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/slider.png</image:loc>
+      <image:title>สไลด์รูป/แกลเลอรีพร้อมคำบรรยายในบทความ Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>
