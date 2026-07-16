@@ -183,5 +183,26 @@
       <image:title>ปุ่มแชร์โซเชียล (Social Share) ในบทความ Blogger</image:title>
     </image:image>
   </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/newsletter</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/newsletter.png</image:loc>
+      <image:title>กล่องรับอีเมล Newsletter ในเว็บ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/readtime</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/readtime.png</image:loc>
+      <image:title>เวลาในการอ่าน (Reading Time) บนการ์ดและบทความ Blogger</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/learn/search</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/learn/images/search.png</image:loc>
+      <image:title>ช่องค้นหา (Search Box) ในบล็อก Blogger</image:title>
+    </image:image>
+  </url>
 
 </urlset>

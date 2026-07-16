@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>วิธีทำช่องค้นหา (Search Box) ในบล็อก Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/learn/search">
+<meta property="og:url" content="https://www.blogkub.com/learn/search">
+<meta name="description" content="วิธีเพิ่มช่องค้นหา (Search Box) ในธีม Blogger ด้วย BlogKub ให้ผู้อ่านค้นหาบทความในเว็บได้ ตั้งหัวข้อและ placeholder ได้ ใช้ระบบค้นหาในตัวของ Blogger ทำงานทันทีไม่ต้องต่อบริการนอก พร้อมวิธีตั้งค่าและแก้ปัญหา">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="วิธีทำช่องค้นหา (Search Box) ในบล็อก Blogger">
+<meta property="og:description" content="ช่องค้นหาบทความในเว็บ ใช้ระบบค้นหาในตัวของ Blogger ตั้งหัวข้อและ placeholder ได้">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "th" },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://www.blogkub.com/" },
+      { "@type": "ListItem", "position": 2, "name": "เรียนรู้", "item": "https://www.blogkub.com/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "ช่องค้นหา (Search Box)" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "วิธีเพิ่มช่องค้นหา (Search Box) ในธีม Blogger ด้วย BlogKub",
+      "description": "ขั้นตอนการเพิ่มช่องค้นหาบทความในเว็บที่ใช้ระบบค้นหาในตัวของ Blogger",
+      "inLanguage": "th",
+      "totalTime": "PT2M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "บัญชี Blogger" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "เพิ่มบล็อกช่องค้นหา", "text": "ลากบล็อก ‘ช่องค้นหา’ จากคลังเข้ามาในหน้า", "url": "https://www.blogkub.com/learn/search#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "ตั้งหัวข้อและ placeholder", "text": "ใส่หัวข้อ (เว้นว่างเพื่อซ่อน) และข้อความ placeholder ในช่อง เช่น ‘ค้นหาในบล็อก…’", "url": "https://www.blogkub.com/learn/search#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Export XML และอัปโหลด", "text": "กด Export XML แล้วอัปโหลดเข้า Blogger ผ่าน ธีม → กู้คืน/สำรอง", "url": "https://www.blogkub.com/learn/search#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "ทดสอบการค้นหา", "text": "พิมพ์คำค้นในช่องแล้วกดค้นหา ยืนยันว่าไปยังหน้าผลการค้นหาของ Blogger และแสดงบทความที่ตรงคำค้น", "url": "https://www.blogkub.com/learn/search#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/search.png","width":1280,"height":394},
+      "mainEntityOfPage": "https://www.blogkub.com/learn/search",
+      "headline": "วิธีทำช่องค้นหา (Search Box) ในบล็อก Blogger",
+      "description": "คู่มือละเอียดการเพิ่มช่องค้นหาบทความในธีม Blogger ด้วย BlogKub",
+      "inLanguage": "th", "datePublished": "2026-07-16", "dateModified": "2026-07-16",
+      "author": { "@id": "https://www.blogkub.com/#org" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "ช่องค้นหาใช้ระบบอะไร?", "acceptedAnswer": { "@type": "Answer", "text": "ใช้ระบบค้นหาในตัวของ Blogger เมื่อผู้อ่านพิมพ์คำค้นและกดค้นหา จะไปยังหน้าผลการค้นหาของ Blogger (/search) ที่แสดงบทความในเว็บของคุณที่ตรงกับคำค้น ทำงานได้ทันทีโดยไม่ต้องต่อบริการภายนอกหรือใส่คีย์ใด ๆ" } },
+        { "@type": "Question", "name": "ปรับหน้าตาช่องค้นหาได้ไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ได้ ตั้งหัวข้อเหนือช่องได้ (เว้นว่างเพื่อซ่อนหัวข้อ) และตั้งข้อความ placeholder ในช่อง เช่น ‘ค้นหาในบล็อก…’ ช่องใช้สีและมุมโค้งของธีม จึงกลมกลืนกับดีไซน์เว็บ" } },
+        { "@type": "Question", "name": "ช่องค้นหาต่างจากค้นหาบน Google อย่างไร?", "acceptedAnswer": { "@type": "Answer", "text": "ช่องค้นหาในเว็บค้นเฉพาะบทความในบล็อกของคุณผ่านระบบของ Blogger ส่วนการค้นบน Google ค้นทั้งอินเทอร์เน็ต ช่องในเว็บช่วยให้ผู้อ่านที่อยู่บนเว็บอยู่แล้วหาบทความเก่าหรือหัวข้อที่สนใจได้เร็วโดยไม่ต้องออกไปที่ Google" } },
+        { "@type": "Question", "name": "ควรวางช่องค้นหาตรงไหน?", "acceptedAnswer": { "@type": "Answer", "text": "จุดที่นิยมคือส่วนหัว ไซด์บาร์ หรือใกล้ส่วนท้าย เพราะเป็นที่ที่ผู้อ่านคาดหวังจะเจอ การวางในตำแหน่งมาตรฐานช่วยให้ผู้อ่านหาช่องค้นหาได้ทันทีเมื่อต้องการ" } },
+        { "@type": "Question", "name": "ช่องค้นหาช่วยเรื่อง SEO ไหม?", "acceptedAnswer": { "@type": "Answer", "text": "ช่วยทางอ้อมผ่านประสบการณ์ผู้ใช้ ช่องค้นหาทำให้ผู้อ่านหาเนื้อหาได้ง่ายและอยู่บนเว็บนานขึ้น เมื่อคนหาเจอสิ่งที่ต้องการก็มีแนวโน้มอ่านหลายบทความและกลับมาอีก ซึ่งเป็นสัญญาณคุณภาพที่ดีต่อเว็บโดยรวม" } }
+      ]
+    }
+  ]
+}
+</script>
+<style>
+  :root{--maxw:820px;--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2;--primary:#6366f1;--accent:#8b5cf6}
+  @media(prefers-color-scheme:dark){:root{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.09)}}
+  :root[data-theme="dark"]{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0f172a;--surface:#1e293b;--border:rgba(255,255,255,.09)}
+  :root[data-theme="light"]{--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--fg);line-height:1.75;font-family:'IBM Plex Sans Thai',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:17px;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:32px 20px 80px}
+  nav.crumb{font-size:13px;color:var(--muted);margin-bottom:22px}
+  nav.crumb a{color:var(--muted);text-decoration:none}
+  h1{font-size:clamp(26px,5vw,38px);line-height:1.2;letter-spacing:-.02em;margin:.2em 0 .5em;font-weight:800}
+  h2{font-size:clamp(20px,3.6vw,27px);line-height:1.28;margin:2em 0 .6em;font-weight:800;padding-bottom:.3em;border-bottom:2px solid var(--border)}
+  h3{font-size:19px;margin:1.5em 0 .4em;font-weight:700;color:var(--primary)}
+  p{margin:.7em 0}a{color:var(--primary)}
+  ul,ol{padding-left:1.3em;margin:.6em 0}li{margin:.4em 0}
+  .lead{font-size:19px;color:var(--fg-soft)}
+  .tldr{background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 12%,var(--surface)),var(--surface));border:1px solid var(--border);border-left:5px solid var(--primary);border-radius:14px;padding:18px 22px;margin:24px 0}
+  .tldr strong{color:var(--primary)}
+  .meta{font-size:13.5px;color:var(--muted);margin:6px 0 0}
+  .steps{counter-reset:s;list-style:none;padding:0}
+  .steps>li{counter-increment:s;position:relative;padding:14px 18px 14px 58px;background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:12px 0}
+  .steps>li::before{content:counter(s);position:absolute;left:16px;top:14px;width:30px;height:30px;border-radius:50%;background:var(--primary);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .steps>li strong{display:block;margin-bottom:2px}
+  details{background:var(--surface);border:1px solid var(--border);border-radius:12px;margin:10px 0;padding:2px 20px}
+  summary{cursor:pointer;font-weight:700;padding:14px 0;list-style:none;font-size:16.5px}
+  summary::-webkit-details-marker{display:none}
+  summary::before{content:"＋";color:var(--primary);font-weight:800;margin-right:10px}
+  details[open] summary::before{content:"－"}
+  details p{margin:0 0 16px;color:var(--fg-soft);font-size:15.5px}
+  .note{font-size:14.5px;color:var(--fg-soft);background:var(--surface);border-radius:10px;padding:13px 17px;margin:18px 0;border-left:4px solid var(--accent)}
+  code{background:var(--surface);border:1px solid var(--border);border-radius:5px;padding:1px 6px;font-size:14px}
+  hr{border:0;border-top:1px solid var(--border);margin:2.4em 0}
+</style>
+</head>
+<body>
+<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/">หน้าแรก</a> › <a href="https://www.blogkub.com/learn/">เรียนรู้</a> › <span>ช่องค้นหา (Search Box)</span></nav>
+<article>
+<h1>วิธีทำช่องค้นหา (Search Box) ในบล็อก Blogger</h1>
+<p class="lead">เมื่อบล็อกของคุณมีบทความมากขึ้น การให้ผู้อ่านหาสิ่งที่ต้องการเจอได้เร็วคือเรื่องสำคัญ ช่องค้นหาช่วยให้ผู้อ่านพิมพ์คำแล้วเจอบทความในเว็บได้ทันที บทความนี้สอนวิธีเพิ่มในธีม Blogger ด้วย BlogKub ที่ใช้ระบบค้นหาในตัวของ Blogger ทำงานทันทีโดยไม่ต้องต่อบริการนอก พร้อมวิธีตั้งค่าและแก้ปัญหา</p>
+<p class="meta">อัปเดต 16 กรกฎาคม 2026 · อ่านประมาณ 8 นาที · ระดับ: เริ่มต้น</p>
+
+<div class="tldr"><p><strong>สรุปสั้น:</strong> เพิ่มบล็อก <strong>ช่องค้นหา</strong> ใน BlogKub ตั้งหัวข้อ (เว้นว่างเพื่อซ่อน) และ placeholder แล้ว Export XML ไปอัปโหลด Blogger จะได้ช่องค้นหาที่ใช้ <strong>ระบบค้นหาในตัวของ Blogger</strong> เมื่อผู้อ่านพิมพ์คำและกดค้นหา จะไปยังหน้าผล <code>/search</code> ที่แสดงบทความในเว็บที่ตรงคำค้น ทำงานทันที <strong>ไม่ต้องต่อบริการภายนอกหรือใส่คีย์</strong></p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/search.png" aria-label="ดูรูป ช่องค้นหา (Search Box) ในบล็อก ขนาดเต็ม">
+    <img alt="ช่องค้นหาบทความในเว็บ Blogger พร้อมหัวข้อและปุ่มค้นหา ใช้ระบบค้นหาในตัวของ Blogger" title="ช่องค้นหา (Search Box) ในบล็อก" src="https://www.blogkub.com/learn/images/search.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1280" data-original-height="394" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">ช่องค้นหาบทความในเว็บ ตั้งหัวข้อและ placeholder ได้ ใช้ระบบค้นหาในตัวของ Blogger ทำงานทันที</figcaption>
+</figure>
+
+
+<h2>ทำไมบล็อกถึงต้องมีช่องค้นหา</h2>
+<p><strong>ช่องค้นหา (Search Box) คือช่องให้ผู้อ่านพิมพ์คำค้นเพื่อหาบทความในเว็บของคุณ</strong> เมื่อบล็อกยังเล็กและมีไม่กี่บทความ ผู้อ่านอาจเลื่อนดูทั้งหมดได้ แต่พอเนื้อหาสะสมมากขึ้นเป็นสิบหรือร้อยบทความ การหาเรื่องที่ต้องการโดยไม่มีช่องค้นหาก็กลายเป็นเรื่องยากและน่าหงุดหงิด</p>
+<p>ช่องค้นหาแก้ปัญหานี้ด้วยการให้ผู้อ่าน “ไปที่สิ่งที่ต้องการโดยตรง” แทนที่จะต้องไล่ดูเมนูหรือเลื่อนหน้ายาว ๆ ผู้อ่านที่จำได้ว่าคุณเคยเขียนเรื่องหนึ่ง หรืออยากหาข้อมูลเฉพาะ ก็พิมพ์คำค้นแล้วเจอทันที นี่คือประสบการณ์ที่ผู้ใช้เว็บยุคปัจจุบันคาดหวัง เพราะเราคุ้นเคยกับการค้นหาในทุกแพลตฟอร์ม การไม่มีช่องค้นหาในเว็บที่มีเนื้อหาเยอะจึงเหมือนห้องสมุดที่ไม่มีระบบสืบค้น</p>
+
+<h2>ใช้ระบบค้นหาในตัวของ Blogger: ข้อดีของความเรียบง่าย</h2>
+<p>ช่องค้นหาของ BlogKub ใช้ <strong>ระบบค้นหาในตัวของ Blogger</strong> ซึ่งเป็นข้อได้เปรียบสำคัญ เพราะมันทำงานได้ทันทีโดยไม่ต้องตั้งค่าอะไรซับซ้อน ไม่ต้องสมัครบริการค้นหาภายนอก ไม่ต้องใส่ API key และไม่ต้องรอให้เครื่องมือค้นหาจัดทำดัชนี เมื่อผู้อ่านพิมพ์คำค้นและกดค้นหา ระบบจะพาไปยังหน้าผลการค้นหาของ Blogger (URL <code>/search</code>) ที่แสดงบทความในเว็บของคุณที่ตรงกับคำค้น</p>
+<p>ความเรียบง่ายนี้สอดคล้องกับปรัชญาของ BlogKub ที่ให้ทุกอย่างทำงานในตัวโดยไม่พึ่งพาบริการภายนอกที่อาจล่มหรือเปลี่ยนเงื่อนไข ช่องค้นหาจึงเป็นฟีเจอร์ที่ “ติดตั้งแล้วใช้ได้เลย” เชื่อถือได้ และไม่เพิ่มภาระการดูแล เหมาะกับบล็อกเกอร์ที่อยากได้ฟังก์ชันครบโดยไม่ต้องยุ่งกับเรื่องเทคนิคมาก</p>
+
+<h2 id="step1">วิธีเพิ่มช่องค้นหาทีละขั้น</h2>
+<ol class="steps">
+  <li><strong>เพิ่มบล็อกช่องค้นหา</strong> เปิดคลังบล็อกด้านซ้าย แล้วลากบล็อก “ช่องค้นหา” เข้ามาในตำแหน่งที่ต้องการ เช่น ส่วนหัว ไซด์บาร์ หรือใกล้ส่วนท้าย</li>
+  <li id="step2"><strong>ตั้งหัวข้อและ placeholder</strong> ใส่หัวข้อเหนือช่องหากต้องการ (เว้นว่างเพื่อซ่อนหัวข้อ) และตั้งข้อความ placeholder ที่แสดงในช่อง เช่น “ค้นหาในบล็อก…” เพื่อบอกผู้อ่านว่าช่องนี้ทำอะไร</li>
+  <li id="step3"><strong>Export XML และอัปโหลด</strong> กด Export แล้วนำไฟล์ไปที่ blogger.com → ธีม → เมนูสามจุด → กู้คืน/สำรอง → เลือกไฟล์ XML</li>
+  <li id="step4"><strong>ทดสอบการค้นหา</strong> เปิดเว็บจริง พิมพ์คำค้นในช่องแล้วกดค้นหา ยืนยันว่าไปยังหน้าผลการค้นหาของ Blogger และแสดงบทความที่ตรงกับคำค้น</li>
+</ol>
+
+<h2>placeholder ที่ดีช่วยชี้นำผู้อ่าน</h2>
+<p>ข้อความ placeholder ที่แสดงจาง ๆ ในช่องค้นหาดูเหมือนเรื่องเล็ก แต่มีบทบาทในการชี้นำผู้อ่าน แทนที่จะปล่อยช่องว่างเปล่า การเขียน placeholder ที่ชัดเจนช่วยบอกว่าช่องนี้ใช้ทำอะไรและค้นอะไรได้ เช่น “ค้นหาในบล็อก…” ตรงไปตรงมา หรือถ้าบล็อกของคุณมีธีมเฉพาะก็ปรับให้สอดคล้อง เช่น “ค้นหาสูตรอาหาร…” สำหรับบล็อกอาหาร</p>
+<p>placeholder ที่ดีลดความลังเลและกระตุ้นให้ผู้อ่านลองใช้ช่องค้นหา ในทางกลับกัน ช่องว่างที่ไม่มีคำใบ้อาจทำให้บางคนไม่แน่ใจว่าค้นได้แค่ไหน การใส่ใจรายละเอียดเล็ก ๆ แบบนี้คือสิ่งที่ทำให้ประสบการณ์การใช้เว็บราบรื่นขึ้นทีละนิด</p>
+
+<h2>วางช่องค้นหาตรงไหนให้ผู้อ่านหาเจอ</h2>
+<p>ตำแหน่งของช่องค้นหาควรเป็นที่ที่ผู้อ่านคาดหวังจะเจอ เพราะคนมีความคุ้นเคยกับตำแหน่งมาตรฐานจากเว็บทั่วไป</p>
+<ul>
+  <li><strong>ส่วนหัว (header):</strong> เป็นตำแหน่งที่คนมองหาช่องค้นหามากที่สุด เพราะอยู่บนสุดและเห็นตลอด เหมาะกับเว็บที่การค้นหาเป็นฟังก์ชันสำคัญ</li>
+  <li><strong>ไซด์บาร์ (sidebar):</strong> เหมาะกับเลย์เอาต์ที่มีไซด์บาร์อยู่แล้ว วางช่องค้นหาไว้บนสุดของไซด์บาร์เพื่อให้เห็นง่าย ใช้คู่กับ<a href="/learn/sidebar">ไซด์บาร์</a>ได้ดี</li>
+  <li><strong>ใกล้ส่วนท้าย:</strong> สำหรับผู้อ่านที่เลื่อนลงมาจนสุดแล้วยังไม่เจอสิ่งที่ต้องการ ช่องค้นหาท้ายหน้าเป็นทางเลือกให้เขาค้นต่อ</li>
+</ul>
+<p>เลือกตำแหน่งตามความสำคัญของการค้นหาในเว็บของคุณ ถ้าบล็อกมีเนื้อหาเยอะและคนมักมาหาเรื่องเฉพาะ การวางในส่วนหัวย่อมสะดวกที่สุด แต่ถ้าเป็นฟังก์ชันเสริม ไซด์บาร์หรือส่วนท้ายก็เพียงพอ</p>
+
+<h2>ช่องค้นหากับประสบการณ์และการอยู่บนเว็บ</h2>
+<p>ช่องค้นหาส่งผลดีต่อประสบการณ์ผู้ใช้อย่างชัดเจน เพราะมันลดแรงเสียดทานในการหาเนื้อหา ผู้อ่านที่หาสิ่งที่ต้องการเจอเร็วย่อมพอใจและมีแนวโน้มอยู่บนเว็บนานขึ้น อ่านหลายบทความ และกลับมาอีกเมื่อต้องการข้อมูล ตรงกันข้าม ผู้อ่านที่หาไม่เจอมักออกไปหาที่อื่นและอาจไม่กลับมา</p>
+<p>แม้ช่องค้นหาจะไม่ใช่ปัจจัยจัดอันดับโดยตรง แต่พฤติกรรมเชิงบวกที่มันสร้าง เช่น การอยู่บนเว็บนานขึ้นและการอ่านหลายหน้า ล้วนเป็นสัญญาณคุณภาพทางอ้อมที่ดีต่อเว็บ เมื่อใช้ร่วมกับการนำทางที่ดีอื่น ๆ เช่น<a href="/learn/breadcrumb">เบรดครัมบ์</a>ที่บอกโครงสร้างเว็บ และ<a href="/learn/related">บทความที่เกี่ยวข้อง</a>ที่แนะนำเนื้อหาใกล้เคียง ช่องค้นหาก็เป็นอีกชิ้นส่วนที่ทำให้ระบบนำทางในเว็บของคุณสมบูรณ์</p>
+
+<h2>ข้อจำกัดที่ควรเข้าใจ</h2>
+<p>เพราะช่องค้นหาใช้ระบบในตัวของ Blogger ผลการค้นหาจึงเป็นไปตามความสามารถของ Blogger ซึ่งเน้นการค้นหาคำในบทความ อาจไม่ฉลาดเท่าระบบค้นหาขั้นสูงที่มีการเรียงลำดับตามความเกี่ยวข้องซับซ้อน อย่างไรก็ตาม สำหรับบล็อกทั่วไป การค้นหาในตัวก็เพียงพอและเชื่อถือได้ ผู้อ่านที่พิมพ์คำค้นตรงกับหัวข้อหรือเนื้อหาก็มักเจอบทความที่ต้องการ</p>
+<p>ถ้าเว็บของคุณเติบโตมากและต้องการการค้นหาที่ซับซ้อนขึ้นในอนาคต ก็มีทางเลือกอื่นให้พิจารณา แต่สำหรับจุดเริ่มต้นและบล็อกส่วนใหญ่ ช่องค้นหาในตัวเป็นทางออกที่ลงตัวระหว่างฟังก์ชันที่ใช้ได้จริงกับความเรียบง่ายในการดูแล การเริ่มด้วยสิ่งที่ทำงานได้ทันทีย่อมดีกว่าการไม่มีช่องค้นหาเลย</p>
+
+<h2>ปัญหาที่พบบ่อยและวิธีแก้</h2>
+<h3>ค้นแล้วไม่เจอบทความที่รู้ว่ามี</h3>
+<p>ระบบค้นหาของ Blogger ค้นจากคำในบทความ ลองใช้คำค้นที่ปรากฏจริงในหัวข้อหรือเนื้อหา หากบทความใช้คำอื่นที่มีความหมายเดียวกัน อาจต้องลองคำที่ตรงกว่า การเขียนหัวข้อและเนื้อหาด้วยคำที่ผู้อ่านน่าจะค้นช่วยให้เจอง่ายขึ้น</p>
+<h3>กดค้นหาแล้วไม่ไปไหน</h3>
+<p>ตรวจว่าเพิ่มบล็อกช่องค้นหาและ Export ใหม่แล้ว และฟอร์มชี้ไปที่ <code>/search</code> ซึ่งเป็นหน้าผลการค้นหาของ Blogger ปกติระบบตั้งค่าให้ถูกต้องอยู่แล้ว</p>
+<h3>ช่องค้นหาดูไม่เข้ากับเว็บ</h3>
+<p>ช่องใช้สีและมุมโค้งของธีมอยู่แล้ว หากอยากปรับ ลองตั้งหัวข้อหรือปรับ placeholder ให้เข้ากับโทน และวางในตำแหน่งที่เหมาะกับเลย์เอาต์</p>
+
+<h2>แนวทางปฏิบัติที่ดี (Best Practices)</h2>
+<ul>
+  <li>เพิ่มช่องค้นหาเมื่อบล็อกเริ่มมีบทความมากพอที่ผู้อ่านจะต้องหา ไม่จำเป็นตั้งแต่มีไม่กี่บทความ</li>
+  <li>วางในตำแหน่งมาตรฐานที่ผู้อ่านคาดหวัง เช่น ส่วนหัวหรือไซด์บาร์</li>
+  <li>เขียน placeholder ที่ชัดเจนเพื่อชี้นำและกระตุ้นให้ผู้อ่านลองค้นหา</li>
+  <li>เขียนหัวข้อและเนื้อหาด้วยคำที่ผู้อ่านน่าจะค้น เพื่อให้ค้นเจอง่าย</li>
+  <li>ใช้ร่วมกับ<a href="/learn/sidebar">ไซด์บาร์</a>และ<a href="/learn/breadcrumb">เบรดครัมบ์</a>เพื่อระบบนำทางที่ครบถ้วน</li>
+</ul>
+
+<h2>สรุป</h2>
+<p>ช่องค้นหาเป็นฟีเจอร์นำทางพื้นฐานที่สำคัญมากขึ้นเรื่อย ๆ เมื่อบล็อกของคุณสะสมเนื้อหา เพราะมันช่วยให้ผู้อ่านไปยังสิ่งที่ต้องการได้โดยตรงแทนการเลื่อนหา ด้วย BlogKub คุณเพียงเพิ่มบล็อกช่องค้นหา ตั้งหัวข้อและ placeholder แล้ว Export ไปใช้ ช่องจะใช้ระบบค้นหาในตัวของ Blogger ที่ทำงานทันทีโดยไม่ต้องต่อบริการนอกหรือใส่คีย์ เมื่อวางในตำแหน่งที่ผู้อ่านคาดหวังและเขียน placeholder ที่ชัดเจน ช่องค้นหาจะช่วยลดแรงเสียดทานในการหาเนื้อหา เพิ่มความพึงพอใจ และทำให้ผู้อ่านอยู่บนเว็บของคุณนานขึ้น ซึ่งเป็นรากฐานของประสบการณ์ที่ดีและการเติบโตของเว็บ</p>
+
+<h2>คำถามที่พบบ่อย (FAQ)</h2>
+<details><summary>ช่องค้นหาใช้ระบบอะไร?</summary><p>ใช้ระบบค้นหาในตัวของ Blogger เมื่อผู้อ่านพิมพ์คำค้นและกดค้นหา จะไปยังหน้าผลการค้นหาของ Blogger (/search) ที่แสดงบทความในเว็บของคุณที่ตรงกับคำค้น ทำงานได้ทันทีโดยไม่ต้องต่อบริการภายนอกหรือใส่คีย์ใด ๆ</p></details>
+<details><summary>ปรับหน้าตาช่องค้นหาได้ไหม?</summary><p>ได้ ตั้งหัวข้อเหนือช่องได้ (เว้นว่างเพื่อซ่อนหัวข้อ) และตั้งข้อความ placeholder ในช่อง เช่น ‘ค้นหาในบล็อก…’ ช่องใช้สีและมุมโค้งของธีม จึงกลมกลืนกับดีไซน์เว็บ</p></details>
+<details><summary>ช่องค้นหาต่างจากค้นหาบน Google อย่างไร?</summary><p>ช่องค้นหาในเว็บค้นเฉพาะบทความในบล็อกของคุณผ่านระบบของ Blogger ส่วนการค้นบน Google ค้นทั้งอินเทอร์เน็ต ช่องในเว็บช่วยให้ผู้อ่านที่อยู่บนเว็บอยู่แล้วหาบทความเก่าหรือหัวข้อที่สนใจได้เร็วโดยไม่ต้องออกไปที่ Google</p></details>
+<details><summary>ควรวางช่องค้นหาตรงไหน?</summary><p>จุดที่นิยมคือส่วนหัว ไซด์บาร์ หรือใกล้ส่วนท้าย เพราะเป็นที่ที่ผู้อ่านคาดหวังจะเจอ การวางในตำแหน่งมาตรฐานช่วยให้ผู้อ่านหาช่องค้นหาได้ทันทีเมื่อต้องการ</p></details>
+<details><summary>ช่องค้นหาช่วยเรื่อง SEO ไหม?</summary><p>ช่วยทางอ้อมผ่านประสบการณ์ผู้ใช้ ช่องค้นหาทำให้ผู้อ่านหาเนื้อหาได้ง่ายและอยู่บนเว็บนานขึ้น เมื่อคนหาเจอสิ่งที่ต้องการก็มีแนวโน้มอ่านหลายบทความและกลับมาอีก ซึ่งเป็นสัญญาณคุณภาพที่ดีต่อเว็บโดยรวม</p></details>
+<hr>
+<p class="meta">บทความในชุดคู่มือฟีเจอร์ BlogKub · เนื้อหาและ Schema (HowTo + FAQPage) พร้อมเผยแพร่บน blogkub.com</p>
+</article>
+</main>
+</body>
+</html>
