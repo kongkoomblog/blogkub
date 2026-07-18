@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>บล็อก BlogKub — คู่มือ Blogger, SEO, AdSense และการทำเว็บให้ปัง 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/blog/">
+<meta name="description" content="บล็อก BlogKub รวมบทความเชิงลึกเรื่องการทำบล็อก Blogger ให้ประสบความสำเร็จ — SEO ติดหน้าแรก Google, หารายได้จาก AdSense, สร้างบล็อกฟรีตั้งแต่เริ่มต้น พร้อมเทคนิคลงมือทำได้จริง">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BlogKub">
+<meta property="og:title" content="บล็อก BlogKub — คู่มือ Blogger, SEO, AdSense และการทำเว็บให้ปัง">
+<meta property="og:description" content="บทความเชิงลึกเรื่องการทำบล็อก Blogger ให้ประสบความสำเร็จ ทั้ง SEO, AdSense และการเริ่มต้น">
+<meta property="og:url" content="https://www.blogkub.com/blog/">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/", "description": "เครื่องมือสร้างและตกแต่งธีม Blogger แบบ no-code ทำงานฝั่งผู้ใช้ 100%" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "th" },
+    { "@type": "Blog", "@id": "https://www.blogkub.com/blog/#blog", "url": "https://www.blogkub.com/blog/", "name": "บล็อก BlogKub", "description": "บทความเชิงลึกเรื่องการทำบล็อก Blogger SEO และ AdSense", "inLanguage": "th", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://www.blogkub.com/" },
+      { "@type": "ListItem", "position": 2, "name": "บล็อก" }
+    ]}
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--maxw:1000px;--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2;--primary:#6366f1;--accent:#8b5cf6;--grad:linear-gradient(120deg,#6366f1,#8b5cf6 50%,#ec4899);--font-d:'Space Grotesk','IBM Plex Sans Thai',sans-serif}
+  @media(prefers-color-scheme:dark){:root{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0b0d14;--surface:#12141f;--border:rgba(255,255,255,.09)}}
+  :root[data-theme="dark"]{--fg:#e2e8f0;--fg-soft:#b6c0d4;--muted:#8593ab;--bg:#0b0d14;--surface:#12141f;--border:rgba(255,255,255,.09)}
+  :root[data-theme="light"]{--fg:#1e2333;--fg-soft:#4a5063;--muted:#828aa0;--bg:#fff;--surface:#f7f8fc;--border:#e8eaf2}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);line-height:1.7;font-family:'IBM Plex Sans Thai',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+  header.top{border-bottom:1px solid var(--border);position:sticky;top:0;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(12px);z-index:10}
+  .bar{display:flex;align-items:center;gap:22px;height:62px}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-d);font-weight:700;font-size:17px}
+  .brand .lg{width:30px;height:30px;border-radius:8px;background:var(--grad);display:grid;place-items:center;overflow:hidden}
+  .brand .lg img{width:100%;height:100%;object-fit:cover}
+  .bar nav{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+  .bar nav a{padding:7px 12px;border-radius:8px;font-size:14.5px;color:var(--fg-soft);font-weight:500}
+  .bar nav a:hover,.bar nav a.on{color:var(--fg);background:var(--surface)}
+  .hero{padding:52px 0 26px;text-align:center}
+  .crumb{font-size:13px;color:var(--muted);margin-bottom:14px}
+  .hero h1{font-family:var(--font-d);font-size:clamp(28px,5vw,44px);font-weight:700;letter-spacing:-.02em;line-height:1.15}
+  .hero h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--fg-soft);font-size:18px;max-width:640px;margin:16px auto 0}
+  .feat{margin:34px 0}
+  .feat a.card{display:grid;grid-template-columns:1.1fr 1fr;gap:0;border:1px solid var(--border);border-radius:18px;overflow:hidden;background:var(--surface);transition:transform .18s,border-color .18s}
+  .feat a.card:hover{transform:translateY(-4px);border-color:var(--primary)}
+  .feat .thumb{min-height:220px;background:var(--grad);position:relative;display:grid;place-items:center;color:#fff;font-family:var(--font-d);font-weight:700;font-size:22px;text-align:center;padding:24px}
+  .feat .body{padding:26px 28px}
+  .feat .tag{display:inline-block;font-size:12px;font-weight:700;color:var(--primary);background:color-mix(in srgb,var(--primary) 14%,transparent);padding:3px 12px;border-radius:20px;margin-bottom:12px}
+  .feat h2{font-family:var(--font-d);font-size:23px;line-height:1.3;margin-bottom:10px;font-weight:700}
+  .feat p{color:var(--fg-soft);font-size:15px}
+  .feat .more{color:var(--primary);font-weight:700;font-size:14.5px;margin-top:14px;display:inline-block}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:18px;margin:18px 0 10px}
+  .grid a{display:block;border:1px solid var(--border);border-radius:16px;overflow:hidden;background:var(--surface);transition:transform .18s,border-color .18s}
+  .grid a:hover{transform:translateY(-4px);border-color:var(--primary)}
+  .grid .th{height:130px;background:var(--grad)}
+  .grid .th.b{background:linear-gradient(120deg,#0ea5e9,#6366f1)}
+  .grid .th.c{background:linear-gradient(120deg,#f59e0b,#ec4899)}
+  .grid .in{padding:18px 20px}
+  .grid .tag{font-size:11.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.05em}
+  .grid h3{font-family:var(--font-d);font-size:18px;line-height:1.35;margin:8px 0 6px}
+  .grid p{color:var(--muted);font-size:13.5px}
+  h2.sec{font-family:var(--font-d);font-size:24px;font-weight:700;margin:44px 0 6px}
+  .lead{color:var(--fg-soft);margin-bottom:6px}
+  .hubs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin:22px 0}
+  .hubs a{border:1px solid var(--border);border-radius:14px;padding:20px 22px;background:var(--surface);transition:.18s}
+  .hubs a:hover{border-color:var(--primary);transform:translateY(-3px)}
+  .hubs .ic{font-size:26px}
+  .hubs b{display:block;font-family:var(--font-d);font-size:17px;margin:10px 0 4px}
+  .hubs span{color:var(--muted);font-size:13.5px}
+  footer{border-top:1px solid var(--border);margin-top:56px;padding:30px 0;color:var(--muted);font-size:13.5px;text-align:center}
+  footer a{color:var(--fg-soft)}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap bar">
+    <a class="brand" href="/"><span class="lg"><img src="/android-chrome-192x192.png" alt="BlogKub"></span>BlogKub</a>
+    <nav>
+      <a href="/">หน้าแรก</a>
+      <a href="/#templates">เทมเพลต</a>
+      <a href="/builder.html">Builder</a>
+      <a href="/learn/">เอกสาร</a>
+      <a href="/blog/" class="on">บล็อก</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<section class="hero"><div class="wrap">
+  <nav class="crumb"><a href="/">หน้าแรก</a> › <span>บล็อก</span></nav>
+  <h1>บล็อก <span class="g">BlogKub</span></h1>
+  <p>รวมบทความเชิงลึกเรื่องการทำบล็อก Blogger ให้ประสบความสำเร็จจริง — ทำ SEO ให้ติดหน้าแรก Google, หารายได้จาก AdSense และเริ่มต้นสร้างบล็อกตั้งแต่ศูนย์ ทุกบทความลงมือทำตามได้ทันที</p>
+</div></section>
+
+<div class="wrap">
+
+  <div class="feat">
+    <a class="card" href="/blog/blogger-seo">
+      <div class="thumb">Blogger SEO<br>ติดหน้าแรก Google</div>
+      <div class="body">
+        <span class="tag">บทความแนะนำ</span>
+        <h2>Blogger SEO 2026: คู่มือทำบล็อกให้ติดหน้าแรก Google ฉบับลงมือทำจริง</h2>
+        <p>เจาะลึกทุกขั้นตอนการทำ SEO บน Blogger ตั้งแต่ตั้งค่าพื้นฐาน โครงสร้างเนื้อหา คีย์เวิร์ด Schema ไปจนถึง AEO/GEO สำหรับยุค AI พร้อมเช็กลิสต์ที่ทำตามได้ทันที</p>
+        <span class="more">อ่านบทความเต็ม →</span>
+      </div>
+    </a>
+  </div>
+
+  <h2 class="sec">บทความล่าสุด</h2>
+  <p class="lead">ความรู้เชิงลึกที่นำไปใช้ได้จริง สำหรับคนทำบล็อก Blogger ทุกระดับ</p>
+  <div class="grid">
+    <a href="/blog/blogger-seo">
+      <div class="th"></div>
+      <div class="in"><div class="tag">SEO</div><h3>Blogger SEO 2026: ทำบล็อกให้ติดหน้าแรก Google</h3><p>คู่มือ SEO ฉบับลงมือทำจริง ครบตั้งแต่พื้นฐานถึง AI Search</p></div>
+    </a>
+    <a href="/blog/blogger-adsense">
+      <div class="th c"></div>
+      <div class="in"><div class="tag">รายได้</div><h3>หารายได้จาก Blogger ด้วย Google AdSense ฉบับสมบูรณ์</h3><p>ตั้งแต่สมัครผ่าน วางโฆษณาให้ได้เงิน จนถึงเพิ่มรายได้อย่างยั่งยืน</p></div>
+    </a>
+    <a href="/blog/start-blogger-blog">
+      <div class="th b"></div>
+      <div class="in"><div class="tag">เริ่มต้น</div><h3>วิธีสร้างบล็อก Blogger ฟรี ตั้งแต่เริ่มต้นจนมีธีมสวย</h3><p>คู่มือมือใหม่ สร้างบล็อกฟรีทีละขั้น พร้อมแต่งธีมให้ดูมืออาชีพ</p></div>
+    </a>
+  </div>
+
+  <h2 class="sec">สำรวจ BlogKub เพิ่มเติม</h2>
+  <p class="lead">ไม่ว่าคุณจะเข้ามาจากทางไหน ก็มีทางไปต่อเสมอ</p>
+  <div class="hubs">
+    <a href="/builder.html"><div class="ic">🛠️</div><b>เปิด Builder</b><span>สร้างและแต่งธีม Blogger ของคุณฟรี ไม่ต้องเขียนโค้ด</span></a>
+    <a href="/learn/"><div class="ic">📚</div><b>ศูนย์เรียนรู้ (เอกสาร)</b><span>คู่มือฟีเจอร์กว่า 40 บทความ สอนใช้ทุกฟีเจอร์ทีละขั้น</span></a>
+    <a href="/#templates"><div class="ic">🎨</div><b>เทมเพลตทั้ง 8 แบบ</b><span>เลือกเทมเพลตที่เหมาะกับแนวเว็บของคุณเป็นจุดเริ่ม</span></a>
+    <a href="/about"><div class="ic">💡</div><b>เกี่ยวกับ BlogKub</b><span>รู้จักที่มา แนวคิด และสิ่งที่เราตั้งใจสร้าง</span></a>
+  </div>
+
+</div>
+</main>
+
+<footer><div class="wrap">
+  © 2026 BlogKub · <a href="/">หน้าแรก</a> · <a href="/learn/">เอกสาร</a> · <a href="/builder.html">Builder</a> · <a href="/about">เกี่ยวกับ</a> · <a href="/privacy">ความเป็นส่วนตัว</a> · <a href="/contact">ติดต่อ</a>
+</div></footer>
+
+<script>
+(function(){try{var t=localStorage.getItem('bxb_theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}}());
+</script>
+</body>
+</html>

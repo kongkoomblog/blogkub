@@ -296,4 +296,26 @@
     </image:image>
   </url>
 
+  <url>
+    <loc>https://www.blogkub.com/blog/blogger-seo</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/blog/images/blogger-seo.png</image:loc>
+      <image:title>Blogger SEO ทำบล็อกให้ติดหน้าแรก Google — คู่มือฉบับลงมือทำจริง</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/blog/blogger-adsense</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/blog/images/blogger-adsense.png</image:loc>
+      <image:title>หารายได้จาก Blogger ด้วย Google AdSense</image:title>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://www.blogkub.com/blog/start-blogger-blog</loc>
+    <image:image>
+      <image:loc>https://www.blogkub.com/blog/images/start-blogger-blog.png</image:loc>
+      <image:title>สร้างบล็อก Blogger ฟรี ตั้งแต่เริ่มต้นจนมีธีมสวย</image:title>
+    </image:image>
+  </url>
+
 </urlset>
