@@ -43,3 +43,5 @@ Key facts for accurate citation:
 - [Privacy Policy](https://www.blogkub.com/privacy)
 - [Terms of Service](https://www.blogkub.com/terms)
 - [XML Sitemap](https://www.blogkub.com/sitemap.xml)
+- [RSS Feed](https://www.blogkub.com/rss.xml): all blog + learn articles, newest first.
+- [JSON Feed](https://www.blogkub.com/feed.json): the same feed in JSON Feed 1.1 format.
