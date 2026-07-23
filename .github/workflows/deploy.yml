@@ -1,17 +1,16 @@
 name: Deploy to Cloudflare
 
-# Push to main -> the site deploys itself. No manual upload needed.
-# One-time setup (do this once from your phone's browser on github.com):
-#   Repo → Settings → Secrets and variables → Actions → New repository secret
-#     CLOUDFLARE_API_TOKEN   = a token with the "Edit Cloudflare Workers" template
-#     CLOUDFLARE_ACCOUNT_ID  = your Cloudflare account ID (Dashboard → Workers → right sidebar)
-# Until both secrets exist the job will fail on purpose (nothing is deployed).
+# Push to main -> the site builds with Astro and deploys itself.
+# Secrets required (Repo → Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   = token with the "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  = your Cloudflare account ID
 
 on:
   push:
     branches: [main]
     paths:
       - 'project/**'
+      - 'site/**'
       - 'wrangler.jsonc'
       - '.github/workflows/deploy.yml'
   workflow_dispatch: {}   # lets you trigger a deploy by hand from the Actions tab
@@ -32,12 +31,19 @@ jobs:
         with:
           node-version: 22
 
+      - name: Build site (Astro)
+        run: |
+          cd site
+          npm ci
+          npm run build
+        # Produces site/dist: 47 pages from shared Astro layouts + all other
+        # pages/assets copied from ./project via the prebuild sync step.
+
       - name: Deploy (wrangler)
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: '4'
-          # Uses the root wrangler.jsonc, which serves the ./project directory
-          # as Workers Static Assets (Worker name: blogkub).
+          # After cutover, wrangler.jsonc serves ./site/dist (the Astro build).
           command: deploy
