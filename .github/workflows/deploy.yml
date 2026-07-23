@@ -1,0 +1,43 @@
+name: Deploy to Cloudflare
+
+# Push to main -> the site deploys itself. No manual upload needed.
+# One-time setup (do this once from your phone's browser on github.com):
+#   Repo → Settings → Secrets and variables → Actions → New repository secret
+#     CLOUDFLARE_API_TOKEN   = a token with the "Edit Cloudflare Workers" template
+#     CLOUDFLARE_ACCOUNT_ID  = your Cloudflare account ID (Dashboard → Workers → right sidebar)
+# Until both secrets exist the job will fail on purpose (nothing is deployed).
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'project/**'
+      - 'wrangler.jsonc'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch: {}   # lets you trigger a deploy by hand from the Actions tab
+
+concurrency:
+  group: deploy-blogkub
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Deploy (wrangler)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          # Uses the root wrangler.jsonc, which serves the ./project directory
+          # as Workers Static Assets (Worker name: blogkub).
+          command: deploy
