@@ -1,20 +1,20 @@
 #!/usr/bin/env node
 /**
- * BlogKub — intelligent feed generator.
+ * BlogKub — full-content feed generator (postbuild).
  *
- * Single source of truth = the published HTML pages. This script scans every
- * blog + learn article, reads their canonical URL, title, description, image,
- * author and dates straight from the markup/JSON-LD, then regenerates:
- *   - /rss.xml      RSS 2.0 (with media + Atom self link)   — the primary feed
- *   - /feed.json    JSON Feed 1.1 (modern readers / apps / AI)
+ * Runs AFTER `astro build`. Reads the built article pages in ./dist,
+ * extracts each article's FULL content (links/images made absolute), and
+ * writes:
+ *   dist/rss.xml   RSS 2.0 with <content:encoded> = the whole article
+ *   dist/feed.json JSON Feed 1.1 with content_html = the whole article
  *
- * Re-run any time content changes:  node scripts/build-feeds.cjs
- * No manual feed editing — new articles appear automatically, newest first.
+ * Wired via the "postbuild" npm script, so CI keeps the feeds in sync with
+ * the deployed pages automatically.
  */
-const fs = require('fs');
-const path = require('path');
+import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
-const ROOT = path.resolve(__dirname, '..');
+const DIST = 'dist';
 const SITE = 'https://www.blogkub.com';
 const NOW = new Date();
 
@@ -24,34 +24,46 @@ const CHANNEL = {
   lang: 'th',
   author: 'ภัทร์พิศาล ดาทอง (เบน)',
   authorEmail: 'hello@blogkub.com',
-  image: `${SITE}/og-home.png`,
   logo: `${SITE}/android-chrome-512x512.png`,
 };
 
-function read(f) { return fs.readFileSync(f, 'utf8'); }
-function m1(re, s) { const m = s.match(re); return m ? m[1].trim() : null; }
-function xesc(s) { return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+const m1 = (re, s) => { const m = s.match(re); return m ? m[1].trim() : null; };
+const xesc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const toDate = (d) => new Date(`${d}T09:00:00+07:00`);
+const rfc822 = (dt) => dt.toUTCString().replace('GMT', '+0000');
 
-// Fixed publish time-of-day (Asia/Bangkok, +07:00) since pages carry a date only.
-function toDate(d) { return new Date(`${d}T09:00:00+07:00`); }
-function rfc822(dt) { return dt.toUTCString().replace('GMT', '+0000'); }
+// root-relative href="/x" / src="/x" -> absolute; leave //, http(s):, #, mailto: alone
+const absolutize = (html) => html.replace(/(href|src)="(\/[^/][^"]*)"/g, (_, a, p) => `${a}="${SITE}${p}"`);
+
+function articleContent(html) {
+  let m = html.match(/<article>([\s\S]*?)<\/article>/);
+  if (!m) return '';
+  let c = m[1];
+  c = c.replace(/<aside class="author-box"[\s\S]*?<\/aside>/g, ''); // drop redundant author box
+  c = c.replace(/<nav class="crumb"[\s\S]*?<\/nav>/g, '');           // drop breadcrumb if inside
+  return absolutize(c).trim();
+}
 
 function collect(dir, kind) {
   const out = [];
-  for (const name of fs.readdirSync(path.join(ROOT, dir))) {
+  const full = join(DIST, dir);
+  let files;
+  try { files = readdirSync(full); } catch { return out; }
+  for (const name of files) {
     if (!name.endsWith('.html') || name === 'index.html') continue;
-    const h = read(path.join(ROOT, dir, name));
+    const h = readFileSync(join(full, name), 'utf8');
     const robots = m1(/name="robots" content="([^"]+)"/, h) || '';
-    if (/noindex/.test(robots)) continue; // never feed pages we tell Google to skip
+    if (/noindex/.test(robots)) continue;
     const url = m1(/rel="canonical" href="([^"]+)"/, h);
     if (!url) continue;
-    const title = m1(/property="og:title" content="([^"]+)"/, h) || m1(/<title>(.*?)<\/title>/s, h);
-    const desc = m1(/name="description" content="([^"]+)"/, h) || '';
-    const image = m1(/property="og:image" content="([^"]+)"/, h);
     const pub = m1(/"datePublished":\s*"([^"]+)"/, h);
     const mod = m1(/"dateModified":\s*"([^"]+)"/, h) || pub;
     out.push({
-      url, title, desc, image, kind,
+      url, kind,
+      title: m1(/property="og:title" content="([^"]+)"/, h) || m1(/<title>([\s\S]*?)<\/title>/, h),
+      desc: m1(/name="description" content="([^"]+)"/, h) || '',
+      image: m1(/property="og:image" content="([^"]+)"/, h),
+      content: articleContent(h),
       published: pub ? toDate(pub) : NOW,
       modified: mod ? toDate(mod) : NOW,
       category: kind === 'blog' ? 'บล็อก' : 'คู่มือฟีเจอร์',
@@ -62,10 +74,9 @@ function collect(dir, kind) {
 
 let items = [...collect('blog', 'blog'), ...collect('learn', 'learn')];
 items.sort((a, b) => b.modified - a.modified);
-
 const lastBuild = items.length ? items[0].modified : NOW;
 
-/* ---------- RSS 2.0 ---------- */
+/* ---------- RSS 2.0 (full content) ---------- */
 const rssItems = items.map((it) => `    <item>
       <title>${xesc(it.title)}</title>
       <link>${xesc(it.url)}</link>
@@ -76,8 +87,7 @@ const rssItems = items.map((it) => `    <item>
       <description>${xesc(it.desc)}</description>
 ${it.image ? `      <enclosure url="${xesc(it.image)}" type="image/png" length="0"/>
       <media:content url="${xesc(it.image)}" medium="image" type="image/png"/>
-      <media:thumbnail url="${xesc(it.image)}"/>
-      <content:encoded><![CDATA[<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p><p>${it.desc}</p><p><a href="${it.url}">อ่านบทความเต็มบน BlogKub →</a></p>]]></content:encoded>` : `      <content:encoded><![CDATA[<p>${it.desc}</p><p><a href="${it.url}">อ่านบทความเต็มบน BlogKub →</a></p>]]></content:encoded>`}
+` : ''}      <content:encoded><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">อ่านบนเว็บ BlogKub →</a></p>]]></content:encoded>
     </item>`).join('\n');
 
 const rss = `<?xml version="1.0" encoding="UTF-8"?>
@@ -96,20 +106,16 @@ const rss = `<?xml version="1.0" encoding="UTF-8"?>
     <managingEditor>${CHANNEL.authorEmail} (${xesc(CHANNEL.author)})</managingEditor>
     <webMaster>${CHANNEL.authorEmail} (${xesc(CHANNEL.author)})</webMaster>
     <lastBuildDate>${rfc822(lastBuild)}</lastBuildDate>
-    <generator>BlogKub feed builder (scripts/build-feeds.cjs)</generator>
+    <generator>BlogKub feed builder</generator>
     <ttl>360</ttl>
-    <image>
-      <url>${CHANNEL.logo}</url>
-      <title>${xesc(CHANNEL.title)}</title>
-      <link>${SITE}/</link>
-    </image>
+    <image><url>${CHANNEL.logo}</url><title>${xesc(CHANNEL.title)}</title><link>${SITE}/</link></image>
 ${rssItems}
   </channel>
 </rss>
 `;
-fs.writeFileSync(path.join(ROOT, 'rss.xml'), rss);
+writeFileSync(join(DIST, 'rss.xml'), rss);
 
-/* ---------- JSON Feed 1.1 ---------- */
+/* ---------- JSON Feed 1.1 (full content) ---------- */
 const jsonFeed = {
   version: 'https://jsonfeed.org/version/1.1',
   title: CHANNEL.title,
@@ -125,7 +131,7 @@ const jsonFeed = {
     url: it.url,
     title: it.title,
     summary: it.desc,
-    content_html: `<p>${it.desc}</p><p><a href="${it.url}">อ่านบทความเต็มบน BlogKub →</a></p>`,
+    content_html: (it.image ? `<p><img src="${it.image}" alt="${it.title}"/></p>` : '') + it.content,
     image: it.image || undefined,
     banner_image: it.image || undefined,
     date_published: it.published.toISOString(),
@@ -134,7 +140,6 @@ const jsonFeed = {
     tags: [it.category],
   })),
 };
-fs.writeFileSync(path.join(ROOT, 'feed.json'), JSON.stringify(jsonFeed, null, 2) + '\n');
+writeFileSync(join(DIST, 'feed.json'), JSON.stringify(jsonFeed, null, 2) + '\n');
 
-console.log(`Feeds rebuilt: ${items.length} items (blog + learn), newest = ${items[0].title}`);
-console.log('  -> rss.xml, feed.json');
+console.log(`feeds: ${items.length} items with FULL content -> dist/rss.xml, dist/feed.json`);
