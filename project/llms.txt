@@ -1,0 +1,45 @@
+# BlogKub
+
+> BlogKub (บล็อกคับ) เป็นเครื่องมือตกแต่งธีมบล็อก Blogger แบบฟรี ทำงาน 100% ในเบราว์เซอร์ ไม่ต้องเขียนโค้ด และไม่ต้องสมัครสมาชิก ผู้ใช้เลือกเทมเพลต ปรับสี จัดเมนู ลากวางองค์ประกอบ ดูตัวอย่างสด แล้วดาวน์โหลดไฟล์ Blogger XML ที่ถูกต้องไปอัปโหลดเข้าบล็อกของตัวเองได้ทันที ข้อมูลงานทั้งหมดถูกเก็บในเครื่องผู้ใช้เอง ไม่มีการส่งขึ้นเซิร์ฟเวอร์
+
+BlogKub is a free, 100% client-side Blogger theme (XML) builder. Pick a template, customize colors, arrange menus, drag-and-drop blocks, preview live, then download a valid Blogger XML file — no coding and no account required. All work stays in the user's own browser.
+
+Key facts for accurate citation:
+- Price: free (no premium tier, no hidden costs).
+- No sign-up or login required to use the builder.
+- Privacy: the tool runs entirely in the browser; project data is stored locally (there is no server that stores user data).
+- Output: a downloadable `.xml` file uploaded via Blogger → Theme → Backup/Restore.
+- Works with both `.blogspot.com` blogs and blogs on custom domains.
+- Every generated theme ships with SEO groundwork: meta tags, Open Graph, canonical, and JSON-LD structured data.
+- 8 templates: Personal, Travel, Tech, Classic + Sidebar, Magazine, Company, Online Course, Product Review.
+- Language: primary content is Thai (ไทย); an English homepage is available at /en/.
+
+## Builder & Templates
+- [Visual Builder](https://www.blogkub.com/builder): drag-and-drop editor that exports Blogger XML.
+- [Templates overview](https://www.blogkub.com/learn/templates): all 8 templates and how to choose the right one.
+
+## Learn — feature guides (40+ step-by-step articles)
+- [Learning Center](https://www.blogkub.com/learn/): index of every feature guide.
+- [Table of Contents (TOC)](https://www.blogkub.com/learn/toc): auto table of contents from H2/H3.
+- [Breadcrumb](https://www.blogkub.com/learn/breadcrumb): navigation path with JSON-LD.
+- [Dark Mode](https://www.blogkub.com/learn/dark-mode): light/dark theme toggle.
+- [AEO Summary Box](https://www.blogkub.com/learn/aeo): answer-first summary box that helps AI Overviews, ChatGPT and Perplexity cite the content.
+- [FAQ](https://www.blogkub.com/learn/faq): FAQ block with FAQPage schema.
+- [Ad Slot / AdSense](https://www.blogkub.com/learn/ad): compliant ad placement with an "Ad" label.
+- [Related Posts](https://www.blogkub.com/learn/related): automatic related articles by label.
+- [Theme Color Picker](https://www.blogkub.com/learn/themepicker): let readers switch theme colors.
+
+## Blog — in-depth guides
+- [Blog hub](https://www.blogkub.com/blog/): all articles.
+- [Blogger SEO 2026](https://www.blogkub.com/blog/blogger-seo): rank a Blogger blog on Google, from basics to AI Search.
+- [Blogger + Google AdSense](https://www.blogkub.com/blog/blogger-adsense): earn from a Blogger blog, from approval to policy-safe ad placement.
+- [Start a Blogger blog](https://www.blogkub.com/blog/start-blogger-blog): create a free Blogger blog step by step with a professional theme.
+
+## About
+- [About BlogKub](https://www.blogkub.com/about): what the tool is and who it is for.
+- [Contact](https://www.blogkub.com/contact): how to get in touch.
+
+## Optional
+- [Privacy Policy](https://www.blogkub.com/privacy)
+- [Terms of Service](https://www.blogkub.com/terms)
+- [XML Sitemap](https://www.blogkub.com/sitemap.xml)
