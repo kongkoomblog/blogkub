@@ -1,3 +1,7 @@
+# Astro build assets are content-hashed -> safe to cache forever
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
 /assets/*
   Cache-Control: no-cache
 
