@@ -7,7 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "prebuild": "node scripts/sync-public.mjs",
-    "postbuild": "node scripts/build-feeds.mjs"
+    "postbuild": "node scripts/build-feeds.mjs && node scripts/build-sitemaps.mjs"
   },
   "dependencies": {
     "astro": "^7.1.3"
