@@ -1,0 +1,155 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a copy code button in Blogger code blocks 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/copycode">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/copycode">
+<meta name="description" content="How to add a copy code button to code blocks (&lt;pre&gt;) in a Blogger theme with BlogKub, so readers copy in one click without selecting by hand, with a 'Copied' state, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a copy code button in Blogger code blocks">
+<meta property="og:description" content="Let readers copy code in one click, no dragging to select the whole block.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/copycode.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/copycode.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Copy code button" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/copycode.png","width":1440,"height":556},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/copycode",
+      "headline": "How to build a copy code button in Blogger code blocks",
+      "description": "A detailed guide to adding a copy code button on <pre> blocks in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What code blocks does the copy button work with?", "acceptedAnswer": { "@type": "Answer", "text": "It works with code blocks written using the <pre> tag in the article content. The system scans every <pre> in the content and adds a copy button in the top-right automatically, and clicking it copies all the text in that block." } },
+        { "@type": "Question", "name": "Do I have to add a copy button to each block?", "acceptedAnswer": { "@type": "Answer", "text": "No. Add the copy code button block once, and the system adds a button to every code block in every article automatically. You just write code in <pre> tags as usual." } },
+        { "@type": "Question", "name": "What if a reader uses an old browser without the Clipboard API?", "acceptedAnswer": { "@type": "Answer", "text": "The system has a fallback. If the browser does not support the modern Clipboard API, it switches to the older copy method automatically, so most readers can copy even on older browsers." } },
+        { "@type": "Question", "name": "Does the copy button slow the site down?", "acceptedAnswer": { "@type": "Answer", "text": "Almost no effect, because it is a tiny reader-side script with no external file or heavy library, so it does not significantly affect speed or Core Web Vitals." } },
+        { "@type": "Question", "name": "How does the copy code button help SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Indirectly through user experience. When readers copy code conveniently, they tend to stay on the page longer and come back to read again, a good quality signal for tech blogs with many code samples." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Copy code button</span></nav>
+<article>
+<h1>How to build a copy code button in Blogger code blocks</h1>
+<p class="lead">For blogs with code samples, letting readers copy the whole block in one click is a small detail that makes a huge difference. This article teaches you how to add a copy code button to a Blogger theme with BlogKub that works automatically on every code block, along with the reasoning, settings, and common fixes.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>copy code button</strong> block in BlogKub, then Export the XML and upload it to Blogger. The system adds a "Copy" button in the top-right of every <code>&lt;pre&gt;</code> code block in your articles automatically. Readers copy the full code in one click, with a <strong>"Copied"</strong> state, and there is a fallback for older browsers.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/copycode.png" aria-label="View the copy code button on a pre block at full size">
+    <img alt="A code block in a Blogger article with a copy button in the top-right showing the 'Copied' state" title="The copy code button on a pre block" src="https://www.blogkub.com/learn/images/copycode.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="556" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A copy button in the top-right of a code block. One click copies all the code, with a "Copied" state.</figcaption>
+</figure>
+
+
+<h2>What a copy code button is, and why tech blogs cannot do without it</h2>
+<p><strong>A copy code button is a small button on the corner of a code block that, when a reader clicks it, copies all the code in that block to the clipboard at once</strong>, without dragging the mouse to select line by line, without fear of missing lines or accidentally selecting line numbers. Just click once and paste in your own program.</p>
+<p>For blogs that teach coding, share scripts, or write tech how-tos, this button is something readers expect to be there, because leading documentation sites and developer communities all have a copy button on every code block. When your blog has it, readers immediately feel the site looks professional and cares about their experience. Conversely, if they have to drag-select themselves on mobile, which is very hard, plenty of readers will give up and leave the page.</p>
+<p>Behaviorally, copying code is one of the most frequent actions a tech reader takes. Every time they fight with drag-selecting is friction that erodes their good feeling toward the site. A copy button is therefore a small investment with a high return in satisfaction and repeat reading.</p>
+
+<h2>How BlogKub's copy code button works</h2>
+<p>The highlight is that it <strong>works automatically on every code block without you touching the theme's code at all</strong>. When you add this block, the system embeds a tiny script that scans every <code>&lt;pre&gt;</code> tag in the article content and adds a "Copy" button with an icon in the top-right of each block. So you write articles and place code as usual, without adding a button per block.</p>
+<p>When a reader clicks the button, the system takes the text in the block (from the inner <code>&lt;code&gt;</code>, or the whole block if none) and writes it to the clipboard via the modern Clipboard API. The button then changes its text to "Copied" and changes color briefly to confirm success, before returning to normal on its own, giving clear feedback without disrupting the eye.</p>
+<p>Importantly, the system has a <strong>fallback</strong>. If the reader's browser does not support the modern Clipboard API, it switches to the older copy technique automatically, so most readers can copy even on older browsers or restricted environments.</p>
+
+<h2 id="step1">How to add the copy code button in BlogKub, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the copy code button block.</strong> Open the left block library, category "Article &amp; UX", and drag the "Copy code button" block in to enable the automatic button system across the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file to upload the new theme.</li>
+  <li id="step3"><strong>Put code in the post with a pre block.</strong> When writing an article, put your code in a <code>&lt;pre&gt;&lt;code&gt;...&lt;/code&gt;&lt;/pre&gt;</code> tag, and the system recognizes it as a code block and adds the copy button itself.</li>
+  <li id="step4"><strong>Test copying.</strong> Open the live article, click the copy button in the top-right of the code block, then paste it into a text editor to confirm you got every line with no odd characters.</li>
+</ol>
+<div class="note">Tip: if you already use a syntax highlighter, the copy button still works as long as the code is in a <code>&lt;pre&gt;</code> tag, because the system reads the real text in the block, not the colors or formatting.</div>
+
+<h2>Why code blocks must use the &lt;pre&gt; tag</h2>
+<p>The <code>&lt;pre&gt;</code> (preformatted text) tag is the web standard for showing text that must keep its spacing and line breaks as in the source, which is essential for code where indentation has meaning. The copy button system relies on this tag as the signal that "this is a code block", so it does not add a button in the wrong place on a normal paragraph.</p>
+<p>The benefit of using <code>&lt;pre&gt;</code> with <code>&lt;code&gt;</code> also includes semantic meaning, letting search engines and screen readers understand that this section is code, helping your content be friendly to both SEO and accessibility. When you set the structure correctly, the copy button works precisely and automatically.</p>
+<p>If you paste code into Blogger and it becomes one long line, check that the editor is in "HTML view" and the code is genuinely wrapped in <code>&lt;pre&gt;</code>, because the "compose" mode sometimes strips line breaks, distorting both the display and the copy.</p>
+
+<h2>Details that make the copy button look good and easy to use</h2>
+<p>A good button is not just "click and it copies", it must communicate its state so readers are confident. BlogKub's copy button has these small details designed in.</p>
+<ul>
+  <li><strong>Fixed top-right position.</strong> Placed where readers expect by tech-web convention, recognizable at a glance as a copy button.</li>
+  <li><strong>A document-pair icon.</strong> Uses the two-overlapping-sheets icon that is the universal symbol for copying, conveying meaning even without reading text.</li>
+  <li><strong>"Copied" feedback.</strong> On success, the button changes text and color briefly, then returns to normal on its own, giving confidence with no disruptive popup.</li>
+  <li><strong>Blends with the theme.</strong> The button uses your theme's colors and rounded corners, in both light and <a href="/en/learn/dark-mode">dark mode</a>, so it looks like part of the site, not a foreign element.</li>
+</ul>
+<p>These details may seem small, but together they make readers feel your site is refined and credible, a feeling that carries over to the credibility of the content too.</p>
+
+<h2>The copy code button and the mobile experience</h2>
+<p>On mobile, drag-selecting text in a horizontally scrolling code block is extremely frustrating. Readers often fail to select all of it, or accidentally scroll the screen instead. The copy button is therefore even more valuable on mobile than desktop, because it turns a near-impossible task into a single tap.</p>
+<p>Considering that most blog readers today come from mobile, having a copy button is not a gimmick but a fix for a real usability problem affecting many readers, reducing the mid-page exit rate of those who came to use the code.</p>
+
+<h2>The copy code button, SEO, and time on page</h2>
+<p>Even though the copy button is not a direct ranking factor, it has a valuable indirect effect on SEO through user-experience signals. When readers copy code conveniently, they tend to stay on the page longer, read to the end, and come back when they need the code again. These behaviors are quality signals search engines value.</p>
+<p>Beyond that, blogs with genuinely usable, easy-to-copy code samples tend to get shared and cited more, leading to more links and traffic naturally. Used with good content structure, such as a <a href="/en/learn/toc">table of contents</a> that helps readers jump to the code section they want, and an <a href="/en/learn/aeo">AEO</a> summary box that answers concisely, your site becomes friendly to both readers and search engines at once.</p>
+
+<h2>Examples of use in different kinds of blog</h2>
+<p>The copy code button is more broadly useful than you might think, not limited to coding blogs.</p>
+<ul>
+  <li><strong>Coding tutorial blogs:</strong> readers copy sample scripts to run or adapt at once, cutting steps and typing errors.</li>
+  <li><strong>Template and snippet blogs:</strong> sites giving away CSS, HTML, or various recipes, where the copy button makes them easy to use and raises the chance readers come back for code.</li>
+  <li><strong>Blogger/web technique blogs:</strong> articles recommending decoration or theme-fix code, where readers copy and paste precisely, reducing broken code from missing pieces.</li>
+  <li><strong>Command and config blogs:</strong> sites sharing command-line commands or config files, where copying it all correctly matters greatly, because one wrong character fails to run.</li>
+</ul>
+<p>The common thread is that readers want to "use the code", and the copy button helps them succeed smoothly, which adds value to your content in readers' eyes.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>Clicking copy gives incomplete code or odd characters</h3>
+<p>This usually happens because the code is not correctly in a <code>&lt;pre&gt;</code> tag, or there is nested formatting inserting special characters. Check in HTML view that the code is wrapped in <code>&lt;pre&gt;&lt;code&gt;</code> with no odd formatting tags in between.</p>
+<h3>The copy button does not appear</h3>
+<p>Check that you added the copy code button block in the theme and re-exported, then confirm the code block genuinely uses a <code>&lt;pre&gt;</code> tag, because the system only adds a button to <code>&lt;pre&gt;</code> blocks.</p>
+<h3>Clicking does not copy on some browsers</h3>
+<p>Normally the system switches to the fallback itself, but some restricted environments (such as a non-HTTPS page) may block clipboard access. Make sure your site is served over HTTPS, which Blogger already supports.</p>
+<h3>The button overlaps the first line of code</h3>
+<p>The button floats in the top-right of the block. If the first line is long enough to hit the button, readers can still scroll to read normally, but if you want, add a blank line at the top of the code for tidiness.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Always wrap code in <code>&lt;pre&gt;&lt;code&gt;</code> in HTML view, so the copy button and display are correct.</li>
+  <li>Test copying on both desktop and mobile, especially articles with multiple code blocks.</li>
+  <li>Place code that is genuinely usable once copied, with no special characters from web formatting mixed in.</li>
+  <li>Use it with <a href="/en/learn/anchorlink">anchor links</a> so readers can share a link straight to the section with the code they want.</li>
+  <li>For long articles with many code sections, add a <a href="/en/learn/toc">table of contents</a> to help readers jump to the relevant code block faster.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The copy code button is a small detail that instantly raises a tech blog's professionalism and usability. With BlogKub, you just add the copy code button block once and Export it, and the system adds a button to every <code>&lt;pre&gt;</code> code block in every article automatically. Readers copy in one click with a confirmation state, and there is a fallback for older browsers, reducing friction, raising satisfaction, and giving readers a reason to come back for code from your site, without you writing any theme code yourself.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>What code blocks does the copy button work with?</summary><p>It works with code blocks written using the &lt;pre&gt; tag in the article content. The system scans every &lt;pre&gt; in the content and adds a copy button in the top-right automatically, and clicking it copies all the text in that block.</p></details>
+<details><summary>Do I have to add a copy button to each block?</summary><p>No. Add the copy code button block once, and the system adds a button to every code block in every article automatically. You just write code in &lt;pre&gt; tags as usual.</p></details>
+<details><summary>What if a reader uses an old browser without the Clipboard API?</summary><p>The system has a fallback. If the browser does not support the modern Clipboard API, it switches to the older copy method automatically, so most readers can copy even on older browsers.</p></details>
+<details><summary>Does the copy button slow the site down?</summary><p>Almost no effect, because it is a tiny reader-side script with no external file or heavy library, so it does not significantly affect speed or Core Web Vitals.</p></details>
+<details><summary>How does the copy code button help SEO?</summary><p>Indirectly through user experience. When readers copy code conveniently, they tend to stay on the page longer and come back to read again, a good quality signal for tech blogs with many code samples.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/copycode">
+  <Fragment set:html={body} />
+</EnLayout>
