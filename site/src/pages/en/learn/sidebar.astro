@@ -1,0 +1,155 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add a Sidebar (content plus side column) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/sidebar">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/sidebar">
+<meta name="description" content="How to add a Sidebar to a Blogger theme with BlogKub: place the main content beside a side column, choose the left or right side, set the width, add search, categories, archive, and about the author, laid out automatically, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add a Sidebar (content plus side column) in Blogger">
+<meta property="og:description" content="Place content beside a side column, choose the side and width, add search, categories, archive, about.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/sidebar.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/sidebar.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Sidebar" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add a Sidebar (content plus side column) to a Blogger theme with BlogKub",
+      "description": "Steps to add a sidebar placed beside the main content, with search, categories, archive, and about the author",
+      "inLanguage": "en",
+      "totalTime": "PT4M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the Sidebar block", "text": "Drag the 'Sidebar Layout' block from the library near the post group (postgrid/postlist/featured)", "url": "https://www.blogkub.com/en/learn/sidebar#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Choose the side and width", "text": "Choose the sidebar on the left or right, and set the width, such as 280px", "url": "https://www.blogkub.com/en/learn/sidebar#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Choose the widgets in the sidebar", "text": "Enable the widgets you want, such as search, labels/categories, archive, and about the author", "url": "https://www.blogkub.com/en/learn/sidebar#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Export the XML and check the result", "text": "Click Export XML, upload it to Blogger, then check the sidebar sits beside the content correctly and collapses below on mobile", "url": "https://www.blogkub.com/en/learn/sidebar#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/sidebar.png","width":1800,"height":1086},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/sidebar",
+      "headline": "How to add a Sidebar (content plus side column) in Blogger",
+      "description": "A detailed guide to adding a sidebar in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where is the Sidebar placed, and do I place it myself?", "acceptedAnswer": { "@type": "Answer", "text": "You do not place it manually. Put the Sidebar block near the post group (postgrid/postlist/featured), and the system arranges the sidebar beside the main content automatically on Export XML. You only choose the left or right side and the width." } },
+        { "@type": "Question", "name": "What can I put in the sidebar?", "acceptedAnswer": { "@type": "Answer", "text": "There are widgets to enable, such as search, labels/categories, archive, and about the author (profile). Choose only what you want so the sidebar is useful without clutter." } },
+        { "@type": "Question", "name": "How does the sidebar show on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "On mobile with limited space, the sidebar collapses below the main content automatically, so the main content gets full width and is easy to read. Readers can still reach the sidebar widgets by scrolling down." } },
+        { "@type": "Question", "name": "Left or right side, which is better?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on the site style. A right sidebar is the classic, common choice and keeps content on the left following the reading flow, while a left sidebar feels like a navigation panel. Both work, so choose by design and page balance." } },
+        { "@type": "Question", "name": "What kind of blog is a sidebar good for?", "acceptedAnswer": { "@type": "Answer", "text": "It suits blogs with many posts and several categories, because the sidebar aids navigation with categories, archive, and search. Blogs focused on simplicity or long-form reading might choose a single-column layout to focus on the content." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Sidebar</span></nav>
+<article>
+<h1>How to add a Sidebar (content plus side column) in Blogger</h1>
+<p class="lead">A sidebar is a side column that places supporting elements like categories, search, and archive beside the main content. It is a classic layout that aids navigation in content-heavy blogs. This article teaches you how to add one to a Blogger theme with BlogKub, which lays it out beside the content automatically, letting you choose the side and width, with commonly used widgets.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Sidebar Layout</strong> block in BlogKub near the post group, choose the <strong>left/right</strong> side, set the <strong>width</strong>, and enable the widgets you want (<strong>search, categories/labels, archive, about the author</strong>). The system <strong>arranges the sidebar beside the main content automatically</strong> on Export, and <strong>collapses it below on mobile</strong> so the content gets full space.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/sidebar.png" aria-label="View the Sidebar content plus side column at full size">
+    <img alt="A Sidebar layout in a Blogger theme with article content on the left and a side column (search, categories, about the author) on the right" title="A Sidebar of content plus side column" src="https://www.blogkub.com/learn/images/sidebar.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1800" data-original-height="1086" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A sidebar layout: article content beside a side column with search, categories, and about the author, laid out automatically.</figcaption>
+</figure>
+
+
+<h2>What a sidebar is, and who it suits</h2>
+<p><strong>A sidebar is a vertical column placed beside the main content, used to show supporting elements such as search, categories, archive, and author information.</strong> It is a classic, familiar two-column layout where the main content takes up most of the space, while the sidebar is a narrow column that aids navigation and provides extra information.</p>
+<p>A sidebar suits blogs with many posts and several categories, because widgets like categories and archive help readers explore the content easily. Conversely, blogs focused on focused long-form reading, or a minimal design, might choose a single-column layout so the sidebar does not pull attention from the content. Choosing to use a sidebar therefore depends on your site's nature and goals.</p>
+
+<h2>Laid out automatically: you do not arrange the columns yourself</h2>
+<p>What makes BlogKub's sidebar easy to use is that <strong>the system lays it out automatically</strong>. You do not deal with building a two-column structure yourself. Just place the Sidebar block near the post group (such as postgrid, postlist, or featured), and on Export XML the system arranges the sidebar beside the main content on the side and width you set.</p>
+<p>This saves a lot of hassle, because building a two-column layout by hand in Blogger XML is complex and requires understanding section structure and CSS. BlogKub handling it means you get a correct, responsive sidebar layout just by choosing a few options, with no touching code at all.</p>
+
+<h2 id="step1">How to add the sidebar step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Sidebar block.</strong> Open the left block library and drag the "Sidebar Layout" block near the post group (postgrid/postlist/featured), so the system knows beside which content to place the sidebar.</li>
+  <li id="step2"><strong>Choose the side and width.</strong> Choose the sidebar on the left or right, and set the width, such as 280px, as suits your layout.</li>
+  <li id="step3"><strong>Choose the widgets in the sidebar.</strong> Enable the widgets you want, namely search, labels/categories, archive, and about the author. Choose only what benefits your site.</li>
+  <li id="step4"><strong>Export the XML and check the result.</strong> Click Export, upload it to Blogger, then check the sidebar sits beside the content correctly on desktop and collapses below the content on mobile.</li>
+</ol>
+
+<h2>The sidebar widgets and the benefit of each</h2>
+<p>A sidebar is valuable only when the widgets in it benefit readers. BlogKub has main widgets to enable.</p>
+<ul>
+  <li><strong>Search:</strong> lets readers search posts on the site from the sidebar, ideal for content-heavy sites. It uses the same idea as the <a href="/en/learn/search">search box</a> placed elsewhere.</li>
+  <li><strong>Labels/categories:</strong> show the blog's categories for readers to click into posts in a category of interest, aiding topic-based navigation.</li>
+  <li><strong>Archive:</strong> organizes posts by time period, letting readers revisit old posts by month/year, ideal for blogs that publish regularly.</li>
+  <li><strong>About the author:</strong> shows the author's profile, building connection and credibility (E-E-A-T), letting readers know who wrote it.</li>
+</ul>
+<p>The tip is to choose only the widgets your readers genuinely benefit from. A sidebar stuffed with everything until it runs long looks cluttered and diminishes the importance of each part. Having just the right widgets, arranged by importance, lets the sidebar do its job best.</p>
+
+<h2>The sidebar on mobile: collapses below automatically</h2>
+<p>The challenge of a two-column layout is that on mobile there is not enough room for two columns side by side. BlogKub solves this by <strong>collapsing the sidebar below the main content automatically on small screens</strong>, so the main content gets full width and is easy to read, while the sidebar widgets are still reachable when readers scroll down.</p>
+<p>This handling matters because most readers come from mobile. If the sidebar did not collapse and squeezed the content narrow, reading would be painful. The system doing the responsive work automatically means you get the benefit of a sidebar on desktop without losing the mobile reading experience. This is design that considers every device from the start.</p>
+
+<h2>Choose a balanced side and width</h2>
+<p>Choosing the sidebar's side affects the feel of the page. A <strong>right</strong> sidebar is the most common classic, because it keeps the main content on the left where the eye starts reading, while a <strong>left</strong> sidebar feels like a navigation panel before the content, ideal for sites that emphasize navigation. Both work, so choose by the design and balance you want.</p>
+<p>As for the width, around 280px is a sweet spot for a general sidebar. It is wide enough for widgets to show their content fully without feeling cramped, and not so wide that it steals space from the main content. Set too wide, and the main content gets squeezed and harder to read. Finding the balance between content space and the sidebar is the key to a good layout.</p>
+
+<h2>Sidebar vs single column: trends and choice</h2>
+<p>In recent years, many sites have shifted to a single-column layout focused on content, especially long-form reading blogs and minimal sites. The reason is that a single column helps readers focus on the content with no side distractions, and looks modern and clean. However, the sidebar is not obsolete. It still clearly benefits sites where navigation and content discovery matter, such as sites with hundreds of posts across several categories.</p>
+<p>The choice is therefore not right or wrong, but a matter of goals. If your site wants readers to explore many posts and navigate by category, a sidebar helps a lot. But if the goal is for readers to focus on a single article to the end, a single column may fit better. The advantage of BlogKub is that you can choose either and switch as you like. Try which fits your readers and content best.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The sidebar is not beside the content</h3>
+<p>Check that you placed the Sidebar block near the post group (postgrid/postlist/featured), because the system uses this position to arrange the sidebar beside the content. If placed far from the post group, the layout may not be as expected.</p>
+<h3>The main content is too narrow</h3>
+<p>You may have set the sidebar width too high. Try reducing the width (such as back to 280px) to return space to the main content.</p>
+<h3>The sidebar widgets do not show</h3>
+<p>Check that you enabled the widgets you want and Exported again. Some widgets, such as archive, show only when there are enough posts to group by time.</p>
+<h3>The sidebar looks cluttered on mobile</h3>
+<p>Because the sidebar collapses below, having many widgets makes the lower section long. Try reducing the widgets to only the essential ones so mobile stays compact.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Always place the Sidebar block near the post group, so the system arranges it beside the content correctly.</li>
+  <li>Choose only widgets readers genuinely benefit from, do not stuff everything until the sidebar is long and cluttered.</li>
+  <li>Set a balanced width (around 280px) so it does not squeeze the main content.</li>
+  <li>Consider whether your site suits a sidebar or a single column, by the nature of the content.</li>
+  <li>Use the search and category widgets together with <a href="/en/learn/breadcrumb">breadcrumbs</a> for a complete navigation system.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>A sidebar is a classic layout that aids navigation in content-heavy blogs by placing supporting elements like search, categories, archive, and author information beside the main content. With BlogKub you just place the Sidebar block near the post group, choose the left/right side, set the width, and enable the widgets you want, and the system arranges the sidebar beside the content automatically on Export and collapses it below on mobile to preserve the reading experience, with no touching code at all. When you choose genuinely useful widgets and set a balanced width, the sidebar helps readers explore your content more easily, which is especially suited to blogs that have accumulated many posts.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Where is the Sidebar placed, and do I place it myself?</summary><p>You do not place it manually. Put the Sidebar block near the post group (postgrid/postlist/featured), and the system arranges the sidebar beside the main content automatically on Export XML. You only choose the left or right side and the width.</p></details>
+<details><summary>What can I put in the sidebar?</summary><p>There are widgets to enable, such as search, labels/categories, archive, and about the author (profile). Choose only what you want so the sidebar is useful without clutter.</p></details>
+<details><summary>How does the sidebar show on mobile?</summary><p>On mobile with limited space, the sidebar collapses below the main content automatically, so the main content gets full width and is easy to read. Readers can still reach the sidebar widgets by scrolling down.</p></details>
+<details><summary>Left or right side, which is better?</summary><p>It depends on the site style. A right sidebar is the classic, common choice and keeps content on the left following the reading flow, while a left sidebar feels like a navigation panel. Both work, so choose by design and page balance.</p></details>
+<details><summary>What kind of blog is a sidebar good for?</summary><p>It suits blogs with many posts and several categories, because the sidebar aids navigation with categories, archive, and search. Blogs focused on simplicity or long-form reading might choose a single-column layout to focus on the content.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/sidebar">
+  <Fragment set:html={body} />
+</EnLayout>

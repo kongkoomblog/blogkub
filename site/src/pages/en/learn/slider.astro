@@ -1,0 +1,169 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add an image slider/gallery with captions in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/slider">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/slider">
+<meta name="description" content="How to add an image slider/gallery with captions to a Blogger theme with BlogKub: navigate images with buttons and position dots, supports swipe on mobile, placed in a post with the .bk-slider class, plus usage and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add an image slider/gallery with captions in Blogger">
+<meta property="og:description" content="A scrollable image slider with captions, supports swipe on mobile, easy to place in a post.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/slider.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/slider.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Image slider/gallery" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add an image slider/gallery with captions to a Blogger theme with BlogKub",
+      "description": "Steps to add a scrollable image slider with captions in the article content",
+      "inLanguage": "en",
+      "totalTime": "PT4M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the image slider block", "text": "Drag the 'Image slider/gallery' block from the library into the page to embed the slider styles and script in the theme", "url": "https://www.blogkub.com/en/learn/slider#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Export the XML and upload", "text": "Click Export XML, then upload it to Blogger via Theme, then Backup/Restore", "url": "https://www.blogkub.com/en/learn/slider#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Place the slider in a post", "text": "In the post (HTML view) place a div with class bk-slider containing several figures, each with an img and a figcaption for the caption", "url": "https://www.blogkub.com/en/learn/slider#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Test the navigation", "text": "Open the article, click the previous/next buttons, tap the position dots, and try swiping on mobile to confirm the navigation", "url": "https://www.blogkub.com/en/learn/slider#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/slider.png","width":1360,"height":1088},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/slider",
+      "headline": "How to add an image slider/gallery with captions in Blogger",
+      "description": "A detailed guide to adding an image slider with captions in the article content of a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do I use the image slider?", "acceptedAnswer": { "@type": "Answer", "text": "In the post's HTML view, place a div with class bk-slider, then add several figure elements inside, each with an img and a figcaption for the caption. The system adds navigation buttons, position dots, and swipe support automatically." } },
+        { "@type": "Question", "name": "Does the slider support swipe on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The slider uses scroll-snap scrolling, so you can swipe to move images smoothly on mobile, with previous/next buttons and position dots for desktop users." } },
+        { "@type": "Question", "name": "Can I add captions under the images?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add text in the figcaption of each figure. The caption shows over the bottom of the image on a dark gradient bar, easy to read and not covering the main image." } },
+        { "@type": "Question", "name": "Does the slider slow the site down?", "acceptedAnswer": { "@type": "Answer", "text": "The impact is small because the slider is CSS and a small script, using no heavy library. However, you should resize image files suitably before uploading, because having many images affects loading more than the slider itself." } },
+        { "@type": "Question", "name": "How is the slider different from a Lightbox?", "acceptedAnswer": { "@type": "Answer", "text": "A slider is a gallery to scroll through several images in one space in the content, while a Lightbox is clicking an image to expand it full screen. The two can be used together, such as scrolling through a slider and clicking to expand an image of interest." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Image slider/gallery</span></nav>
+<article>
+<h1>How to add an image slider/gallery with captions in Blogger articles</h1>
+<p class="lead">Some things are told better with several images than with text, but placing images in a long row makes an article stretch and scroll on and on. An image slider/gallery solves this by gathering several images into one scrollable space. This article teaches you how to add one to a Blogger theme with BlogKub, with captions, navigation buttons, position dots, and swipe support on mobile.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>image slider/gallery</strong> block in BlogKub, then Export the XML and upload it to Blogger. Then in the post (HTML view), place a <code>&lt;div class="bk-slider"&gt;</code> containing several <code>&lt;figure&gt;</code> elements, each with an <code>&lt;img&gt;</code> and a <code>&lt;figcaption&gt;</code>. The system adds <strong>navigation buttons, position dots, and swipe support (scroll-snap)</strong> automatically, saving space and telling a story with images beautifully.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/slider.png" aria-label="View the image slider/gallery with captions at full size">
+    <img alt="An image slider/gallery in a Blogger article with previous/next buttons, position dots, and a caption under the image" title="An image slider/gallery with captions" src="https://www.blogkub.com/learn/images/slider.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1360" data-original-height="1088" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A scrollable image slider with previous/next buttons, position dots, and a caption under the image on a gradient bar.</figcaption>
+</figure>
+
+
+<h2>What an image slider/gallery is, and what it solves</h2>
+<p><strong>An image slider is a box that shows several images in one space, showing one at a time and letting readers scroll to the next with buttons, swipe, or by tapping the position dots.</strong> Instead of placing 6 or 7 images in a row until the article stretches like a kite tail, a slider gathers them all into one compact frame. Interested readers scroll through all of them, while those not interested can scroll past quickly.</p>
+<p>This solves the space problem in articles with many images, such as an accommodation review that wants to show several angles, or a travel article with many beautiful images of one place. Using a slider keeps the content concise, smooth to read, and tidy, while still presenting all the images.</p>
+
+<h2>How BlogKub's slider works</h2>
+<p>When you add this block, the system embeds the slider's styles and script in the theme. When you place the slider structure in a post, the system makes it fully functional with these elements.</p>
+<ul>
+  <li><strong>Scroll-snap scrolling:</strong> each image "snaps" into place when scrolled, so it does not stop halfway, and swiping on mobile is smooth.</li>
+  <li><strong>Previous/next buttons:</strong> round buttons on both sides for desktop users who want to navigate by clicking.</li>
+  <li><strong>Position dots:</strong> dots below show which image out of the total you are viewing, and tapping jumps to that image. The current image's dot stretches into a bar to stand out.</li>
+  <li><strong>Caption under the image:</strong> the text in the figcaption shows over the bottom of the image on a dark gradient bar, easy to read without covering the main image.</li>
+</ul>
+<p>All of this works together while you just place a simple HTML structure, and the system handles the interactive part for you.</p>
+
+<h2 id="step1">How to add and use the image slider step by step</h2>
+<ol class="steps">
+  <li><strong>Add the image slider block.</strong> Open the left block library, the "Article &amp; UX" category, and drag the "Image slider/gallery" block in, to embed the slider styles and script in the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Place the slider in a post.</strong> In HTML view, place a <code>&lt;div class="bk-slider"&gt;</code>, then add several <code>&lt;figure&gt;&lt;img src="..."&gt;&lt;figcaption&gt;caption&lt;/figcaption&gt;&lt;/figure&gt;</code> in a row for as many images as you want.</li>
+  <li id="step4"><strong>Test the navigation.</strong> Open a live article, click the previous/next buttons, tap the position dots, and try swiping on mobile, to confirm it scrolls smoothly and the captions show correctly.</li>
+</ol>
+<div class="note">Tip: use images with similar aspect ratios (such as all 16:10) so the slider looks tidy. The system already sets a consistent aspect ratio, but source images with similar ratios get cropped the least.</div>
+
+<h2>Captions: adding context to images</h2>
+<p>An image with a caption is more powerful than a bare image, because the caption tells readers what they are looking at, where, or what is interesting. In BlogKub's slider, the caption sits over the bottom of the image on a gradient from transparent to dark, so the white text reads clearly whether the image behind is bright or dark.</p>
+<p>Beyond helping readers, captions and image alt text are also good for accessibility and image SEO. When you describe images meaningfully, both screen reader users and image search engines understand the content better. If you are interested in making images discoverable, read the guidance on making images show in Google in the <a href="/en/learn/lightbox">Lightbox guide</a> too, since both are about presenting images in articles.</p>
+
+<h2>Slider vs Lightbox: they can be used together</h2>
+<p>Many readers wonder how a slider differs from a <a href="/en/learn/lightbox">Lightbox</a>. The answer is that the two do different jobs and complement each other.</p>
+<ul>
+  <li><strong>Slider:</strong> gathers several images in one space in the content, scrolling one at a time, ideal for presenting a set of images concisely.</li>
+  <li><strong>Lightbox:</strong> clicking an image to expand it full screen on a dark background, ideal when a reader wants to see the details of one image large.</li>
+</ul>
+<p>Used together, readers can scroll through images in the slider for an overview, then click an image of interest to expand and see the details full screen, a complete image-viewing experience, ideal for articles where images are the star, such as travel, food, and accommodation reviews.</p>
+
+<h2>Considerations for speed and images</h2>
+<p>The slider itself is CSS and a small script, so it barely affects speed. But what really matters is the <strong>file size of the images</strong>, because a slider often has several images. If each is very large, the page loads slower. We recommend resizing and compressing images suitably before uploading, and setting meaningful file names and alt text.</p>
+<p>Another technique is that Blogger already supports lazy loading in many cases, so images not yet scrolled to do not load immediately, helping the first page open faster. Managing images well is therefore the key to a slider that is both beautiful and fast, which is good for both readers and Core Web Vitals scores.</p>
+
+<h2>Examples of using the slider in different kinds of blogs</h2>
+<ul>
+  <li><strong>Travel blogs:</strong> gather several angles of one place in a slider, with captions naming the spot or the best time to go.</li>
+  <li><strong>Accommodation/hotel reviews:</strong> show the room, view, and amenities in one slider, helping readers get an overview before deciding.</li>
+  <li><strong>Food blogs:</strong> images of cooking steps or several dishes at a restaurant, scrollable and concise.</li>
+  <li><strong>Creative/portfolio blogs:</strong> show several works in one gallery, with captions naming each piece.</li>
+</ul>
+<p>Every case shares "several related images", which suits gathering into one slider more than a long row, because it keeps the article concise and presents the images with finesse.</p>
+
+<h2>When not to use a slider</h2>
+<p>Although a slider is useful, it is not the answer for every situation. In some cases, placing images normally is better, such as when each image is equally important and you want to be sure readers see all of them. Hiding images in a slider may leave some readers not scrolling through all of them. In this case, placing images in a row so all are visible may fit better.</p>
+<p>Another case is when images are part of a sequence that must be read in order with accompanying text for each image. Splitting the images into a slider may break the connection between the image and its explanation. In short, use a slider when images are a "set viewed together" and readers can choose what to view, but if every image must be seen and tied to specific text, placing them normally communicates better. Choosing the right tool for the job is the heart of good presentation.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The slider does not scroll or has no buttons</h3>
+<p>Check that you added the slider block and Exported again, and used the correct structure, that is <code>bk-slider</code> wrapping several <code>figure</code> elements, written in the post's HTML view. If you use the compose view, the structure may get converted so the slider does not work.</p>
+<h3>The images are cropped too much</h3>
+<p>The slider sets a consistent aspect ratio for tidiness. If source images differ a lot from the frame's ratio, they get cropped a lot. We recommend using images with similar ratios or close to the frame to reduce cropping.</p>
+<h3>The captions do not show</h3>
+<p>Check that you added text in the <code>figcaption</code> of each figure. If there is no figcaption, there is no caption to show, which is normal behavior.</p>
+<h3>The slider loads slowly</h3>
+<p>This is usually from image files being too large. Resize and compress images before uploading, because the number and size of images affects speed more than the slider itself.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use images with similar ratios so the slider looks tidy and gets cropped less.</li>
+  <li>Add meaningful captions and alt text to every image, for readers and image SEO.</li>
+  <li>Resize and compress images before uploading to keep page speed.</li>
+  <li>Use a slider for "a set of related images", not single images that do not need scrolling.</li>
+  <li>Pair it with a <a href="/en/learn/lightbox">Lightbox</a> so readers can scroll through an overview and click to expand an image of interest.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>An image slider/gallery is a tool that keeps image-heavy articles concise, smooth to read, and presents images with finesse. With BlogKub you just add the slider block and Export it to use, then place a bk-slider structure with several figures, each with an img and a figcaption, and the system adds navigation buttons, position dots, captions under the images, and swipe support on mobile automatically. When you manage images at suitable sizes and add good captions, the slider tells a story with images beautifully and fast, especially in travel, food, review, and portfolio articles where images are the heart of the content.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>How do I use the image slider?</summary><p>In the post's HTML view, place a &lt;div class='bk-slider'&gt;, then add several &lt;figure&gt; elements inside, each with an &lt;img&gt; and a &lt;figcaption&gt; for the caption. The system adds navigation buttons, position dots, and swipe support automatically.</p></details>
+<details><summary>Does the slider support swipe on mobile?</summary><p>Yes. The slider uses scroll-snap scrolling, so you can swipe to move images smoothly on mobile, with previous/next buttons and position dots for desktop users.</p></details>
+<details><summary>Can I add captions under the images?</summary><p>Yes. Add text in the &lt;figcaption&gt; of each figure. The caption shows over the bottom of the image on a dark gradient bar, easy to read and not covering the main image.</p></details>
+<details><summary>Does the slider slow the site down?</summary><p>The impact is small because the slider is CSS and a small script, using no heavy library. However, you should resize image files suitably before uploading, because having many images affects loading more than the slider itself.</p></details>
+<details><summary>How is the slider different from a Lightbox?</summary><p>A slider is a gallery to scroll through several images in one space in the content, while a Lightbox is clicking an image to expand it full screen. The two can be used together, such as scrolling through a slider and clicking to expand an image of interest.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/slider">
+  <Fragment set:html={body} />
+</EnLayout>
