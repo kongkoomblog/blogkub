@@ -1,0 +1,151 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build Callout boxes (Note / Tip / Warning) in Blogger articles 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/callout">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/callout">
+<meta name="description" content="How to add Callout boxes (note, tip, success, warning, danger, download) to a Blogger theme with BlogKub, 6 types with icons and colors, placed in the post with the .bk-note etc. classes, plus how to use them and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build Callout boxes (Note / Tip / Warning) in Blogger articles">
+<meta property="og:description" content="6 highlight boxes with icons and colors, placed in the post with simple classes.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/callout.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/callout.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Callout box" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/callout.png","width":1440,"height":846},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/callout",
+      "headline": "How to build Callout boxes (Note / Tip / Warning) in Blogger articles",
+      "description": "A detailed guide to adding 6 highlight boxes in article content in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How many types of Callout box are there?", "acceptedAnswer": { "@type": "Answer", "text": "There are 6 types: note, tip, success, warning, danger, and download. Each has its own color and icon to convey meaning at once." } },
+        { "@type": "Question", "name": "Is it hard to add the code?", "acceptedAnswer": { "@type": "Answer", "text": "Not hard. Just wrap the text in a div with the matching class, such as <div class='bk-tip'>text</div>, in the post's HTML view. The system handles the color, icon, and border automatically, because the style is embedded in the theme." } },
+        { "@type": "Question", "name": "Where do the box icons come from, do I need to load images?", "acceptedAnswer": { "@type": "Answer", "text": "No image loading. The icons are SVG embedded directly in the theme's style, so they display at once with no external file and no impact on page speed." } },
+        { "@type": "Question", "name": "Do Callout boxes support dark mode?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The text in the box uses the theme's color variables, so it adapts to light/dark mode, while each type's background and border use a transparent color, staying readable in both modes." } },
+        { "@type": "Question", "name": "How do Callout boxes help reading and SEO?", "acceptedAnswer": { "@type": "Answer", "text": "They help readers scan for the key points quickly, highlighting a tip or warning clearly, making content easier to read, which raises time on page and satisfaction, an indirect quality signal good for SEO." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Callout box</span></nav>
+<article>
+<h1>How to build Callout boxes (Note / Tip / Warning) in Blogger articles</h1>
+<p class="lead">Easy-to-read articles usually have eye-rest spots that make important information stand out. A Callout box is that tool: a colored box with an icon that tells readers at once "this is a tip" or "this is a warning". This article teaches you how to add all 6 Callout boxes to a Blogger theme with BlogKub, including how to place them in the post and fixes.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Callout box</strong> block in BlogKub, then Export the XML and upload it to Blogger. In the post (HTML view) wrap text in a <code>&lt;div class="bk-tip"&gt;…&lt;/div&gt;</code>, choosing from 6 classes (<strong>note, tip, success, warning, danger, download</strong>). The system handles the color, SVG icon, and left border automatically, with no image loading and dark mode support.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/callout.png" aria-label="View all 6 Callout boxes at full size">
+    <img alt="All 6 Callout boxes in a Blogger article: note, tip, success, warning, danger, download, with colors and icons" title="All 6 Callout boxes" src="https://www.blogkub.com/learn/images/callout.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="846" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">All 6 Callout boxes, each with its own color and icon, placed in the post with the .bk-note, .bk-tip, etc. classes.</figcaption>
+</figure>
+
+
+<h2>What a Callout box is, and why it helps reading</h2>
+<p><strong>A Callout box is a highlight box separated from the normal content by a background color, a left border, and an icon, to draw attention to important information</strong> such as a tip, warning, or note. A reader sweeping through an article hits these boxes at once, so they do not miss the point you want to emphasize.</p>
+<p>In good writing, not every sentence carries the same weight. Some information is just general explanation, while some is a key point that, if missed, could lead to a mistake. Callout boxes create a "visual hierarchy" that tells readers what deserves special attention, making long content much easier to digest.</p>
+
+<h2>All 6 Callout box types and when to use them</h2>
+<p>BlogKub offers 6 Callout boxes, each with a color and icon that convey meaning by universal convention.</p>
+<ul>
+  <li><strong>Note (blue):</strong> for supporting information worth knowing but not urgent, such as extra context or an aside.</li>
+  <li><strong>Tip (teal):</strong> for a technique that makes something faster and easier, a box readers usually love because it adds value.</li>
+  <li><strong>Success (green):</strong> for confirming something is done right or a step is complete, giving readers confidence.</li>
+  <li><strong>Warning (orange):</strong> for something to be careful of or check before continuing, preventing mistakes.</li>
+  <li><strong>Danger (red):</strong> for important matters that are hard to reverse if missed, such as an action that permanently deletes data.</li>
+  <li><strong>Download (purple):</strong> for pointing to a file or resource to download, making the download link stand out.</li>
+</ul>
+<p>Using color to match meaning matters. Readers learn from experience that red is danger and green is success. When you use the boxes consistently with these meanings, readers understand at once without even reading the label.</p>
+
+<h2 id="step1">How to add and use Callout boxes, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Callout block.</strong> Open the left block library, category "Article &amp; UX", and drag the "Callout box" block in to embed the styles of all 6 boxes in the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Place a box in the post.</strong> When writing the post, switch to HTML view and wrap your text in a <code>&lt;div class="bk-tip"&gt;tip text&lt;/div&gt;</code>, changing the class to bk-note, bk-warning, bk-danger, etc. as needed.</li>
+  <li id="step4"><strong>Check the display.</strong> Open the live article to confirm the box shows the background color, icon, and left border correctly by type, and reads well on both desktop and mobile.</li>
+</ol>
+<div class="note">Tip: you can put multiple lines, links, or lists inside a box, because it supports normal HTML content. The system already tidies the margins of the first and last child element.</div>
+
+<h2>Why the icons are SVG embedded in the theme, not loaded images</h2>
+<p>The technical detail that makes BlogKub's Callout boxes fast and stable is that <strong>the icons are embedded as SVG directly in the theme's style</strong>, not images loaded externally. The upside is that icons display at once with the content, with no flicker or wait, no extra network request, and no risk of the icon disappearing if an image link breaks.</p>
+<p>This is in line with the Blogger principle that <a href="/en/learn/faq">everything should live in the theme itself</a> as much as possible. Using SVG embedded in the style also keeps icons sharp at every screen resolution and lets them change color by box type without needing several image versions, an approach both light and flexible.</p>
+
+<h2>Callout boxes with dark mode and design consistency</h2>
+<p>Because the text in the box uses the theme's color variables, Callout boxes adapt to <a href="/en/learn/dark-mode">dark mode</a> naturally. The text changes to a light color in dark mode and a dark color in light mode, while each type's background and border use a transparent color, blending with the background in both modes while keeping the color identity.</p>
+<p>This consistency matters for the site's image. When every box type has the same style across the site (margins, rounded corners, icon position), readers perceive that your site is designed systematically, unlike each article having differently shaped boxes made by hand one at a time. Having a central style embedded in the theme guarantees this consistency automatically.</p>
+
+<h2>Examples of using Callout boxes in different kinds of blog</h2>
+<ul>
+  <li><strong>Tutorial/how-to blogs:</strong> use a tip box for shortcuts, a warning box for where people often slip, and a danger box for hard-to-reverse steps.</li>
+  <li><strong>Tech blogs:</strong> a note box for extra context, a download box pointing to a code file or resource, pairing well with the <a href="/en/learn/copycode">copy code button</a>.</li>
+  <li><strong>Recipe blogs:</strong> a tip box for tricks to make it tastier, a warning box for timing or temperature to watch.</li>
+  <li><strong>Review and buying guide blogs:</strong> a note box summarizing key points, a success box confirming which option is worth it.</li>
+</ul>
+<p>The common thread is that Callout boxes help separate "information to emphasize" from general content, making your article look organized and friendly to readers who like to scan for the key points.</p>
+
+<h2>A caution: do not overuse the boxes</h2>
+<p>Callout boxes are powerful because they stand out, but if you use too many in one article, everything stands out until nothing does, turning the article into a dazzle of colored boxes harder to read than before. The principle is to use boxes only for genuinely important information, a few points per article, to preserve their power to draw the eye.</p>
+<p>Think of a Callout box like a highlighter in a book. If you highlight every line, highlighting is meaningless, but if you highlight only the key sentences, they stand out and are useful. Callout boxes are the same. Use them in moderation so they can do their job fully.</p>
+
+<h2>Callout boxes and accessibility</h2>
+<p>One benefit of using Callout boxes based on real text is that they are accessibility-friendly. The content in the box remains normal HTML text that a screen reader reads in full, unlike making a highlight box by embedding text in an image, which a reader who cannot see cannot access at all. Because the color and icon are only a CSS enhancement, not carrying all the meaning, the content stays accessible even when the style does not load.</p>
+<p>That said, be careful not to rely on "color" alone to convey meaning, because some readers are color-blind. The good way is to have the box text convey the context itself, such as starting with "Caution:" or "Tip:", so the meaning is clear even to readers who cannot tell the colors apart. This is an inclusive design principle that covers all readers and aligns with good web accessibility standards.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The box has no color or icon, showing as plain text</h3>
+<p>This usually happens because the Callout block was not added in the theme or was not re-exported. Check that you added the block and uploaded the latest theme, then confirm you used the correct class name, such as <code>bk-tip</code> not just <code>tip</code>.</p>
+<h3>You added the class but the box is off</h3>
+<p>Check that you wrote it in the post's "HTML view", not the compose view, because the compose view may convert tags or insert extra tags, breaking the box structure.</p>
+<h3>You want a color other than the 6 types</h3>
+<p>The set of 6 covers the main frequently-used meanings and is designed to be consistent. We recommend choosing from this set for consistency, rather than creating a new color that could make the design unsystematic.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use color to match meaning, such as red for danger and green for success, so readers understand at once.</li>
+  <li>Use boxes only for a few important points per article, to preserve their power to draw the eye.</li>
+  <li>Always write the class in HTML view, and check the class name is correct (bk-note, bk-tip, ...).</li>
+  <li>Test the display in both light and dark mode, and on mobile.</li>
+  <li>Pair with other content features, such as the <a href="/en/learn/faq">FAQ box</a> and <a href="/en/learn/toc">table of contents</a>, to make long articles easy to read in every dimension.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>Callout boxes are a small tool that clearly raises an article's readability. With BlogKub, you just add the Callout box block and Export it, then wrap text in a div with the matching class (note, tip, success, warning, danger, download). The system handles the color, SVG icon, and border automatically, with no image loading, dark mode support, and consistent design across the site. Used in moderation to highlight important information, Callout boxes help readers scan for the key points quickly, understand easily, and have a better reading experience.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>How many types of Callout box are there?</summary><p>There are 6 types: note, tip, success, warning, danger, and download. Each has its own color and icon to convey meaning at once.</p></details>
+<details><summary>Is it hard to add the code?</summary><p>Not hard. Just wrap the text in a div with the matching class, such as &lt;div class='bk-tip'&gt;text&lt;/div&gt;, in the post's HTML view. The system handles the color, icon, and border automatically, because the style is embedded in the theme.</p></details>
+<details><summary>Where do the box icons come from, do I need to load images?</summary><p>No image loading. The icons are SVG embedded directly in the theme's style, so they display at once with no external file and no impact on page speed.</p></details>
+<details><summary>Do Callout boxes support dark mode?</summary><p>Yes. The text in the box uses the theme's color variables, so it adapts to light/dark mode, while each type's background and border use a transparent color, staying readable in both modes.</p></details>
+<details><summary>How do Callout boxes help reading and SEO?</summary><p>They help readers scan for the key points quickly, highlighting a tip or warning clearly, making content easier to read, which raises time on page and satisfaction, an indirect quality signal good for SEO.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/callout">
+  <Fragment set:html={body} />
+</EnLayout>
