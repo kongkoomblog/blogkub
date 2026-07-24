@@ -1,0 +1,145 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a bookmark (save articles for later) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/bookmark">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/bookmark">
+<meta name="description" content="How to add a bookmark button that lets readers save articles for later in a Blogger theme with BlogKub, stored in the browser with no login, with a counter and a saved list, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a bookmark (save articles for later) in Blogger">
+<meta property="og:description" content="Let readers save articles for later, stored in the browser with no login.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/bookmark.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/bookmark.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Bookmark" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/bookmark.png","width":1520,"height":594},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/bookmark",
+      "headline": "How to build a bookmark (save articles for later) in a Blogger theme",
+      "description": "A detailed guide to adding a bookmark button stored in the browser with no login in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does bookmark in BlogKub require login?", "acceptedAnswer": { "@type": "Answer", "text": "No login. Readers tap the bookmark icon to save an article at once, and the data is stored in the reader's own browser (localStorage), so no sign-up or account is needed." } },
+        { "@type": "Question", "name": "Where are saved articles kept?", "acceptedAnswer": { "@type": "Answer", "text": "In the reader's browser on that device, with a counter and a saved list to open. So readers can come back and reopen articles they saved to keep reading, any time on the same device." } },
+        { "@type": "Question", "name": "How is this different from the browser's own bookmark?", "acceptedAnswer": { "@type": "Answer", "text": "The theme's bookmark works directly on your site, easy to tap from a card or within an article, and gathers the saved list in one place on the site, unlike the browser's bookmark, which is stored separately and opened from the browser menu." } },
+        { "@type": "Question", "name": "If I clear browser data, do saved articles disappear?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, because the data is stored in the browser. If the reader clears the site's data or changes devices, the saved list does not carry over. This is a natural limitation of reader-side storage without an account." } },
+        { "@type": "Question", "name": "Does bookmark help people return to the site?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. When a reader saves an article, they intend to come back to read it, raising the chance they return to the site, increasing repeat readers and their bond with the site." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Bookmark</span></nav>
+<article>
+<h1>How to build a bookmark (save articles for later) in a Blogger theme</h1>
+<p class="lead">Often a reader finds an interesting article but has no time to read it right then. Letting them save it for later in one click helps draw them back to the site. This article teaches you how to add a bookmark to a Blogger theme with BlogKub, stored in the browser with no login, along with the reasoning and settings.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Bookmark</strong> block in BlogKub, then Export the XML and upload it to Blogger. Readers tap the bookmark icon on a card or within an article to <strong>save it for later, stored in the browser with no login</strong>, with a counter and a saved list to open, helping draw readers back to the site and deepen their bond.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/bookmark.png" aria-label="View the bookmark button on an article card at full size">
+    <img alt="A bookmark icon on a Blogger article card for saving for later, the first card in the saved state" title="The bookmark button on an article card" src="https://www.blogkub.com/learn/images/bookmark.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1520" data-original-height="594" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A bookmark icon in the top-right of the card. Tap it to save for later (the left card is the saved state).</figcaption>
+</figure>
+
+
+<h2>What a bookmark is, and why a blog should have one</h2>
+<p><strong>A bookmark is a feature that lets readers tap to save an interesting article to come back and read later</strong>, without remembering the URL or searching again. The reader just taps a bookmark or heart icon, and that article is stored in a saved list, ready to reopen any time.</p>
+<p>The reason this feature is valuable is real reader behavior. Many people find a good article during a break or while scrolling quickly but have no time to read it properly. With no way to save it, they close it and forget. But if saving is easy, they come back to read it and return to your site. A bookmark is therefore the bridge that turns "interested but not free now" into "actually comes back to read".</p>
+
+<h2>How BlogKub's bookmark works (no login)</h2>
+<p>The key highlight is that <strong>readers do not need to sign up or log in</strong>, because the bookmark stores data in the reader's own browser. When they tap the save icon, that article is added to the saved list at once, with a counter showing how many are stored. Readers open the list to view and go back to read the saved articles anytime.</p>
+<p>The bookmark button can appear in several spots for convenience, on the article cards in list pages, and within the article itself. When tapped, the icon changes state to clearly show it is saved, and tapping again removes it. All of this works reader-side with no membership system or back-end database.</p>
+
+<h2 id="step1">How to add a bookmark in BlogKub, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Bookmark block.</strong> Open the left library, category "Article &amp; UX", and drag the "Bookmark" block in to embed the icon and save system in the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Test saving.</strong> Open the site, tap the bookmark icon on an article card or within an article, then check that the counter increases and the article appears in the saved list.</li>
+  <li id="step4"><strong>Check persistence after refresh.</strong> Refresh the page to confirm the saved list is still there, because the data is stored in the reader's browser.</li>
+</ol>
+
+<h2>The theme's bookmark vs the browser's bookmark</h2>
+<p>Many people wonder why not let readers use the browser's existing bookmark function. The answer is about experience and context.</p>
+<ul>
+  <li><strong>Easy to tap in the content context.</strong> The theme's bookmark icon is on cards and within articles, tappable the moment they are interested, unlike the browser bookmark that requires opening a menu and can be several steps on mobile.</li>
+  <li><strong>Gathers the list on the site.</strong> All saved articles are collected in one list on your site, so readers come back to the site to view the list, drawing them back directly.</li>
+  <li><strong>Designed to fit the design.</strong> The icon and saved state blend with the theme, feeling like part of the site, not a separate browser function.</li>
+</ul>
+<p>The two do not entirely replace each other, but the theme's bookmark is designed specifically to encourage coming back to read and engaging with your site.</p>
+
+<h2>A limitation to understand: reader-side storage</h2>
+<p>Because the bookmark is stored in the reader's browser without an account, there is a limitation worth stating clearly to set the right expectations. The saved list is tied to that browser and device, meaning if the reader switches to another device, or clears the site's data in the browser, the saved list does not carry over.</p>
+<p>This is a worthwhile trade-off for a typical blog, because the upside is it works immediately with no complex membership system, no storing personal data, and no added privacy burden. Most readers who save an article usually come back to read it within a short time on the same device, so this limitation barely affects real use.</p>
+
+<h2>The bookmark, drawing readers back, and engagement</h2>
+<p>From a site-growth angle, a repeat reader is worth more than a one-time visitor, because they are familiar with the site, tend to read several articles, and may become a regular follower. A bookmark helps create a reason for readers to return, because saving is an intention to come back and keep reading.</p>
+<p>Used with other read-on features, like related posts and an easy-on-the-eyes <a href="/en/learn/dark-mode">dark mode</a>, the bookmark reinforces an overall experience that is impressive and inviting to return to, which is the foundation of building a stable reader base over the long term.</p>
+
+<h2>Examples of using bookmarks in different kinds of blog</h2>
+<p>Bookmarks help differently by kind of content. Look at some examples to see how it helps your readers.</p>
+<ul>
+  <li><strong>Recipe blogs:</strong> readers often save recipes they want to try another day, then come back when heading to the kitchen. The bookmark is like a personal recipe book on your site.</li>
+  <li><strong>Travel blogs:</strong> trip planners often save several articles about places, stays, and restaurants first, then come back to read them together when planning for real.</li>
+  <li><strong>Tutorial / how-to blogs:</strong> readers save lessons they want to follow later when they have time and the right tools, bringing them back to your site to actually do it.</li>
+  <li><strong>Review blogs:</strong> people deciding to buy often save several reviews to compare before deciding later.</li>
+</ul>
+<p>Notice the common thread is "interested now, but will use it later", a behavior found in almost every kind of blog. So the bookmark is a feature that raises the chance readers return no matter what you write about.</p>
+
+<p>Overall, a bookmark is a small investment that pays off in long-term reader retention. The more quality content your site has to save, the more valuable this feature is, because it helps turn passing readers into repeat readers.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>Saved articles disappear after clearing browser data</h3>
+<p>This is normal, because the data is stored in the browser. If the reader clears the site's data, the list is gone. Let readers know the bookmark is tied to that device and browser.</p>
+<h3>The bookmark icon does not show</h3>
+<p>Check that you added the bookmark block in the theme and Exported again. If you use a template without article cards, the icon may not appear in some spots.</p>
+<h3>The state does not change when tapped</h3>
+<p>It may be because the browser blocks storage in some private modes. Try testing in normal mode to confirm it works.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Enable the bookmark on sites with many articles, so readers have a reason to save and come back.</li>
+  <li>Use it with <a href="/en/learn/related">related posts</a> to encourage reading and saving several articles at once.</li>
+  <li>Test saving and persistence after refresh on both desktop and mobile.</li>
+  <li>Communicate to readers that the bookmark is tied to the device and browser, to set the right expectation.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>A bookmark is a feature that turns a passing interest into an actual return, letting readers save an article for later in one click. With BlogKub, you just add the bookmark block and Export it, and readers save and come back to read with no login, because the data is stored in their own browser. Even with the device-tied limitation, it trades for ease of use and no privacy burden, making it a good tool for drawing readers back and building a stable reader base.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does bookmark in BlogKub require login?</summary><p>No login. Readers tap the bookmark icon to save an article at once, and the data is stored in the reader's own browser (localStorage), so no sign-up or account is needed.</p></details>
+<details><summary>Where are saved articles kept?</summary><p>In the reader's browser on that device, with a counter and a saved list to open. So readers can come back and reopen articles they saved to keep reading, any time on the same device.</p></details>
+<details><summary>How is this different from the browser's own bookmark?</summary><p>The theme's bookmark works directly on your site, easy to tap from a card or within an article, and gathers the saved list in one place on the site, unlike the browser's bookmark, which is stored separately and opened from the browser menu.</p></details>
+<details><summary>If I clear browser data, do saved articles disappear?</summary><p>Yes, because the data is stored in the browser. If the reader clears the site's data or changes devices, the saved list does not carry over. This is a natural limitation of reader-side storage without an account.</p></details>
+<details><summary>Does bookmark help people return to the site?</summary><p>Yes. When a reader saves an article, they intend to come back to read it, raising the chance they return to the site, increasing repeat readers and their bond with the site.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/bookmark">
+  <Fragment set:html={body} />
+</EnLayout>
