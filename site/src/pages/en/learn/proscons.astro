@@ -1,0 +1,146 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a Pros/Cons box + review score (Verdict) in Blogger articles 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/proscons">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/proscons">
+<meta name="description" content="How to add a Pros/Cons box and a review verdict box (score + stars) to a Blogger theme with BlogKub, ideal for review articles, placed in the post with the .bk-pc / .bk-verdict classes, plus how to use it and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a Pros/Cons box + review score (Verdict) in Blogger articles">
+<meta property="og:description" content="A pros/cons box and review summary box, ideal for product review articles.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/proscons.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/proscons.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Pros/Cons + review score" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/proscons.png","width":1440,"height":786},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/proscons",
+      "headline": "How to build a Pros/Cons box + review score (Verdict) in Blogger articles",
+      "description": "A detailed guide to adding a pros/cons box and a review verdict box in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do I use the Pros/Cons box?", "acceptedAnswer": { "@type": "Answer", "text": "In the post's HTML view, place a <div class='bk-pc'> with two inner boxes: pros (bk-pros) and cons (bk-cons). Put items in each as a ul/li, and the system adds check/cross icons and lays out two columns automatically." } },
+        { "@type": "Question", "name": "What is in the review verdict box?", "acceptedAnswer": { "@type": "Answer", "text": "The Verdict box shows a large numeric score, a summary heading (such as Excellent), a row of stars, and a short summary about the product. Place it with a <div class='bk-verdict'>, ideal as the closing summary of a review." } },
+        { "@type": "Question", "name": "Do the review boxes become a single column on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. On small screens the pros/cons boxes stack into a single column automatically for easy reading, without being squeezed too narrow." } },
+        { "@type": "Question", "name": "Does this box create Review schema automatically?", "acceptedAnswer": { "@type": "Answer", "text": "The Pros/Cons and Verdict boxes are content formatting for easy, attractive reading. If you want full Review/Rating schema, use BlogKub's review template, or add schema in the post based on real data, for correctness." } },
+        { "@type": "Question", "name": "What do Pros/Cons boxes help with in a review article?", "acceptedAnswer": { "@type": "Answer", "text": "They summarize the pros and cons so a reader who is deciding sees the overview quickly. Many people scroll to find the summary box before reading everything, so a clear box raises satisfaction and helps the decision." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Pros/Cons + review score</span></nav>
+<article>
+<h1>How to build a Pros/Cons box + review score (Verdict) in Blogger articles</h1>
+<p class="lead">A good review article needs a spot where the reader sees the overview at a glance. The pros/cons box and the summary score box are the heart of that. This article teaches you how to add Pros/Cons and Verdict boxes to a Blogger theme with BlogKub, which lay out two columns with icons and stars automatically, ideal for any kind of review blog, plus how to use them and fixes.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Pros/Cons + review score</strong> block in BlogKub, then Export the XML and upload it to Blogger. In the post (HTML view) place a <code>&lt;div class="bk-pc"&gt;</code> for pros (bk-pros) and cons (bk-cons), and a <code>&lt;div class="bk-verdict"&gt;</code> for the summary score with stars. The system lays out two columns, check/cross icons, and stacks to a single column on mobile automatically.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/proscons.png" aria-label="View the Pros/Cons and review verdict boxes at full size">
+    <img alt="A pros box (green), cons box (red), and a review verdict box scoring 4.5 with stars, in a Blogger review article" title="The Pros/Cons and review verdict boxes" src="https://www.blogkub.com/learn/images/proscons.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="786" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">Two-column pros/cons boxes with check/cross icons, and a summary score box with stars, ideal for review articles.</figcaption>
+</figure>
+
+
+<h2>Why a review article needs a summary box</h2>
+<p><strong>Most review readers are "deciding", not just seeking knowledge.</strong> They want to know quickly what is good, what is bad, and whether to buy in the end. A common behavior is scrolling to find the summary box or score before reading all the details. The Pros/Cons and Verdict boxes answer this directly, summarizing the key points at a glance.</p>
+<p>These boxes also make your article look professional like top review sites. Part of a review's credibility comes from a systematic presentation. When readers see clearly organized pros and cons and a reasoned summary score, they feel the review was considered thoroughly, not just an offhand opinion.</p>
+
+<h2>Two parts: Pros/Cons and Verdict</h2>
+<p>This feature gives two kinds of box that work together in a review article.</p>
+<h3>The Pros/Cons box</h3>
+<p>Two columns side by side. The left is "pros", a green background with a check icon. The right is "cons", a red background with a cross icon. Each column can hold several items, and the system adds an icon before each line automatically, so readers compare pros and cons in a single view.</p>
+<h3>The Verdict box</h3>
+<p>A horizontal box showing a large numeric score on the left (such as 4.5), a summary heading (such as "Excellent"), a row of gold stars, and a short summary about the product. This box is ideal as the closing summary of a review, giving readers a clear final verdict.</p>
+<div class="note">Tip: place the Pros/Cons box first, then the Verdict box, so readers see the pros and cons first and then get the summary verdict, a natural reading order for a review.</div>
+
+<h2 id="step1">How to add and use the Pros/Cons + Verdict boxes, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Pros/Cons block.</strong> Open the left block library, category "Article &amp; UX", and drag the "Pros/Cons + review score" block in to embed the review box styles in the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Place the boxes in the review post.</strong> In HTML view, place the pros/cons box with a <code>&lt;div class="bk-pc"&gt;</code> containing a <code>&lt;div class="bk-pros"&gt;</code> and a <code>&lt;div class="bk-cons"&gt;</code> inside, each with a heading and a ul/li list, and place the score box with a <code>&lt;div class="bk-verdict"&gt;</code>.</li>
+  <li id="step4"><strong>Check the display.</strong> Open the live article to confirm the pros box (green), cons box (red) with check/cross icons, and the score box with stars display correctly on both desktop and mobile.</li>
+</ol>
+
+<h2>Design that aids comparison</h2>
+<p>The detail that makes the Pros/Cons box work well is using color and icons that convey meaning immediately. Green with a check says "this is a pro", red with a cross says "this is a con". Readers understand without even reading the heading. Placing two columns side by side also lets the eye sweep and compare easily, unlike writing pros and cons mixed into a long paragraph.</p>
+<p>The check/cross icons in the box are SVG embedded in the theme's style, not loaded images, so they display sharply at any resolution and do not affect speed, like the <a href="/en/learn/callout">Callout box</a> that uses the same approach, keeping your whole site's element style consistent and light.</p>
+
+<h2>The score box and clarity of the verdict</h2>
+<p>The large numeric score in the Verdict box acts as an "eye-rest" that gives the fastest answer in the article. A reader in a hurry may look at just the score and stars to decide, while a thorough reader reads the accompanying summary to understand the reasons. Having the number, stars, and explanation in one box therefore serves both kinds of reader.</p>
+<p>What matters is scoring reasonably and consistently with the content. If you write several cons but give a full score, readers feel the review is insincere. Conversely, a score reasonable against the pros and cons presented reinforces credibility, which is the heart of a sustainable review blog.</p>
+
+<h2>On schema: do it correctly</h2>
+<p>Many people want reviews to show stars in Google results, which requires Review/Rating schema. BlogKub's Pros/Cons and Verdict boxes focus mainly on <strong>formatting content for easy, attractive reading</strong>. If you want full review schema, use BlogKub's review template designed for this, or add schema in the post based on real data.</p>
+<p>An important caution is that Google has strict policies on Review schema. Add it only when it is a genuine review of your own and matches the displayed content. Adding score schema that does not match the content may be seen as violating the guidelines and do more harm than good. Correctness and honesty come first always. When done right, the good reader experience from these boxes already has a positive effect on <a href="/en/learn/aeo">being cited by AI and Google</a>.</p>
+
+<h2>Examples of using it in different kinds of review blog</h2>
+<ul>
+  <li><strong>Tech product reviews:</strong> pros and cons of specs and real use, with an overall score readers look for.</li>
+  <li><strong>Restaurant/cafe reviews:</strong> pros for taste and atmosphere, cons for price or parking, with a summary score.</li>
+  <li><strong>Stay/hotel reviews:</strong> pros for the view and service, cons for the travel, helping readers decide to book.</li>
+  <li><strong>Course/book/app reviews:</strong> pros and cons of content and value, with a verdict on who it suits.</li>
+</ul>
+<p>Whatever the review, the "pros, cons, verdict" structure is a formula readers are familiar with and expect. These boxes help you present that formula attractively and consistently in every article.</p>
+
+<h2>Balance is the heart of a credible review</h2>
+<p>What separates a review people trust from one that looks like an ad is "balance". A review full of pros with no cons at all makes readers doubt how sincere it is. The Pros/Cons box forces you to think about both sides systematically, a good habit for a reviewer. Daring to state cons honestly, even small ones, actually raises credibility, because it shows you assessed impartially.</p>
+<p>In the long term, this honesty is what builds a loyal reader base. A reader who feels your review genuinely helps them decide, not just pushes them to buy, comes back for your next review and recommends it. The Pros/Cons box is therefore not just a visual element, but a tool that encourages ethical reviewing, the foundation of a review blog that grows sustainably.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The boxes have no color or icons</h3>
+<p>Check that you added the Pros/Cons block and Exported again, and use the correct class names (bk-pc, bk-pros, bk-cons, bk-verdict) written in the post's HTML view.</p>
+<h3>The two columns do not sit side by side</h3>
+<p>Check that the bk-pros and bk-cons boxes are inside the same bk-pc. On mobile the boxes stack into a single column by design for easy reading, which is normal.</p>
+<h3>Stars or score do not show</h3>
+<p>The score, stars, and summary are text you write in the bk-verdict box. Check that you included the full structure per the example, with no odd formatting tags mixed in from the compose view.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Place the Pros/Cons box first, then the Verdict box, for a natural reading order.</li>
+  <li>Score consistently with the pros and cons presented, to keep credibility.</li>
+  <li>Write pros and cons concisely as items, so they are easy to scan.</li>
+  <li>Add Review schema only when it is a genuine review matching the content, per Google's guidelines.</li>
+  <li>Pair with a <a href="/en/learn/callout">Callout box</a> and an <a href="/en/learn/faq">FAQ box</a> to make review articles complete and easy to read.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The Pros/Cons and Verdict boxes are key elements that make your review articles answer the needs of deciding readers. With BlogKub, you just add the block and Export it, then place the boxes with the bk-pc class for pros and cons and bk-verdict for the summary score. The system lays out two columns, adds check/cross icons, shows the score and stars, and stacks to a single column on mobile automatically. Presented sincerely and consistently with the content, these boxes make your reviews look professional, credible, and help readers decide with confidence.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>How do I use the Pros/Cons box?</summary><p>In the post's HTML view, place a &lt;div class='bk-pc'&gt; with two inner boxes: pros (bk-pros) and cons (bk-cons). Put items in each as a ul/li, and the system adds check/cross icons and lays out two columns automatically.</p></details>
+<details><summary>What is in the review verdict box?</summary><p>The Verdict box shows a large numeric score, a summary heading (such as Excellent), a row of stars, and a short summary about the product. Place it with a &lt;div class='bk-verdict'&gt;, ideal as the closing summary of a review.</p></details>
+<details><summary>Do the review boxes become a single column on mobile?</summary><p>Yes. On small screens the pros/cons boxes stack into a single column automatically for easy reading, without being squeezed too narrow.</p></details>
+<details><summary>Does this box create Review schema automatically?</summary><p>The Pros/Cons and Verdict boxes are content formatting for easy, attractive reading. If you want full Review/Rating schema, use BlogKub's review template, or add schema in the post based on real data, for correctness.</p></details>
+<details><summary>What do Pros/Cons boxes help with in a review article?</summary><p>They summarize the pros and cons so a reader who is deciding sees the overview quickly. Many people scroll to find the summary box before reading everything, so a clear box raises satisfaction and helps the decision.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/proscons">
+  <Fragment set:html={body} />
+</EnLayout>
