@@ -1,0 +1,141 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a footer (links + copyright) in a Blogger theme 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/footer">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/footer">
+<meta name="description" content="How to set up the footer in a Blogger theme with BlogKub: add a site description, link columns, copyright text, and choose a background color (text adjusts readability automatically), to aid navigation and credibility, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a footer (links + copyright) in a Blogger theme">
+<meta property="og:description" content="Set up a site description, link columns, copyright, and background color for the footer.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/footer.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/footer.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Footer" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/footer.png","width":2400,"height":550},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/footer",
+      "headline": "How to build a footer (links + copyright) in a Blogger theme",
+      "description": "A detailed guide to setting up the site footer in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What should a footer have?", "acceptedAnswer": { "@type": "Answer", "text": "Usually a short site description, link columns (such as categories, policy, contact), and copyright text. The footer aids secondary navigation, adds credibility, and is where you place key links like policy and contact pages." } },
+        { "@type": "Question", "name": "If I choose a footer background color, is the text readable?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The system adjusts the text color to white or black for readability automatically based on how dark the background you chose is, so you never have to worry about text disappearing into the background." } },
+        { "@type": "Question", "name": "Does the footer help SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Indirectly. Footer links aid internal navigation and spread linking to key pages, and it is where you place policy and contact links, which are credibility signals (E-E-A-T) good for the site overall." } },
+        { "@type": "Question", "name": "What links should I put in the footer?", "acceptedAnswer": { "@type": "Answer", "text": "Commonly main content categories, resource links (such as About, Blog), and policy links (Privacy, Terms, Contact), organized into columns by group so readers find them easily." } },
+        { "@type": "Question", "name": "Where does the footer logo come from?", "acceptedAnswer": { "@type": "Answer", "text": "The footer uses the same logo and blog name as the header, which sync with SEO/schema, so it is consistent site-wide with a single setup, no repeated entry." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Footer</span></nav>
+<article>
+<h1>How to build a footer (links + copyright) in a Blogger theme</h1>
+<p class="lead">The footer is where readers look when they scroll to the bottom: policy links, contact channels, categories, and site info. A well-organized footer aids both navigation and credibility. This article teaches you how to set up the footer in a Blogger theme with BlogKub, including the site description, link columns, copyright, and a background color where the text adjusts readability automatically.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>Footer</strong> block in BlogKub lets you set the <strong>site description, link columns, copyright text</strong>, and <strong>background color</strong>, with the text adjusting to white/black for readability automatically based on how dark the background is. It uses the same logo/name as the header (syncs SEO/schema), aids secondary navigation, and adds credibility, then you Export it to use.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/footer.png" aria-label="View the footer (links + copyright) at full size">
+    <img alt="A footer in a Blogger theme with a dark background showing the site name, description, and copyright, with readable white text" title="A footer (links + copyright)" src="https://www.blogkub.com/learn/images/footer.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="2400" data-original-height="550" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A dark-background footer where the text adjusts to readable white automatically, with a site description and copyright.</figcaption>
+</figure>
+
+
+<h2>What a footer is, and why it is worth more than you think</h2>
+<p><strong>A footer is the bottom bar of the site that appears on every page, usually with a site description, link columns, and copyright text.</strong> Many people overlook the footer, thinking it is just a closing bit, but it actually plays an important role, because it is where readers instinctively look for certain things, such as a contact channel, the privacy policy, or a link not in the main menu.</p>
+<p>The footer acts as a "safety net" for navigation. When a reader scrolls to the bottom and has not found what they want, the footer is the last chance to give them an option to continue, instead of leaving a dead end. Moreover, a footer with complete, organized information signals that the site is serious and credible, which affects the reader's overall feeling.</p>
+
+<h2>The editable parts of the footer</h2>
+<p>BlogKub's footer lets you edit all the main parts.</p>
+<ul>
+  <li><strong>Site description:</strong> a short text saying what the site is about, usually placed with the logo, reinforcing the brand identity.</li>
+  <li><strong>Link columns:</strong> organize links into groups, such as content categories, resources, and policy, with the footer manager, so readers find the link they want easily.</li>
+  <li><strong>Copyright text:</strong> the bottom line stating ownership, such as © 2026 site name.</li>
+  <li><strong>Background color:</strong> choose the footer's background color, with the text adjusting readability automatically.</li>
+</ul>
+<p>The footer also uses the <strong>same logo and blog name as the header</strong>, which sync with SEO/schema, so it is consistent site-wide with a single setup. This consistency makes the site feel systematic and professional.</p>
+
+<h2 id="step1">How to set up the footer, step by step</h2>
+<ol class="steps">
+  <li><strong>Select the footer block.</strong> Most templates ship with a footer. Select the "Footer" block to edit, or add it yourself.</li>
+  <li id="step2"><strong>Add the description and link columns.</strong> Type a short site description and use the footer manager to build link columns, grouping links by category.</li>
+  <li id="step3"><strong>Choose a background color and add copyright.</strong> Choose the footer background color (the text adjusts to white/black for readability itself) and type the copyright text.</li>
+  <li id="step4"><strong>Export the XML and check.</strong> Click Export, upload it to Blogger, then view the footer on both desktop and mobile, confirming the links work and the text is readable.</li>
+</ol>
+
+<h2>Background color with automatic text adjustment: a detail that helps you</h2>
+<p>The classic problem with choosing a footer background is that a dark background with dark text is unreadable, or a light background with light text disappears. BlogKub solves this by <strong>adjusting the text color to white or black automatically based on how dark the background you chose is</strong>. If you choose a dark background, the text is white, and if you choose a light background, the text is dark.</p>
+<p>This detail lets you choose a background freely without worrying about readability. The system keeps the contrast at a comfortable level always. This is an example of "error-preventing" design for the user. Instead of letting you choose a color that could make the footer unreadable, the system handles readability, so you can fully focus on choosing a color that fits your brand.</p>
+
+<h2>The footer, credibility, and E-E-A-T</h2>
+<p>The footer is where you place key links that signal the site's credibility, especially links to <a href="/en/learn/breadcrumb">pages</a> like About, Privacy Policy, Terms of Service, and a contact channel. Google values these signals in the E-E-A-T framework (Expertise, Experience, Authoritativeness, Trust). A site with these pages, easily reachable from the footer, looks more serious and trustworthy.</p>
+<p>In practice, having policy and contact links in the footer is not just about SEO but a standard of a good site. Readers expect to find this information, and if your site runs ads or collects any data, having clear policy pages is necessary. The footer is therefore a strategic place to put these links so readers and search engines can reach them from every page.</p>
+
+<h2>The footer and secondary navigation</h2>
+<p>Beyond credibility, the footer serves as valuable secondary navigation. Footer column links let readers reach categories or key pages even at the bottom of the page, giving an option instead of a dead end. You can place links to popular articles, main categories, or resources you want to promote, to prompt readers to explore further.</p>
+<p>Used with the <a href="/en/learn/header">header</a> for main navigation and other read-on elements like <a href="/en/learn/related">related posts</a>, the footer is another layer of the navigation system that keeps readers from easily hitting a dead end. Designing every point of the site to have a way forward is a key principle for keeping readers on the site longer.</p>
+
+<h2>A good footer is a detail people notice</h2>
+<p>Even though readers spend less time on the footer than other parts, a well-organized footer makes a difference in the overall feeling. A site with an empty or cluttered footer often looks unfinished, while a footer with complete, organized information and useful links makes the site look serious and cared for. This feeling accumulates with other good elements into an impression that the site has standards.</p>
+<p>In practice, the footer is also where genuinely intent readers look for information, such as someone who wants to contact you, someone who wants to read the policy, or someone considering how credible the site is. Investing a little time to organize the footer well is therefore worthwhile, because it serves these high-intent readers and closes the visit experience neatly.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The footer text is hard to read</h3>
+<p>Normally the system adjusts the text color for readability based on the background. If it still feels hard to read, it may be because you chose a color midway between light and dark. Try a clearly dark or clearly light color for better contrast.</p>
+<h3>Column links do not show</h3>
+<p>Check that you added the links in the footer manager and Exported again. Blank links do not show. Check that you filled in both the text and the URL.</p>
+<h3>The footer looks cramped on mobile</h3>
+<p>On small screens, columns stack instead of sitting side by side, which is normal. If you have very many links, consider reducing the columns or links to keep the footer from getting too long.</p>
+<h3>The footer logo does not match the header</h3>
+<p>The footer uses the same logo/name as the header. If it does not match, check the logo setting in the header/SEO, because both pull from the same source.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Always include policy links (Privacy, Terms) and a contact channel in the footer, for credibility.</li>
+  <li>Organize links into columns by group so readers find them easily, not everything in one pile.</li>
+  <li>Write a short site description reinforcing what the site is about.</li>
+  <li>Choose a background color that fits the brand. The system adjusts the text readability itself.</li>
+  <li>Place links to popular categories or articles to prompt further exploration.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The footer is an often-overlooked element with an important role in both navigation and credibility. With BlogKub, you set up the footer fully with no coding, including the site description, link columns, copyright text, and a background color where the text adjusts readability automatically, plus the same logo and name as the header for consistency. When you place policy and contact links to reinforce E-E-A-T, organize links into easy-to-find groups, and give readers an option instead of a dead end, your footer makes the site look systematic, credible, and helps keep readers on the site better.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>What should a footer have?</summary><p>Usually a short site description, link columns (such as categories, policy, contact), and copyright text. The footer aids secondary navigation, adds credibility, and is where you place key links like policy and contact pages.</p></details>
+<details><summary>If I choose a footer background color, is the text readable?</summary><p>Yes. The system adjusts the text color to white or black for readability automatically based on how dark the background you chose is, so you never have to worry about text disappearing into the background.</p></details>
+<details><summary>Does the footer help SEO?</summary><p>Indirectly. Footer links aid internal navigation and spread linking to key pages, and it is where you place policy and contact links, which are credibility signals (E-E-A-T) good for the site overall.</p></details>
+<details><summary>What links should I put in the footer?</summary><p>Commonly main content categories, resource links (such as About, Blog), and policy links (Privacy, Terms, Contact), organized into columns by group so readers find them easily.</p></details>
+<details><summary>Where does the footer logo come from?</summary><p>The footer uses the same logo and blog name as the header, which sync with SEO/schema, so it is consistent site-wide with a single setup, no repeated entry.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/footer">
+  <Fragment set:html={body} />
+</EnLayout>

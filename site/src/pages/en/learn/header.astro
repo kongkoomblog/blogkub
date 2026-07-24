@@ -1,0 +1,140 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a header (logo + menu) in a Blogger theme 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/header">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/header">
+<meta name="description" content="How to set up the header in a Blogger theme with BlogKub: add a logo, blog name, multi-level menus, choose the mobile menu side (left/right), a search button, sticky top, and an automatic mobile bottom bar, with no coding, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a header (logo + menu) in a Blogger theme">
+<meta property="og:description" content="Set up a logo, multi-level menus, mobile menu, search button, sticky, and a mobile bottom bar with no coding.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/header.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/header.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Header" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/header.png","width":2400,"height":142},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/header",
+      "headline": "How to build a header (logo + menu) in a Blogger theme",
+      "description": "A detailed guide to setting up the site header in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Can I set up the menu with no coding?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add, remove, rename, and reorder menu items by typing and dragging in the menu manager, with submenu (dropdown) support too, and no knowledge of code. The system turns it into a ready-to-use theme automatically." } },
+        { "@type": "Question", "name": "How does the mobile menu work?", "acceptedAnswer": { "@type": "Answer", "text": "On mobile the menu collapses to a hamburger button with a panel that slides in from the left or right as chosen, and a bottom navigation bar appears automatically so readers can tap key items with a thumb." } },
+        { "@type": "Question", "name": "Does the logo I add affect SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The blog name and logo URL set in the header sync to the SEO settings and schema (Organization/Logo) automatically, keeping your brand info consistent across the site and friendly to the Knowledge Graph." } },
+        { "@type": "Question", "name": "What is a sticky header?", "acceptedAnswer": { "@type": "Answer", "text": "Sticky keeps the header at the top always as the reader scrolls down, so the menu and search button stay within reach for easy navigation. You can turn it on or off as you like." } },
+        { "@type": "Question", "name": "Does it support multi-level submenus?", "acceptedAnswer": { "@type": "Answer", "text": "It supports submenus (dropdowns) to organize content into layers, keeping a site with many categories tidy. Readers open a main menu and see clearly grouped submenus." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Header</span></nav>
+<article>
+<h1>How to build a header (logo + menu) in a Blogger theme</h1>
+<p class="lead">The header is the first thing readers see and the navigation hub of the whole site. A good header makes the site look professional and easy to use on every device. This article teaches you how to set up the header in a Blogger theme with BlogKub, including the logo, multi-level menus, mobile menu, search button, sticky, and an automatic mobile bottom bar, with no coding.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 10 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>Header</strong> block in BlogKub lets you set the <strong>logo + blog name</strong> (syncs SEO/schema), <strong>multi-level menus with submenu support</strong>, the <strong>mobile menu side (left/right)</strong>, a search button, <strong>sticky top</strong>, and an <strong>automatic mobile bottom bar</strong>. It is all adjusted by typing and dragging, with no coding, then you Export it to use.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/header.png" aria-label="View the header (logo + menu) at full size">
+    <img alt="A header in a Blogger theme showing a logo, blog name, and a horizontal navigation menu" title="A header (logo + menu)" src="https://www.blogkub.com/learn/images/header.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="2400" data-original-height="142" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A header with a logo, blog name, and navigation menu, with adjustable menus, mobile menu, search button, sticky, and bottom bar.</figcaption>
+</figure>
+
+
+<h2>What a header is, and why it matters</h2>
+<p><strong>A header is the top bar of the site with the logo, blog name, and navigation menu.</strong> It appears on every page, so it is both the brand's face and the navigation hub. Readers use the header to know what site they are on and to reach the site's sections. A well-designed header therefore affects both the first impression and ease of use.</p>
+<p>The header's challenge is working well on both large and small screens. On desktop there is room for a full horizontal menu, but on mobile it has to collapse compactly while staying easy to use. BlogKub handles this complexity automatically. You set up the menu once and the system adapts the display to each device itself.</p>
+
+<h2>Logo and blog name: syncing with SEO and schema</h2>
+<p>The header lets you add both a <strong>logo image (via URL)</strong> and <strong>blog name text</strong>. The refined part is that both values <strong>sync to the SEO settings and schema automatically</strong>. The blog name becomes the site name in the SEO data, and the logo URL becomes the Logo in the Organization schema, which Google uses to build the brand's Knowledge Graph.</p>
+<p>This consistency matters, because it keeps your brand info the same across the site, with no repeated entry and no risk of mismatched typing. For the logo, a transparent PNG around 512×512px and under 200KB is recommended, to be crisp and load fast. Set it once and the header, footer, and schema all use one consistent set of data.</p>
+
+<h2 id="step1">How to set up the header, step by step</h2>
+<ol class="steps">
+  <li><strong>Add or select the header block.</strong> If you already picked a template, it usually ships with a header block, or add the "Header" block yourself.</li>
+  <li id="step2"><strong>Add the logo and blog name.</strong> Paste the logo image URL and type the blog name, which syncs to SEO and schema automatically.</li>
+  <li id="step3"><strong>Arrange the menu and mobile options.</strong> Use the menu manager to add, remove, rename, reorder, and create submenus, choose the mobile menu side (left/right), turn on the search button, set sticky, and enable the mobile bottom bar as you like.</li>
+  <li id="step4"><strong>Export the XML and check on every screen.</strong> Click Export, upload it to Blogger, then view the header on both desktop and mobile, confirming the menu, search button, and bottom bar work correctly.</li>
+</ol>
+<div class="note">It is all adjusted by typing and dragging, with no knowledge of code at all. The system turns it into a ready-to-use Blogger XML theme for you.</div>
+
+<h2>Multi-level menus: organize your content tidily</h2>
+<p>BlogKub's menu manager lets you build menus freely, adding, removing, renaming, and reordering by dragging. A key highlight is <strong>submenu (dropdown) support</strong>, letting you organize content into layers, such as a main "Articles" menu with submenus for "Travel", "Food", and "Reviews" inside.</p>
+<p>Submenus are very valuable for sites with many categories, because they keep the main menu bar from getting too long and cluttered, and help readers see the site's content structure clearly. Instead of a dozen menu items in a row, you group them under a few main menus, keeping it both clean and easy to find. You can also toggle icons in front of menu items, to add interest and help readers remember menus by their symbol.</p>
+
+<h2>The mobile menu: hamburger + automatic bottom bar</h2>
+<p>On mobile, limited space makes a full horizontal menu unusable, so BlogKub handles it automatically with two elements working together.</p>
+<ul>
+  <li><strong>Hamburger button + slide panel:</strong> the menu collapses to a three-line button, and tapping it slides a menu panel out from the side. You choose whether it slides from the <strong>left or right</strong> as you prefer. This panel shows all menus, including submenus.</li>
+  <li><strong>Bottom navigation bar:</strong> a bar pinned to the bottom of the screen on mobile, showing key items like home, search, menu, mode, and share, so readers tap with a thumb conveniently without reaching to the top. It appears automatically when enabled.</li>
+</ul>
+<p>Having both makes mobile readers navigate very conveniently. The bottom bar puts frequent actions within thumb reach, while the hamburger panel holds all menus for when they want the full list. This is the standard of modern apps and sites that BlogKub brings to your Blogger blog without you designing it yourself. To understand the whole menu customization picture, read more on the <a href="/en/about">About BlogKub page</a>, which describes the menu system.</p>
+
+<h2>Search button and sticky: navigate anytime</h2>
+<p>The header also has extra options that raise navigation. The first is a <strong>search button</strong> that lets readers call up a search box straight from the header, good for content-heavy sites where search matters, and pairs well with the <a href="/en/learn/search">search box</a>. The second is <strong>sticky</strong>, which keeps the header pinned to the top edge as you scroll down.</p>
+<p>The benefit of sticky is that the menu and search button are within reach at all times. A reader who scrolled far down and wants another page can go there immediately without scrolling back to the top, greatly reducing navigation friction, especially on long pages. That said, on mobile where the bottom bar already exists, consider whether you need the header sticky too, so it does not take up too much screen space.</p>
+
+<h2>The header, first impressions, and branding</h2>
+<p>The header is where the first impression forms. A clear logo and name tell readers immediately who the site is and what it is about. An orderly, easy-to-use header signals the site has standards and is credible. Conversely, a cluttered header or confusing menu makes readers feel bad from the first second.</p>
+<p>Because the header appears on every page, it is what builds the brand identity readers see repeatedly until they remember it. A consistent logo, colors that match the theme, and a stable menu give your site a clear identity. Used with a consistent <a href="/en/learn/footer">footer</a>, your site feels like a deliberately designed product, not a blog thrown together casually.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The logo does not show or is blurry</h3>
+<p>Check that the logo image URL is correct and reachable. Use a transparent PNG of a suitable size (around 512×512px). Too small an image gets blurry when scaled.</p>
+<h3>The submenu does not open</h3>
+<p>Check that you structured the submenu correctly under the main menu in the menu manager, and Export again. On mobile the submenu shows in the hamburger panel.</p>
+<h3>The bottom bar does not appear on mobile</h3>
+<p>Check that you enabled the bottom bar option, and view it on a real mobile screen, because this bar is designed for mobile and does not show on desktop.</p>
+<h3>The header covers content when sticky</h3>
+<p>This is normal sticky behavior, with the header floating over. The system already reserves spacing for content. If it feels like it takes too much space on mobile, consider turning off sticky on small screens or using the bottom bar instead.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use a good-quality transparent PNG logo and set a clear blog name, because they sync with SEO/schema.</li>
+  <li>Keep the menu concise, using submenus to group categories instead of an overly long main menu.</li>
+  <li>Choose the mobile menu side to suit the hand most readers hold with (right is often convenient).</li>
+  <li>Enable the mobile bottom bar for convenient thumb navigation.</li>
+  <li>Test the header on both desktop and mobile before publishing every time.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The header is both the brand's face and the navigation hub that appears on every page. With BlogKub, you set up the header fully with no coding, including a logo and blog name that sync with SEO/schema, multi-level menus with submenu support, a hamburger mobile menu with a choice of side, an automatic mobile bottom bar, a search button, and sticky top. The system handles the display for every device itself. When you set it up tidily and test on every screen, your header makes the site look professional, easy to use, and creates a good first impression for readers every time they arrive.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Can I set up the menu with no coding?</summary><p>Yes. Add, remove, rename, and reorder menu items by typing and dragging in the menu manager, with submenu (dropdown) support too, and no knowledge of code. The system turns it into a ready-to-use theme automatically.</p></details>
+<details><summary>How does the mobile menu work?</summary><p>On mobile the menu collapses to a hamburger button with a panel that slides in from the left or right as chosen, and a bottom navigation bar appears automatically so readers can tap key items with a thumb.</p></details>
+<details><summary>Does the logo I add affect SEO?</summary><p>Yes. The blog name and logo URL set in the header sync to the SEO settings and schema (Organization/Logo) automatically, keeping your brand info consistent across the site and friendly to the Knowledge Graph.</p></details>
+<details><summary>What is a sticky header?</summary><p>Sticky keeps the header at the top always as the reader scrolls down, so the menu and search button stay within reach for easy navigation. You can turn it on or off as you like.</p></details>
+<details><summary>Does it support multi-level submenus?</summary><p>It supports submenus (dropdowns) to organize content into layers, keeping a site with many categories tidy. Readers open a main menu and see clearly grouped submenus.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/header">
+  <Fragment set:html={body} />
+</EnLayout>
