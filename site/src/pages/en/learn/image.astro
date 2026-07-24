@@ -1,0 +1,144 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build an image block (with ALT + caption) in a Blogger theme 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/image">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/image">
+<meta name="description" content="How to add an image block to a Blogger theme with BlogKub: set the image URL, ALT text (important for SEO), a caption, and a 16:9/4:3/1:1 ratio so images look good and follow SEO best practice, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build an image block (with ALT + caption) in a Blogger theme">
+<meta property="og:description" content="Set the image, ALT, caption, and a 16:9/4:3/1:1 ratio so images look good and follow SEO best practice.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/image.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Image block" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/image.png","width":1360,"height":948},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/image",
+      "headline": "How to build an image block (with ALT + caption) in a Blogger theme",
+      "description": "A detailed guide to adding an image block in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Why does ALT matter?", "acceptedAnswer": { "@type": "Answer", "text": "ALT (alternative text) matters for both SEO and accessibility, because it helps search engines understand what the image is (affecting image search) and lets screen reader users who cannot see it perceive the image content. Write ALT that conveys the real meaning of the image." } },
+        { "@type": "Question", "name": "Can I choose the image ratio?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can choose 3 ratios: 16:9 (wide landscape, good for scenery/banners), 4:3 (standard), and 1:1 (square, good for product/profile images). The system crops the image to fit the chosen ratio for a tidy look." } },
+        { "@type": "Question", "name": "Can I add a caption below the image?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Add a caption to show below the image, to give context or describe it. Unlike ALT, every reader sees the caption, while ALT is alternative text for search engines and screen readers." } },
+        { "@type": "Question", "name": "How is the image block different from placing an image in a post?", "acceptedAnswer": { "@type": "Answer", "text": "The image block is a theme element (such as on the homepage or a static page) whose ratio, ALT, and caption you set in BlogKub. Placing an image in a post inserts it into the article content straight from the Blogger editor. The two are used in different contexts." } },
+        { "@type": "Question", "name": "What image size should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Use an image sharp enough to be crisp but not larger than necessary. Compress the file appropriately before uploading to keep the page fast, because large images affect Core Web Vitals, especially LCP." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Image block</span></nav>
+<article>
+<h1>How to build an image block (with ALT + caption) in a Blogger theme</h1>
+<p class="lead">Images are a key part of a site that looks good and reads well, but a good image is not just pretty. It needs correct ALT for SEO and accessibility, and a suitable ratio for a tidy look. This article teaches you how to add an image block to a Blogger theme with BlogKub, with ALT, a caption, and ratio choices.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>Image</strong> block in BlogKub lets you set the <strong>image URL, ALT text</strong> (important for SEO/accessibility), a <strong>caption below the image</strong>, and choose a <strong>16:9 / 4:3 / 1:1 ratio</strong>. The system crops the image to fit the chosen ratio for a tidy look, then you Export it to use.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/image.png" aria-label="View the image block with ALT and caption at full size">
+    <img alt="An image block in a Blogger theme showing a 16:9 image with a caption below and ALT" title="The image block with ALT and caption" src="https://www.blogkub.com/learn/images/image.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1360" data-original-height="948" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A 16:9 image block with a caption below and meaningful ALT, good for SEO and accessibility.</figcaption>
+</figure>
+
+
+<h2>What the image block is, and when to use it</h2>
+<p><strong>The image block is an element for placing a single image in the theme, with ALT, caption, and ratio settings.</strong> Use it when you want to place an image on a page (such as the homepage, a static page, or parts of the theme) with control over how it displays. Unlike inserting an image into article content through the Blogger editor, the image block is part of the theme structure you arrange.</p>
+<p>The image block is valuable because it handles the details people often forget, especially ALT and the ratio. Having a clear field for ALT reminds you to add it every time, and choosing a ratio keeps images in the same spot at a consistent size instead of jumping around, so the page looks tidy and professional.</p>
+
+<h2>ALT: the small detail that matters for SEO and accessibility</h2>
+<p><strong>ALT (alternative text) is text that describes what the image is.</strong> It does not show to general readers, but it plays two important roles. The first is <strong>SEO</strong>: search engines cannot read what an image depicts, so they rely on ALT to understand it, which affects whether your image appears in image search (Google Images). The second is <strong>accessibility</strong>: users who cannot see use screen readers that read the ALT aloud, so they can perceive the image content.</p>
+<p>Writing good ALT means describing the image meaningfully and concisely. For example, "Sunset view at Patong Beach, Phuket" is better than "image" or "image1", and you should not stuff keywords unnaturally, because it looks like spam. Good ALT states what is really in the image, which helps both search engines and readers using a screen reader. This connects to the principle of making images show in Google that we mention in the <a href="/en/learn/lightbox">Lightbox</a> and <a href="/en/learn/slider">image slider</a> articles too.</p>
+
+<h2 id="step1">How to add an image block, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the image block.</strong> Drag the "Image" block from the library into the spot you want, such as the homepage or a section of the theme.</li>
+  <li id="step2"><strong>Set the image URL and ALT.</strong> Paste the image URL and add ALT that conveys the real meaning of the image. Do not leave it blank, because it matters for SEO and accessibility.</li>
+  <li id="step3"><strong>Add a caption and choose a ratio.</strong> Add a caption below the image if you want, and choose a 16:9, 4:3, or 1:1 ratio to match the image type and position.</li>
+  <li id="step4"><strong>Export the XML and check.</strong> Click Export, upload it to Blogger, then check that the image shows at the right ratio, crisp, with correct ALT and caption.</li>
+</ol>
+
+<h2>Choose a ratio to match the image type</h2>
+<p>The image block offers three ratios, and the system crops the image to fit the chosen ratio for a tidy look. Choosing one that matches the image type makes it look its best.</p>
+<ul>
+  <li><strong>16:9 (wide landscape):</strong> good for scenery, atmosphere shots, banners, or cover images, giving a spacious, cinematic feel.</li>
+  <li><strong>4:3 (standard):</strong> a classic, balanced ratio, good for general images that do not need to be especially wide or square.</li>
+  <li><strong>1:1 (square):</strong> good for product images, profile pictures, or images that want symmetry, a ratio popular on social media.</li>
+</ul>
+<p>The benefit of locking the ratio is consistency. When images in the same spot share a ratio, the page looks orderly, with no oddly tall or short images. That said, cropping to a ratio means part of the image may be cut, so choose an image with the important subject centered, or a ratio close to the original, to reduce cutting out something important.</p>
+
+<h2>ALT vs caption: how they differ</h2>
+<p>Many people confuse ALT with the caption, because both concern the text of an image, but they serve different jobs. <strong>ALT is alternative text that general readers do not see</strong>, used by search engines and screen readers. The <strong>caption is text shown below the image that every reader sees</strong>, used to give context or describe the image further.</p>
+<p>The two complement each other well. ALT describes what the image is for those who cannot see and for search engines, while the caption gives information every reader benefits from, such as the source, a place name, or an interesting note. You do not need to write both the same, because they serve different jobs. ALT focuses on describing the image content directly, while the caption adds context for the reader. Using both appropriately makes your images both SEO-friendly and informative for readers.</p>
+
+<h2>Speed: keep images light</h2>
+<p>Images are one of the biggest factors in site speed. A large image makes the page load slowly and affects Core Web Vitals, especially LCP (Largest Contentful Paint), which is often affected by a big image near the top of the page. So before uploading, resize the image to fit what will actually display and compress the file smaller without losing too much quality.</p>
+<p>Using an image sharp enough to be crisp but not larger than necessary is a good balance. An image much larger than what displays wastes loading for no benefit. There are plenty of free image compression tools that reduce file size. Keeping images light is a good habit that affects both the reader experience and your speed-side SEO score. When images are beautiful, have correct ALT, and are light, you benefit on every front.</p>
+
+<h2>Images, storytelling, and engagement</h2>
+<p>Images are not just decoration, they are a powerful storytelling tool. Research finds that people remember information with visuals much better than plain text, and content with images tends to get higher engagement and shares. Good images explain what text struggles to, create emotion, and make a page more readable. Caring about choosing and placing images therefore affects both the reader's understanding and impression.</p>
+<p>That said, an image should support the content, not just fill space. A relevant, meaningful image is worth more than a pretty one unrelated to the subject. Choosing images that fit the content and placing them at the right moments lets images do real storytelling. Combined with good ALT and a suitable ratio, images become elements that are beautiful, meaningful, and SEO-friendly all at once.</p>
+
+<h2>Image copyright: something to care about</h2>
+<p>An important thing bloggers often overlook is image copyright. Using an image from the internet without checking the rights can infringe copyright and lead to legal trouble. Use images you took yourself, licensed images you bought, or free images from sources that permit use (such as images under an open license), and follow each source's conditions, like giving credit if required.</p>
+<p>Using images correctly not only avoids problems but reflects the site's professionalism and credibility. There are plenty of quality free image sources today, so choosing images from legitimate sources is not hard, and it is a good habit to have from the start of building a site. When you care about quality, relevance, ALT, speed, and copyright, you use images fully and correctly.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The image does not show</h3>
+<p>Check that the image URL is correct and reachable externally. If you use an image hosted somewhere that requires login or is restricted, it may not show. Use an image hosted openly and reachable.</p>
+<h3>The image crops out something important</h3>
+<p>The system crops the image to fit the chosen ratio. If something important is cut, try a ratio closer to the original, or use an image with the important subject centered.</p>
+<h3>Forgetting to add ALT</h3>
+<p>Always add ALT, because it matters for SEO and accessibility. If you leave it blank, the image misses its chance to be discovered and screen reader users cannot access it.</p>
+<h3>Images slow the page down</h3>
+<p>Resize and compress images before uploading, because large images affect speed and LCP the most.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Add ALT that conveys the real meaning of the image every time. Do not leave it blank and do not stuff keywords.</li>
+  <li>Choose a ratio to match the image type (16:9 scenery, 4:3 general, 1:1 product/profile).</li>
+  <li>Use a caption to give extra context every reader sees.</li>
+  <li>Resize and compress images before uploading to keep speed and LCP good.</li>
+  <li>Choose images with the important subject centered to reduce cropping it out.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The image block helps you place images in the theme with control over the important details. With BlogKub, you set the image URL, ALT that matters for SEO and accessibility, a caption below the image, and a 16:9, 4:3, or 1:1 ratio, and the system crops the image to fit for a tidy, consistent look. The key to using images well is always adding meaningful ALT, choosing a ratio to match the image type, and managing file size to keep speed. Do all of this and your images will be beautiful, follow SEO best practice, be accessibility-friendly, and not weigh the site down, which is the standard of a quality site.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Why does ALT matter?</summary><p>ALT (alternative text) matters for both SEO and accessibility, because it helps search engines understand what the image is (affecting image search) and lets screen reader users who cannot see it perceive the image content. Write ALT that conveys the real meaning of the image.</p></details>
+<details><summary>Can I choose the image ratio?</summary><p>Yes. You can choose 3 ratios: 16:9 (wide landscape, good for scenery/banners), 4:3 (standard), and 1:1 (square, good for product/profile images). The system crops the image to fit the chosen ratio for a tidy look.</p></details>
+<details><summary>Can I add a caption below the image?</summary><p>Yes. Add a caption to show below the image, to give context or describe it. Unlike ALT, every reader sees the caption, while ALT is alternative text for search engines and screen readers.</p></details>
+<details><summary>How is the image block different from placing an image in a post?</summary><p>The image block is a theme element (such as on the homepage or a static page) whose ratio, ALT, and caption you set in BlogKub. Placing an image in a post inserts it into the article content straight from the Blogger editor. The two are used in different contexts.</p></details>
+<details><summary>What image size should I use?</summary><p>Use an image sharp enough to be crisp but not larger than necessary. Compress the file appropriately before uploading to keep the page fast, because large images affect Core Web Vitals, especially LCP.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/image">
+  <Fragment set:html={body} />
+</EnLayout>
