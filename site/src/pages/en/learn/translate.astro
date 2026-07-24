@@ -1,0 +1,165 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add a Translate button in Blogger 2026 (multi-language, no API key)</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/translate">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/translate">
+<meta name="description" content="How to add a translate button to a Blogger theme with BlogKub: uses Google Translate to translate the whole page for readers, choose several languages, no API key needed, free, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add a Translate button in Blogger (no API key)">
+<meta property="og:description" content="Add a multi-language translate button with Google Translate, free, no API setup.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/translate.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/translate.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Translate button" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add a translate button to a Blogger theme with BlogKub",
+      "description": "Steps to add a translate button that uses Google Translate to translate the whole page, with no API key",
+      "inLanguage": "en",
+      "totalTime": "PT4M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the translate block", "text": "Drag the 'Translate' block from the add-ons category in the library into the page", "url": "https://www.blogkub.com/en/learn/translate#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Choose the source language and the languages to show", "text": "Set the site's source language (such as Thai) and enable the languages you want readers to translate to, such as English, Chinese, Japanese, Korean", "url": "https://www.blogkub.com/en/learn/translate#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Export the XML and upload", "text": "Click Export XML, then upload it to Blogger via Theme, then Backup/Restore", "url": "https://www.blogkub.com/en/learn/translate#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Test the translation on the live site", "text": "Open the site, click the translate button in the header, choose a language, and confirm the whole page is translated", "url": "https://www.blogkub.com/en/learn/translate#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/translate.png","width":1720,"height":220},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/translate",
+      "headline": "How to add a Translate button in a Blogger theme",
+      "description": "A detailed guide to adding a multi-language translate button with Google Translate, with no API key",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does BlogKub's translate button need an API key?", "acceptedAnswer": { "@type": "Answer", "text": "No API key needed. This feature uses Google Translate embedded directly in the page. Readers click to choose a language and translate the whole page instantly, free, with no signup or key setup." } },
+        { "@type": "Question", "name": "How many languages does the translate button support?", "acceptedAnswer": { "@type": "Answer", "text": "It supports the many languages Google Translate has. You choose which languages to show in the menu, such as English, Chinese, Japanese, Korean, and others, so the menu is not too long." } },
+        { "@type": "Question", "name": "Does translation affect the site's SEO?", "acceptedAnswer": { "@type": "Answer", "text": "No negative effect, because translation happens on the reader's side only when they click. The Thai source content is still what Google indexes and ranks. This feature helps readers of other languages access the content more easily." } },
+        { "@type": "Question", "name": "Does the language menu overflow the screen on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "No overflow. On mobile the language menu shows as a full-width panel below the header, so choosing a language is easy and does not run off the screen edge. On desktop it is a normal dropdown menu." } },
+        { "@type": "Question", "name": "Can readers return to the source language?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The menu has an 'Original' option to return to the site's original language anytime. The system clears the translation and shows the source content as normal." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Translate button</span></nav>
+<article>
+<h1>How to add a Translate button in a Blogger theme: multi-language, no API key</h1>
+<p class="lead">Opening your site to readers of other languages is a way to expand your audience that is easier than you might think. This article teaches you how to add a translate button to a Blogger theme with BlogKub, which uses Google Translate to translate the whole page for readers, with no API key and no cost.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Translate</strong> block in BlogKub, choose the source language and the languages to translate to (English, Chinese, Japanese, Korean, etc.), then Export the XML and upload it to Blogger. You get a translate button in the header that uses <strong>Google Translate to translate the whole page for readers, free, no API key needed</strong>. On mobile the language menu shows full width without running off the screen.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/translate.png" aria-label="View the Translate button with the language menu at full size">
+    <img alt="A translate button in a Blogger header with a language menu of English, Chinese, Japanese, Korean" title="A Translate button with the language menu" src="https://www.blogkub.com/learn/images/translate.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1720" data-original-height="220" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A translate button in the header opens a language menu, using Google Translate to translate the whole page, no API key needed.</figcaption>
+</figure>
+
+
+<h2>Why a Blogger blog should have a translate button</h2>
+<p><strong>A translate button lets foreign readers translate the whole page's content into their own language in one click.</strong> Even if your site is written in Thai, the people who find your content may be foreigners interested in Thai topics, such as travelers, language learners, or people looking for specific information. Having a translate button lowers the language barrier and keeps them reading instead of leaving because they cannot read it.</p>
+<p>For travel, food, culture, or product blogs with cross-border interest, this feature is even more valuable, because it turns visitors who might slip away into real readers, without you having to translate the content yourself or build a complicated multi-language site.</p>
+
+<h2>How BlogKub's translate button works (no API key)</h2>
+<p>The key highlight is that it <strong>uses Google Translate embedded directly in the page, so no API key, no signup, and no cost</strong>. When a reader clicks the button and chooses a language, Google Translate translates the whole page instantly on the reader's browser side, not translating and storing it as a new page on your site.</p>
+<p>BlogKub also handles details that improve the experience, such as hiding the Google Translate toolbar that normally pushes the page around, keeping the layout stable, designing a clean language menu, and including an "Original" option to return to the source language anytime.</p>
+
+<h2 id="step1">How to add the translate button in BlogKub step by step</h2>
+<ol class="steps">
+  <li id="step2"><strong>Add the translate block.</strong> Open the left library, the "Add-ons" category, and drag the "Translate" block in. The system places the button in the header automatically.</li>
+  <li><strong>Choose the source language and the languages to show.</strong> Click the block to set the site's source language (such as Thai) and toggle on the languages you want readers to translate to, such as English, Chinese, Japanese, Korean. Choose only what is necessary to keep the menu concise.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Test the translation on the live site.</strong> Open the site, click the translate button in the header, choose a language, and confirm the whole page is translated. Try it on mobile too to see the language menu show full width without running off the screen.</li>
+</ol>
+<p class="note">The translate button is inserted into the header bar automatically, and the language menu on mobile screens anchors to the screen edge as a full-width panel, so the menu does not overflow the screen.</p>
+
+<h2>How to choose which languages to enable for your readers</h2>
+<p>You do not need to enable every language. Choosing suitably keeps the menu short and easy to use. Consider:</p>
+<ul>
+  <li><strong>Your main reader group.</strong> If the content is about Thai travel, English, Chinese, and Japanese are often the largest groups.</li>
+  <li><strong>Real statistics from Analytics.</strong> After the site has been up a while, see which countries visitors come from, then enable languages matching the groups.</li>
+  <li><strong>Do not enable too many.</strong> A menu of 4 to 6 languages is just right. More than that is hard to choose from and cluttered unnecessarily.</li>
+</ul>
+
+<h2>The translate button, SEO, and serious multi-language sites</h2>
+<p>You must understand that the translate button is a "reader aid tool", not a "multi-language SEO strategy". Translation happens on the reader's side only when they click. The Thai source content is still what Google indexes and ranks. So this feature has no negative SEO effect, and helps purely with user experience.</p>
+<p>If you want serious multi-language SEO, meaning each language has its own pages and URLs to rank in that language, that is another strategy requiring actual content translation and an hreflang structure, suited to sites specifically targeting foreign markets. For a general blog, the translate button meets the accessibility need well without much effort.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The language menu runs off the screen on mobile</h3>
+<p>BlogKub already fixes this by anchoring the menu to the screen edge as a full-width panel on mobile. If you use an old version, update the theme to the latest version to get this fix.</p>
+<h3>The page shifts during translation</h3>
+<p>This is caused by the Google Translate toolbar, which BlogKub hides so the layout does not shift. If you still see it, check that there is no duplicate translation script from elsewhere.</p>
+<h3>Some parts are not translated</h3>
+<p>Text that is an image will not be translated, because Google Translate can only translate real text. You should put important content as text, not embedded in images.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Enable only the languages matching your real reader group, to keep the menu concise and easy to use.</li>
+  <li>Write important content as text, not embedded in images, so it all translates.</li>
+  <li>Test the translation on both desktop and mobile before publishing, especially the language menu on mobile.</li>
+  <li>Place the translate button in the header where it is easy to see, like the <a href="/en/learn/dark-mode">dark mode button</a> (BlogKub does this automatically), so foreign readers find it right away.</li>
+</ul>
+
+<h2>Languages Thai blogs commonly enable, and why</h2>
+<p>If you are unsure which languages to enable, here is the set most Thai blogs choose to enable, with the reasoning to guide your decision, which you can adjust later based on your real reader group.</p>
+<ul>
+  <li><strong>English:</strong> the world's common language, covering foreign readers most broadly, the first language you should always enable.</li>
+  <li><strong>Chinese (simplified):</strong> a large group of travelers and people interested in Thai products/culture, ideal for travel, food, and review blogs.</li>
+  <li><strong>Japanese and Korean:</strong> these two reader groups are quite interested in Thai content on travel, beauty, and lifestyle.</li>
+</ul>
+<p>Starting with this set is enough for a general blog, then look at real visitor statistics to add or remove languages to match your group later. Starting with a reasonable number keeps the menu easy to use from the outset.</p>
+
+<h2>The translate button and site speed (Core Web Vitals)</h2>
+<p>A question many worry about is whether embedding Google Translate slows the site down. The answer is that the effect is very small and designed to be safe, because the Google Translate script loads without blocking page rendering and works only when a reader clicks to choose a language. Readers who do not translate are barely affected by speed, and the source content shows as normal immediately.</p>
+<p>BlogKub also hides the Google Translate toolbar that normally pushes the layout around, which helps prevent the Cumulative Layout Shift (CLS) issue that affects Core Web Vitals scores, keeping the experience stable and the speed score intact, consistent with the theme's whole philosophy of being light and fast.</p>
+
+<h2>Limitations of automatic translation to know</h2>
+<p>Machine translation is convenient and covers many languages, but it has limitations to understand so you set the right expectation. Automatic translation has improved a lot in recent years, but is still not as perfect as human translation, especially with idioms, jokes, or specialized terms that need context.</p>
+<ul>
+  <li><strong>Idioms and jokes may come out wrong.</strong> Sentences that play on words or use specific Thai idioms may translate literally until the meaning is off. If the content is very important, write it directly so it translates accurately.</li>
+  <li><strong>Text in images is not translated.</strong> Google Translate translates only real text, not characters embedded in an image, so put important content as text.</li>
+  <li><strong>Proper names may be translated unnecessarily.</strong> Brand names or some proper nouns may get translated. If you want to keep the original word, consider formatting the text clearly.</li>
+</ul>
+<p>Overall, automatic translation suits "helping understand the content", which is enough for most readers of other languages. As long as you write clear content and put important information as text, foreign readers get the full benefit of the translate button.</p>
+
+<h2>Wrapping up</h2>
+<p>The translate button is an easy, free way to expand your site's reach to readers of other languages. With BlogKub you just add the translate block, choose the languages you want, and Export it to use, with no API key or cost. Readers from around the world can translate the whole page into their own language in one click, lowering the language barrier and opening the chance for your Thai content to reach more people.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does BlogKub's translate button need an API key?</summary><p>No API key needed. This feature uses Google Translate embedded directly in the page. Readers click to choose a language and translate the whole page instantly, free, with no signup or key setup.</p></details>
+<details><summary>How many languages does the translate button support?</summary><p>It supports the many languages Google Translate has. You choose which languages to show in the menu, such as English, Chinese, Japanese, Korean, and others, so the menu is not too long.</p></details>
+<details><summary>Does translation affect the site's SEO?</summary><p>No negative effect, because translation happens on the reader's side only when they click. The Thai source content is still what Google indexes and ranks. This feature helps readers of other languages access the content more easily.</p></details>
+<details><summary>Does the language menu overflow the screen on mobile?</summary><p>No overflow. On mobile the language menu shows as a full-width panel below the header, so choosing a language is easy and does not run off the screen edge. On desktop it is a normal dropdown menu.</p></details>
+<details><summary>Can readers return to the source language?</summary><p>Yes. The menu has an 'Original' option to return to the site's original language anytime. The system clears the translation and shows the source content as normal.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/translate">
+  <Fragment set:html={body} />
+</EnLayout>

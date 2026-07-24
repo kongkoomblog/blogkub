@@ -1,0 +1,164 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add Web Stories (tap-to-view fullscreen circles) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/stories">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/stories">
+<meta name="description" content="How to add Web Stories to a Blogger theme with BlogKub: show story circles from your latest posts, tap to view fullscreen with auto-advance like Instagram/IG Stories, pulled from your own Blogger feed, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add Web Stories (tap-to-view fullscreen circles) in Blogger">
+<meta property="og:description" content="Show post stories as circles, tap to view fullscreen with auto-advance, pulled from the Blogger feed.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/stories.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/stories.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Web Stories" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add Web Stories as tap-to-view fullscreen circles to a Blogger theme with BlogKub",
+      "description": "Steps to add a story bar of circles pulled from the blog's latest posts, tapped to view fullscreen with auto-advance",
+      "inLanguage": "en",
+      "totalTime": "PT4M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the stories block", "text": "Drag the 'Stories (Web Stories)' block from the library into the page, usually near the top of the homepage", "url": "https://www.blogkub.com/en/learn/stories#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Set the count, label, and time per slide", "text": "Set the number of stories, the label to pull from, and the time each slide shows before auto-advancing", "url": "https://www.blogkub.com/en/learn/stories#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Export the XML and upload", "text": "Click Export XML, then upload it to Blogger via Theme, then Backup/Restore", "url": "https://www.blogkub.com/en/learn/stories#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Test opening the stories", "text": "Open the site, tap a story circle to view fullscreen, check the auto-advance, the previous/next buttons, and the read article button", "url": "https://www.blogkub.com/en/learn/stories#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/stories.png","width":1520,"height":486},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/stories",
+      "headline": "How to add Web Stories (tap-to-view fullscreen circles) in Blogger",
+      "description": "A detailed guide to adding tap-to-view fullscreen post stories in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where do the post stories pull their data from?", "acceptedAnswer": { "@type": "Answer", "text": "They pull from your own Blogger post feed (feeds/posts/default), using the cover image and title of your latest posts, so you do not upload stories separately. The system creates stories from the posts you have already published automatically." } },
+        { "@type": "Question", "name": "Can I limit it to pull only certain categories?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Set a label to pull stories only from posts in that category, such as showing only travel posts. If you set no label, the system pulls from all the latest posts." } },
+        { "@type": "Question", "name": "Do the stories remember which have been viewed?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. When a reader views a story, that story's colored ring turns gray to show it has been viewed, storing the state in the reader's browser, helping them know which stories they have not yet viewed." } },
+        { "@type": "Question", "name": "Can viewers skip or go back a slide?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Each slide auto-advances by the set time, with a progress bar at the top. Viewers tap the left side to go back, the right side to skip, tap close, or use the keyboard arrow keys, and there is a read article button to go to the full content." } },
+        { "@type": "Question", "name": "How do Web Stories help engagement?", "acceptedAnswer": { "@type": "Answer", "text": "They grab attention with a format users are familiar with from social media, letting readers explore several posts fun and fast, increasing clicks into full articles and time on the site." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Web Stories</span></nav>
+<article>
+<h1>How to add Web Stories (tap-to-view fullscreen circles) in Blogger</h1>
+<p class="lead">The "stories" format of tap-to-view fullscreen circles we know from Instagram and Facebook is a presentation users love and understand instantly. BlogKub brings this format to Blogger by pulling your own posts to show as stories automatically. This article teaches you how to set it up from start to finish, along with the engagement reasoning and how to fix problems.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 10 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Stories (Web Stories)</strong> block in BlogKub, set the count, label, and time per slide, then Export the XML and upload it to Blogger. The system shows <strong>story circles from your latest posts</strong>, tapped to view <strong>fullscreen with auto-advance</strong>, with a progress bar, previous/next buttons, and a read article button, pulling from your own Blogger feed with no separate story uploads.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/stories.png" aria-label="View the Web Stories circles bar at full size">
+    <img alt="A bar of Web Stories circles from the latest posts on a Blogger site, a colored ring means unviewed, a gray ring means viewed" title="A bar of Web Stories circles" src="https://www.blogkub.com/learn/images/stories.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1520" data-original-height="486" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">Story circles from the latest posts, tap to view fullscreen. A colored ring means unviewed, a gray ring means viewed.</figcaption>
+</figure>
+
+
+<h2>What Web Stories as circles are</h2>
+<p><strong>Web Stories in this context are a bar of circular post cover images placed at the top of the page. When tapped, a fullscreen view opens showing the image and title one slide at a time, with auto-advance,</strong> like viewing stories on social media. This format is powerful because today's users are deeply familiar with it and need to learn nothing new. They instinctively know to tap to view, tap left to go back, and tap right to skip.</p>
+<p>What makes this feature special on BlogKub is that it <strong>pulls your own posts to show automatically</strong>. You do not create or upload stories separately like standard Web Stories that require separate AMP pages. Instead, the system takes the cover image and title of the posts you have already published and wraps them into stories, giving a story experience with almost no extra work.</p>
+
+<h2>How the stories pull data from the Blogger feed</h2>
+<p>The heart of this feature is using the <strong>Blogger post feed</strong> (the JSON feed system Blogger provides built-in). When the page loads, the system calls the latest posts feed for the number you set, pulls the cover image and title of each post to build the story circles, and when a reader taps to view, the system shows a larger version of the image in the fullscreen view, with a link to the real article.</p>
+<p>Because it works with the feed directly, your stories <strong>update themselves automatically</strong>. Every time you publish a new post, it appears in the stories without you editing the theme or adding anything. This is a key advantage over building fixed stories that must be updated by hand each time.</p>
+<div class="note">Tip: because the stories use post cover images, choosing beautiful, meaningful cover images matters a lot. An attractive cover image makes the story circle clickable and the fullscreen view look good.</div>
+
+<h2 id="step1">How to add Web Stories in BlogKub step by step</h2>
+<ol class="steps">
+  <li><strong>Add the stories block.</strong> Open the left block library and drag the "Stories (Web Stories)" block into the page, usually near the top of the homepage so it is seen before other content.</li>
+  <li id="step2"><strong>Set the count, label, and time per slide.</strong> Set the number of stories to show, add a label if you want to pull only certain categories, and set the time each slide shows before auto-advancing (default around 5 seconds).</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Test opening the stories.</strong> Open the live site, tap a story circle to view fullscreen, check the auto-advance, the top progress bar, the previous/next buttons, closing, and the read article button.</li>
+</ol>
+
+<h2>Elements of the fullscreen story view</h2>
+<p>When a reader taps a story circle, the fullscreen view opens with elements designed to be familiar and easy to use.</p>
+<ul>
+  <li><strong>Top progress bar:</strong> shows which slide out of the total you are viewing and the remaining time of the current slide, exactly like stories on social media.</li>
+  <li><strong>Fullscreen image:</strong> a larger version of the post cover image, filling the screen, giving an immersive feel.</li>
+  <li><strong>Title and date:</strong> the post title and publish date at the bottom, helping readers know what they are viewing.</li>
+  <li><strong>Read article button:</strong> a button that goes to the full article, turning "viewing a story" into "actually reading".</li>
+  <li><strong>Navigation:</strong> tap the left side to go back, the right side to skip, a close button in the top right, and keyboard arrow key support for desktop users.</li>
+</ul>
+
+<h2>The "viewed/unviewed" ring: a familiar detail</h2>
+<p>The small detail that makes this feature feel like real stories is the <strong>colored ring around the circle</strong>. An unviewed story has a bright gradient ring, while a viewed story's ring turns gray, like we see on social apps. The system remembers this state in the reader's browser, so they instantly know which stories they have not yet viewed.</p>
+<p>This detail may seem minor, but it is what creates "familiarity", which is the key to a good experience. When everything works as users expect from social stories, they use it smoothly without thinking, and that makes them willing to explore more of your posts.</p>
+
+<h2>Web Stories, engagement, and content discovery</h2>
+<p>The classic blog problem is that readers often come to read one article and leave, without knowing you have much more good content. Web Stories solve this in a fun way, because they invite readers to "swipe" through several posts quickly in an enjoyable format. When they find a topic of interest, they tap the read article button to read it in full.</p>
+<p>The result is that readers explore more of your content, stay on the site longer, and have a chance of finding an article that resonates until they become regular readers. Used together with other discovery elements such as <a href="/en/learn/related">related articles</a> that recommend nearby topics and <a href="/en/learn/bookmark">bookmarks</a> to save for later, your site systematically turns passing visitors into engaged readers.</p>
+
+<h2>Performance considerations</h2>
+<p>Because the stories pull data from the feed when the page loads, you should set a reasonable number of stories, not more than necessary. Showing around 6 to 10 stories is usually just right for both interest and speed. The images used in the circles are small thumbnails, so they load fast, while the large images in the fullscreen view load only when a reader taps to view.</p>
+<p>This approach keeps the feature beautiful without affecting homepage speed much. That said, choosing post cover images with suitable file sizes also helps both the stories and the overall page load fast, which is good for both readers and Core Web Vitals scores.</p>
+
+<h2>Examples of using Web Stories in different kinds of blogs</h2>
+<ul>
+  <li><strong>Travel blogs:</strong> stories full of beautiful destination images invite swiping and tapping into full reviews, ideal for image-led content.</li>
+  <li><strong>Food and cafe blogs:</strong> images of menus and the atmosphere in story format stir appetite very well.</li>
+  <li><strong>Fashion and lifestyle blogs:</strong> the story format fits image-led content naturally and matches this audience's behavior.</li>
+  <li><strong>News/update blogs:</strong> use stories to highlight the latest posts or important categories, letting readers see the activity before scrolling to read.</li>
+</ul>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The story circles do not show</h3>
+<p>The system hides the story bar if it cannot pull posts. Check that your blog has published posts, and if you set a label, make sure there are actually posts in that category. If you set a label with no posts, there are no stories to show.</p>
+<h3>The image in a story does not appear or is blurry</h3>
+<p>The stories use post cover images. If a post has no cover image, its story may have no image. We recommend adding a quality cover image to every post so the stories look good.</p>
+<h3>The stories show posts not in the category you want</h3>
+<p>Check that you set the label to match the label actually used on the posts. The label must be spelled the same to pull the right category.</p>
+<h3>You want the stories to show only on the homepage</h3>
+<p>Place the stories block in the position you want, and consider your page structure so the stories appear in a suitable spot, such as the top of the homepage where readers see it first.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Add beautiful, meaningful cover images to every post, because the stories use these directly.</li>
+  <li>Set a reasonable number of stories (around 6 to 10) to balance interest and speed.</li>
+  <li>Place the story bar near the top of the homepage so it is seen before other content.</li>
+  <li>Use a label if you want to highlight only a category you want to promote.</li>
+  <li>Complement it with <a href="/en/learn/related">related articles</a> so readers who tap from a story can read on.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>Web Stories bring the presentation format users love from social media to your Blogger blog. With BlogKub you just add the stories block, set the count, label, and time per slide, and Export it to use, and the system pulls your latest posts to show as story circles tapped to view fullscreen with auto-advance, with a progress bar, a viewed/unviewed ring, and a read article button, all updating themselves from the Blogger feed with no separate story creation. This feature boosts engagement, gets readers exploring more of your content, and turns visitors into engaged readers in a fun and natural way.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Where do the post stories pull their data from?</summary><p>They pull from your own Blogger post feed (feeds/posts/default), using the cover image and title of your latest posts, so you do not upload stories separately. The system creates stories from the posts you have already published automatically.</p></details>
+<details><summary>Can I limit it to pull only certain categories?</summary><p>Yes. Set a label to pull stories only from posts in that category, such as showing only travel posts. If you set no label, the system pulls from all the latest posts.</p></details>
+<details><summary>Do the stories remember which have been viewed?</summary><p>Yes. When a reader views a story, that story's colored ring turns gray to show it has been viewed, storing the state in the reader's browser, helping them know which stories they have not yet viewed.</p></details>
+<details><summary>Can viewers skip or go back a slide?</summary><p>Yes. Each slide auto-advances by the set time, with a progress bar at the top. Viewers tap the left side to go back, the right side to skip, tap close, or use the keyboard arrow keys, and there is a read article button to go to the full content.</p></details>
+<details><summary>How do Web Stories help engagement?</summary><p>They grab attention with a format users are familiar with from social media, letting readers explore several posts fun and fast, increasing clicks into full articles and time on the site.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/stories">
+  <Fragment set:html={body} />
+</EnLayout>

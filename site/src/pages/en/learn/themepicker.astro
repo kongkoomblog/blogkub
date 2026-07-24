@@ -1,0 +1,162 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add a Theme Color Picker letting readers change your site color in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/themepicker">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/themepicker">
+<meta name="description" content="How to add a Theme Color Picker to a Blogger theme with BlogKub, letting readers change the site's main color themselves: several preset color tones, remembers the choice in the browser, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add a Theme Color Picker letting readers change your site color in Blogger">
+<meta property="og:description" content="Let readers choose the site's main color, several preset tones, remembers the choice.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/themepicker.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/themepicker.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Theme Color Picker" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add a Theme Color Picker letting readers change your site color in a Blogger theme with BlogKub",
+      "description": "Steps to add a floating theme color picker that lets readers change the site's main color themselves, remembering the choice in the browser",
+      "inLanguage": "en",
+      "totalTime": "PT2M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the theme color block", "text": "Drag the 'Theme color' block from the library into the page", "url": "https://www.blogkub.com/en/learn/themepicker#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Export the XML and upload", "text": "Click Export XML, then upload it to Blogger via Theme, then Backup/Restore", "url": "https://www.blogkub.com/en/learn/themepicker#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Test the color change", "text": "Open the site, click the floating theme color button, choose a tone, and check the site's main color changes immediately", "url": "https://www.blogkub.com/en/learn/themepicker#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Check it remembers after refresh", "text": "Refresh the page to confirm the reader's chosen color stays, because the system stores the value in the browser", "url": "https://www.blogkub.com/en/learn/themepicker#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/themepicker.png","width":1280,"height":860},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/themepicker",
+      "headline": "How to add a Theme Color Picker letting readers change your site color in Blogger",
+      "description": "A detailed guide to adding a theme color picker that lets readers change the site's main color in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What does the theme color picker do?", "acceptedAnswer": { "@type": "Answer", "text": "It is a floating button that lets readers open a panel to choose the site's main (accent) color themselves. When they pick a tone, the site's accent color across the whole page changes immediately, such as buttons, links, and elements using the main color, letting readers adjust the site's look to their liking." } },
+        { "@type": "Question", "name": "How many colors are there to choose from?", "acceptedAnswer": { "@type": "Answer", "text": "There are several preset tones to choose from, such as indigo, rose, emerald green, amber, blue, purple, and gray, plus an option to return to the theme's original color. It covers the popular main tones without confusing readers with too many choices." } },
+        { "@type": "Question", "name": "Is the reader's chosen color remembered?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The system stores the reader's chosen color in their browser. When they return on the same device, the color they picked is still there, giving a continuous experience without choosing again every time." } },
+        { "@type": "Question", "name": "Does one reader's color change affect other readers?", "acceptedAnswer": { "@type": "Answer", "text": "No. The color change is each reader's own value stored in their own browser. Other readers and the site's default do not change. As the site owner, you still set the default color as usual." } },
+        { "@type": "Question", "name": "How is the theme color picker different from dark mode?", "acceptedAnswer": { "@type": "Answer", "text": "Dark mode switches between a light and dark background for comfortable reading, while the theme color picker changes the site's accent color. They are different dimensions of reader-side customization and can be used together, so readers can adjust both brightness and color tone." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Theme Color Picker</span></nav>
+<article>
+<h1>How to add a Theme Color Picker letting readers change your site color in Blogger</h1>
+<p class="lead">What if readers could choose your site's color to their liking? A theme color picker gives readers that small power, creating a sense of ownership and fun in interacting. This article teaches you how to add one to a Blogger theme with BlogKub, with preset colors, remembering the choice, and the reasoning for why this feature is appealing.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Theme color</strong> block in BlogKub, then Export the XML and upload it to Blogger. You get a <strong>floating button</strong> readers click to open a color panel with <strong>several preset tones</strong> (indigo, rose, green, amber, blue, purple, gray, plus the original). When chosen, the site's accent color changes immediately, and it <strong>remembers the value in each reader's browser</strong> without affecting other readers.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/themepicker.png" aria-label="View the theme color button and preset color panel at full size">
+    <img alt="A floating theme color button and a preset color panel on a Blogger site, letting readers change the site's accent color" title="The theme color button and preset color panel" src="https://www.blogkub.com/learn/images/themepicker.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1280" data-original-height="860" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A floating button in the bottom right opens the theme color panel, readers choose the site's accent tone themselves, and the color changes immediately.</figcaption>
+</figure>
+
+
+<h2>What the theme color picker is</h2>
+<p><strong>A Theme Color Picker is a floating button that lets readers open a panel to choose the site's "accent color" themselves.</strong> The accent color is the main color that appears on important elements such as buttons, links, icons, and spots that draw the eye. When a reader picks a tone they like, these elements across the whole site change color immediately in real time.</p>
+<p>This is a "personalization" feature that lets readers customize their own experience. Even though it is a small change, it creates a sense of engagement and fun. Some readers like a calming blue, some like a bright pink. Letting them choose makes your site feel "friendly" and attentive to each person's preference.</p>
+
+<h2>How it works: changes immediately and remembers</h2>
+<p>When you add this block, the system places a round floating button in the bottom right of the screen. When a reader clicks, a small panel opens with color previews as circles to choose from. When the reader taps a color, the system updates the site's main color variable immediately, so every element using the accent color changes in an instant, with no page reload.</p>
+<p>The key point is that the system <strong>remembers the reader's chosen color in their browser</strong>, so when they return on the same device, the color they picked is still there, with no need to choose again every time. And because it is stored on the reader's side, one person's color change <strong>does not affect other readers</strong> or the site's default. Each person has their own color version.</p>
+
+<h2 id="step1">How to add the theme color picker in BlogKub step by step</h2>
+<ol class="steps">
+  <li><strong>Add the theme color block.</strong> Open the left block library and drag the "Theme color" block into the page, to place the floating button and color panel.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Test the color change.</strong> Open the live site, click the floating theme color button, and choose various tones, checking that the site's accent color (buttons, links) changes immediately.</li>
+  <li id="step4"><strong>Check it remembers after refresh.</strong> Refresh the page to confirm the chosen color stays, because the system stores the value in the reader's browser.</li>
+</ol>
+
+<h2>Preset colors: why not free color choice</h2>
+<p>BlogKub's theme color picker offers <strong>curated preset colors</strong> rather than free choice of every shade. This is a deliberate design decision, because each curated tone is paired to go together and read easily on the site's background, in both light and dark mode. If free color choice were allowed, readers might pick a color too faint to read, or one that clashes with the background and looks bad.</p>
+<p>The available tones cover popular main colors such as indigo, rose, emerald green, amber, blue, purple, and gray, plus a "return to the original" option for the theme. This set is wide enough for readers to find a color they like, but not so many as to confuse, a balance between freedom to choose and the guarantee that the result always looks good.</p>
+<div class="note">This same principle applies to good design in general: offering choices that are "all good" beats offering unlimited freedom that may lead to bad results.</div>
+
+<h2>Theme color picker vs dark mode: different dimensions, usable together</h2>
+<p>Many readers confuse the theme color picker with <a href="/en/learn/dark-mode">dark mode</a>. Both are reader-side customization, but they do different things.</p>
+<ul>
+  <li><strong>Dark mode:</strong> switches the "brightness" of the background between light and dark, for comfortable reading in different lighting.</li>
+  <li><strong>Theme color picker:</strong> changes the site's "accent tone", for color preference and identity.</li>
+</ul>
+<p>The two work in different dimensions and complement each other perfectly. A reader might choose dark mode with an emerald green accent, or light mode with pink, as they like. Enabling both features makes your site fully customizable in both brightness and color tone, letting readers design their own experience fully.</p>
+
+<h2>Benefits for engagement and a sense of ownership</h2>
+<p>A personalization feature like this has an interesting psychological effect. When a reader takes action to customize something on your site, even just changing a color, they feel more engaged and attached to it, because it becomes "their version" of the site. This small sense of ownership increases the chance they remember the site and return.</p>
+<p>Besides, having a color picker also signals that your site is modern and attentive to detail, which affects the first impression and credibility. Used together with other experience-raising features such as dark mode and a <a href="/en/learn/progress">reading progress bar</a>, your site feels like a polished product, not just an ordinary blog.</p>
+
+<h2>A consideration: do not let floating buttons clutter</h2>
+<p>The theme color picker is a floating button in the bottom right, the same area other floating buttons often sit, such as a <a href="/en/learn/back-to-top">back to top button</a> or a dark mode button in some layouts. If you enable several floating buttons at once, check that they do not overlap or crowd until it looks cluttered.</p>
+<p>The recommendation is to enable only the floating features genuinely necessary for your site's experience. The theme color picker suits sites that want to emphasize fun and personalization, while sites focused on simplicity might choose not to enable it. Having the right features beats cramming everything in until the screen is full of buttons.</p>
+
+<h2>Examples of use in different kinds of blogs</h2>
+<ul>
+  <li><strong>Personal and lifestyle blogs:</strong> fits a fun character, letting readers choose a color reflecting their mood.</li>
+  <li><strong>Tech and tool blogs:</strong> these readers love to customize, and a color feature matches their expectation of flexibility.</li>
+  <li><strong>Fashion and creative blogs:</strong> playing with color is part of the site's identity, and a color picker adds appeal.</li>
+  <li><strong>Portfolio sites:</strong> shows you care about detail and UX, which is a selling point for creative professionals.</li>
+</ul>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The floating button does not appear</h3>
+<p>Check that you added the theme color block and Exported again. The button floats in the bottom right. If another floating button is in the same spot, you may need to check they do not overlap.</p>
+<h3>Choosing a color does not change some parts</h3>
+<p>The color picker changes the "accent color" used on buttons, links, and main elements. Elements with their own fixed color may not change, which is normal when using the accent as a central variable.</p>
+<h3>The chosen color is lost after clearing browser data</h3>
+<p>This is normal behavior, because the chosen color is stored in the browser. If the reader clears the site data, the value returns to the theme's default.</p>
+<h3>You want to lock the default color to the brand color</h3>
+<p>You can already set the theme's default color in BlogKub. The color picker is just an extra option for readers. The default that new visitors always see first is the brand color you set.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Set the theme's default color to your brand color, with the color picker as an extra option for readers.</li>
+  <li>Enable the color picker when your site emphasizes fun and personalization, not every site needs it.</li>
+  <li>Be careful not to let several floating buttons overlap into clutter, enable only what is necessary.</li>
+  <li>Use it together with <a href="/en/learn/dark-mode">dark mode</a> so readers can adjust both brightness and color tone.</li>
+  <li>Test that every selectable tone still reads easily in both light and dark mode.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The theme color picker gives readers a small customization power, changing the site's accent color to their liking in a few clicks. With BlogKub you just add the theme color block and Export it to use, and readers get a floating button that opens a panel of several preset tones, and choosing one changes the site color immediately and remembers the value in their own browser without affecting others. This feature creates a sense of engagement and ownership, makes the site feel modern and detail-attentive, and used together with dark mode, lets readers design their own experience fully in both brightness and color tone.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>What does the theme color picker do?</summary><p>It is a floating button that lets readers open a panel to choose the site's main (accent) color themselves. When they pick a tone, the site's accent color across the whole page changes immediately, such as buttons, links, and elements using the main color, letting readers adjust the site's look to their liking.</p></details>
+<details><summary>How many colors are there to choose from?</summary><p>There are several preset tones to choose from, such as indigo, rose, emerald green, amber, blue, purple, and gray, plus an option to return to the theme's original color. It covers the popular main tones without confusing readers with too many choices.</p></details>
+<details><summary>Is the reader's chosen color remembered?</summary><p>Yes. The system stores the reader's chosen color in their browser. When they return on the same device, the color they picked is still there, giving a continuous experience without choosing again every time.</p></details>
+<details><summary>Does one reader's color change affect other readers?</summary><p>No. The color change is each reader's own value stored in their own browser. Other readers and the site's default do not change. As the site owner, you still set the default color as usual.</p></details>
+<details><summary>How is the theme color picker different from dark mode?</summary><p>Dark mode switches between a light and dark background for comfortable reading, while the theme color picker changes the site's accent color. They are different dimensions of reader-side customization and can be used together, so readers can adjust both brightness and color tone.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/themepicker">
+  <Fragment set:html={body} />
+</EnLayout>
