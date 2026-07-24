@@ -1,0 +1,154 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build an AEO summary box in Blogger 2026, so AI and Google cite you</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/aeo">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/aeo">
+<meta name="description" content="How to add an AEO (Answer Engine Optimization) summary box at the top of Blogger posts with BlogKub, pulled from the Search Description with no AI API, so Google AI Overviews, ChatGPT, and Perplexity cite your content.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build an AEO summary box in Blogger, so AI cites you">
+<meta property="og:description" content="A summary box at the top of your post that helps AI Search and Google cite your content, with no API.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/aeo.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/aeo.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "AEO Summary Box" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/aeo.png","width":1480,"height":238},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/aeo",
+      "headline": "How to build an AEO summary box in a Blogger theme",
+      "description": "A detailed guide to adding an AEO summary box that helps AI and Google cite your content in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does the AEO summary box need an AI API?", "acceptedAnswer": { "@type": "Answer", "text": "No API or AI is needed. The box pulls its text straight from the 'Search Description' you fill in on the post (the same value Blogger uses for the meta description). If a post has none, the system trims the first paragraph and shows it automatically on the server side." } },
+        { "@type": "Question", "name": "How is AEO different from the meta description?", "acceptedAnswer": { "@type": "Answer", "text": "Both come from the same Search Description, but the meta description is hidden in the code for search results, while the AEO box shows that text clearly to readers and AI at the top of the article, with speakable markup, making it easier for answer engines to pick up." } },
+        { "@type": "Question", "name": "Does the AEO box really help me appear in AI Overviews?", "acceptedAnswer": { "@type": "Answer", "text": "It improves the odds, because AI Search favors content that answers clearly from the start. A well-written answer-first summary is a spot AI often cites. But nobody can guarantee a 100% appearance, since it also depends on overall content quality." } },
+        { "@type": "Question", "name": "Why is my summary box empty or showing the first paragraph?", "acceptedAnswer": { "@type": "Answer", "text": "Because that post has no Search Description filled in. When it is blank, the system trims the first paragraph and shows that instead. The fix is to open the post and fill in the Search Description on every article." } },
+        { "@type": "Question", "name": "Which pages show the AEO box?", "acceptedAnswer": { "@type": "Answer", "text": "It shows only on single item pages, at the top of the article above the content. It does not appear on the homepage or list pages, so it matches where readers and AI most want a summary." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>AEO Summary Box</span></nav>
+<article>
+<h1>How to build an AEO summary box in a Blogger theme, so AI and Google cite you</h1>
+<p class="lead">In an age where more people ask AI their questions, having an "answer summary box" at the top of an article is one of the most powerful ways to get your content cited. This article teaches you how to add an AEO summary box to a Blogger theme with BlogKub in detail, without any API or AI.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 10 minute read &nbsp; Level: Intermediate</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>AEO Summary Box</strong> block in BlogKub, set the heading and style, then Export the XML and upload it to Blogger. From there, <strong>fill in the "Search Description" on every post</strong> as a short 1 to 2 sentence answer summary. The box pulls that text and shows it at the top of the article, clearly for both readers and AI, with speakable markup, and needs no AI API at all.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/aeo.png" aria-label="View the AEO (Answer Engine Optimization) summary box image at full size">
+    <img alt="An AEO summary box at the top of a Blogger article showing a short answer summary from the Search Description" title="The AEO (Answer Engine Optimization) summary box at the top of an article" src="https://www.blogkub.com/learn/images/aeo.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1480" data-original-height="238" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The AEO summary box at the top of the article, pulling text from the Search Description so readers and AI see the answer immediately.</figcaption>
+</figure>
+
+
+<h2>What AEO is, and how it differs from SEO</h2>
+<p><strong>AEO (Answer Engine Optimization) is tuning your content so "answer engines" can pull it straight into their answer to a user.</strong> Unlike traditional SEO, which aims to rank a link and wait for a click, AEO aims to get your answer to appear directly in answer boxes such as Google AI Overviews, ChatGPT Search, Perplexity, or a featured snippet. Behavior has changed, and many people now get a complete answer right on the search page without even clicking through.</p>
+<p>The heart of AEO is "answer first, explain later". AI tools favor content that gives a clear, concise answer in a place that is easy to find. A summary box at the top of the article is therefore the most on-point AEO tool, because it places the main answer right at the top in a form that both people and machines understand immediately.</p>
+
+<h2>How BlogKub's AEO summary box works (no API needed)</h2>
+<p>A common misconception is thinking you have to connect an AI to summarize the article. In reality, <strong>BlogKub's summary box pulls its text straight from the "Search Description" you fill in on the post</strong>, which is the same value Blogger uses to build the meta description. The upside is that you write the summary yourself, so you control quality and accuracy 100%, pay no API cost, and never risk AI inventing something wrong.</p>
+<p>Technically, this box reads <code>data:view.description</code>, which holds the post's Search Description on a single article page. If a post has none filled in, the system trims the first paragraph of the content and shows it automatically on the server side, so it can never be an empty box. The box also carries the class <code>.qt-aeo-summary</code>, paired with a SpeakableSpecification in the structured data, which tells Google and voice assistants which part is the readable summary.</p>
+
+<h2 id="step1">How to add the AEO summary box in BlogKub, step by step</h2>
+<ol class="steps">
+  <li id="step2"><strong>Add the AEO Summary Box block.</strong> Many templates install it already. If yours does not, open the left library, category "Article &amp; UX", and drag the "AEO Summary Box" block in. The system places it at the top of the article automatically.</li>
+  <li><strong>Set the box heading and style.</strong> Click the block to set a heading, such as "Summary" or "Short answer", and pick a box style (card / highlight / minimal) to match your site's design.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Fill in the Search Description on every post.</strong> In the Blogger post editor, open the settings panel on the right → "Search Description", and write a short 1 to 2 sentence summary of the article's main answer (about 40 to 60 words). This is the most important step.</li>
+  <li id="step5"><strong>Check the display.</strong> Open the actual article page and confirm the box shows the text you wrote, not a first paragraph the system trimmed. If you see the first paragraph, it means the description is not filled in.</li>
+</ol>
+<p class="note">The AEO box is placed in the post's includable and wrapped in a <code>data:view.isSingleItem</code> condition, so it appears only on single article pages, keeping the homepage and list pages clean.</p>
+
+<h2>How to write an AEO summary that AI will cite</h2>
+<p>The quality of the box text is everything. Follow these principles when writing the Search Description:</p>
+<ul>
+  <li><strong>Answer the main question in the first sentence.</strong> Do not preamble, give the answer right away. For an article on "how to soft-boil an egg", open with "A soft-boiled egg takes 6 minutes in boiling water, then straight into cold water", not "The soft-boiled egg is a popular dish...".</li>
+  <li><strong>Keep it 40 to 60 words.</strong> Long enough to have substance, short enough for AI to lift the whole thing. A summary that runs too long gets truncated and loses the point.</li>
+  <li><strong>Include the keywords and numbers that are the answer.</strong> Numbers, durations, steps, or a specific conclusion help AI be confident this is the answer.</li>
+  <li><strong>Write it as complete sentences,</strong> not strung-together keywords, because AI and voice assistants read aloud straight from this text.</li>
+  <li><strong>Do not just repeat the title.</strong> Add substance the title does not state, to increase value.</li>
+</ul>
+
+<h2>AEO vs meta description vs featured snippet</h2>
+<p>These three are related but not the same. Understanding the difference helps you use the summary box to its full potential.</p>
+<ul>
+  <li><strong>The meta description</strong> is text hidden in the code to show under a search result. Readers do not see it on the page.</li>
+  <li><strong>The AEO summary box</strong> takes that same text and "shows it on the page", clearly for both readers and AI at the top of the article, with speakable markup.</li>
+  <li><strong>The featured snippet / AI Overviews</strong> is the result Google or AI pulls the answer into, and a well-written summary box improves the odds of being chosen.</li>
+</ul>
+<p>Put simply, the AEO box is the bridge that makes your Search Description do two jobs at once: it gives a new reader the overview immediately, and it helps AI understand what the article answers.</p>
+
+<h2>The AEO box with GEO and voice assistants</h2>
+<p>GEO (Generative Engine Optimization) is getting your content cited in the answers of generative AI. The summary box plays a big role because it places the answer in the position and format language models like, which is short, clear, and factual. When ChatGPT Search or Perplexity reads a page, they look for the section that summarizes the point best to lift into an answer with a citation, and the box at the top of the article is the first thing scanned.</p>
+<p>On top of that, the speakable markup tied to the box helps voice assistants like Google Assistant choose to read this summary when a user asks by voice, making your content more reachable in contexts without a screen.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The box shows the first paragraph instead of the summary you intended</h3>
+<p>It means that post has no Search Description filled in, so the system trims the first paragraph and shows it instead. The fix is to open the post and fill in the description. This is the most common cause.</p>
+<h3>The box does not show at all</h3>
+<p>Check that you are viewing a single article page (not the homepage or a label page), because the box shows only on article pages, and check that the AEO block is still in the theme structure.</p>
+<h3>The box content is too long or too short</h3>
+<p>Adjust the post's Search Description to land in the 40 to 60 word range, which is comfortable to read and well suited to being lifted into an answer.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Fill in the Search Description on every post, never leave it blank, because it is both the meta description and the AEO box content in one.</li>
+  <li>Place the box at the top of the article above the <a href="/en/learn/toc">table of contents</a>, so it is the first thing people and AI see (BlogKub positions it automatically).</li>
+  <li>Write answer-first summaries, with specific numbers or conclusions, and avoid preamble.</li>
+  <li>Pair it with an <a href="/en/learn/faq">FAQ</a> in the article, so you have both a main summary and sub-questions AI can cite from several angles.</li>
+  <li>Review and update the summary when you edit the article, so the answer always matches the current content.</li>
+</ul>
+
+<h2>Example AEO summaries: well written vs missed</h2>
+<p>Theory can feel abstract, so look at a real example to see the difference between a summary AI wants to cite and one that gets overlooked. Say the article is "How often should I water my houseplants".</p>
+<ul>
+  <li><strong>Missed:</strong> "Houseplants are something many people love. This article walks through tips for keeping plants beautiful." This sentence answers nothing, it is just a preamble, so AI has nothing to pick up.</li>
+  <li><strong>Well written:</strong> "Most houseplants should be watered 1 to 2 times a week, when the top 2 to 3 cm of soil has dried out. Succulents like cacti need less, while large-leaf plants need water more often." It answers immediately, has numbers and conditions, and AI can lift it straight into an answer.</li>
+</ul>
+<p>Notice the difference is not length, but "answers or does not answer". A good summary gives a usable answer from the first sentence. This is the heart of writing an AEO summary, and it is what separates an article cited in the answer box from one that gets scrolled past.</p>
+
+<h2>Pair the AEO box with an FAQ to cover multiple questions</h2>
+<p>The summary box answers one main question well, but a single article usually has several sub-questions people wonder about. Adding an FAQ section helps here, because each question and answer in the FAQ is also an answer-first unit AI can cite. Using both a summary box at the top and an FAQ at the end covers both the main and the secondary questions, expanding the space where your content can be cited.</p>
+<p>Importantly, BlogKub's FAQ also embeds FAQPage schema automatically, so both the summary box and the FAQ reinforce each other, both as answer-first content and as structured data that search engines understand.</p>
+
+<h2>Wrapping up</h2>
+<p>The AEO summary box is one of the most worthwhile features for the AI search era, because it makes the Search Description you already write work harder, both helping readers see the answer immediately and opening the door for Google AI Overviews, ChatGPT, and Perplexity to cite your content. What you need to do is add the AEO block in BlogKub and have the discipline to write a good short answer summary on every post, without relying on any API or AI. To see the whole SEO picture from the basics to AI Search, read the guide to <a href="/en/blog/blogger-seo">Blogger SEO and ranking on Google's first page</a>.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does the AEO summary box need an AI API?</summary><p>No API or AI is needed. The box pulls its text straight from the 'Search Description' you fill in on the post (the same value Blogger uses for the meta description). If a post has none, the system trims the first paragraph and shows it automatically on the server side.</p></details>
+<details><summary>How is AEO different from the meta description?</summary><p>Both come from the same Search Description, but the meta description is hidden in the code for search results, while the AEO box shows that text clearly to readers and AI at the top of the article, with speakable markup, making it easier for answer engines to pick up.</p></details>
+<details><summary>Does the AEO box really help me appear in AI Overviews?</summary><p>It improves the odds, because AI Search favors content that answers clearly from the start. A well-written answer-first summary is a spot AI often cites. But nobody can guarantee a 100% appearance, since it also depends on overall content quality.</p></details>
+<details><summary>Why is my summary box empty or showing the first paragraph?</summary><p>Because that post has no Search Description filled in. When it is blank, the system trims the first paragraph and shows that instead. The fix is to open the post and fill in the Search Description on every article.</p></details>
+<details><summary>Which pages show the AEO box?</summary><p>It shows only on single item pages, at the top of the article above the content. It does not appear on the homepage or list pages, so it matches where readers and AI most want a summary.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/aeo">
+  <Fragment set:html={body} />
+</EnLayout>

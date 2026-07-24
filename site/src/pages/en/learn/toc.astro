@@ -1,0 +1,158 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build an automatic table of contents in Blogger 2026, a detailed step-by-step guide</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/toc">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/toc">
+<meta name="description" content="How to build an automatic table of contents (TOC) in a Blogger theme with BlogKub, generated from your H2/H3 headings with clickable jumps, plus the SEO benefits, settings, common problems, and detailed fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build an automatic table of contents (TOC) in Blogger, a detailed guide">
+<meta property="og:description" content="Generate a table of contents from H2/H3 automatically, with clickable jumps, good for SEO and the reader experience.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/toc.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/toc.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Table of Contents (TOC)" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/toc",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/toc.png","width":1480,"height":366},
+      "headline": "How to build an automatic table of contents (TOC) in a Blogger theme",
+      "description": "A detailed guide to building a TOC that is generated from H2/H3 headings automatically in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Is the table of contents in BlogKub generated automatically, or do I type it myself?", "acceptedAnswer": { "@type": "Answer", "text": "It is generated automatically from the H2 and H3 headings in your article. You do not type the list yourself. When you add or edit a heading, the table of contents updates immediately." } },
+        { "@type": "Question", "name": "Does clicking the table of contents jump to the heading?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Each item is an anchor link, and clicking it scrolls smoothly to that heading. It also helps Google show sitelinks for your sub-headings in the results." } },
+        { "@type": "Question", "name": "Can I show only H2 in the table of contents?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. In the TOC block settings, choose a depth of H2 only, or H2 + H3, as you prefer, to make the table of contents concise or detailed to match the content." } },
+        { "@type": "Question", "name": "How does a table of contents affect SEO?", "acceptedAnswer": { "@type": "Answer", "text": "A table of contents raises time on page, reduces bounce, and opens the door for Google to show 'jump to' links and heading sitelinks in the results. It also forces a clear heading structure, which is good for crawling." } },
+        { "@type": "Question", "name": "Why is my table of contents empty?", "acceptedAnswer": { "@type": "Answer", "text": "Because the article has no H2/H3 headings yet. The table of contents is built from these headings. Set your post headings to 'Heading (H2)' or 'Subheading (H3)' in the Blogger editor and the table of contents will appear." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Table of Contents (TOC)</span></nav>
+<article>
+<h1>How to build an automatic table of contents in a Blogger theme, a detailed step-by-step guide</h1>
+<p class="lead">A clickable table of contents is one of the elements that instantly makes a long article feel professional. This article teaches you how to add a table of contents generated automatically from your H2/H3 headings in a Blogger theme with BlogKub, from the start to uploading it live, along with the SEO reasoning and fixes for common problems.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Table of Contents (TOC)</strong> block in BlogKub (many templates install it already), set the heading, depth (H2 or H2+H3), and numbering, then Export the XML and upload it to Blogger. From there, write your article with headings set as H2/H3 and the table of contents is generated and updated automatically. It raises time on page and opens the door to jump-links in the Google results.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/toc.png" aria-label="View the automatic table of contents that BlogKub generates at full size">
+    <img alt="An automatic table of contents in a Blogger article, built from H2 and H3 headings with jump links to each heading" title="The automatic table of contents that BlogKub generates" src="https://www.blogkub.com/learn/images/toc.png" loading="lazy" decoding="async" border="0" width="740" data-original-width="1480" data-original-height="366" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The table of contents BlogKub builds from H2/H3 headings automatically. Click any item to jump to that heading.</figcaption>
+</figure>
+
+
+
+
+<h2>What a table of contents is, and why long articles need one</h2>
+<p><strong>A table of contents (TOC) is a box of headings placed at the top of an article, where each item is a link that jumps straight to that heading when clicked.</strong> For an article longer than one screen, a table of contents changes the reading experience from "scroll around looking" to "see the overview and pick what you want to read", instantly.</p>
+<p>In reader psychology, a table of contents acts like a map. When people see that an article covers the topic they are looking for, they are confident they are in the right place and stay to read, instead of closing within a few seconds. This is why world-class quality sites, such as online encyclopedias and technical manuals, almost all use a table of contents on long content.</p>
+<p>The problem is that Blogger has no built-in table of contents, and the old way to make one means inserting a long block of JavaScript into every post, which is fiddly and breaks easily. BlogKub solves this by embedding the table of contents system into the theme at the template level once, so every article gets an automatic table of contents without you ever touching code in the post.</p>
+
+<h2>How a table of contents helps SEO</h2>
+<p>A table of contents helps more than just the reader. It sends several positive signals to search engines:</p>
+<ul>
+  <li><strong>More time on page (dwell time):</strong> when people find the heading they want quickly, they stay longer and tend to read several sections, reducing bounce, which is an indirect quality signal.</li>
+  <li><strong>A chance at jump-to links in the results:</strong> Google often pulls anchor links from the table of contents to show as sub-links under a result, letting users jump straight to the section they want, adding space and click-through.</li>
+  <li><strong>Forces a clear heading structure:</strong> because the table of contents is built from H2/H3, to get a clean one you have to order your headings logically, which is exactly what Google uses to understand the outline, and helps AI summarize the content accurately.</li>
+  <li><strong>Supports AEO/GEO:</strong> a clear heading structure makes it easier for answer engines and AI Overviews to lift a heading into an answer for a user.</li>
+</ul>
+
+<h2 id="step1">How to add a table of contents in BlogKub, step by step</h2>
+<ol class="steps">
+  <li id="step2"><strong>Open BlogKub and pick a template.</strong> Many templates install the TOC block from the start. Check the page structure for a "Table of Contents (TOC)" block already present.</li>
+  <li id="step3"><strong>Add the TOC block (if you do not have one).</strong> Open the left library, category "Article &amp; UX", and drag the "Table of Contents (TOC)" block in. The system places it in the correct spot (the top of the article) automatically.</li>
+  <li><strong>Configure the table of contents.</strong> Click the block to open its properties panel, then set: the TOC heading (such as "Contents" or "In this article"), the depth (H2 only, or H2 + H3), and whether to number each item.</li>
+  <li><strong>Export the XML and upload to Blogger.</strong> Click Export, then take the XML to blogger.com → Theme → three-dot menu → Backup/Restore → select the file.</li>
+  <li id="step4"><strong>Write your article with H2/H3 headings.</strong> In the post editor, set your main headings as "Heading (Heading 2)" and sub-headings as "Subheading (Heading 3)". That is all it takes for the table of contents to be built and ordered for you every time you publish.</li>
+</ol>
+<p class="note">BlogKub's table of contents system is placed directly in the post's includable, so it always appears above the content no matter how you order your blocks, and it works only on article pages (keeping the homepage clean).</p>
+
+<h2 id="step5">Settings options and what they mean</h2>
+<table>
+  <thead><tr><th>Option</th><th>Meaning</th><th>Recommendation</th></tr></thead>
+  <tbody>
+    <tr><td>TOC heading</td><td>The heading text of the box</td><td>Use a familiar word, such as "Contents" or "In this article"</td></tr>
+    <tr><td>Depth (maxDepth)</td><td>Show H2 only, or H2 + H3</td><td>Short articles need only H2, long articles with many sub-headings use H2+H3</td></tr>
+    <tr><td>Numbering</td><td>Add 1, 2, 3 before each item</td><td>Leave on for clarity of the content order</td></tr>
+  </tbody>
+</table>
+
+<h2>How to write an article so the table of contents looks good</h2>
+<p>A good table of contents starts from a good outline. Follow these principles when writing a post:</p>
+<ul>
+  <li><strong>Use H2 for main headings and H3 for sub-headings only.</strong> Do not use bold text in place of a heading, because the table of contents and Google will not recognize it as a heading.</li>
+  <li><strong>Name headings meaningfully and with keywords.</strong> A good heading is one that, read in sequence in the table of contents, conveys the outline of the whole article.</li>
+  <li><strong>Do not make headings too short or vague.</strong> "Point 1" is useless. It should be "Step 1: pick a template", for instance.</li>
+  <li><strong>Keep the hierarchy correct.</strong> Do not jump from H2 to H4, skipping H3, because it distorts the table of contents and the document structure.</li>
+</ul>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The table of contents is empty or does not appear</h3>
+<p>The most common cause is that the article has no H2/H3 headings, because the table of contents is built from them. Open the post editor and change your heading text from "Normal" to "Heading (Heading 2)" or "Subheading (Heading 3)", then save and view the live page again.</p>
+<h3>The table of contents shows headings you do not want</h3>
+<p>Sometimes a template or another widget creates unrelated H2/H3. Check that you are not using the same heading level as a UI element, and set the table of contents depth to H2 only to keep it concise.</p>
+<h3>Clicking does not jump, or jumps past the heading</h3>
+<p>This usually happens when a sticky header covers the heading. BlogKub's system already reserves scroll spacing, but if you have raised the header height a lot, test and reduce the sticky height slightly.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use a table of contents on articles longer than roughly 800 to 1,000 words, or with 3 or more headings. Very short articles do not need one.</li>
+  <li>Place the table of contents at the top of the article (BlogKub does this automatically) so readers see it immediately before deciding to read on.</li>
+  <li>Pair the table of contents with the <a href="/en/learn/anchorlink">anchor link</a> feature so readers can copy a link straight to a heading and share it.</li>
+  <li>Write headings as questions or sentences people actually search, which helps both the table of contents and your odds of appearing in AI Overviews.</li>
+</ul>
+
+<h2>The table of contents with AEO/GEO: getting AI to lift your headings into answers</h2>
+<p>In an age where more people ask Google AI Overviews, ChatGPT Search, and Perplexity, a clear heading structure becomes a real asset, because these AI systems "read" an article by relying on the heading hierarchy to understand what each section answers. When your article has well-named H2/H3 and a table of contents that reflects the outline, the odds that AI lifts one of your headings into an answer for a user, and cites your site, go up.</p>
+<p>The trick is to write headings in the form people actually ask. For example, instead of "Installation", write "How to install, step by step", or instead of "Benefits", write "How does a table of contents help SEO". Question-form or how-to headings are a magnet for both a readable table of contents and being lifted into AI Overviews. Pair it with an <a href="/en/learn/aeo">AEO summary box</a> at the top of the article, and your content is even more ready for modern search.</p>
+
+<h2>Comparison: automatic table of contents vs typing it yourself vs a plugin</h2>
+<p>Before, Blogger owners had only a few options for making a table of contents, and each had clear downsides. Understanding the difference shows why the automatic approach is the most worthwhile.</p>
+<ul>
+  <li><strong>Typing the table of contents yourself:</strong> full control over the format, but you type the links and anchors yourself on every article, and every time you edit a heading you have to come back and edit the table of contents too. It is time-consuming and error-prone, and the more articles you have, the bigger the burden.</li>
+  <li><strong>Pasting JavaScript per post:</strong> it does give an automatic table of contents, but you have to paste the script into every post, and if you forget or place it wrong, it breaks, and code scattered through the content is hard to manage over the long term.</li>
+  <li><strong>BlogKub's theme-level table of contents:</strong> set it once in the theme, and it works on every article forever, with no touching posts, no clutter code in the content, updating from your headings automatically, and always placed correctly. This is the easiest and most consistent approach.</li>
+</ul>
+<p>Put simply, the automatic theme-level approach moves the burden from "every article" to "once when setting up the theme", which suits anyone serious about blogging long term with a large archive of articles.</p>
+
+<h2>Wrapping up</h2>
+<p>An automatic table of contents is a high-return improvement for the effort, because you install it once in the theme and it works on every article forever. It lifts the reader experience, reduces bounce, and opens the door to special space in the results. All you have to do is add the TOC block in BlogKub, set it to suit your content length, and write your articles with disciplined H2/H3 headings. With that, your Blogger site looks more professional at once.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Is the table of contents in BlogKub generated automatically, or do I type it myself?</summary><p>It is generated automatically from the H2 and H3 headings in your article. You do not type the list yourself. When you add or edit a heading, the table of contents updates immediately.</p></details>
+<details><summary>Does clicking the table of contents jump to the heading?</summary><p>Yes. Each item is an anchor link, and clicking it scrolls smoothly to that heading. It also helps Google show sitelinks for your sub-headings in the results.</p></details>
+<details><summary>Can I show only H2 in the table of contents?</summary><p>Yes. In the TOC block settings, choose a depth of H2 only, or H2 + H3, as you prefer, to make the table of contents concise or detailed to match the content.</p></details>
+<details><summary>How does a table of contents affect SEO?</summary><p>A table of contents raises time on page, reduces bounce, and opens the door for Google to show 'jump to' links and heading sitelinks in the results. It also forces a clear heading structure, which is good for crawling.</p></details>
+<details><summary>Why is my table of contents empty?</summary><p>Because the article has no H2/H3 headings yet. The table of contents is built from these headings. Set your post headings to 'Heading (H2)' or 'Subheading (H3)' in the Blogger editor and the table of contents will appear.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/toc">
+  <Fragment set:html={body} />
+</EnLayout>
