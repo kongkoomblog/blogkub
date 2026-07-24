@@ -1,0 +1,150 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a Featured posts section in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/featured">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/featured">
+<meta name="description" content="How to set up a Featured posts section in a Blogger theme with BlogKub: pin a recommended post with a label, show it as a large highlight on the homepage, fall back to the latest post automatically, pulled from the feed, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a Featured posts section in Blogger">
+<meta property="og:description" content="Pin a recommended post with a label, show it as a large highlight on the homepage, pulled from the feed.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/featured.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/featured.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Featured posts" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to set up a Featured posts section in a Blogger theme with BlogKub",
+      "description": "Steps to set up a featured section that pins a post with a label and shows it as a highlight on the homepage",
+      "inLanguage": "en",
+      "totalTime": "PT4M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add or select the Featured block", "text": "Select the 'Featured posts' block that comes with the template, or add it in", "url": "https://www.blogkub.com/en/learn/featured#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Set the heading and pin label", "text": "Enter a section heading and (in the magazine template) set a label name for pinning recommended posts", "url": "https://www.blogkub.com/en/learn/featured#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Add the label to the post", "text": "In blogger.com edit the post you want, then add the label you set to pin it as a featured post", "url": "https://www.blogkub.com/en/learn/featured#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Export the XML and check the result", "text": "Click Export XML, upload it to Blogger, then check the featured post displays correctly on the homepage", "url": "https://www.blogkub.com/en/learn/featured#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/featured.png","width":1800,"height":1070},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/featured",
+      "headline": "How to build a Featured posts section in Blogger",
+      "description": "A detailed guide to setting up a featured posts section in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How do you pin a featured post?", "acceptedAnswer": { "@type": "Answer", "text": "In the magazine template, you set a label name for recommended posts (such as 'Recommended'), then go to blogger.com, edit the post you want, and add that label. That post appears as a featured post immediately. You can pin several posts, with the first shown as the large highlight." } },
+        { "@type": "Question", "name": "What happens if I do not pin any post?", "acceptedAnswer": { "@type": "Answer", "text": "If no post carries the label you set, the system shows the latest post as the featured one automatically. So the featured section always has content to show and is never empty." } },
+        { "@type": "Question", "name": "Where does the featured section pull its data from?", "acceptedAnswer": { "@type": "Answer", "text": "It pulls from Blogger's post feed, filtering by the label you set (if any), then displays the cover image, title, and post details as a highlight. It updates automatically when you pin or publish a post." } },
+        { "@type": "Question", "name": "How many posts can I pin?", "acceptedAnswer": { "@type": "Answer", "text": "You can pin several posts by applying the same label to multiple posts. The first post shows as the large highlight and the rest show below, helping you emphasize several important pieces." } },
+        { "@type": "Question", "name": "What kind of blog is the featured section good for?", "acceptedAnswer": { "@type": "Answer", "text": "It suits blogs with important posts you want to stand out above ordinary ones, such as news blogs, magazines, or any site with a main post you want pinned at the top so newer posts do not push it out of view." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Featured posts</span></nav>
+<article>
+<h1>How to build a Featured posts section in Blogger</h1>
+<p class="lead">Some posts are more important than others, and you do not want them to disappear when a new post replaces them. A Featured posts section lets you pin an important post to show as a highlight on the homepage. This article teaches you how to set it up in a Blogger theme with BlogKub, pinning with a label, and using the latest post automatically if you have not pinned anything yet.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Intermediate</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>Featured posts</strong> block in BlogKub lets you <strong>pin a recommended post with a label</strong> (such as 'Recommended') to show as a highlight on the homepage. You can pin several posts (the first is the large highlight). To pin: in blogger.com, add the label to the post. If you pin nothing, the system <strong>uses the latest post automatically</strong>, pulled from the feed, then you Export it to use.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/featured.png" aria-label="View the Featured posts pinned highlight section at full size">
+    <img alt="A Featured posts section in a Blogger theme showing a large highlight with a recommended badge and two secondary posts" title="A Featured posts pinned highlight section" src="https://www.blogkub.com/learn/images/featured.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1800" data-original-height="1070" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A featured section: a large highlight with a 'Recommended' badge and secondary posts, pinned by label, pulled from the feed.</figcaption>
+</figure>
+
+
+<h2>What a featured section is, and why it helps</h2>
+<p><strong>A Featured posts section is a part that shows an important post more prominently than ordinary posts on the homepage.</strong> It usually appears as a large card or a highlight that draws the eye, unlike a normal post grid that shows the latest posts in time order. The featured section lets you "choose" which post should sit at the top and stand out most.</p>
+<p>The main benefit is controlling what readers see first. A typical blog always shows the newest post first, but sometimes your most important post is not the newest one, such as an introduction post, a main money-making post, or content you want to promote. The featured section solves this by letting you pin an important post so newer posts do not push it out of view over time.</p>
+
+<h2>Pinning with a label: a flexible approach</h2>
+<p>The clever part of the featured section in BlogKub (the magazine template) is <strong>pinning with a label</strong>. You set a label name for recommended posts (such as "Recommended"), then whenever you want to pin a post, you just go to blogger.com, edit that post, and add the label. The post appears as a featured post immediately.</p>
+<p>This approach is very flexible because you manage pinning directly from the Blogger side, without going back to edit the theme. When you want to change the featured post, you just remove the label from the old post and add it to the new one. You can also <strong>pin several posts</strong> by applying the same label to multiple posts. The first post becomes the large highlight and the rest show below, letting you emphasize several important pieces at once.</p>
+<div class="note">How to pin: go to blogger.com → edit the post you want → in the "Labels" field enter the word you set (such as Recommended) → publish. That post appears as a featured post immediately.</div>
+
+<h2 id="step1">How to set up the featured section step by step</h2>
+<ol class="steps">
+  <li><strong>Add or select the Featured block.</strong> Select the "Featured posts" block that comes with the template (such as the magazine one), or add it to the homepage.</li>
+  <li id="step2"><strong>Set the heading and pin label.</strong> Enter a section heading, and in the magazine template, set a label name for pinning (such as "Recommended"). Leave it blank to always use the latest post.</li>
+  <li id="step3"><strong>Add the label to the post.</strong> Go to blogger.com, edit the post you want to pin, and add the label you set. Publish it properly.</li>
+  <li id="step4"><strong>Export the XML and check the result.</strong> Click Export, upload it to Blogger, then check that the featured section shows the post you pinned correctly on the homepage.</li>
+</ol>
+
+<h2>A smart fallback: never empty</h2>
+<p>A well-considered detail of the featured section is that <strong>if no post carries the label you set, the system shows the latest post as the featured one automatically</strong>. This matters a lot, because it means the featured section always has content to show and is never empty or broken even before you pin anything.</p>
+<p>Having a fallback like this makes the feature usable from day one. You install the theme and the featured section immediately shows the latest post, then when you are ready, you pin the post you want. It is a design that accounts for the real situation, where users may not have configured everything yet. Instead of leaving the section empty and looking broken, the system fills it with reasonable content.</p>
+
+<h2>The featured section and content strategy</h2>
+<p>The featured section is a strategic tool, not just layout. It lets you control what content you emphasize to new readers. Examples of strategic use: pin an introduction post for new readers, pin a post that converts well, pin seasonal or campaign content, or pin a high-quality post you want to be the face of the site.</p>
+<p>Used together with a <a href="/en/learn/hero">Hero</a> that welcomes at the top and a <a href="/en/learn/postgrid">post grid</a> that shows general content, the featured section adds another layer of control over what the homepage communicates. You can design the homepage experience to lead readers to the most important content first, which is a purposeful use of homepage space, not just showing posts in chronological order.</p>
+
+<h2>The featured section and magazine-style sites</h2>
+<p>The featured format is at the heart of news and magazine site design, where the homepage is not just posts in time order but has an "editor" choosing which story should be at the top and stand out most. The featured section brings this idea to Blogger, letting you be the editor of your own site, choosing what readers see first, which is control over the homepage's storytelling.</p>
+<p>For a site with varied content that wants to look like professional media, arranging one large highlight with secondary posts around it creates a clear visual hierarchy. Readers instantly know which story is most important. This format makes the homepage look managed and more interesting than a grid where every post has equal weight. The featured section is therefore not just a feature but a tool to give your site a print-media identity.</p>
+
+<h2>Cautions when pinning</h2>
+<p>Although the featured section is powerful, there are cautions. First, do not pin the same post for too long so regular readers see it repeatedly on every visit, which makes the homepage feel static and stale. You should review and rotate pinned posts periodically to keep the homepage fresh and moving.</p>
+<p>Second, do not pin too many posts so the featured section becomes like a normal post grid. The power of the featured section comes from "choosing" a few pieces that truly matter. If you pin everything, nothing stands out. Limiting the number appropriately and choosing only content with real strategic value lets the featured section do its job fully. Restraint in what you choose is the key to using this feature effectively.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>You pinned a post but it does not show as featured</h3>
+<p>Check that the label you entered on the post exactly matches the label name set in the Featured block. They must be spelled the same to pin, and check that the post is published.</p>
+<h3>The featured section shows the latest post instead of the pinned one</h3>
+<p>This is fallback behavior. If no post carries the label, the system uses the latest post. Check that you applied the label correctly.</p>
+<h3>You want to change the featured post</h3>
+<p>Go to blogger.com, remove the label from the old post and add it to the new one. The change is reflected without editing the theme.</p>
+<h3>You do not see the pin label option</h3>
+<p>The pin-by-label option is in the magazine template. If you use another template, the featured section may show the latest post according to that template's design.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Set an easy-to-remember pin label, and spell it the same in the block and the post.</li>
+  <li>Pin strategically important posts, such as an introduction post or content you want to promote.</li>
+  <li>Use pinning of several posts to emphasize several important pieces, with the first as the large highlight.</li>
+  <li>Review pinned posts periodically, updating them to match campaigns or seasons.</li>
+  <li>Use it together with a Hero and a post grid to design the homepage purposefully.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The featured section is a strategic tool that lets you control which content should stand out on the homepage, instead of always letting the newest post go first. With BlogKub you can pin a recommended post with a label, managing it directly from the Blogger side, pin several posts with the first as the large highlight, and if you have not pinned anything, the system uses the latest post automatically so the section is never empty. Used strategically with a Hero and a post grid, the featured section lets you design the homepage to lead readers to the most important content, a purposeful use of homepage space that boosts the results you want.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>How do you pin a featured post?</summary><p>In the magazine template, you set a label name for recommended posts (such as 'Recommended'), then go to blogger.com, edit the post you want, and add that label. That post appears as a featured post immediately. You can pin several posts, with the first shown as the large highlight.</p></details>
+<details><summary>What happens if I do not pin any post?</summary><p>If no post carries the label you set, the system shows the latest post as the featured one automatically. So the featured section always has content to show and is never empty.</p></details>
+<details><summary>Where does the featured section pull its data from?</summary><p>It pulls from Blogger's post feed, filtering by the label you set (if any), then displays the cover image, title, and post details as a highlight. It updates automatically when you pin or publish a post.</p></details>
+<details><summary>How many posts can I pin?</summary><p>You can pin several posts by applying the same label to multiple posts. The first post shows as the large highlight and the rest show below, helping you emphasize several important pieces.</p></details>
+<details><summary>What kind of blog is the featured section good for?</summary><p>It suits blogs with important posts you want to stand out above ordinary ones, such as news blogs, magazines, or any site with a main post you want pinned at the top so newer posts do not push it out of view.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/featured">
+  <Fragment set:html={body} />
+</EnLayout>

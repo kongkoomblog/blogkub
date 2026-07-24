@@ -1,0 +1,153 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add a Newsletter signup box in a Blogger blog 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/newsletter">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/newsletter">
+<meta name="description" content="How to add a Newsletter signup box (subscribe to new posts) to a Blogger theme with BlogKub: set the heading, subtext, button, and background, connect an email service, build a base of regular readers, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add a Newsletter signup box in a Blogger blog">
+<meta property="og:description" content="An email signup box to subscribe to new posts, set the heading and button, build a base of regular readers.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/newsletter.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/newsletter.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Newsletter signup box" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add a Newsletter signup box to a Blogger theme with BlogKub",
+      "description": "Steps to add an email signup box for subscribing to new posts on a Blogger site",
+      "inLanguage": "en",
+      "totalTime": "PT5M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }, { "@type": "HowToTool", "name": "An email service (such as FollowIt/Mailchimp)" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the Newsletter block", "text": "Drag the 'Newsletter' block from the library into the page", "url": "https://www.blogkub.com/en/learn/newsletter#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Set the heading, subtext, button, and background", "text": "Type the heading, subtext, button text, and choose a soft, gradient, or dark background", "url": "https://www.blogkub.com/en/learn/newsletter#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Connect an email service", "text": "Connect the form to an email service such as FollowIt, Mailchimp, or Google Form as you use", "url": "https://www.blogkub.com/en/learn/newsletter#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Export the XML and test", "text": "Click Export XML, upload it to Blogger, then test subscribing with a real email to confirm the form works", "url": "https://www.blogkub.com/en/learn/newsletter#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/newsletter.png","width":1600,"height":464},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/newsletter",
+      "headline": "How to add a Newsletter signup box in a Blogger blog",
+      "description": "A detailed guide to adding a Newsletter signup box in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does the Newsletter box store emails itself?", "acceptedAnswer": { "@type": "Answer", "text": "BlogKub's Newsletter box is a ready-to-use, good-looking form, but the collecting and sending of emails needs to connect to an external email service such as FollowIt, Mailchimp, or Google Form, because Blogger is a purely reader-side site with no built-in email storage backend." } },
+        { "@type": "Question", "name": "How much can I customize the box's appearance?", "acceptedAnswer": { "@type": "Answer", "text": "You can adjust the heading, subtext, button text, and choose from 3 backgrounds: soft, gradient, and dark, so the box fits your site's tone and stands out as you want." } },
+        { "@type": "Question", "name": "Why should a blog have a Newsletter?", "acceptedAnswer": { "@type": "Answer", "text": "Because email is a channel you own, not dependent on social or search algorithms. When you have a new post, you can reach followers directly, helping bring people back to read again and building a stable base of regular readers." } },
+        { "@type": "Question", "name": "Do I need to collect emails per privacy law?", "acceptedAnswer": { "@type": "Answer", "text": "You should. Collecting emails is collecting personal data, so tell subscribers what you will use it for, provide a way to unsubscribe, and comply with your privacy policy and relevant law. Most email services have tools to help with this." } },
+        { "@type": "Question", "name": "How is a Newsletter different from following via RSS?", "acceptedAnswer": { "@type": "Answer", "text": "RSS lets readers follow through a feed reader, while a Newsletter sends posts straight to the email inbox, which people open more often, so it reaches general readers more widely. The two can be used together to serve different reader groups." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Newsletter signup box</span></nav>
+<article>
+<h1>How to add a Newsletter signup box in a Blogger blog</h1>
+<p class="lead">Social media and search engines control who sees your content, but email is a channel you fully own. A Newsletter signup box helps turn passing readers into followers you can send new posts to directly. This article teaches you how to add one to a Blogger theme with BlogKub, along with connecting an email service and approaches that work.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Intermediate</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Newsletter</strong> block in BlogKub, set the heading, subtext, button text, and background (soft/gradient/dark), then Export the XML and upload it to Blogger. You get a ready-to-use, good-looking signup box. Then <strong>connect the form to an external email service</strong> (such as FollowIt, Mailchimp, Google Form), because Blogger has no built-in email storage, and you can send new posts straight to followers.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/newsletter.png" aria-label="View the Newsletter signup box at full size">
+    <img alt="A Newsletter signup box on a Blogger site with a heading, subtext, an email field, and a subscribe button" title="A Newsletter signup box" src="https://www.blogkub.com/learn/images/newsletter.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1600" data-original-height="464" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">An email signup box to subscribe to new posts, set the heading, subtext, button, and background, connected to an external email service.</figcaption>
+</figure>
+
+
+<h2>Why a Newsletter matters for a blog</h2>
+<p><strong>A Newsletter is where readers give their email to receive new posts or news from you through their inbox.</strong> The core value is in the phrase "owning the channel". When people follow you on social media, whether they see your posts depends on an algorithm you do not control, just like search traffic that rises and falls with rankings. But an email list is yours. When you have a new post, you can send it straight to everyone on the list.</p>
+<p>This is why professional creators and bloggers put great importance on building an email list, because it is a long-term asset that does not disappear even when other platforms change the rules. Email followers also tend to be engaged and returning readers, because they deliberately signed up to receive your content specifically.</p>
+
+<h2>Something to understand: Blogger does not store emails itself</h2>
+<p>The key thing to understand first is that <strong>Blogger is a purely reader-side site with no backend for storing emails</strong>. So BlogKub's Newsletter box serves as a "ready-to-use, good-looking form", while the actual receiving, storing, and sending of emails relies on an external email service you connect.</p>
+<p>This is not a strange limitation but the standard way of the web at large. Specialized email services do this far better, including managing lists, sending bulk emails without landing in the spam folder, handling unsubscribes, and complying with privacy law. BlogKub's job is to provide a beautiful form that fits the theme, and leave the rest to a specialized service.</p>
+<div class="note">Popular services to use with Blogger include FollowIt (free, easy to connect to the feed), Mailchimp, MailerLite, or even Google Form for a simple start. Choose based on your needs and budget.</div>
+
+<h2 id="step1">How to add the Newsletter box step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Newsletter block.</strong> Open the left block library and drag the "Newsletter" block into the position you want, such as at the end of an article, the homepage, or before the footer.</li>
+  <li id="step2"><strong>Set the heading, subtext, button, and background.</strong> Type an inviting heading (such as "Get the news first"), subtext stating the benefit, button text, and choose a soft, gradient, or dark background to match your site's tone.</li>
+  <li id="step3"><strong>Connect an email service.</strong> Take the form code or action URL from the email service you use and connect it to the form, so the emails readers enter are sent to that system.</li>
+  <li id="step4"><strong>Export the XML and test.</strong> Click Export, upload it to Blogger, then test subscribing with a real email, confirming the email lands in the list of the service you connected.</li>
+</ol>
+
+<h2>Choose a background and write an effective invitation</h2>
+<p>The Newsletter box has 3 backgrounds to choose from, each with a different feel. The "soft" one blends seamlessly into the page, ideal when you do not want the box to stand out over the content. The "gradient" one is bright and eye-catching, ideal for drawing attention. And the "dark" one looks premium and contrasts with a light page, ideal for creating a focal point. Choose based on the placement and tone of your site.</p>
+<p>Just as important is the invitation. People give their email only when they see a clear benefit. Instead of writing just "Subscribe to news", try being specific about what they get, such as "Get new posts every week, plus tips not published on the site" or "Free, no spam, unsubscribe anytime". Stating the benefit and reducing spam worry genuinely raises the signup rate.</p>
+
+<h2>Where to place the Newsletter box</h2>
+<p>Placement affects the number of signups a lot. The spots that work well are usually the moments when a reader feels the value.</p>
+<ul>
+  <li><strong>End of the article:</strong> readers who finished are the ones who like your content most, a golden moment to invite them to follow.</li>
+  <li><strong>Homepage:</strong> place it in a visible spot to catch readers exploring the site, ideal for blogs with heavy homepage traffic.</li>
+  <li><strong>Before the footer:</strong> a standard spot readers expect to find, unobtrusive to reading but still visible.</li>
+</ul>
+<p>You can place it in more than one spot, but be careful not to make it so frequent it becomes annoying. Having a box at the end of the article plus one near the footer is often just right. Experiment to see which placement works best for your readers.</p>
+
+<h2>The Newsletter and building a stable reader base</h2>
+<p>In terms of long-term growth, a Newsletter is one of the highest-return tools, because it changes your relationship with readers from "found by chance" to "deliberately following". Every time you send a new post, you bring followers back to the site directly, which is stable traffic not dependent on external factors.</p>
+<p>Used together with features that encourage returning and reading on, such as <a href="/en/learn/bookmark">bookmarks</a> to save for later and <a href="/en/learn/morefrom">latest/random posts</a> to invite exploring content, the Newsletter is another layer that binds readers to your site. Accumulating an email list from day one is therefore a worthwhile investment. Even if signups are few at first, it grows and compounds over time.</p>
+
+<h2>Privacy and doing it right</h2>
+<p>Collecting emails is collecting personal data, so it comes with responsibility. You should tell subscribers clearly what you will use their email for, how often you send, and that there is a way to unsubscribe anytime. These should be consistent with your site's <a href="/en/learn/cookie">privacy policy</a> and relevant law, such as PDPA in Thailand.</p>
+<p>The good news is that most good email services have tools to help, including automatic unsubscribe links in every email, consent management, and signup record keeping. Choosing a trustworthy service helps you run a Newsletter correctly without managing everything yourself. And importantly, do not send emails too frequently or send content readers did not sign up for, because that makes people unsubscribe and lose trust.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>Entering an email does nothing</h3>
+<p>Check that you connected the form to an email service, because an empty, unconnected box stores emails nowhere. Test with a real email and see that it enters the list of the connected service.</p>
+<h3>The confirmation email lands in the spam folder</h3>
+<p>This is normal for automated email. Good email services have settings (such as SPF/DKIM) to reduce this. We recommend telling subscribers to check the spam folder and move your email to the primary inbox.</p>
+<h3>The box does not fit the site</h3>
+<p>Try changing the background to another option (soft/gradient/dark) and adjusting the text to match the site's tone. The box already uses the theme's colors, so it blends when you choose a suitable background.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Connect the box to a trustworthy email service before publishing, do not leave an unconnected box.</li>
+  <li>Write an invitation that states a clear benefit and reduces spam worry.</li>
+  <li>Place the box at the end of the article and near the footer, the moments when readers feel the value.</li>
+  <li>Respect privacy, provide a way to unsubscribe, and send emails only as needed.</li>
+  <li>Use it together with <a href="/en/learn/related">related articles</a> and <a href="/en/learn/share">share buttons</a> to widen reach and increase the chance of new followers.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The Newsletter signup box is one of a blog's most important tools for building a long-term asset, because an email list is a channel you own, not dependent on external algorithms. With BlogKub you just add the Newsletter block, set the heading, subtext, button, and background, and Export it to use, then connect the form to the email service you choose, because Blogger has no built-in email storage. Placed well, written with a benefit-stating invitation, and respecting subscribers' privacy, a Newsletter turns passing readers into regular followers you can bring back whenever you have a new post, which is the foundation of a blog that grows steadily.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does the Newsletter box store emails itself?</summary><p>BlogKub's Newsletter box is a ready-to-use, good-looking form, but the collecting and sending of emails needs to connect to an external email service such as FollowIt, Mailchimp, or Google Form, because Blogger is a purely reader-side site with no built-in email storage backend.</p></details>
+<details><summary>How much can I customize the box's appearance?</summary><p>You can adjust the heading, subtext, button text, and choose from 3 backgrounds: soft, gradient, and dark, so the box fits your site's tone and stands out as you want.</p></details>
+<details><summary>Why should a blog have a Newsletter?</summary><p>Because email is a channel you own, not dependent on social or search algorithms. When you have a new post, you can reach followers directly, helping bring people back to read again and building a stable base of regular readers.</p></details>
+<details><summary>Do I need to collect emails per privacy law?</summary><p>You should. Collecting emails is collecting personal data, so tell subscribers what you will use it for, provide a way to unsubscribe, and comply with your privacy policy and relevant law. Most email services have tools to help with this.</p></details>
+<details><summary>How is a Newsletter different from following via RSS?</summary><p>RSS lets readers follow through a feed reader, while a Newsletter sends posts straight to the email inbox, which people open more often, so it reaches general readers more widely. The two can be used together to serve different reader groups.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/newsletter">
+  <Fragment set:html={body} />
+</EnLayout>
