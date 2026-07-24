@@ -62,12 +62,26 @@ for (const f of walk(DIST)) {
 pages.sort((a, b) => (b.pr.localeCompare(a.pr)) || a.url.localeCompare(b.url));
 
 /* ---- sitemap.xml ---- */
-const ALT = `    <xhtml:link rel="alternate" hreflang="th" href="${SITE}/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="${SITE}/en/"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="${SITE}/en/"/>`;
+// One combined sitemap for both languages (recommended at this scale). Each
+// page that has a Thai<->English counterpart declares its language alternates
+// (th / en / x-default->en) so Google serves the right language per user.
+const urlSet = new Set(pages.map((p) => p.url));
+const counterpart = (u) => {
+  const p = u.slice(SITE.length) || '/';
+  if (p === '/' || p === '/en/') return { th: `${SITE}/`, en: `${SITE}/en/` };
+  if (p.startsWith('/en/')) return { th: SITE + p.slice(3), en: u }; // /en/about -> /about
+  return { th: u, en: `${SITE}/en${p}` };
+};
+const altBlock = (u) => {
+  const { th, en } = counterpart(u);
+  if (!urlSet.has(th) || !urlSet.has(en)) return ''; // only when both languages exist
+  return `    <xhtml:link rel="alternate" hreflang="th" href="${xesc(th)}"/>
+    <xhtml:link rel="alternate" hreflang="en" href="${xesc(en)}"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${xesc(en)}"/>\n`;
+};
 const urls = pages.map((p) => `  <url>
     <loc>${xesc(p.url)}</loc>
-${p.alt ? ALT + '\n' : ''}    <lastmod>${p.lastmod}</lastmod>
+${altBlock(p.url)}    <lastmod>${p.lastmod}</lastmod>
     <changefreq>${p.cf}</changefreq>
     <priority>${p.pr}</priority>
   </url>`).join('\n');

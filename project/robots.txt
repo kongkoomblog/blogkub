@@ -1,7 +1,11 @@
 User-agent: *
 Allow: /
 
-# AI answer engines (AEO/GEO) — allow full crawl
+# Google AdSense crawler
+User-agent: Mediapartners-Google
+Allow: /
+
+# AI answer engines (AEO/GEO): allow full crawl
 User-agent: GPTBot
 Allow: /
 User-agent: OAI-SearchBot
