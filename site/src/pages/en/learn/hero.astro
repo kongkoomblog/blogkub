@@ -1,0 +1,148 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a homepage Hero banner (editable text/button/color) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/hero">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/hero">
+<meta name="description" content="How to set up the homepage Hero banner in a Blogger theme with BlogKub: edit the eyebrow, heading, subtext, button, circular image, left/center alignment, gradient/dark/soft background, and template-specific options, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a homepage Hero banner in Blogger">
+<meta property="og:description" content="Edit the text, button, image, alignment, and background of the main Hero banner in full.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/hero.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/hero.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Hero banner" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/hero.png","width":2400,"height":804},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/hero",
+      "headline": "How to build a homepage Hero banner in a Blogger theme",
+      "description": "A detailed guide to setting up the homepage Hero banner in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is a Hero?", "acceptedAnswer": { "@type": "Answer", "text": "A Hero is the large main banner at the very top of the homepage, usually with a bold heading, subtext, and a call-to-action button (CTA). It creates the first impression and tells readers immediately what the site is about and what to do next." } },
+        { "@type": "Question", "name": "What can I edit in the Hero?", "acceptedAnswer": { "@type": "Answer", "text": "You can edit the eyebrow, heading, subtext, button text, alignment (left/center), background (gradient/dark/soft), and circular image. Every text can be left blank to hide it, so you can keep it simple or fully featured as you like." } },
+        { "@type": "Question", "name": "Does the Hero have different options per template?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The review template has a rating bar, the course and sidebar-blog templates have a feature/tag list, and the company template has a secondary button. The system adapts the Hero options to each template's kind of site automatically." } },
+        { "@type": "Question", "name": "How should I write the Hero heading?", "acceptedAnswer": { "@type": "Answer", "text": "Write it short, clear, and stating the value or what the reader gets. A good heading lets the reader understand within a few seconds what the site is about, with the subtext expanding slightly, followed by a button guiding the next action." } },
+        { "@type": "Question", "name": "Does the Hero display well on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The Hero adapts to small screens automatically, laying out text and buttons to read easily and resizing the image, so the main banner looks good on both desktop and mobile with no separate setup." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Hero banner</span></nav>
+<article>
+<h1>How to build a homepage Hero banner in a Blogger theme</h1>
+<p class="lead">The Hero is the big welcome banner readers see first when they land on the homepage. It has a few seconds to say what the site is and why to stay. This article teaches you how to set up the Hero in a Blogger theme with BlogKub, editing the text, button, image, alignment, and background, along with template-specific options and how to write it effectively.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>Hero</strong> block in BlogKub lets you edit the <strong>eyebrow, heading, subtext, CTA button</strong>, alignment (<strong>left/center</strong>), background (<strong>gradient/dark/soft</strong>), and a <strong>circular image</strong>. Every text can be left blank to hide it. It also has <strong>template-specific options</strong> such as a rating bar (review), feature chips (course), and a secondary button (company), then you Export it to use, all with no coding.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/hero.png" aria-label="View the homepage Hero banner at full size">
+    <img alt="A homepage Hero banner in a Blogger theme showing an eyebrow, bold heading, subtext, CTA button, and circular image" title="A homepage Hero banner" src="https://www.blogkub.com/learn/images/hero.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="2400" data-original-height="804" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A Hero banner with an eyebrow, heading, subtext, CTA button, and circular image, with editable text, color, and alignment.</figcaption>
+</figure>
+
+
+<h2>What a Hero is, and why it is the most important part of the homepage</h2>
+<p><strong>A Hero is the large main banner at the top of the homepage, usually made of a bold heading, short subtext, and a call-to-action button (CTA)</strong>, with an accompanying image. It is the most valuable space on the site, because it is the first thing readers see without scrolling (above the fold), and it decides whether readers stay or leave within a few seconds.</p>
+<p>The Hero's job is to answer three questions in the reader's mind immediately: "What is this site?", "How does it relate to me?", and "What should I do next?" The heading says what the site is, the subtext says the value the reader gets, and the CTA button guides the next action. When the Hero answers all three clearly, readers understand and tend to explore further.</p>
+
+<h2>The editable parts of the Hero</h2>
+<p>BlogKub's Hero lets you edit every part, and every text can be left blank to hide it, so you can design anything from minimal to fully featured.</p>
+<ul>
+  <li><strong>Eyebrow:</strong> a short text above the heading, such as "✦ Personal blog", to categorize or add context. Leave it blank to hide.</li>
+  <li><strong>Heading (title):</strong> the most prominent text, saying what the site is. It should be short and powerful.</li>
+  <li><strong>Subtext (subtitle):</strong> expands the heading slightly, stating the value or what the reader gets.</li>
+  <li><strong>CTA button:</strong> a button that guides an action, such as "Read the latest posts".</li>
+  <li><strong>Circular image:</strong> an accompanying image (such as a profile photo or brand image), which you can toggle and set the URL for.</li>
+</ul>
+<p>You can also choose the <strong>alignment</strong> between left or center, and choose a <strong>background</strong> in three styles: gradient (bright), dark (premium), and soft (clean). This flexibility lets the Hero fit the kind of site and mood you want.</p>
+
+<h2 id="step1">How to set up the Hero, step by step</h2>
+<ol class="steps">
+  <li><strong>Select the Hero block.</strong> Most templates ship with a Hero on the homepage. Select it to edit, or add a Hero yourself.</li>
+  <li id="step2"><strong>Add the text and button.</strong> Set the eyebrow, heading, subtext, and CTA button text (leave fields blank to hide what you do not want).</li>
+  <li id="step3"><strong>Choose alignment, background, and image.</strong> Choose left or center alignment, a gradient/dark/soft background, and toggle the circular image and set the image URL you want.</li>
+  <li id="step4"><strong>Export the XML and check.</strong> Click Export, upload it to Blogger, then view the Hero on both desktop and mobile, confirming the text reads easily and the button is tappable.</li>
+</ol>
+
+<h2>Template-specific options: a Hero that fits the kind of site</h2>
+<p>What makes BlogKub's Hero smart is that it <strong>adapts the options to each template</strong>, because different kinds of site need different elements.</p>
+<ul>
+  <li><strong>Review template:</strong> a review rating bar in the Hero, with a score (such as 4.8/5) and a review count, to build credibility on sight.</li>
+  <li><strong>Course template:</strong> a feature list (chips) you add line by line, to show what students get in a quick scan.</li>
+  <li><strong>Sidebar-blog template:</strong> tags in the Hero to state the blog's main topics.</li>
+  <li><strong>Company template:</strong> an extra secondary button, such as "Contact us", alongside the main button, to support multiple goals.</li>
+</ul>
+<p>Having Hero options that match the kind of site lets you communicate on point without customizing it yourself. The review template gets credibility from the score, the course template gets to show its selling points, and the company template gets varied CTAs. All of it is designed to fit what each kind of reader is looking for.</p>
+
+<h2>Write an effective Hero heading and CTA</h2>
+<p>Because the Hero has a few seconds, the writing matters a lot. The principle of the heading is "short, clear, and stating the value". Avoid broad headings that say nothing, like "Welcome", and choose one that says what the site offers, such as "The most worthwhile product reviews" or "Build your own website in 30 days". Readers should understand within a few seconds what the site is about and whether it matches what they want.</p>
+<p>The CTA button should guide a clear action with motivating words, such as "Read the latest posts", "Start learning free", or "See all reviews", which is better than a neutral "Click here". A good button tells the reader what they get by clicking, so they click with confidence. When the heading, subtext, and CTA work together consistently, the Hero effectively turns visitors into readers who explore the site further.</p>
+
+<h2>The Hero, first impressions, and staying</h2>
+<p>User behavior research finds that readers decide to stay or leave within the first few seconds, so the Hero is the gateway that determines whether readers scroll on or close. A clear, attractive Hero reduces the "bounce rate", because it communicates value fast enough to hold readers.</p>
+<p>When the Hero does its job well, readers scroll down to other sections, such as article groups and recommendations. Designing the Hero to flow smoothly into the next section is therefore important. A CTA button that leads to the latest posts or a content section helps guide readers into the site naturally. Used with a <a href="/en/learn/header">header</a> that navigates easily and an interesting group of articles below, your homepage works as a system for turning visitors into readers.</p>
+
+<h2>The Hero, SEO, and speed</h2>
+<p>The Hero heading is usually the largest text on the homepage and an important element search engines weigh. Writing a heading that clearly says what the site is about helps readers and also helps search engines understand the site's main topic. That said, keep the heading meaningful to readers first, not stuffed with keywords until it reads unnaturally, because the reader experience matters more and benefits SEO over the long term.</p>
+<p>On speed, if the Hero has a large image, use an appropriately resized and compressed image, because the Hero image is usually the first to load and affects LCP (Largest Contentful Paint), one of the Core Web Vitals. Choosing a light image helps the homepage open fast, creating a good first impression in both look and speed. If you do not need an image, a text-only Hero with a gradient background is an option that is both beautiful and light.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The Hero image does not show</h3>
+<p>Check that you turned on the image option and set a correct, reachable image URL. If you do not want an image, turn off this option for a clean text-only Hero.</p>
+<h3>The Hero text is too long on mobile</h3>
+<p>A long heading and subtext push up the Hero's height on small screens. Keep the text concise, especially the heading, so the Hero looks good on every screen.</p>
+<h3>The background blends with the text</h3>
+<p>Choose a background that contrasts with the text color, such as a dark background with light text. The system tunes readability to a degree, but choosing a clearly contrasting pair reads most comfortably.</p>
+<h3>Template-specific options do not appear</h3>
+<p>Options like a rating bar or feature chips depend on the chosen template. If you do not see them, the current template does not have that element, which is by design for each kind of site.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Write a short, clear heading that states the value, so readers understand within a few seconds.</li>
+  <li>Use a CTA button that states the action clearly. Avoid neutral words like "Click here".</li>
+  <li>Choose a background and alignment that fit the site's mood, and contrast with the text for readability.</li>
+  <li>Use template-specific options (rating/features/secondary button) to communicate to the right kind of site.</li>
+  <li>Test the Hero on both desktop and mobile, especially text length on small screens.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The Hero is the most valuable space on the homepage, because it is the first gateway deciding whether readers stay or leave. With BlogKub, you edit every part of the Hero with no coding, the eyebrow, heading, subtext, CTA button, circular image, alignment, and background, plus template-specific options that make the Hero fit the kind of site, whether a review's rating bar, a course's features, or a company's secondary button. When you write a clear heading and CTA, choose a design that fits the site's mood, and test on every screen, your Hero creates a strong first impression and leads readers into the site effectively.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>What is a Hero?</summary><p>A Hero is the large main banner at the very top of the homepage, usually with a bold heading, subtext, and a call-to-action button (CTA). It creates the first impression and tells readers immediately what the site is about and what to do next.</p></details>
+<details><summary>What can I edit in the Hero?</summary><p>You can edit the eyebrow, heading, subtext, button text, alignment (left/center), background (gradient/dark/soft), and circular image. Every text can be left blank to hide it, so you can keep it simple or fully featured as you like.</p></details>
+<details><summary>Does the Hero have different options per template?</summary><p>Yes. The review template has a rating bar, the course and sidebar-blog templates have a feature/tag list, and the company template has a secondary button. The system adapts the Hero options to each template's kind of site automatically.</p></details>
+<details><summary>How should I write the Hero heading?</summary><p>Write it short, clear, and stating the value or what the reader gets. A good heading lets the reader understand within a few seconds what the site is about, with the subtext expanding slightly, followed by a button guiding the next action.</p></details>
+<details><summary>Does the Hero display well on mobile?</summary><p>Yes. The Hero adapts to small screens automatically, laying out text and buttons to read easily and resizing the image, so the main banner looks good on both desktop and mobile with no separate setup.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/hero">
+  <Fragment set:html={body} />
+</EnLayout>
