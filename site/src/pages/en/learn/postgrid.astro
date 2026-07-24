@@ -1,0 +1,159 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a Post Grid (homepage post cards) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/postgrid">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/postgrid">
+<meta name="description" content="How to set up a Post Grid in a Blogger theme with BlogKub: show post cards from the feed automatically, adjust the column count, image, excerpt, read more button, corner radius, and card style (shadow/border/flat), plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a Post Grid (homepage post cards) in Blogger">
+<meta property="og:description" content="Show post cards from the feed automatically, adjust columns, image, excerpt, and card style.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/postgrid.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/postgrid.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Post Grid" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to set up a Post Grid in a Blogger theme with BlogKub",
+      "description": "Steps to set up a post grid that shows cards from the Blogger feed on the homepage",
+      "inLanguage": "en",
+      "totalTime": "PT4M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add or select the Post Grid block", "text": "Select the 'Post Grid' block that comes with the template, or add it in", "url": "https://www.blogkub.com/en/learn/postgrid#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Set the heading, columns, and count", "text": "Enter a section heading, choose the column count (2 to 4) and the number of posts to show", "url": "https://www.blogkub.com/en/learn/postgrid#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Adjust image, excerpt, and card style", "text": "Toggle the image and excerpt, set the read more button text, card corner radius, and style (shadow/border/flat)", "url": "https://www.blogkub.com/en/learn/postgrid#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Export the XML and check the result", "text": "Click Export XML, upload it to Blogger, then check the post cards display correctly and are responsive", "url": "https://www.blogkub.com/en/learn/postgrid#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/postgrid.png","width":1800,"height":756},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/postgrid",
+      "headline": "How to build a Post Grid (homepage post cards) in Blogger",
+      "description": "A detailed guide to setting up a post grid that pulls from the feed in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where does the Post Grid pull its data from?", "acceptedAnswer": { "@type": "Answer", "text": "It pulls from your own Blogger post feed, taking the cover image, title, excerpt, and date to display as cards, so it updates automatically each time you publish a new post, with no need to add links yourself." } },
+        { "@type": "Question", "name": "Can I adjust the column count and card style?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can choose 2 to 4 columns, adjust the card corner radius, and pick from 3 styles: shadow, border, and flat. You can also toggle the image, excerpt, and read more button as you like." } },
+        { "@type": "Question", "name": "Is the Post Grid responsive on mobile?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, it is responsive. On mobile the column count reduces automatically so the cards are not too narrow to read. The cards display nicely and are easy to read on both desktop and mobile with no separate setup." } },
+        { "@type": "Question", "name": "How is the Post Grid different from latest/random posts?", "acceptedAnswer": { "@type": "Answer", "text": "The Post Grid is the homepage's main post section with detailed card customization (columns, style, excerpt, button), while latest/random posts is a supplementary section usually placed at the end of an article or elsewhere to invite reading on. Both pull from the feed alike." } },
+        { "@type": "Question", "name": "Does the Post Grid help SEO?", "acceptedAnswer": { "@type": "Answer", "text": "It helps indirectly. Showing posts as attractive cards helps readers click into several posts, increasing engagement and internal linking, which are good signals for navigation and overall SEO." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Post Grid</span></nav>
+<article>
+<h1>How to build a Post Grid (homepage post cards) in Blogger</h1>
+<p class="lead">The post grid is the heart of the homepage, the place readers see your posts laid out as attractive cards and choose what to click. This article teaches you how to set up a Post Grid in a Blogger theme with BlogKub, one that pulls posts from the feed automatically, adjusting the column count, image, excerpt, read more button, corner radius, and card style.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>Post Grid</strong> block in BlogKub <strong>pulls posts from the feed automatically</strong>, showing them as cards with an image, title, excerpt, and date. You can adjust the <strong>column count (2 to 4), image, excerpt, read more button, card corner radius</strong>, and <strong>style (shadow/border/flat)</strong>. It is responsive automatically, then you Export it to use.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/postgrid.png" aria-label="View the Post Grid homepage post cards at full size">
+    <img alt="A Post Grid in a Blogger theme showing post cards in three columns with an image, title, excerpt, and read more button" title="A Post Grid of homepage post cards" src="https://www.blogkub.com/learn/images/postgrid.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1800" data-original-height="756" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A post grid showing cards from the feed automatically, adjust the columns, image, excerpt, read more button, corner radius, and card style.</figcaption>
+</figure>
+
+
+<h2>What a post grid is, and why it matters</h2>
+<p><strong>A Post Grid is a section that shows the blog's posts as cards in a grid layout, usually on the homepage below the Hero.</strong> It is where readers explore content and decide which post to read. Each card has a cover image, title, excerpt, and date, so readers get an overview of a post before clicking.</p>
+<p>The post grid matters because it is the "gateway" to your content. If the cards look interesting and are well laid out, readers want to click in. But if they are cluttered or dull, readers may scroll past. Designing the post grid to be attractive therefore has a direct effect on how many posts get read and on reader engagement.</p>
+
+<h2>Pulls from the feed automatically: cards that update themselves</h2>
+<p>BlogKub's post grid <strong>pulls posts directly from the Blogger feed</strong>, which means that when you publish a new post, it appears in the grid automatically. You do not have to add cards or links one by one. The system takes each post's cover image, title, excerpt, and date to build the card for you.</p>
+<p>This is the advantage of working with the feed. Your site always looks alive and current. The latest post reaches the homepage the moment you publish it, unlike a fixed post list you have to update by hand every time. Using the feed lets your homepage take care of itself while you focus on writing content.</p>
+
+<h2 id="step1">How to set up the post grid step by step</h2>
+<ol class="steps">
+  <li><strong>Add or select the Post Grid block.</strong> Most templates include a Post Grid on the homepage. Select that block to edit, or add it yourself.</li>
+  <li id="step2"><strong>Set the heading, columns, and count.</strong> Enter a section heading (such as "Latest posts"), choose the column count (2 to 4) and the number of posts to show.</li>
+  <li id="step3"><strong>Adjust image, excerpt, and card style.</strong> Toggle the image and excerpt, set the read more button text (leave blank to hide), adjust the card corner radius, and choose a style between shadow, border, or flat.</li>
+  <li id="step4"><strong>Export the XML and check the result.</strong> Click Export, upload it to Blogger, then check the cards display correctly and are responsive on both desktop and mobile.</li>
+</ol>
+
+<h2>Adjust the column count and card style to fit the site</h2>
+<p>The flexibility of the Post Grid lies in adjusting the card look to fit your design and site type.</p>
+<ul>
+  <li><strong>Column count (2 to 4):</strong> fewer columns (2) make the cards large and prominent, ideal for blogs where images matter. More columns (4) show more posts in one space, ideal for content-heavy sites.</li>
+  <li><strong>Card style:</strong> <em>shadow</em> gives a floating, modern feel; <em>border</em> gives a clean, clear look; <em>flat</em> gives a minimal simplicity. Choose to match your site's tone.</li>
+  <li><strong>Card corner radius:</strong> adjust the roundness of the corners. More rounded looks soft and friendly, squarer looks serious and formal.</li>
+  <li><strong>Image, excerpt, read more button:</strong> toggle as you like. An image-focused blog might feature a prominent image, while a text blog might emphasize the title and excerpt.</li>
+</ul>
+<p>These adjustments help the post grid become part of your site's identity, not just a standard list that looks the same on every site. Try adjusting until you get a look that fits your brand and appeals most to your readers.</p>
+
+<h2>The importance of the cover image and excerpt</h2>
+<p>Because the card uses the cover image and excerpt from the post, these elements directly affect its appeal. A beautiful, meaningful cover image makes the card clickable, while a well-written excerpt tells readers what the post is about and why to read it. Paying attention to these two elements in every post helps the whole post grid look good and work well.</p>
+<p>In practice, use a cover image of suitable size and proportions, and write a concise but enticing excerpt. If a post has no cover image, its card may look emptier than the others. Having an image on every post helps the grid look consistent and professional. Besides, good images and excerpts also affect sharing on social media, because they are often used as the preview image and text.</p>
+
+<h2>The post grid in a complete homepage system</h2>
+<p>The post grid works best as part of a homepage designed systematically. Generally a good homepage has a <a href="/en/learn/hero">Hero</a> welcoming at the top, followed by the post grid showing content, and perhaps other supporting sections. This ordering leads readers from the welcome to the content naturally.</p>
+<p>Used together with a <a href="/en/learn/sidebar">sidebar</a> that helps navigate by category and <a href="/en/learn/readtime">read time</a> shown on the cards, the post grid becomes a complete content discovery hub. Readers see the posts, know how long each takes to read, and easily choose based on interest, all of which increases the number of posts read per visit.</p>
+
+<h2>The post grid and site speed</h2>
+<p>Because the post grid pulls data from the feed and shows several images, the number of posts and image size affect homepage speed. Setting a reasonable number of posts (such as 6 to 9) balances showing enough content with keeping speed. The images in the cards are thumbnails and the system uses lazy loading in many cases, so it does not affect the first page open much.</p>
+<p>What really matters is the file size of each post's cover image. If the image is very large, even when shown small in the card, the full file still has to download. Uploading cover images that are suitably resized and compressed helps both the post grid and the overall page load fast, which is good for both readers and Core Web Vitals scores, especially LCP, which is often affected by large images near the top of the page.</p>
+
+<h2>The post grid across different kinds of sites</h2>
+<p>The post grid adapts to almost any kind of site. Travel and food blogs where images are the star might use fewer columns for large cards showing beautiful images. News or knowledge blogs with many posts might use more columns to show more posts. Minimal blogs might choose a flat or border card style for clean simplicity. This flexibility makes the post grid an element that fits every site's identity.</p>
+<p>Choosing settings that suit your site type helps the homepage communicate its identity at first glance. A reader entering a food blog and seeing large cards full of appetizing food images feels different from seeing a plain text list. Paying attention to adjusting the post grid to fit the content is therefore part of building an experience consistent with your brand.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The post grid does not show</h3>
+<p>Check that the blog has published posts, because the grid pulls from the feed. If there are no posts yet, there are no cards to show. And check that you added/selected the block and Exported again.</p>
+<h3>The cards have no image</h3>
+<p>The cards use the post cover image. If a post has no cover image, its card has no image. We recommend adding a cover image to every post so the grid looks consistent.</p>
+<h3>The cards are too narrow on mobile</h3>
+<p>The system already reduces the column count on mobile. If it still feels narrow, try reducing the column count on desktop or check the display on a real screen.</p>
+<h3>You want to show only certain categories</h3>
+<p>The main post grid usually shows all latest posts. If you want to show only a category, consider using the <a href="/en/learn/morefrom">latest/random posts</a> section, which can filter by label, alongside it.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Add a good cover image and excerpt to every post, because the cards use these elements directly.</li>
+  <li>Choose the column count and card style to fit your site type and how much images matter.</li>
+  <li>Set a reasonable number of posts to keep speed and avoid an overly long homepage.</li>
+  <li>Arrange the post grid as part of a homepage with a Hero and other elements systematically.</li>
+  <li>Test the display on both desktop and mobile before publishing.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The post grid is the content discovery hub on the homepage, where readers choose which post to read. With BlogKub you can set up the Post Grid fully with no coding. The system pulls posts from the feed automatically and shows them as cards with an image, title, excerpt, and date. You can adjust the column count, card style, corner radius, and the toggling of various elements, and it is responsive automatically. When you attend to the cover image and excerpt of every post and arrange the grid as part of a systematic homepage, your post grid draws readers to click into several posts, which raises engagement and helps your content get read more.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Where does the Post Grid pull its data from?</summary><p>It pulls from your own Blogger post feed, taking the cover image, title, excerpt, and date to display as cards, so it updates automatically each time you publish a new post, with no need to add links yourself.</p></details>
+<details><summary>Can I adjust the column count and card style?</summary><p>Yes. You can choose 2 to 4 columns, adjust the card corner radius, and pick from 3 styles: shadow, border, and flat. You can also toggle the image, excerpt, and read more button as you like.</p></details>
+<details><summary>Is the Post Grid responsive on mobile?</summary><p>Yes, it is responsive. On mobile the column count reduces automatically so the cards are not too narrow to read. The cards display nicely and are easy to read on both desktop and mobile with no separate setup.</p></details>
+<details><summary>How is the Post Grid different from latest/random posts?</summary><p>The Post Grid is the homepage's main post section with detailed card customization (columns, style, excerpt, button), while latest/random posts is a supplementary section usually placed at the end of an article or elsewhere to invite reading on. Both pull from the feed alike.</p></details>
+<details><summary>Does the Post Grid help SEO?</summary><p>It helps indirectly. Showing posts as attractive cards helps readers click into several posts, increasing engagement and internal linking, which are good signals for navigation and overall SEO.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/postgrid">
+  <Fragment set:html={body} />
+</EnLayout>
