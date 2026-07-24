@@ -29,7 +29,11 @@ const CHANNEL = {
 
 const m1 = (re, s) => { const m = s.match(re); return m ? m[1].trim() : null; };
 const xesc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const toDate = (d) => new Date(`${d}T09:00:00+07:00`);
+const toDate = (d) => {
+  if (!d) return NOW;
+  const dt = new Date(/T\d/.test(d) ? d : `${d}T09:00:00+07:00`); // accept full ISO or bare date
+  return isNaN(dt) ? NOW : dt;
+};
 const rfc822 = (dt) => dt.toUTCString().replace('GMT', '+0000');
 
 // root-relative href="/x" / src="/x" -> absolute; leave //, http(s):, #, mailto: alone
