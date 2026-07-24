@@ -1,0 +1,55 @@
+---
+import EnLayout from '../../layouts/EnLayout.astro';
+const seo = `<meta name="robots" content="index, follow, max-image-preview:large">
+<title>Contact BlogKub | Free Blogger theme builder</title>
+<meta name="description" content="Get in touch with the BlogKub team. Ask a question, report a bug, or suggest a feature. We read every message and reply as fast as we can.">
+<link rel="canonical" href="https://www.blogkub.com/en/contact">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BlogKub">
+<meta property="og:title" content="Contact BlogKub">
+<meta property="og:description" content="Ask a question, report a bug, or suggest a feature for the BlogKub theme builder.">
+<meta property="og:url" content="https://www.blogkub.com/en/contact">
+<meta property="og:image" content="https://www.blogkub.com/android-chrome-512x512.png">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","@id":"https://www.blogkub.com/#organization","name":"BlogKub","url":"https://www.blogkub.com/","email":"hello@blogkub.com"},
+{"@type":"ContactPage","@id":"https://www.blogkub.com/en/contact#webpage","url":"https://www.blogkub.com/en/contact","name":"Contact BlogKub","inLanguage":"en","isPartOf":{"@id":"https://www.blogkub.com/#website"}},
+{"@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Home","item":"https://www.blogkub.com/en/"},
+{"@type":"ListItem","position":2,"name":"Contact"}]}
+]}</script>`;
+const body = `<main class="wrap"><article class="doc">
+<nav class="crumb"><a href="/en/">Home</a> › <span>Contact</span></nav>
+<span class="pill">Contact</span>
+<h1>Have a question, or want to <span class="g">suggest a feature</span>?</h1>
+<p class="lead">We are always happy to hear from you, whether you need help using a feature, want to report something that went wrong, have an idea for a new block, or want to talk about working together. The BlogKub team reads every message and does its best to reply quickly.</p>
+
+<div class="channels">
+  <div class="ch"><div class="ic">✉️</div><b>Email</b><a href="mailto:hello@blogkub.com">hello@blogkub.com</a></div>
+  <div class="ch"><div class="ic">💬</div><b>Facebook</b><a href="https://www.facebook.com/patpisan" target="_blank" rel="noopener">Founder (Ben)</a></div>
+  <div class="ch"><div class="ic">🗨️</div><b>Pantip</b><a href="https://pantip.com/profile/2448725" target="_blank" rel="noopener">LuMoo</a></div>
+  <div class="ch"><div class="ic">📚</div><b>Learning Center</b><a href="/en/learn/">Read the guides</a></div>
+  <div class="ch"><div class="ic">🛠️</div><b>Try the tool</b><a href="/builder">Open BlogKub Builder</a></div>
+</div>
+
+<h2>What you can reach us about</h2>
+<ul>
+  <li><strong>How to use it</strong>: you are not sure how a feature works, or whether BlogKub can do what you have in mind.</li>
+  <li><strong>Report a bug</strong>: you found an error, an exported file that misbehaves, or something that renders incorrectly.</li>
+  <li><strong>Suggest a feature</strong>: you would like to see a new block, template, or capability added to BlogKub.</li>
+  <li><strong>Partnerships and everything else</strong>: press, collaboration, or general feedback of any kind.</li>
+</ul>
+
+<h2>Try these first</h2>
+<p>Most how-to questions already have an answer in the <a href="/en/learn/">Learning Center</a>, which collects a step-by-step guide for every feature with screenshots and worked examples, such as the <a href="/en/learn/toc">automatic table of contents</a>, <a href="/en/learn/dark-mode">dark mode</a>, the <a href="/en/learn/aeo">AEO summary box</a>, and <a href="/en/learn/templates">choosing a template</a>. For deeper guides on ranking your blog on Google and earning from it, read <a href="/en/blog/">our blog</a>.</p>
+
+<h2>Response times</h2>
+<p>BlogKub is run by a small team. We read everything and aim to reply within a reasonable window, though it can take a little longer during busy periods. Describing your problem clearly, with a screenshot if you have one, helps us help you faster.</p>
+
+<div class="note">Thank you for using and supporting BlogKub. Every piece of feedback pushes us to make the tool better.</div>
+</article></main>`;
+---
+<EnLayout seo={seo} thHref="/contact">
+  <Fragment set:html={body} />
+</EnLayout>
