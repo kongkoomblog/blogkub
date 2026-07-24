@@ -1,0 +1,145 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build anchor links (copy a link to a heading) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/anchorlink">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/anchorlink">
+<meta name="description" content="How to add anchor links to a Blogger theme with BlogKub, letting readers copy a link straight to the H2/H3 heading they want. The system generates ids automatically and supports Thai, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build anchor links (copy a link to a heading) in Blogger">
+<meta property="og:description" content="Let readers copy a link straight to the heading they want, sharing a precise spot in a long article.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/anchorlink.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/anchorlink.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Anchor Link" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/anchorlink.png","width":1440,"height":568},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/anchorlink",
+      "headline": "How to build anchor links (copy a link to a heading) in Blogger",
+      "description": "A detailed guide to adding anchor links that let readers copy a link straight to a heading in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is an anchor link?", "acceptedAnswer": { "@type": "Answer", "text": "An anchor link is a link that points straight to a specific heading on the page. When opened, the page scrolls to that heading immediately, letting you share a precise spot in a long article instead of sending the whole page and making the recipient scroll to find it." } },
+        { "@type": "Question", "name": "Do I have to set an id on each heading myself?", "acceptedAnswer": { "@type": "Answer", "text": "No. The system generates an id for every heading automatically from the heading text, and keeps ids from clashing. If there are headings with the same name, it appends a number so they do not collide." } },
+        { "@type": "Question", "name": "Do anchor links support Thai?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The system generates ids from Thai heading text, keeping the Thai characters and turning spaces into dashes, so links to Thai headings work correctly." } },
+        { "@type": "Question", "name": "How is an anchor link different from a table of contents?", "acceptedAnswer": { "@type": "Answer", "text": "A table of contents is a combined list of links to all headings at the top of the article to aid in-page navigation, while an anchor link is an icon on each heading that lets readers copy that heading's link to share. The two complement each other and can share heading ids." } },
+        { "@type": "Question", "name": "Do anchor links help SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Indirectly. Having an id on a heading enables deep links to a section of the page, which supports Google showing jump-to results or links to a relevant section, and readers sharing deep links widens access to your content." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Anchor Link</span></nav>
+<article>
+<h1>How to build anchor links (copy a link to a heading) in Blogger</h1>
+<p class="lead">In a long article, sending the whole-page link and making the other person scroll to find a heading is annoying. Anchor links solve this by letting readers copy a link that points straight to the heading they want. This article teaches you how to add it to a Blogger theme with BlogKub, which generates ids automatically and supports Thai.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Anchor Link</strong> block in BlogKub, then Export the XML and upload it to Blogger. The system adds a link icon to every H2/H3/H4 heading, generates an <code>id</code> automatically from the text (Thai supported, no clashes), and when a reader clicks it <strong>copies a link straight to that heading</strong> to share a precise spot in a long article at once.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/anchorlink.png" aria-label="View the anchor link icon on an article heading at full size">
+    <img alt="A heading in a Blogger article with an anchor link icon on the left for copying a link to the heading" title="The anchor link icon on an article heading" src="https://www.blogkub.com/learn/images/anchorlink.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="568" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A link icon appears beside the heading. Click it to copy a link straight to that heading for sharing.</figcaption>
+</figure>
+
+
+<h2>What an anchor link is, and what problem it solves</h2>
+<p><strong>An anchor link (heading link) is a link that points straight to a specific heading on the page.</strong> When you open that link, the browser scrolls to the specified heading immediately, instead of opening at the top of the page and leaving the reader to scroll and find it. The technique relies on an <code>id</code> attached to the heading and a <code>#</code> in the link to say where to jump.</p>
+<p>The clearest problem anchor links solve is sharing content in a long article. Imagine a 3,000-word guide with 15 headings. When a friend asks a question you already answered in heading 9, you want to send a link that takes them straight there, not a bare page link with "scroll down to the section on...". Anchor links make sharing precise and professional.</p>
+
+<h2>How BlogKub's anchor links work</h2>
+<p>When you add this block, the system embeds a script that scans every <code>H2</code>, <code>H3</code>, and <code>H4</code> heading in the article content and does two things automatically. First, it <strong>generates an id for the heading</strong> if it does not have one, and second, it <strong>adds a small link icon</strong> beside the heading. When the reader hovers over the heading, the icon appears faintly, and clicking it copies the heading's full link to the clipboard, while updating the URL in the address bar to match.</p>
+<p>The refined part is <strong>generating ids without clashes</strong>. The system converts the heading text into a usable id string (keeping Thai and English characters, turning spaces into dashes), and if an article has several headings with the same name, it appends a number so they do not collide, such as <code>summary</code>, <code>summary-2</code>, so each heading's link always points to the right spot.</p>
+<p>On mobile, where there is no hover, the system shows the link icon faintly beside the heading anyway, so mobile users can tap to use it and it is not missed for lack of a mouse.</p>
+
+<h2 id="step1">How to add anchor links in BlogKub, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Anchor Link block.</strong> Open the left block library, category "Article &amp; UX", and drag the "Anchor Link" block in to enable it across the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Test on a heading.</strong> Open a live article, hover over a heading until the link icon appears (on mobile you already see a faint icon), then click it to copy the link.</li>
+  <li id="step4"><strong>Check the jump to the heading.</strong> Open a new tab and paste the copied link, confirming the page scrolls to the correct heading immediately.</li>
+</ol>
+
+<h2>Anchor links vs a table of contents: the difference, and using both</h2>
+<p>Many people confuse anchor links with a table of contents, because both concern in-page navigation and use heading <code>id</code>s, but their roles differ.</p>
+<ul>
+  <li><strong>Table of contents:</strong> a combined list of links to all headings placed at the top of the article, letting readers see the overview and jump to a section of interest from one place. An "in-page navigation" tool.</li>
+  <li><strong>Anchor link:</strong> an icon on each heading that lets readers "copy that heading's link" to share externally. A "share a precise spot" tool for others.</li>
+</ul>
+<p>The two do not compete, they complement each other neatly, and because both use heading ids, enabling both features makes your article's navigation system complete. If you have not set up a table of contents, we recommend reading how in the <a href="/en/learn/toc">table of contents guide</a> to use it alongside anchor links.</p>
+
+<h2>Anchor links, SEO, and content discovery</h2>
+<p>Having an <code>id</code> on every heading benefits SEO more than many people think, because it enables "deep links" to a section of the page, which is the basis of features like Google showing jump-to links to the section matching a query in the results. When your headings have clear, meaningful ids, the chance that a sub-section is linked directly increases.</p>
+<p>Moreover, when a reader shares a deep link to a useful heading, whoever clicks in finds the answer immediately without scrolling to find it. This good experience raises the chance they read on and come back to your site. Used with an answer-first <a href="/en/learn/aeo">AEO</a> summary box and a <a href="/en/learn/breadcrumb">breadcrumb</a> that helps convey the site structure, your content becomes both easy to discover and easy to navigate.</p>
+
+<h2>Why Thai-supporting ids matter</h2>
+<p>Most Thai blogs have Thai headings, so generating ids that support Thai characters is necessary. If the system dropped Thai characters to make English-only ids, many Thai headings would end up with empty or duplicate ids and broken links. BlogKub's system is therefore designed to keep Thai characters in id generation and turn spaces into dashes, so links to Thai headings genuinely work.</p>
+<p>The result is that whether your headings are in Thai, English, or a mix, anchor links generate correct, non-clashing ids automatically. So you never have to set ids yourself in HTML view heading by heading, a tedious and error-prone task if done by hand.</p>
+
+<h2>Examples of using anchor links in different kinds of blog</h2>
+<p>Anchor links are especially valuable for long content with many sections. Look at some examples.</p>
+<ul>
+  <li><strong>Guide and how-to blogs:</strong> readers or a team can share a link straight to a problematic step, such as sending a link to the "How to fix X" heading to a colleague at once.</li>
+  <li><strong>FAQ collection blogs:</strong> each question is a heading, so when someone asks the same question, you send a link to that answer, saving time and looking systematic.</li>
+  <li><strong>Long review blogs:</strong> readers share a link to the "Pros and cons" or "Price and value" heading with a friend deciding to buy.</li>
+  <li><strong>Technical docs and manuals:</strong> deep links to a specific section are a standard of good documentation, helping cross-reference precisely.</li>
+</ul>
+<p>The common thread is "long content that needs to point to a specific section". The longer and more valuable the article, the more anchor links help it get shared and used.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The link icon does not appear</h3>
+<p>Check that you added the anchor link block and Exported again. The icon appears on hover over a heading on desktop, while on mobile you see a faint icon beside the heading. If you see nothing at all, confirm the heading uses an actual H2/H3/H4 tag.</p>
+<h3>Clicking does not scroll to the heading</h3>
+<p>Check that the copied link has a <code>#</code> followed by the heading's id. If you paste the link in an app that strips the <code>#</code>, the jump will not work. Try pasting in the browser directly to test.</p>
+<h3>The Thai heading id looks strange</h3>
+<p>It is normal for a Thai id to contain Thai characters, which genuinely work. The system is designed to keep Thai characters and avoid clashes, so do not worry about the id's shape as long as the link jumps to the right heading.</p>
+<h3>Headings where you set an id yourself</h3>
+<p>If you set an id on a heading yourself in HTML view, the system respects the existing id and does not overwrite it, so links you already shared keep working and do not break.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Name headings clearly and meaningfully, because the id is generated from the heading text. Good headings make the link easier to read.</li>
+  <li>Enable anchor links alongside the <a href="/en/learn/toc">table of contents</a>, so long articles have both in-page navigation and precise-spot sharing.</li>
+  <li>Test copying and jumping on both desktop and mobile after setup.</li>
+  <li>Use it with the <a href="/en/learn/copycode">copy code button</a> in tech articles, so readers can both jump to a heading and copy the code in that section conveniently.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>Anchor links are a small feature that makes your long articles much easier to share and more systematic. With BlogKub, you just add the anchor link block once and Export it, and the system adds a link icon to every H2/H3/H4 heading, generates ids automatically with Thai support and no clashes. Readers can copy a link to the heading they want at once, sharing a precise spot, supporting content discovery, and pairing with a table of contents for complete navigation, without you setting a single id yourself.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>What is an anchor link?</summary><p>An anchor link is a link that points straight to a specific heading on the page. When opened, the page scrolls to that heading immediately, letting you share a precise spot in a long article instead of sending the whole page and making the recipient scroll to find it.</p></details>
+<details><summary>Do I have to set an id on each heading myself?</summary><p>No. The system generates an id for every heading automatically from the heading text, and keeps ids from clashing. If there are headings with the same name, it appends a number so they do not collide.</p></details>
+<details><summary>Do anchor links support Thai?</summary><p>Yes. The system generates ids from Thai heading text, keeping the Thai characters and turning spaces into dashes, so links to Thai headings work correctly.</p></details>
+<details><summary>How is an anchor link different from a table of contents?</summary><p>A table of contents is a combined list of links to all headings at the top of the article to aid in-page navigation, while an anchor link is an icon on each heading that lets readers copy that heading's link to share. The two complement each other and can share heading ids.</p></details>
+<details><summary>Do anchor links help SEO?</summary><p>Indirectly. Having an id on a heading enables deep links to a section of the page, which supports Google showing jump-to results or links to a relevant section, and readers sharing deep links widens access to your content.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/anchorlink">
+  <Fragment set:html={body} />
+</EnLayout>
