@@ -1,0 +1,154 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build related posts in Blogger 2026, pulled automatically by label</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/related">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/related">
+<meta name="description" content="How to add related posts to a Blogger theme with BlogKub, pulled automatically from the JSON feed by label, to raise further reading, reduce bounce, and build internal links that are good for SEO.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build related posts in Blogger">
+<meta property="og:description" content="Pull related posts automatically by label to raise further reading and internal links.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/related.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/related.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Related Posts" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/related.png","width":1800,"height":580},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/related",
+      "headline": "How to build related posts in a Blogger theme",
+      "description": "A detailed guide to adding related posts pulled automatically by label in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where does related posts in BlogKub get its data?", "acceptedAnswer": { "@type": "Answer", "text": "It pulls automatically from Blogger's JSON feed by the current post's first label. The system pulls other posts in the same category, excludes the article being read, and needs no database setup or plugin." } },
+        { "@type": "Question", "name": "Do I have to label posts to get related posts?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The system uses the first label to find posts in the same category. If a post has no label, the related posts section will not show, so it does not leave a gap." } },
+        { "@type": "Question", "name": "How do related posts help SEO?", "acceptedAnswer": { "@type": "Answer", "text": "They raise time on site and pages per visit, reduce bounce, and build internal links between posts in the same category, which spreads link equity and reinforces the site's topical authority." } },
+        { "@type": "Question", "name": "What if a category has few posts?", "acceptedAnswer": { "@type": "Answer", "text": "The system shows what it has. If there are no other posts in the category, the section hides automatically. So write a reasonable number of posts per category to have recommendations to offer." } },
+        { "@type": "Question", "name": "Which pages show related posts?", "acceptedAnswer": { "@type": "Answer", "text": "They show on single article pages, usually at the end of the content before the comments, to offer further reading right when the reader has just finished." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Related Posts</span></nav>
+<article>
+<h1>How to build related posts in a Blogger theme, pulled automatically by label</h1>
+<p class="lead">Offering "further reading" at the moment someone just finished reading is the easiest way to raise visits per session. This article teaches you how to add a related posts section to a Blogger theme with BlogKub that pulls posts in the same category automatically, along with the SEO reasoning and fixes.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner to Intermediate</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Related Posts</strong> block in BlogKub, set the heading, count, and columns, then Export the XML and upload it to Blogger. From there, <strong>add a category label to every post</strong> and the system pulls posts in the same category from the JSON feed and shows them at the end of the article automatically (excluding the one being read). It raises further reading and builds internal links good for SEO, with no plugin.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/related.png" aria-label="View the related posts section at the end of an article at full size">
+    <img alt="A related posts section at the end of a Blogger article showing 4 cards of posts in the same category with images" title="Related posts at the end of an article" src="https://www.blogkub.com/learn/images/related.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1800" data-original-height="580" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The related posts section, pulling posts in the same category from the JSON feed automatically.</figcaption>
+</figure>
+
+
+<h2>What related posts is, and why every blog should have one</h2>
+<p><strong>Related posts is a section that shows links to other articles on a similar topic, usually at the end of the content.</strong> The goal is to catch the moment a reader has just finished, the golden second when they are still interested in the subject, and offer further reading immediately, instead of letting them close the tab.</p>
+<p>Think about your own experience. When you finish an article and see "other posts you might like" with a compelling heading, you often click through without realizing it. That is the power of related posts. It turns a single visit into reading several articles, raising both the reader's bond with the site and the chance they remember it and come back.</p>
+
+<h2>How BlogKub's related posts works</h2>
+<p>The highlight is that it <strong>pulls data automatically from Blogger's JSON feed by the current post's first label.</strong> When a reader opens an article in the "Travel" category, the system calls that category's feed, pulls other posts in the same category, filters out the one being read, and shows them as cards with an image and heading. All of this happens with no database setup, no plugin to install, and no manually picking articles one by one.</p>
+<p>Because it is a live pull, every time you publish a new post in a category, the related posts section of the older posts in that category can update automatically. This keeps your content interlinked in a living way, with no need to go back and edit old links.</p>
+
+<h2>How related posts helps SEO</h2>
+<ul>
+  <li><strong>More pages per session:</strong> readers click to read on, viewing several pages in one visit, a signal that the site has content people care about.</li>
+  <li><strong>Lower immediate bounce:</strong> having on-target further reading reduces the chance someone closes the tab after a single article.</li>
+  <li><strong>Builds internal links with context:</strong> links between posts in the same category help Google understand that this group of content is related, and spread internal link equity.</li>
+  <li><strong>Reinforces topical authority:</strong> when articles on the same topic interlink densely, the site looks like an in-depth source on that subject, which is good for the rankings of the whole category.</li>
+</ul>
+
+<h2 id="step1">How to add related posts in BlogKub, step by step</h2>
+<ol class="steps">
+  <li id="step2"><strong>Add the Related Posts block.</strong> Many templates install it already. If yours does not, open the left library, category "Article &amp; UX", and drag the "Related Posts" block in. The system places it at the end of the article automatically.</li>
+  <li><strong>Set the heading, count, and columns.</strong> Click the block to set the section heading (such as "Related posts" or "Keep reading"), the number of articles shown, the number of columns, and whether to show images in the cards.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Add a category label to every post.</strong> In the post editor's label field, add the post's category, because the system pulls related posts from the first label. A well-planned label makes the recommendations accurate.</li>
+</ol>
+<p class="note">The related posts section is wrapped in a <code>data:view.isSingleItem</code> condition, so it shows only on article pages, and if there are no other posts in the category, the system hides the section automatically so it does not leave an empty space.</p>
+
+<h2>Plan your labels so related posts are accurate</h2>
+<p>Because the system uses the first label to find posts in the same category, the quality of your related posts depends on your labeling system. Follow these principles:</p>
+<ul>
+  <li><strong>Plan your main categories in advance,</strong> roughly 5 to 8 for a typical blog, then sort every post into these categories, so you get clearly connected groups of articles.</li>
+  <li><strong>Make the first label the main category,</strong> broad enough to hold several articles, not a specific term with a single article, because a category with one article has no recommendations to offer.</li>
+  <li><strong>Write enough articles in each category,</strong> at least 4 to 5 per category, so the system has options to show.</li>
+</ul>
+
+<h2>Related posts vs random/latest, which to use</h2>
+<p>BlogKub has both a "Related Posts" block (by category) and a "Random/Latest by label" block, which serve different purposes.</p>
+<ul>
+  <li><strong>Related posts</strong> emphasizes being "on topic", ideal at the end of an article to offer further reading on the same subject, good for topical authority.</li>
+  <li><strong>Random/latest</strong> emphasizes "variety or freshness", ideal for pulling people to explore the site's other content, or showing the newest articles.</li>
+</ul>
+<p>You can use both on one page, such as related posts at the end of the content and random/latest in the sidebar or at the very bottom, so readers have both an on-topic and an exploratory path to read on.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The related posts section does not show</h3>
+<p>The common cause is that the post has no label, or the category has only one article (the one being read). Add a category label and write more articles in that category, and the section will appear.</p>
+<h3>The recommendations are not on topic</h3>
+<p>This comes from a first label that is too broad or mixed. Reorganize your labels so the first label is a category that clearly conveys the topic, and the recommendations will be more accurate.</p>
+<h3>Card images do not show</h3>
+<p>Because the source article has no first image or featured image. Add at least one image to the article so the system can pull it as the card image.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Place related posts at the end of the content before the comments, to catch the moment the reader has just finished.</li>
+  <li>Setting 4 articles in 2 columns is a good default that looks good on both desktop and mobile.</li>
+  <li>Add a featured image to every article so the related posts cards are clickable.</li>
+  <li>Pair it with <a href="/en/learn/breadcrumb">breadcrumbs</a> and in-content internal links to build a web of links that helps both readers and rankings.</li>
+</ul>
+
+<h2>Make related posts cards more clickable</h2>
+<p>The system pulls articles for you automatically, but what decides whether people click is the "heading" and "featured image" of the destination article. So making related posts genuinely clickable starts when you write each article, not on the block itself.</p>
+<ul>
+  <li><strong>Write article headings that invite the click.</strong> A heading that states a clear benefit or sparks curiosity draws clicks well when it appears in another article's related posts card.</li>
+  <li><strong>Add a meaningful, sharp featured image,</strong> because the card uses the article's first or featured image. A good image makes the card catch the eye and feel credible.</li>
+  <li><strong>Write articles in the same category as a connected series,</strong> such as several angles on "visiting Chiang Mai", so when someone finishes one, the cards offer other pieces in the series they are likely to want next.</li>
+</ul>
+<p>When every article in a category is written with care in both heading and image, the related posts section becomes a powerful engine for further reading, because every card that appears is clickable.</p>
+
+<h2>Related posts and the mobile experience</h2>
+<p>Most people read blogs on mobile, so the layout of related posts has to account for a narrow screen. The recommended value is 2 columns, which on mobile stack or shrink to thumb-sized cards that are easy to read and tap. Setting 4 articles is just right, not so many that you scroll a long way after finishing, and not so few that there is no choice.</p>
+<p>Be careful not to set too many columns on mobile, because the cards get so small the heading is unreadable and the image unclear. Let the system handle the responsive behavior from the values you set, for a balanced result on both desktop and mobile.</p>
+
+<h2>Wrapping up</h2>
+<p>Related posts is a feature that turns a single visit into reading several articles, helping raise time on site, reduce bounce, and build internal links good for SEO. With BlogKub, you just add the block, set the heading and count, and label your posts by category with discipline, and the system pulls posts in the same category from the JSON feed for you automatically, with no plugin or complex setup.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Where does related posts in BlogKub get its data?</summary><p>It pulls automatically from Blogger's JSON feed by the current post's first label. The system pulls other posts in the same category, excludes the article being read, and needs no database setup or plugin.</p></details>
+<details><summary>Do I have to label posts to get related posts?</summary><p>Yes. The system uses the first label to find posts in the same category. If a post has no label, the related posts section will not show, so it does not leave a gap.</p></details>
+<details><summary>How do related posts help SEO?</summary><p>They raise time on site and pages per visit, reduce bounce, and build internal links between posts in the same category, which spreads link equity and reinforces the site's topical authority.</p></details>
+<details><summary>What if a category has few posts?</summary><p>The system shows what it has. If there are no other posts in the category, the section hides automatically. So write a reasonable number of posts per category to have recommendations to offer.</p></details>
+<details><summary>Which pages show related posts?</summary><p>They show on single article pages, usually at the end of the content before the comments, to offer further reading right when the reader has just finished.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/related">
+  <Fragment set:html={body} />
+</EnLayout>

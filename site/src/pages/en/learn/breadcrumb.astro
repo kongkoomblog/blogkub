@@ -1,0 +1,152 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build breadcrumbs + schema in Blogger 2026, a detailed guide</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/breadcrumb">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/breadcrumb">
+<meta name="description" content="How to add breadcrumbs (Home › Category › Article) with BreadcrumbList JSON-LD to a Blogger theme with BlogKub, so they appear in Google results and improve navigation and SEO.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build breadcrumbs + schema in Blogger, a detailed guide">
+<meta property="og:description" content="Add breadcrumbs with BreadcrumbList schema so they appear in Google results.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/breadcrumb.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/breadcrumb.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Breadcrumb" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/breadcrumb",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/breadcrumb.png","width":1720,"height":476},
+      "headline": "How to build breadcrumbs with schema in a Blogger theme",
+      "description": "A detailed guide to adding breadcrumbs and BreadcrumbList JSON-LD in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does breadcrumb in BlogKub embed schema automatically?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, automatically. Every article gets BreadcrumbList JSON-LD that matches the displayed path, making it eligible to appear as a navigation trail in Google results, without you writing any code." } },
+        { "@type": "Question", "name": "Where does breadcrumb pull the category name from?", "acceptedAnswer": { "@type": "Answer", "text": "From the post's first label. So add a label that conveys the category to every post, so the path is Home › Category › Article title correctly." } },
+        { "@type": "Question", "name": "What if a post has no label?", "acceptedAnswer": { "@type": "Answer", "text": "The path becomes just Home › Article title, which still works, but we recommend always adding a label for a complete path and to help categorize the site." } },
+        { "@type": "Question", "name": "Do breadcrumbs really help SEO?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Google uses breadcrumbs to show the site hierarchy in results instead of a long URL, making results cleaner and more clickable, and helping users and bots understand the site structure and connect pages." } },
+        { "@type": "Question", "name": "Do breadcrumbs show on every page or only article pages?", "acceptedAnswer": { "@type": "Answer", "text": "Mainly on article pages, because that is where the Home › Category › Article path is meaningful. BlogKub places the breadcrumb at the top of the article automatically." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Breadcrumb</span></nav>
+<article>
+<h1>How to build breadcrumbs with schema in a Blogger theme, a detailed guide</h1>
+<p class="lead">A breadcrumb is the small trail that tells readers where they are on your site, and it is one of the markups Google likes to show in the results. This article teaches you how to add breadcrumbs with BreadcrumbList JSON-LD to a Blogger theme with BlogKub, covering every step.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner to Intermediate</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Breadcrumb</strong> block in BlogKub, set the first item text (such as "Home"), then Export the XML and upload it to Blogger. From there, <strong>add a label to every post</strong>, because the breadcrumb uses the first label as the category name. The system builds a Home › Category › Article path and embeds BreadcrumbList schema automatically, making it eligible to show in Google results.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/breadcrumb.png" aria-label="View the breadcrumb on a Blogger article page at full size">
+    <img alt="A breadcrumb trail Home › Domestic › Article title above a Blogger article heading" title="The breadcrumb on a Blogger article page" src="https://www.blogkub.com/learn/images/breadcrumb.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1720" data-original-height="476" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The breadcrumb shown above the article heading, pulling the category name from the post's first label automatically, with BreadcrumbList schema.</figcaption>
+</figure>
+
+
+
+
+<h2>What a breadcrumb is</h2>
+<p><strong>A breadcrumb is a small row of links that shows the current page's place in the site hierarchy.</strong> It usually sits above the article heading and looks like this:</p>
+<div class="demo">Home › Travel › 10 must-visit spots in Chiang Mai</div>
+<p>The name "breadcrumb" comes from the fairy tale of scattering breadcrumbs to find the way back. The web uses the same idea, letting readers know where they came from and return to the main category in one click. It looks simple, but it has a significant effect on both user experience and SEO.</p>
+
+<h2>Why breadcrumbs matter for SEO</h2>
+<ul>
+  <li><strong>Google shows them in place of the URL:</strong> in the results, Google often replaces a long URL with an easy-to-read breadcrumb path, such as <code>blogkub.com › Travel › Chiang Mai</code>, making results look tidy and more clickable.</li>
+  <li><strong>Helps bots understand the site structure:</strong> breadcrumbs connect an article to its category, so Google understands which larger topic this content belongs to, which helps topical grouping and ranking (topical authority).</li>
+  <li><strong>Adds meaningful internal links:</strong> a link back to the category spreads internal link equity and opens a path for readers to explore related content.</li>
+  <li><strong>Lowers immediate bounce:</strong> when readers see a path to a category they are interested in, they have another option besides closing, so they stay longer.</li>
+</ul>
+
+<h2>The difference between the "displayed" breadcrumb and the "schema"</h2>
+<p>A good breadcrumb has two parts working together. The first is the path the <strong>reader sees</strong> on the page. The other is the <strong>BreadcrumbList JSON-LD</strong> hidden in the code for Google to read. Many sites do only the visible part but forget the schema, so they never get the nice path in the results. BlogKub's strength is that it builds both parts to match, automatically, on every article, so you never have to worry whether it is complete.</p>
+
+<h2 id="step1">How to add a breadcrumb in BlogKub, step by step</h2>
+<ol class="steps">
+  <li id="step2"><strong>Add the Breadcrumb block.</strong> Open the left library, category "Article &amp; UX", and drag the "Breadcrumb" block in. The system places it at the top of the article automatically.</li>
+  <li><strong>Set the first item text.</strong> Click the block to set the first item text, such as "Home", to match your site's language.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Add a label to every post.</strong> In the post editor's "Labels" field, add the article's category, such as "Travel", because the breadcrumb uses the first label as the category name in the path.</li>
+  <li id="step5"><strong>Verify with the Rich Results Test.</strong> Put the article URL into Google's Rich Results Test to confirm the BreadcrumbList reads correctly with no errors.</li>
+</ol>
+<p class="note">BlogKub's breadcrumb sits in the post's includable, so it has <code>data:post.labels</code> in scope, letting it pull the category from the label correctly, and the displayed path always matches the schema.</p>
+
+<h2>How to write and categorize so breadcrumbs are most useful</h2>
+<ul>
+  <li><strong>Use labels that are real categories,</strong> such as "Travel", "Reviews", "Health", not scattered terms like a specific place name. The first label should be a category broad enough to hold several articles.</li>
+  <li><strong>Use your labeling system consistently.</strong> Plan the site's main categories in advance (say 5 to 8) and sort every post into them, for a site structure Google understands easily.</li>
+  <li><strong>Do not add too many labels.</strong> The first label is the category in the path, so if you use several, order them so the main category label is in the right position.</li>
+</ul>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The path has no category (only Home › Article)</h3>
+<p>This happens when the post has no label. Open the post in the Blogger editor, add a category label in the Labels field, then save again, and the path is complete immediately.</p>
+<h3>The Rich Results Test shows a warning</h3>
+<p>BlogKub's breadcrumb usually passes the test. If there is a warning, it is often because the Blogger category URL has no articles yet. Publish at least one article in that category first.</p>
+<h3>Breadcrumbs do not show in the results right away</h3>
+<p>Google has to crawl the new page first, so it can take several days to weeks to show the path in the results. You can speed it up by submitting the URL through Search Console.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use breadcrumbs together with a well-planned label structure, to benefit both navigation and topical SEO.</li>
+  <li>Set the first item text to match your site's language and keep it consistent. Do not switch between "Home" and other words.</li>
+  <li>Pair it with a <a href="/en/learn/toc">table of contents</a> and <a href="/en/learn/related">related posts</a> to build a web of internal links that helps both readers and rankings.</li>
+  <li>Check the Rich Results Test after your first theme upload to confirm the schema works.</li>
+</ul>
+
+<h2>Examples of real site category structures</h2>
+<p>Breadcrumbs are powerful only when the site's category structure is well planned. Look at examples of category layouts for three different kinds of blog, as a guide for designing your own labels.</p>
+<ul>
+  <li><strong>Travel blog:</strong> main categories might be "Domestic", "International", "Short trips", "Cafes", "Stays". Each article carries the one category label that fits best, and the path becomes Home › Domestic › 3 days 2 nights in Nan.</li>
+  <li><strong>Product review blog:</strong> organize by product type, such as "Appliances", "Gadgets", "Home goods", "Beauty". A path like Home › Gadgets › Review of the new wireless earbuds tells both people and Google at once which group the content is in.</li>
+  <li><strong>Health blog:</strong> split by topic, such as "Nutrition", "Exercise", "Mental health", "Conditions and symptoms", which builds topical authority that Google values for YMYL content.</li>
+</ul>
+<p>The principle is to choose main categories that are "broad enough to hold several articles, but narrow enough to convey meaning", roughly 5 to 8 for a typical blog. Too many gets scattered, too few gets so broad it means nothing.</p>
+
+<h2>Breadcrumbs and E-E-A-T and topical authority</h2>
+<p>Google assesses sites with the E-E-A-T idea (Experience, Expertise, Authoritativeness, and Trust), and one signal of expertise is a site covering a topic systematically. Breadcrumbs paired with a good category structure help show that your site groups content in an organized way, not scattered articles with no connection.</p>
+<p>When a reader or bot clicks from an article back to a category page and sees other articles on the same topic grouped together, that is structural evidence your site goes deep on that subject. The more articles you write in the same category and the better they interconnect through breadcrumbs, related posts, and internal links, the more the site accumulates topical authority, which affects the rankings of the whole category over the long term.</p>
+
+<h2>Breadcrumbs on mobile and common misconceptions</h2>
+<p>On a narrow mobile screen, a long path can wrap or feel cramped. The good fix is to keep the path short and meaningful. Generally three levels (Home › Category › Article) is just right. Do not nest several sub-category levels so the path gets too long, because it wastes space on mobile and confuses readers more than it helps.</p>
+<p>The first common misconception is thinking breadcrumbs must mirror the URL structure exactly. In reality, breadcrumbs reflect the "logical hierarchy of the content", which can differ from the URL. For example, Blogger's URL is date-based, but the breadcrumb shows the category from the label, which is more useful to the reader. The second misconception is thinking that adding a breadcrumb gets you the path in the results immediately. In reality, you have to wait for Google to crawl and process, which takes time. The last is doing only the visible path and forgetting the schema, which sadly misses the chance for a rich result. BlogKub handles all three correctly from the start.</p>
+
+<h2>Wrapping up</h2>
+<p>The breadcrumb is a small element with a big payoff. It keeps readers from getting lost, helps Google understand the site structure, and makes your results look tidy and clickable. With BlogKub, you just add the breadcrumb block, set the first item text, and label your posts with discipline, and the system builds the BreadcrumbList schema to match the displayed path automatically, so your Blogger site is ready for rich results from day one.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does breadcrumb in BlogKub embed schema automatically?</summary><p>Yes, automatically. Every article gets BreadcrumbList JSON-LD that matches the displayed path, making it eligible to appear as a navigation trail in Google results, without you writing any code.</p></details>
+<details><summary>Where does breadcrumb pull the category name from?</summary><p>From the post's first label. So add a label that conveys the category to every post, so the path is Home › Category › Article title correctly.</p></details>
+<details><summary>What if a post has no label?</summary><p>The path becomes just Home › Article title, which still works, but we recommend always adding a label for a complete path and to help categorize the site.</p></details>
+<details><summary>Do breadcrumbs really help SEO?</summary><p>Yes. Google uses breadcrumbs to show the site hierarchy in results instead of a long URL, making results cleaner and more clickable, and helping users and bots understand the site structure and connect pages.</p></details>
+<details><summary>Do breadcrumbs show on every page or only article pages?</summary><p>Mainly on article pages, because that is where the Home › Category › Article path is meaningful. BlogKub places the breadcrumb at the top of the article automatically.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + BreadcrumbList + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/breadcrumb">
+  <Fragment set:html={body} />
+</EnLayout>
