@@ -1,0 +1,143 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build a dismissible announcement bar in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/announce">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/announce">
+<meta name="description" content="How to add a top announcement bar to a Blogger theme with BlogKub: add text, a CTA link, choose a background color, and readers can dismiss it and it remembers being dismissed, ideal for promos or news, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build a dismissible announcement bar in Blogger">
+<meta property="og:description" content="A top announcement bar with text and a link that readers can dismiss and it remembers.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/announce.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/announce.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Announcement bar" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/announce.png","width":1600,"height":358},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/announce",
+      "headline": "How to build a dismissible announcement bar in Blogger",
+      "description": "A detailed guide to adding a dismissible top announcement bar that remembers its state in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where does the announcement bar show?", "acceptedAnswer": { "@type": "Answer", "text": "As a full-width bar at the very top of the site, above the header, so it is the first thing readers see, ideal for announcing something important like a promotion, news, or a follow invite." } },
+        { "@type": "Question", "name": "Can readers dismiss the announcement bar?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The bar has a close button on the right. When a reader dismisses it, the system remembers in the browser, so the bar does not return to bother them on the next visit, until you change the announcement text." } },
+        { "@type": "Question", "name": "If I change the text, does the bar reappear for people who dismissed it?", "acceptedAnswer": { "@type": "Answer", "text": "It reappears, because the system remembers the dismissal based on the announcement text. When you change the text to a new announcement, the system treats it as a different announcement and shows it to everyone again, even those who dismissed the old one." } },
+        { "@type": "Question", "name": "Can I put a button or link in the announcement bar?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. You can add link text and a URL to make a CTA in the bar, such as 'See the promo' or 'Read more', so the bar not only tells news but takes readers to the page you want." } },
+        { "@type": "Question", "name": "What is the announcement bar good for?", "acceptedAnswer": { "@type": "Answer", "text": "Temporary announcements you want seen first, such as a promo, an event, an important new article, a change notice, or a follow invite, because it is at the very top and prominent. But use it only when needed, so readers do not feel bothered." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Announcement bar</span></nav>
+<article>
+<h1>How to build a dismissible announcement bar in Blogger</h1>
+<p class="lead">Sometimes you have something important you want every reader to see first, a promo, a new article, or a notice. A top announcement bar is the best place, because it is the first thing the eye reaches. This article teaches you how to add one to a Blogger theme with BlogKub, with a CTA link, color choices, and a reader-dismissible bar that remembers.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>announcement bar</strong> block in BlogKub, add text, a CTA link, and choose a background color, then Export the XML and upload it to Blogger. You get a <strong>full-width bar at the very top</strong> above the header. Readers can <strong>dismiss it and the system remembers</strong> (based on the text). When you change to a new announcement, the bar shows to everyone again.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/announce.png" aria-label="View the announcement bar at full size">
+    <img alt="An announcement bar at the very top of a Blogger site showing promo text with a CTA link and a close button" title="The announcement bar" src="https://www.blogkub.com/learn/images/announce.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1600" data-original-height="358" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">A full-width announcement bar at the very top, above the header, with a CTA link and a close button the system remembers.</figcaption>
+</figure>
+
+
+<h2>What an announcement bar is, and why it works</h2>
+<p><strong>An announcement bar is a full-width horizontal bar at the very top of the site, above the header and menu.</strong> It shows a short message you want every reader to see before anything else. With its prominent position and a background color that contrasts with the content, this bar catches the eye the moment the page finishes loading.</p>
+<p>The reason it works is that it relies on "visual order". Readers usually sweep from top to bottom, so what is at the top is always seen first. When you have time-limited or especially important information, such as a promo about to end, placing it in the announcement bar guarantees it will not be missed, unlike burying it mid-page where readers may scroll past.</p>
+
+<h2>The highlight: dismissible and smart remembering</h2>
+<p>What separates a good announcement bar from an annoying popup is respecting the reader. BlogKub's announcement bar has a <strong>close button on the right</strong>. When a reader dismisses it, the system remembers in the browser that they closed this announcement, so the bar does not return to bother them on later visits. This is a key difference: an announcement that cannot be closed or keeps popping back is annoying and drives readers away.</p>
+<p>Smarter still, the system remembers the dismissal <strong>based on the announcement text</strong>. That means when you change the text to a new announcement, the system treats it as a different one and shows it to everyone again, even those who dismissed the old one. This mechanism lets you use one bar to announce various things over time, with readers seeing only announcements they have not dismissed, with no worry that people who dismissed one will miss the new news.</p>
+<div class="note">Tip: because the remembering is based on the text, if you want an existing announcement to "show again" to people who dismissed it, just tweak the text slightly and it counts as a new announcement.</div>
+
+<h2 id="step1">How to add the announcement bar in BlogKub, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the announcement bar block.</strong> Open the left block library and drag the "announcement bar" block in, usually placed at the very top of the structure so it shows above the header.</li>
+  <li id="step2"><strong>Add text, a link, and a background color.</strong> Type the announcement text. For a CTA, add link text and a URL, and choose a background color to match your brand or stand out as you wish.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Test dismissing and remembering.</strong> Open the live site, check the bar shows at the top, click the close button, then refresh to confirm the bar does not return. Then try changing the text and re-exporting, to see the new announcement show again.</li>
+</ol>
+
+<h2>Add a CTA link: turn the announcement into a next step</h2>
+<p>The announcement bar is even more powerful with a link to click. Instead of just telling news, you can add link text like "See the promo", "Read the article", or "Sign up now" with a destination URL, turning the bar into a channel to take readers to the page you want, whether a promo page, an important article, or a follow channel.</p>
+<p>A clear CTA in the announcement bar raises the chance of the action you want. Think of the announcement bar as the most valuable ad space on the site, because everyone sees it first. Using it to guide readers toward a clear goal is more worthwhile than leaving it a floating message. That said, keep the text concise and the CTA on-point, because the bar space is limited.</p>
+
+<h2>Choose a color and write effective text</h2>
+<p>The bar's background color affects both its prominence and the mood of the announcement. A bright color like a brand or accent color makes the bar catch the eye, good for a promo or exciting news, while a calm dark color suits a formal notice. Choose a color where white text reads clearly and does not blend with the header until they are indistinguishable.</p>
+<p>For the text, the principle is "short, clear, and giving a reason to care", because the bar has limited space and readers spend only a fraction of a second on it. Write the point in one sentence, emphasizing a benefit or urgency, such as "30% off until the end of the month only", which is better than "We have a special promotion for customers", which is longer and less motivating. A small emoji can add eye-catch, but use it in moderation.</p>
+
+<h2>Examples of using the announcement bar</h2>
+<ul>
+  <li><strong>Promo announcement:</strong> "40% off the online course until the end of the month, click to see", with a link to the course page.</li>
+  <li><strong>Highlight a new article:</strong> "New article: 10 tips to rank your blog on Google's first page", linking to the article.</li>
+  <li><strong>Follow invite:</strong> "Follow our new channel so you do not miss updates", linking to a page or channel.</li>
+  <li><strong>Important notice:</strong> announce a change, event, or news readers should know first.</li>
+</ul>
+<p>Notice every case is "temporary and important", which suits the most prominent top space. When an announcement expires, you just change the text or turn off the block, and the site returns to normal.</p>
+
+<h2>A caution: use it only when needed</h2>
+<p>The power of the announcement bar comes from its prominence, but if there is always a bar with nothing genuinely important, readers begin to ignore it, like we scroll past ads automatically. This is called "banner blindness". To preserve the bar's power, use it only when there is something worth announcing.</p>
+<p>Also be careful not to let the bar crowd out the main content too much, especially on mobile with a small screen. Concise text and an easy-to-use close button let the bar do its job without disrupting the reading experience. Used in moderation with a clear goal, the announcement bar is an effective communication tool, not a nuisance.</p>
+
+<h2>The announcement bar vs a popup: why the bar is friendlier</h2>
+<p>Many sites use a mid-screen popup to announce something important, which works for grabbing attention but creates high annoyance because it covers the content and forces readers to close it before reading on. Google itself has guidance discouraging popups that cover content on mobile, which can affect the experience and rankings. A top announcement bar is a much gentler alternative, because it sits above the content without covering it. Readers see it but can keep reading immediately without clicking anything.</p>
+<p>This is a reader-first design philosophy. Communicating something important does not have to be aggressive or interrupting. The announcement bar proves you can present prominent information while still respecting the reading experience. When readers feel your site does not bother them too much, that good feeling carries over to the overall image and willingness to return.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The announcement bar does not show</h3>
+<p>Check that you added the announcement bar block and Exported again. If you previously dismissed an announcement with the same text on this browser, the system remembers the dismissal. Try in incognito mode or change the text to test.</p>
+<h3>You dismissed it but it returns every time</h3>
+<p>Normally the system remembers the dismissal in the browser. If the browser blocks storage (such as some private modes), the remembering may not work. Test in normal mode to confirm.</p>
+<h3>You changed the text but people who dismissed do not see the new one</h3>
+<p>In principle, when the text changes, the system treats it as a new announcement and shows it again. If it does not, check that you Exported and uploaded the theme with the new text.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use the announcement bar only for important, time-limited matters, to preserve its power to draw the eye.</li>
+  <li>Write short, concise text emphasizing a benefit or urgency.</li>
+  <li>Add a clear CTA link to take readers to the goal.</li>
+  <li>Choose a prominent color where the text reads easily and is clearly separate from the header.</li>
+  <li>Change or remove the announcement when it is no longer important, so readers do not tune out the bar.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The top announcement bar is the most prominent communication space on the site, ideal for important, temporary matters you want every reader to see first. With BlogKub, you just add the announcement bar block, add text, a CTA link, and a background color, and Export it. Readers see the bar at the top and can dismiss it, with the system remembering based on the text. When you change to a new announcement, the bar shows to everyone again. This reader-respecting mechanism makes the announcement bar an effective communication tool. Used in moderation with a clear goal, it helps your important news reach readers without becoming a nuisance.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Where does the announcement bar show?</summary><p>As a full-width bar at the very top of the site, above the header, so it is the first thing readers see, ideal for announcing something important like a promotion, news, or a follow invite.</p></details>
+<details><summary>Can readers dismiss the announcement bar?</summary><p>Yes. The bar has a close button on the right. When a reader dismisses it, the system remembers in the browser, so the bar does not return to bother them on the next visit, until you change the announcement text.</p></details>
+<details><summary>If I change the text, does the bar reappear for people who dismissed it?</summary><p>It reappears, because the system remembers the dismissal based on the announcement text. When you change the text to a new announcement, the system treats it as a different announcement and shows it to everyone again, even those who dismissed the old one.</p></details>
+<details><summary>Can I put a button or link in the announcement bar?</summary><p>Yes. You can add link text and a URL to make a CTA in the bar, such as 'See the promo' or 'Read more', so the bar not only tells news but takes readers to the page you want.</p></details>
+<details><summary>What is the announcement bar good for?</summary><p>Temporary announcements you want seen first, such as a promo, an event, an important new article, a change notice, or a follow invite, because it is at the very top and prominent. But use it only when needed, so readers do not feel bothered.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/announce">
+  <Fragment set:html={body} />
+</EnLayout>
