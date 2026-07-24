@@ -1,0 +1,153 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to add social share buttons in Blogger articles 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/share">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/share">
+<meta name="description" content="How to add inline social share buttons to Blogger articles with BlogKub: buttons for Facebook, X, LINE, and copy link, shown in the article, uses clean links, mobile friendly, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to add social share buttons in Blogger articles">
+<meta property="og:description" content="Inline social share buttons with Facebook, X, LINE, and copy link, mobile friendly.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/share.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/share.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Social share buttons" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to add inline social share buttons to Blogger articles with BlogKub",
+      "description": "Steps to add social share buttons in the article content, with a copy link button",
+      "inLanguage": "en",
+      "totalTime": "PT3M",
+      "tool": [{ "@type": "HowToTool", "name": "BlogKub" }, { "@type": "HowToTool", "name": "A Blogger account" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Add the Social Share block", "text": "Drag the 'Social Share' block from the library into the page, usually at the end of the article", "url": "https://www.blogkub.com/en/learn/share#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Choose channels and lead text", "text": "Toggle Facebook, X (Twitter), LINE, copy link, and add lead text if you want", "url": "https://www.blogkub.com/en/learn/share#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Export the XML and upload", "text": "Click Export XML, then upload it to Blogger via Theme, then Backup/Restore", "url": "https://www.blogkub.com/en/learn/share#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Test the sharing", "text": "Open an article page, click each share channel and the copy link button, confirming the shared link is correct and clean", "url": "https://www.blogkub.com/en/learn/share#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/share.png","width":1440,"height":358},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/share",
+      "headline": "How to add social share buttons in Blogger articles",
+      "description": "A detailed guide to adding inline social share buttons in Blogger articles with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "How are social share buttons different from a floating side share bar?", "acceptedAnswer": { "@type": "Answer", "text": "Social share buttons are inline buttons placed in the article content (such as at the end), shown on every screen size including mobile, while a floating side share bar is a floating bar on the side shown only on wide screens and hidden on mobile. The two are used together to cover readers on every device." } },
+        { "@type": "Question", "name": "Which channels can I share to?", "acceptedAnswer": { "@type": "Answer", "text": "It supports Facebook, X (Twitter), and LINE, plus a copy link button. You can toggle each channel and set lead text. The copy link button is very useful for sharing through private chat." } },
+        { "@type": "Question", "name": "Is the shared link a clean URL?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The system pulls the canonical link and strips parameters like Blogger's m=1, so the shared link is the main URL that matches the real page, not the mobile version with a trailing parameter." } },
+        { "@type": "Question", "name": "Do share buttons show only on article pages?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Share buttons show on article (post) pages, where readers have content to share, so the buttons appear in a suitable context and do not clutter unrelated pages." } },
+        { "@type": "Question", "name": "Does the copy link button work on old browsers?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. The system uses the modern Clipboard API first, and if it is not supported, it switches to a fallback method automatically, so most readers can copy the link even on older browsers." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Social share buttons</span></nav>
+<article>
+<h1>How to add social share buttons in Blogger articles</h1>
+<p class="lead">Word of mouth is one of a blog's most powerful ways to grow. Inline social share buttons in an article let an impressed reader share it with friends in one click, on every screen size including mobile. This article teaches you how to add them to a Blogger theme with BlogKub, with a copy link button, clean links, and how to use them effectively.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Social Share</strong> block in BlogKub, toggle the <strong>Facebook, X, LINE, copy link</strong> channels and set lead text, then Export the XML and upload it to Blogger. You get inline share buttons on the article page (usually at the end), shown on <strong>every screen size including mobile</strong>, using the clean canonical link (stripping m=1), with the copy link button having a fallback for old browsers.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/share.png" aria-label="View the social share buttons in an article at full size">
+    <img alt="Inline social share buttons at the end of a Blogger article with Facebook, X, LINE, and copy link buttons" title="Social share buttons in an article" src="https://www.blogkub.com/learn/images/share.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1440" data-original-height="358" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">Inline share buttons at the end of an article, with Facebook, X, LINE, and copy link, shown on every screen size including mobile.</figcaption>
+</figure>
+
+
+<h2>What inline social share buttons are</h2>
+<p><strong>Inline social share buttons are a group of share buttons placed in the article content, usually at the end after the reader finishes reading.</strong> When clicked, the system opens that platform's share window with the article link and title, letting readers share with friends or post to their own feed in a few clicks.</p>
+<p>The end-of-article position has a reason, because it is the moment the reader has just finished and feels the value of the content most. If they are impressed, this is when they are most likely to want to spread the word. Having share buttons waiting right there helps turn that impression into an actual share.</p>
+
+<h2>Why have inline share buttons when there is already a floating bar</h2>
+<p>BlogKub has both a <a href="/en/learn/sharebar">floating side share bar</a> and inline share buttons, because the two complement each other in different contexts. The key difference is that <strong>inline buttons show on every screen size, including mobile</strong>, while the floating side bar is hidden on mobile so as not to cover content.</p>
+<p>Since most blog readers today come from mobile, having inline share buttons is very important. It ensures mobile readers, who are the majority, can share too. Used together, the floating bar catches desktop readers while reading, and the inline buttons catch everyone who finishes reading, covering both moments and every device completely.</p>
+
+<h2 id="step1">How to add social share buttons step by step</h2>
+<ol class="steps">
+  <li><strong>Add the Social Share block.</strong> Open the left block library and drag the "Social Share" block in, usually placed at the end of the article after the main content.</li>
+  <li id="step2"><strong>Choose channels and lead text.</strong> Toggle Facebook, X (Twitter), LINE, and the copy link button as you like, and add lead text such as "If you liked this article, please share it with friends" to encourage sharing.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Test the sharing.</strong> Open a live article page, click each share channel and the copy link button, confirming the shared link matches the page and is a clean URL.</li>
+</ol>
+
+<h2>Clean links: a detail professionals attend to</h2>
+<p>When a reader shares an article, the outgoing link should be the main, tidy URL that matches the real page. Blogger often appends the <code>m=1</code> parameter to the URL for the mobile version, which, if shared, looks cluttered and may cause confusion. BlogKub's share buttons therefore pull the page's <strong>canonical</strong> link and <strong>strip the m=1 parameter</strong> before sharing.</p>
+<p>This detail is good for both image and SEO. A clean, consistent link helps share signals consolidate on a single URL, not spread across several versions of the same page. When everyone shares the same link, the value of sharing accumulates efficiently. This is care readers do not notice but that pays off in the long run.</p>
+
+<h2>The copy link button: the channel people actually use</h2>
+<p>Besides the big social buttons, the copy link button is a channel people really use to share in daily life. Many copy the link to paste into a private chat, a LINE group, or an app with no dedicated share button. The copy link button is therefore the most comprehensive and flexible share channel. When clicked, the button shows a "Copied" state to confirm.</p>
+<p>This button uses the modern Clipboard API first, and if the browser does not support it, it switches to a fallback method automatically, so most readers can copy even on older browsers. This is the same as the copy button in other BlogKub features, such as the <a href="/en/learn/copycode">copy code button</a> that uses the same approach, for the widest compatibility.</p>
+
+<h2>Write lead text to encourage sharing</h2>
+<p>Adding short lead text above the share buttons genuinely increases sharing, because it is a polite "ask". Behavioral research finds that people are more likely to do something asked of them than left to guess. Text like "If this article was helpful, please share it with a friend who might be interested" therefore works better than bare buttons.</p>
+<p>The tip is to make the text sincere and connected to the value the reader just received, not a curt ask. Saying "Share it with a friend facing the same problem" makes readers think of someone who would benefit, which encourages sharing more than a generic request. Adjust the text to fit your blog's tone and each content type for the best results.</p>
+
+<h2>Share buttons and site growth</h2>
+<p>Social sharing is a word-of-mouth growth channel with high credibility, because when a friend shares an article, those who see it usually click out of trust in the sharer. Traffic from sharing is therefore high quality and has a chance of becoming new readers who share again, creating a natural growth cycle.</p>
+<p>Although share counts are not a direct ranking factor, the increased visibility and traffic often lead to positive signals such as mentions and backlinks from other sites. Used together with quality content and read-on elements such as <a href="/en/learn/morefrom">latest/random posts</a>, your site has a good foundation for sustainable growth.</p>
+
+<h2>Privacy and lightness: sharing with no tracking script</h2>
+<p>Many share buttons on the web use scripts embedded directly from social platforms, which not only slow the page but also embed trackers that collect reader data even if they do not click share. BlogKub's share buttons take a different approach, being <strong>standard share links that open the platform's share window only when the reader clicks</strong>, with no tracking script embedded on the page.</p>
+<p>The result is that your page is lighter, loads faster, and respects reader privacy more. Readers who do not click share are not tracked by these buttons, which aligns with BlogKub's philosophy of prioritizing privacy and speed. Getting both full share functionality and good lightness for Core Web Vitals is an unseen but valuable long-term advantage.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The share buttons do not show</h3>
+<p>Check that you added the Social Share block and Exported again, and view it on a real article page, because the buttons show in the article context. Also check that at least one share channel is enabled.</p>
+<h3>The shared link has m=1 at the end</h3>
+<p>Normally the system strips this parameter. If you still see it, check that the page has a correct canonical tag, which BlogKub's theme already includes.</p>
+<h3>Copying does not work on some browsers</h3>
+<p>The system has a fallback, but some environments with restricted clipboard permissions (such as non-HTTPS pages) may fail to copy. Make sure the site is served over HTTPS, which Blogger already supports.</p>
+<h3>You want share buttons during reading too</h3>
+<p>Use the <a href="/en/learn/sharebar">floating side share bar</a> alongside, so desktop readers can share while reading, while the inline buttons serve readers on every device who finish reading.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Place share buttons at the end of the article, the moment readers are most likely to want to share.</li>
+  <li>Add sincere lead text connected to the content's value to encourage sharing.</li>
+  <li>Always enable the copy link button, because it is the channel people really use in private chat.</li>
+  <li>Choose only the channels your readers use, no need to enable every button.</li>
+  <li>Use it together with a floating side share bar to cover both during reading and after finishing, on every device.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>Inline social share buttons are an important tool for turning a reader's impression into word of mouth. With BlogKub you just add the Social Share block, enable the Facebook, X, LINE channels plus the copy link button, add lead text, and Export it to use, and the buttons show on the article page at every screen size including mobile, using the clean canonical link, with a fallback for copying. Used together with a floating side share bar, your site is ready for readers to spread the word at every moment and on every device, which is the foundation of sustainable word-of-mouth growth.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>How are social share buttons different from a floating side share bar?</summary><p>Social share buttons are inline buttons placed in the article content (such as at the end), shown on every screen size including mobile, while a floating side share bar is a floating bar on the side shown only on wide screens and hidden on mobile. The two are used together to cover readers on every device.</p></details>
+<details><summary>Which channels can I share to?</summary><p>It supports Facebook, X (Twitter), and LINE, plus a copy link button. You can toggle each channel and set lead text. The copy link button is very useful for sharing through private chat.</p></details>
+<details><summary>Is the shared link a clean URL?</summary><p>Yes. The system pulls the canonical link and strips parameters like Blogger's m=1, so the shared link is the main URL that matches the real page, not the mobile version with a trailing parameter.</p></details>
+<details><summary>Do share buttons show only on article pages?</summary><p>Yes. Share buttons show on article (post) pages, where readers have content to share, so the buttons appear in a suitable context and do not clutter unrelated pages.</p></details>
+<details><summary>Does the copy link button work on old browsers?</summary><p>Yes. The system uses the modern Clipboard API first, and if it is not supported, it switches to a fallback method automatically, so most readers can copy the link even on older browsers.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/share">
+  <Fragment set:html={body} />
+</EnLayout>
