@@ -1,0 +1,157 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build an FAQ + FAQPage schema in Blogger 2026, a detailed guide</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/faq">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/faq">
+<meta name="description" content="How to add a frequently asked questions (FAQ) accordion with FAQPage JSON-LD to a Blogger theme with BlogKub, to help AEO/GEO so AI cites your answers, plus how to write it and what to know about rich results.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build an FAQ + FAQPage schema in Blogger, a detailed guide">
+<meta property="og:description" content="An accordion FAQ with automatic schema that helps AI and Google understand your questions and answers.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/faq.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/faq.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "FAQ" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/faq.png","width":1680,"height":714},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/faq",
+      "headline": "How to build an FAQ + FAQPage schema in a Blogger theme",
+      "description": "A detailed guide to adding an accordion FAQ with FAQPage JSON-LD in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does FAQPage schema still help SEO after Google cut back the rich result?", "acceptedAnswer": { "@type": "Answer", "text": "It still helps. Even though Google limited the FAQ rich result (the dropdown under a result) mainly to trusted health and government sites since 2023, FAQPage schema still helps search engines and AI understand the question-and-answer structure, which is good for AEO/GEO and being cited in AI Overviews." } },
+        { "@type": "Question", "name": "Does FAQ in BlogKub embed schema automatically?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, automatically. When you write questions and answers in the .bk-faq block, the theme script reads the displayed questions and answers and builds matching FAQPage JSON-LD for you, with no hand-written schema." } },
+        { "@type": "Question", "name": "Where do I write the FAQ in a post?", "acceptedAnswer": { "@type": "Answer", "text": "In the post content itself. Switch to HTML view and place the .bk-faq block with each question as a details/summary, so you can put the FAQ exactly where it fits each article." } },
+        { "@type": "Question", "name": "Must the questions in the schema match what shows on the page?", "acceptedAnswer": { "@type": "Answer", "text": "They must match exactly. Per Google's policy, FAQ content in the structured data must be the same text the user sees on the page. BlogKub always builds the schema from the actually-displayed questions and answers, so you stay within policy." } },
+        { "@type": "Question", "name": "How many FAQ items should I include per article?", "acceptedAnswer": { "@type": "Answer", "text": "We recommend 3 to 8 real questions relevant to the article. Do not stuff unrelated questions hoping for schema, because quality and relevance matter more than quantity." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>FAQ</span></nav>
+<article>
+<h1>How to build an FAQ with FAQPage schema in a Blogger theme</h1>
+<p class="lead">A frequently asked questions section not only clears up readers' doubts, it is also an answer-first content unit that AI and Google like to cite. This article teaches you how to add an accordion FAQ with automatic FAQPage schema to a Blogger theme with BlogKub, along with the latest things to know about rich results.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About a 10 minute read &nbsp; Level: Intermediate</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>FAQ</strong> block in BlogKub to enable the FAQ styles and script in the theme, then Export the XML and upload it to Blogger. In a post, write a <code>.bk-faq</code> block using <code>&lt;details&gt;&lt;summary&gt;</code>, and the system builds an accordion and <strong>FAQPage JSON-LD matching the displayed questions</strong> automatically, helping both AEO/GEO and content clarity.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/faq.png" aria-label="View the accordion FAQ with FAQPage schema at full size">
+    <img alt="A frequently asked questions accordion in a Blogger article, opening and closing each answer, with FAQPage schema" title="The accordion FAQ with FAQPage schema" src="https://www.blogkub.com/learn/images/faq.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1680" data-original-height="714" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The accordion FAQ, clicking to open and close each answer, building FAQPage JSON-LD that matches the displayed text automatically.</figcaption>
+</figure>
+
+
+<h2>What an FAQ is, and why it is powerful in the AI era</h2>
+<p><strong>An FAQ (Frequently Asked Questions) section is a set of short questions and answers collecting the common doubts about a topic.</strong> It usually sits at the end of an article as an accordion you can open and close. The upside is that it answers specific questions the main content may not cover directly, and each question is an "answer-first" content unit in itself.</p>
+<p>In an age where people type full-sentence questions into search and ask AI directly, an FAQ becomes a real asset, because the question-and-answer format matches how users ask and how AI looks for answers. When an article has a well-written FAQ, the odds that one of its questions matches what someone searches and gets cited go up.</p>
+
+<h2>The latest to know: how FAQ rich results changed</h2>
+<p>For transparency, it has to be said plainly that since mid-2023 Google reduced the display of FAQ rich results (the dropdown under a result), limiting them mainly to trusted health and government sites. So general sites may not see that dropdown in the results the way they used to.</p>
+<p>That said, <strong>adding FAQPage schema still has value</strong>, for reasons broader than showing a rich result alone. It helps search engines, and especially AI Search, understand which part is a question and which is an answer, giving the content a structure answer engines can use easily. The accordion itself also helps UX directly, rich result or not. In short, keep doing FAQs fully, just set your expectations about the search-result dropdown to match reality.</p>
+
+<h2>How BlogKub's FAQ works</h2>
+<p>BlogKub splits two parts that work together. The first is the <strong>accordion style and script</strong> installed in the theme when you add the FAQ block. The second is the <strong>FAQ content you write in each post</strong> using the <code>.bk-faq</code> structure. When the two meet, the script makes the questions open and close, and reads the actually-displayed questions and answers to build matching FAQPage JSON-LD automatically.</p>
+<p>The upside of this approach is that the schema always matches what the reader sees, which is a key Google requirement forbidding FAQ content in structured data that does not appear on the page. So you never risk hand-writing schema and breaking policy.</p>
+
+<h2 id="step1">How to add an FAQ in BlogKub, step by step</h2>
+<ol class="steps">
+  <li><strong>Enable the FAQ feature in the theme.</strong> Open the left library, category "Article &amp; UX", and drag the "FAQ" block in to embed the FAQ styles and script in the theme.</li>
+  <li id="step2"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step3"><strong>Write questions and answers in the post.</strong> In the post editor, switch to HTML view and place the FAQ block as in this example, wrapping it in <code>&lt;div class="bk-faq"&gt;</code> with each question as a <code>&lt;details&gt;</code>:
+    <pre>&lt;div class="bk-faq"&gt;
+  &lt;details&gt;
+    &lt;summary&gt;How many minutes to soft-boil an egg?&lt;/summary&gt;
+    &lt;p&gt;Boil for 6 minutes, then straight into cold water.&lt;/p&gt;
+  &lt;/details&gt;
+  &lt;details&gt;
+    &lt;summary&gt;How long do soft-boiled eggs keep?&lt;/summary&gt;
+    &lt;p&gt;1 to 2 days in the fridge, and reheat before eating.&lt;/p&gt;
+  &lt;/details&gt;
+&lt;/div&gt;</pre>
+  </li>
+  <li id="step4"><strong>Publish and check Rich Results.</strong> Publish the post, then put the URL into Google's Rich Results Test to confirm the FAQPage reads correctly with no errors.</li>
+</ol>
+<p class="note">Each question is one <code>&lt;details&gt;</code>, where <code>&lt;summary&gt;</code> is the question and the following paragraph is the answer. BlogKub's script pairs these questions and answers to build matching schema.</p>
+
+<h2>How to write a quality FAQ that gets cited</h2>
+<ul>
+  <li><strong>Use real questions people ask.</strong> Think about what readers genuinely wonder after the article, or the words people type to search. Do not invent questions no one asks.</li>
+  <li><strong>Answer completely in one answer.</strong> The answer should be concise and to the point, 1 to 3 sentences, so people get the answer at once without clicking elsewhere.</li>
+  <li><strong>One question per point.</strong> Do not stuff several questions into one, because it is both hard to read and confuses the schema.</li>
+  <li><strong>Relevant to the article.</strong> The FAQ should build on the main content, not be a floating unrelated question hoping for schema.</li>
+  <li><strong>Write complete sentences,</strong> because AI and voice assistants read the answer straight from this text.</li>
+</ul>
+
+<h2>The FAQ with AEO/GEO and the summary box</h2>
+<p>An FAQ pairs neatly with the <a href="/en/learn/aeo">AEO summary box</a>. The summary box answers one main question at the top of the article, and the FAQ answers several secondary questions at the end. Using both, your content covers the big question and the smaller ones, expanding the space where AI Search can cite you with a link back to your site.</p>
+<p>For GEO in particular, the question-and-answer format is a language model's favorite food, because it is clear what is a question and what is an answer. When ChatGPT Search or Perplexity scans a page, a well-structured FAQ is a spot that gets pulled in often.</p>
+<p>Another angle not to miss is that an FAQ captures "long-tail" searches the main article may not target specifically. People may not search just a broad topic title but a specific question. When your FAQ has a question that matches what they typed, your page has a chance to appear and answer it precisely. The more articles you accumulate with FAQs covering varied questions, the wider your site catches searches, without writing a new article for every question.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The Rich Results Test does not find FAQPage</h3>
+<p>Check that you wrapped all questions in <code>&lt;div class="bk-faq"&gt;</code> and each question is a correct <code>&lt;details&gt;&lt;summary&gt;</code>. If the structure is off, the script cannot build the schema.</p>
+<h3>Questions do not open and close</h3>
+<p>It means the FAQ block is not added in the theme yet (the script and styles are not embedded). Add the FAQ block in BlogKub and Export again.</p>
+<h3>Answers too long in the box</h3>
+<p>Trim to a concise 1 to 3 sentences. If there is a lot of detail, put it in the main content and summarize briefly in the FAQ.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Include 3 to 8 real, relevant questions. Quality matters more than quantity.</li>
+  <li>Place the FAQ at the end of the article after the main content, to answer remaining doubts before the reader leaves.</li>
+  <li>Do not repeat an answer from the content word for word. Summarize or add a new angle.</li>
+  <li>Review the FAQ when you update the article, so answers match the current information.</li>
+  <li>Check the Rich Results Test after publishing to confirm the schema works.</li>
+</ul>
+
+<h2>Example FAQs for different kinds of blog</h2>
+<p>A good FAQ starts from understanding what your readers genuinely wonder. Here are question styles that tend to work well in each kind of blog, as inspiration for writing your own.</p>
+<ul>
+  <li><strong>Travel blog:</strong> "When is the best time to visit", "How do I get there from downtown", "How many hours should I allow", "Is there an entry fee". Practical questions trip planners want answered right away.</li>
+  <li><strong>Product review blog:</strong> "How is this model different from the last", "Is it worth the price", "What does it work with", "How many years of warranty". Questions that help people decide to buy.</li>
+  <li><strong>How-to / tutorial blog:</strong> "How long does it take", "What equipment do I need", "Can a beginner do it", "What if I miss this step". Questions that unblock the person following along.</li>
+  <li><strong>Health blog:</strong> "Who is it for", "Are there precautions", "When will I see results", emphasizing accuracy and citing credible sources, because it is YMYL content.</li>
+</ul>
+<p>Notice that good questions often start with how, when, why, or whether, matching how people type searches and ask AI. Phrasing questions to match the language your readers actually use is the key to getting your FAQ cited.</p>
+
+<h2>Wrapping up</h2>
+<p>An FAQ section is a worthwhile investment for both the reader experience and AI-era search. Even though the FAQ rich result in the results has been limited, FAQPage schema still gives your content a structure that AI and search engines understand. With BlogKub, you just add the FAQ block to enable the styles and script in the theme, then write real questions and answers in the <code>.bk-faq</code> block, and the schema matching what is displayed is built for you automatically, so every article is ready to answer both readers and AI at once.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does FAQPage schema still help SEO after Google cut back the rich result?</summary><p>It still helps. Even though Google limited the FAQ rich result (the dropdown under a result) mainly to trusted health and government sites since 2023, FAQPage schema still helps search engines and AI understand the question-and-answer structure, which is good for AEO/GEO and being cited in AI Overviews.</p></details>
+<details><summary>Does FAQ in BlogKub embed schema automatically?</summary><p>Yes, automatically. When you write questions and answers in the .bk-faq block, the theme script reads the displayed questions and answers and builds matching FAQPage JSON-LD for you, with no hand-written schema.</p></details>
+<details><summary>Where do I write the FAQ in a post?</summary><p>In the post content itself. Switch to HTML view and place the .bk-faq block with each question as a details/summary, so you can put the FAQ exactly where it fits each article.</p></details>
+<details><summary>Must the questions in the schema match what shows on the page?</summary><p>They must match exactly. Per Google's policy, FAQ content in the structured data must be the same text the user sees on the page. BlogKub always builds the schema from the actually-displayed questions and answers, so you stay within policy.</p></details>
+<details><summary>How many FAQ items should I include per article?</summary><p>We recommend 3 to 8 real questions relevant to the article. Do not stuff unrelated questions hoping for schema, because quality and relevance matter more than quantity.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/faq">
+  <Fragment set:html={body} />
+</EnLayout>
