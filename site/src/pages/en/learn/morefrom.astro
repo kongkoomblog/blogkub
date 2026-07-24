@@ -1,0 +1,147 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build recent and random posts (Recent & Random Posts) in Blogger 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/morefrom">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/morefrom">
+<meta name="description" content="How to add a recent or random posts section to a Blogger theme with BlogKub, pulled from the feed automatically, filterable by label, with images, titles, and dates, to keep readers reading, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build recent and random posts (Recent & Random Posts) in Blogger">
+<meta property="og:description" content="Pull recent or random posts from the feed automatically, filterable by label, to keep readers reading.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/morefrom.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/morefrom.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Recent/Random posts" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/morefrom.png","width":1520,"height":590},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/morefrom",
+      "headline": "How to build recent and random posts (Recent & Random Posts) in Blogger",
+      "description": "A detailed guide to adding a recent or random posts section pulled from the feed in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Where do recent/random posts get their data?", "acceptedAnswer": { "@type": "Answer", "text": "From your own Blogger post feed (feeds/posts/default), taking the cover image, title, and date to show as cards, so it updates automatically every time you publish a new post, with no manual editing." } },
+        { "@type": "Question", "name": "How is recent mode different from random mode?", "acceptedAnswer": { "@type": "Answer", "text": "Recent mode shows the newest posts in chronological order, good for readers to see the latest activity, while random mode shuffles posts randomly, good for prompting the discovery of older posts that still have value, so old content keeps getting read." } },
+        { "@type": "Question", "name": "Can I filter to specific categories?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Set a label to pull only posts in that category, such as showing posts in the same category the reader is reading, to recommend related content more precisely." } },
+        { "@type": "Question", "name": "Will the current article show up again?", "acceptedAnswer": { "@type": "Answer", "text": "No. The system filters out the current page automatically, so it does not show the article the reader is reading again, keeping the list to other articles the reader has not seen." } },
+        { "@type": "Question", "name": "How is this different from related posts?", "acceptedAnswer": { "@type": "Answer", "text": "Recent/random emphasizes showing posts by time or at random (optionally filtered by label), while related posts emphasizes the content relationship to the current article. The two can be used together to raise the chance readers keep reading." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Recent/Random posts</span></nav>
+<article>
+<h1>How to build recent and random posts (Recent & Random Posts) in Blogger</h1>
+<p class="lead">When a reader finishes an article, the question is "what should I read next?" If you do not suggest one, they usually close the page. A recent or random posts section answers that question by offering another article to read on. This article teaches you how to add it to a Blogger theme with BlogKub, pulled from the feed automatically and filterable by label, plus settings and fixes.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Random/Latest by label</strong> block in BlogKub, choose <strong>recent</strong> or <strong>random</strong> mode, set the heading, count, columns, and label, then Export the XML and upload it to Blogger. The system <strong>pulls posts from the feed automatically</strong>, shows them as cards with an image, title, and date, filters out the current page, and updates itself every time you publish a new post.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/morefrom.png" aria-label="View the recent/random posts section at full size">
+    <img alt="A recent posts section on a Blogger site showing post cards with image, title, and date, in three columns" title="The recent/random posts section" src="https://www.blogkub.com/learn/images/morefrom.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1520" data-original-height="590" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">Recent post cards with image, title, and date, pulled from the Blogger feed automatically and filterable by label.</figcaption>
+</figure>
+
+
+<h2>What the recent/random section is, and what it helps</h2>
+<p><strong>This section is a grid of post cards that pulls posts from your blog to display, letting you choose to show "recent posts" in chronological order or "random posts" shuffled.</strong> Place it wherever you want to prompt readers to read on, such as at the end of an article, the homepage, or before the footer.</p>
+<p>The main value is <strong>extending the time readers spend on the site</strong> and raising the number of pages they read per visit. When readers finish and see an interesting card for another article, the chance they click to read on is much higher than closing the page. This is the same principle big content platforms use: "never leave a dead end, always offer the next thing".</p>
+
+<h2>Pulled from the Blogger feed: updates itself automatically</h2>
+<p>The strength of this feature is that it <strong>pulls data straight from your Blogger post feed</strong>. When the page loads, the system calls the feed to take posts' cover images, titles, and dates and build them into cards. The result is that this section <strong>updates itself every time you publish a new post</strong>, with no going back to edit the theme or add links yourself.</p>
+<p>This is an advantage over a fixed post list that needs manual updates every time. The automatic system means your site looks alive and current always, with new posts appearing here immediately, while random mode also revives older posts that still have value so they get read again, making use of the content archive you have built.</p>
+
+<h2 id="step1">How to add the recent/random section, step by step</h2>
+<ol class="steps">
+  <li><strong>Add the recent/random block.</strong> Open the left block library and drag the "Random/Latest by label" block into the spot you want, such as at the end of an article or on the homepage.</li>
+  <li id="step2"><strong>Choose the mode and settings.</strong> Choose "recent" or "random" mode, set the heading (such as "Latest posts"), the post count, the number of columns, and a label if you want to filter to a specific category.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Check the post display.</strong> Open the live site to confirm the cards show the image, title, and date completely, lay out in columns correctly, and do not repeat the current article in the list.</li>
+</ol>
+
+<h2>Recent mode vs random mode: how to choose</h2>
+<p>The two modes have different strengths and suit different positions.</p>
+<ul>
+  <li><strong>Recent mode:</strong> shows the newest posts by time, good for the homepage or a spot where you want readers to see the blog's latest activity, like "what's new", signaling your site is still active.</li>
+  <li><strong>Random mode:</strong> shuffles posts on every load, good for the end of an article or a spot where you want to prompt discovery, helping good older posts get read and not be forgotten because they scrolled far away.</li>
+</ul>
+<p>The tip is you can use both in different positions, such as recent mode on the homepage to show freshness and random mode at the end of an article to invite exploring the archive. This mix presents both new and old content in balance.</p>
+
+<h2>Filter by label: recommend to the right group</h2>
+<p>Setting a label makes this section pull only posts in the category you specify. The clearest benefit is recommending posts in the "same category" the reader is interested in. For example, if they are reading a travel article, showing other travel articles is more on-target than a random draw from every category.</p>
+<p>On-target recommendations significantly raise the chance of clicking to read on, because they fit the interest the reader already showed through the article they chose to read. This idea is similar to <a href="/en/learn/related">related posts</a> but more flexible in the choice of mode and label, so you can design content navigation to suit each position on the site.</p>
+
+<h2>Not repeating the current article: an important detail</h2>
+<p>A small detail that makes this feature genuinely usable is that the system <strong>filters out the current page automatically</strong>. Imagine a reader reading article A and the "latest posts" section at the bottom showing article A again. That would look unprofessional and useless. So the system checks the current page URL and removes it from the list, keeping every card another article the reader has not read on this page.</p>
+<p>This kind of detail is what separates a "well thought-out" feature from one done casually. Caring about these edge cases makes the reader experience smooth without them even noticing, which is the goal of good design.</p>
+
+<h2>Examples of use in different kinds of blog</h2>
+<ul>
+  <li><strong>News/update blogs:</strong> recent mode on the homepage to show new stories, letting readers see the latest activity at once.</li>
+  <li><strong>How-to/knowledge blogs:</strong> random mode filtered by label at the end of an article, to invite reading same-category articles still useful even if old.</li>
+  <li><strong>Travel/lifestyle blogs:</strong> show same-category posts with beautiful images, drawing readers on with visuals.</li>
+  <li><strong>Review blogs:</strong> recommend other reviews in the same category to readers comparing options.</li>
+</ul>
+
+<h2>A note on speed</h2>
+<p>Because this section pulls data from the feed on page load, set the post count sensibly, not more than necessary. Showing around 6 cards is usually just right. The images used are small thumbnails so they load fast, and the system uses lazy loading for card images, helping keep the impact on the first page load low.</p>
+<p>As with other feed-pulling features, choosing appropriately sized cover images helps both this section and the overall page load faster. Good image management is therefore the key to a feature that is beautiful and not sluggish.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The post section does not show</h3>
+<p>The system hides this section if it cannot pull posts. Check that the blog has published posts, and if you set a label, make sure there are actually posts in that category. A label with no posts has nothing to show.</p>
+<h3>Cards have no image</h3>
+<p>Cards use the post cover image. If a post has no cover image, that card may have no image. Add a cover image to every post so the cards look complete.</p>
+<h3>Posts shown do not match the category</h3>
+<p>Check that the label is set to match the actual label name used in the posts. It must be spelled the same to filter to the right category.</p>
+<h3>Random mode repeats the same posts often</h3>
+<p>Random mode shuffles from the set of posts pulled. If the blog has few posts, the variety is naturally limited. As you write more posts, the variety of the shuffle increases.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Use recent mode on the homepage to show freshness, and random mode at the end of an article to invite exploring the archive.</li>
+  <li>Set a label to recommend same-category posts, raising relevance and clicks.</li>
+  <li>Add a cover image to every post so cards look complete and attractive.</li>
+  <li>Set a sensible post count to keep the page fast.</li>
+  <li>Use it with <a href="/en/learn/related">related posts</a> and <a href="/en/learn/bookmark">bookmarks</a> to raise the chance readers keep reading and return.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The recent/random posts section is a key tool for extending the time readers spend on the site and raising the number of articles they read per visit. With BlogKub, you just add the block, choose recent or random mode, set the heading, count, columns, and label, and Export it. The system pulls posts from the feed automatically, shows them as cards with an image, title, and date, filters out the current page, and updates itself every time you publish a new post. Placed in the right spot and filtered to the right group, this section helps both new and old content get read, and turns readers about to close the page into ones who stay and explore your site more.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Where do recent/random posts get their data?</summary><p>From your own Blogger post feed (feeds/posts/default), taking the cover image, title, and date to show as cards, so it updates automatically every time you publish a new post, with no manual editing.</p></details>
+<details><summary>How is recent mode different from random mode?</summary><p>Recent mode shows the newest posts in chronological order, good for readers to see the latest activity, while random mode shuffles posts randomly, good for prompting the discovery of older posts that still have value, so old content keeps getting read.</p></details>
+<details><summary>Can I filter to specific categories?</summary><p>Yes. Set a label to pull only posts in that category, such as showing posts in the same category the reader is reading, to recommend related content more precisely.</p></details>
+<details><summary>Will the current article show up again?</summary><p>No. The system filters out the current page automatically, so it does not show the article the reader is reading again, keeping the list to other articles the reader has not seen.</p></details>
+<details><summary>How is this different from related posts?</summary><p>Recent/random emphasizes showing posts by time or at random (optionally filtered by label), while related posts emphasizes the content relationship to the current article. The two can be used together to raise the chance readers keep reading.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/morefrom">
+  <Fragment set:html={body} />
+</EnLayout>

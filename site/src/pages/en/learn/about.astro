@@ -1,0 +1,135 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build an About/author block (E-E-A-T) in a Blogger theme 2026</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/about">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/about">
+<meta name="description" content="How to set up an About/author block in a Blogger theme with BlogKub: add a name, bio (E-E-A-T), profile image, eyebrow, and stats/verification badge (some templates), to build credibility, plus settings and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build an About/author block (E-E-A-T) in a Blogger theme">
+<meta property="og:description" content="Add a name, E-E-A-T bio, profile image, and stats/badge to build credibility.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/about.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/about.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "About/author block" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "image": {"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/about.png","width":1520,"height":648},
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/about",
+      "headline": "How to build an About/author block (E-E-A-T) in a Blogger theme",
+      "description": "A detailed guide to setting up an About/author block in a Blogger theme with BlogKub",
+      "inLanguage": "en", "datePublished": "2026-07-16T09:00:00+07:00", "dateModified": "2026-07-16T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is the About block?", "acceptedAnswer": { "@type": "Answer", "text": "It is a short introduction to the site or author, with an eyebrow, name, bio, and profile image, telling readers who is behind the content, building connection and credibility. Unlike a full About page, it is a short block placed on the homepage or within an article." } },
+        { "@type": "Question", "name": "How does E-E-A-T relate?", "acceptedAnswer": { "@type": "Answer", "text": "E-E-A-T (Experience, Expertise, Authoritativeness, Trust) is a framework Google uses to assess content quality. Having author information that states experience and expertise sends these signals, so the About block is where you place a bio that reinforces the site's E-E-A-T." } },
+        { "@type": "Question", "name": "Can I add stats or a verification badge?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, in some templates. The review and company templates support stats (such as number of articles or followers), and the review template supports a verification badge, to reinforce credibility to match the kind of site." } },
+        { "@type": "Question", "name": "How should I write the bio?", "acceptedAnswer": { "@type": "Answer", "text": "Write it to say who you are, what experience or expertise you have relevant to the site's content, and why readers should trust you. Be concise but substantial. Avoid overly broad information, focusing on what builds credibility in the topics you write about." } },
+        { "@type": "Question", "name": "Where should the About block go?", "acceptedAnswer": { "@type": "Answer", "text": "Commonly on the homepage (such as after the post grid) to introduce yourself to new readers, or within an article to say who wrote it. Both build connection and reinforce the content's credibility." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>About/author block</span></nav>
+<article>
+<h1>How to build an About/author block (E-E-A-T) in a Blogger theme</h1>
+<p class="lead">Readers and Google both want to know "who is behind this content?" An About/author block answers that, building a connection with readers and sending credibility signals (E-E-A-T). This article teaches you how to set it up in a Blogger theme with BlogKub, including the name, bio, profile image, and stats/verification badge in some templates.</p>
+<p class="meta">Updated 16 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> the <strong>About/author</strong> block in BlogKub lets you add an <strong>eyebrow, name/author, bio (E-E-A-T), profile image</strong>, and in some templates (review/company) <strong>stats</strong> and a <strong>verification badge</strong>. It tells readers who is behind the content, building credibility and reinforcing E-E-A-T, then you Export it to use.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/about.png" aria-label="View the About/author block (About + E-E-A-T) at full size">
+    <img alt="An About/author block in a Blogger theme showing a profile image, name, E-E-A-T bio, and stats" title="The About/author block (About + E-E-A-T)" src="https://www.blogkub.com/learn/images/about.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1520" data-original-height="648" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">An author block with a profile image, name, bio (E-E-A-T), and stats, building the content's credibility.</figcaption>
+</figure>
+
+
+<h2>What the About block is, and why it matters</h2>
+<p><strong>The About/author block is a short introduction to the site or author, placed on the homepage or within an article.</strong> It includes a name, a short bio, and a profile image. Unlike a full "About us" page, the About block is a compact section inserted into other pages, introducing you without making readers click away.</p>
+<p>The importance of the About block comes from the human nature of wanting to know who you are listening to. When readers see there is a real, experienced person behind the content, they feel more connected and trust it more. Content with no author information at all seems to have floated in from nowhere, while content with a clear author and a relevant bio looks much more credible.</p>
+
+<h2>E-E-A-T: why author information matters for SEO</h2>
+<p>Google uses a framework called <strong>E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness)</strong> to assess content quality, especially topics that affect people's lives or finances. Clear author information stating relevant expertise is one of the signals that helps here.</p>
+<p>The About block is therefore where you place information that reinforces the site's E-E-A-T. When you state that the author has experience or expertise relevant to the content, you signal that this content comes from someone who genuinely knows, not copied or shallow writing. That said, the information must be true and relevant. An exaggerated bio does not help and can cost credibility. A sincere, on-point bio is what both readers and Google value.</p>
+
+<h2 id="step1">How to set up the About block, step by step</h2>
+<ol class="steps">
+  <li><strong>Add or select the About block.</strong> Select the "About/author" block in the template, or add it into the spot you want, such as the homepage after the post grid.</li>
+  <li id="step2"><strong>Add the name and E-E-A-T bio.</strong> Add an eyebrow (such as "Author"), the name/author, and a bio stating experience and expertise relevant to the site's content.</li>
+  <li id="step3"><strong>Add a profile image (and stats/badge).</strong> Turn on the profile image and set its URL. In the review/company templates, you can add stats (format: number | description), and the review template supports a verification badge.</li>
+  <li id="step4"><strong>Export the XML and check.</strong> Click Export, upload it to Blogger, then check that the About block shows the name, bio, image, and any supporting elements correctly.</li>
+</ol>
+
+<h2>Template-specific extras: stats and verification badge</h2>
+<p>The About block adapts its options by template to reinforce credibility to match the kind of site.</p>
+<ul>
+  <li><strong>Stats (review/company templates):</strong> add numbers that build credibility, such as "500+ | reviews written" or "10 years | experience", shown as a prominent number with a description, letting readers see credibility concretely.</li>
+  <li><strong>Verification badge (review template):</strong> add a badge that conveys credibility, such as "Reviews from real use" or "Expert in...", to emphasize the site's stance.</li>
+</ul>
+<p>These options let a review or company site's About block communicate credibility on point. Concrete stats and a verification badge reinforce that the content comes from a genuinely experienced source, which matters greatly for content readers use to decide, such as product reviews or company recommendations.</p>
+
+<h2>Write a bio that builds credibility</h2>
+<p>The heart of the About block is a good bio. The principle is to say three things: who you are, what experience or expertise you have relevant to the site's content, and why readers should trust you on this topic. Avoid a bio that is too broad or generic to say anything, such as "loves blogging and sharing knowledge", and focus on the specific and relevant, such as "have written camera reviews for over 5 years and tested more than 100 models".</p>
+<p>Specificity and relevance are what genuinely build credibility. A reader deciding to buy a camera trusts a review from someone who tested a hundred models more than a general person, just as Google looks for signals of real experience. A good bio is therefore a worthwhile investment, because it works with both readers and search engines, and used with a <a href="/en/about">full About us page</a> and links in the <a href="/en/learn/footer">footer</a>, it reinforces the whole site's credibility further.</p>
+
+<h2>The About block vs a full About us page</h2>
+<p>Many people wonder how the About block differs from an About us page. The answer is that the two complement each other. The About block is a short compact section inserted into the homepage or an article, to introduce yourself at once without making readers click away, while the full About us page is a dedicated page telling the story, origins, and details of the site thoroughly.</p>
+<p>Having both is the good approach. The About block builds a quick connection at the point where readers are reading content, while the full About us page serves readers who want to know more and is a strong E-E-A-T signal for Google. When the About block links to the full page, interested readers can click to read on. The two therefore work as a system to build the site's credibility.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>The profile image does not show</h3>
+<p>Check that you turned on the profile image option and set a correct image URL. If you do not want an image, turn off the option for a text-only block.</p>
+<h3>Stats or the badge do not appear</h3>
+<p>The stats and verification badge options are only in some templates (review/company). If you use another template, these options are absent. Also check the stat format is correct (number | description, one per line).</p>
+<h3>The bio looks too generic</h3>
+<p>Make it specific and relevant to the site's content, emphasizing concrete experience or expertise, to build genuine credibility.</p>
+<h3>How much real information to include</h3>
+<p>Include real information that builds credibility, but you do not need to reveal unrelated personal details. Focus on what relates to your expertise in the topics you write about.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Write a specific, relevant bio, emphasizing experience/expertise in the topics the site covers.</li>
+  <li>Add a real profile image to build a connection with readers.</li>
+  <li>Use stats and a verification badge (in templates that support them) to reinforce credibility concretely.</li>
+  <li>Always give real information. Avoid exaggeration that can cost credibility.</li>
+  <li>Use it with a full About us page and links in the footer, for strong E-E-A-T.</li>
+</ul>
+
+<h2>Wrapping up</h2>
+<p>The About/author block is a key element for building the site's credibility, because it answers the question both readers and Google want to know: who is behind the content. With BlogKub, you set up the About block fully with no coding, including the eyebrow, name, E-E-A-T bio, profile image, and in some templates stats and a verification badge. When you write a specific, sincere bio relevant to the content, the About block builds a connection with readers and sends credibility signals good for SEO. Used with a full About us page, your site has a strong E-E-A-T foundation, which matters more and more for making a site successful.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>What is the About block?</summary><p>It is a short introduction to the site or author, with an eyebrow, name, bio, and profile image, telling readers who is behind the content, building connection and credibility. Unlike a full About page, it is a short block placed on the homepage or within an article.</p></details>
+<details><summary>How does E-E-A-T relate?</summary><p>E-E-A-T (Experience, Expertise, Authoritativeness, Trust) is a framework Google uses to assess content quality. Having author information that states experience and expertise sends these signals, so the About block is where you place a bio that reinforces the site's E-E-A-T.</p></details>
+<details><summary>Can I add stats or a verification badge?</summary><p>Yes, in some templates. The review and company templates support stats (such as number of articles or followers), and the review template supports a verification badge, to reinforce credibility to match the kind of site.</p></details>
+<details><summary>How should I write the bio?</summary><p>Write it to say who you are, what experience or expertise you have relevant to the site's content, and why readers should trust you. Be concise but substantial. Avoid overly broad information, focusing on what builds credibility in the topics you write about.</p></details>
+<details><summary>Where should the About block go?</summary><p>Commonly on the homepage (such as after the post grid) to introduce yourself to new readers, or within an article to say who wrote it. Both build connection and reinforce the content's credibility.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/about">
+  <Fragment set:html={body} />
+</EnLayout>
