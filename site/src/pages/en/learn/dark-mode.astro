@@ -1,0 +1,158 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to build dark mode in Blogger 2026, a detailed step-by-step guide</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/dark-mode">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/dark-mode">
+<meta name="description" content="How to add a dark mode toggle to a Blogger theme with BlogKub: switch dark/light, remember the reader's choice, sync across the whole site, no flash on load, plus the UX benefits and fixes.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to build dark mode in Blogger, a detailed guide">
+<meta property="og:description" content="Add a dark/light toggle that remembers the choice and syncs across the whole site, with no coding.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:image" content="https://www.blogkub.com/learn/og/dark-mode.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="https://www.blogkub.com/learn/og/dark-mode.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" } },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Dark Mode" }
+    ]},
+    {
+      "@type": "TechArticle",
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/dark-mode",
+      "image": [{"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/dark-mode-light.png","width":1720,"height":1240},{"@type":"ImageObject","url":"https://www.blogkub.com/learn/images/dark-mode-dark.png","width":1720,"height":1240}],
+      "headline": "How to build dark mode in a Blogger theme",
+      "description": "A detailed guide to adding a dark mode toggle that remembers the choice and syncs across the site in a Blogger theme",
+      "inLanguage": "en", "datePublished": "2026-07-14T09:00:00+07:00", "dateModified": "2026-07-14T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Does dark mode in BlogKub remember the reader's choice?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. When a reader toggles to dark or light, the site saves the choice and uses it on the next visit, keeping the experience consistent across every page." } },
+        { "@type": "Question", "name": "Does the page flash white before turning dark?", "acceptedAnswer": { "@type": "Answer", "text": "No. The system sets the theme before the page renders, so a reader who chose dark mode sees a dark background immediately with no white flash (FOUC)." } },
+        { "@type": "Question", "name": "Can dark mode follow the reader's device setting?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. If the reader has never chosen themselves, the site follows the device setting (prefers-color-scheme). When the reader taps to choose, that choice is remembered and takes priority over the system setting." } },
+        { "@type": "Question", "name": "Where can the dark mode button go?", "acceptedAnswer": { "@type": "Answer", "text": "Both a floating button in a screen corner (such as bottom right) and a button in the header, as well as in the mobile bottom bar. You choose the position in the block settings." } },
+        { "@type": "Question", "name": "Does dark mode work on every part of the site?", "acceptedAnswer": { "@type": "Answer", "text": "It works site-wide, because colors are set through theme variables. When you toggle, the header, content, cards, footer, and features change together consistently, readable in both modes." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Dark Mode</span></nav>
+<article>
+<h1>How to build dark mode in a Blogger theme, a detailed step-by-step guide</h1>
+<p class="lead">Dark mode has become a feature readers now expect, especially those reading at night or on mobile. This article teaches you how to add a dark mode button to a Blogger theme with BlogKub that remembers the reader's choice, syncs across the site, and does not flash on load, along with the UX reasoning and fixes.</p>
+<p class="meta">Updated 14 July 2026 &nbsp; About an 8 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>Quick summary:</strong> add the <strong>Dark Mode Toggle</strong> block in BlogKub (many templates install it already), choose the button position (floating in a corner or in the header), then Export the XML and upload it to Blogger. The system gives you a dark/light toggle that <strong>remembers the reader's choice, syncs across the site, and does not flash white on load</strong>, with no coding at all.</p></div>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/dark-mode-light.png" aria-label="View the Blogger article page in light mode at full size">
+    <img alt="A Blogger article page in light mode, white background and dark text" title="A Blogger article page in light mode" src="https://www.blogkub.com/learn/images/dark-mode-light.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1720" data-original-height="1240" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The article page in light mode.</figcaption>
+</figure>
+
+<figure class="separator" style="clear:both;margin:1.6em 0;text-align:center">
+  <a href="https://www.blogkub.com/learn/images/dark-mode-dark.png" aria-label="View the Blogger article page in dark mode at full size">
+    <img alt="The same Blogger article page in dark mode, dark background and light text, every part changing color consistently" title="A Blogger article page in dark mode" src="https://www.blogkub.com/learn/images/dark-mode-dark.png" loading="lazy" decoding="async" border="0" width="760" data-original-width="1720" data-original-height="1240" style="max-width:100%;height:auto;border:1px solid var(--border,#e8eaf2);border-radius:12px"/>
+  </a>
+  <figcaption style="font-size:13px;color:#0d9488;margin-top:8px">The same page in dark mode. Header, content, table of contents, and footer change color together consistently.</figcaption>
+</figure>
+
+
+
+
+<h2>Why a modern Blogger site should have dark mode</h2>
+<p><strong>Dark mode lets readers choose to view the site with a dark background and light text, instead of the standard white.</strong> It is not just a beauty trend, it solves real problems. Many people read blogs at night in bed, where a bright white background strains the eyes and makes long reading hard. Dark mode reduces eye fatigue in low light, and on OLED screens it also saves battery.</p>
+<p>In terms of user experience, having a button to choose signals that the site cares about details and is modern, which affects the first impression and credibility. Readers who feel comfortable tend to stay longer and return.</p>
+
+<h2>The three keys to dark mode done right</h2>
+<p>Good dark mode is not just "inverting colors", it has to pass these three, which BlogKub handles fully:</p>
+<h3>1. Remember the reader's choice (persistence)</h3>
+<p>When a reader taps dark mode, the site must remember this person likes dark mode, then show dark mode on the next page and the next visit, always. If it does not remember, the reader has to tap again on every page, which is very annoying.</p>
+<h3>2. No flash on load (no FOUC)</h3>
+<p>The classic dark mode problem is the page loading white for a moment before jumping to dark, called Flash of Unstyled Content, which strains the eyes and looks unprofessional. BlogKub sets the theme before the page renders, so someone who chose dark mode sees a dark background immediately with no white flash.</p>
+<h3>3. Sync across the site consistently</h3>
+<p>When you toggle, every part must change together, the header, content, cards, footer, and extra features, because BlogKub sets colors through one set of theme variables. So toggling changes the whole site to be readable in both modes, with no spot where text sinks into the background.</p>
+
+<h2 id="step1">How to add dark mode in BlogKub, step by step</h2>
+<ol class="steps">
+  <li id="step2"><strong>Add the Dark Mode Toggle block.</strong> Many templates install it already. If yours does not, open the left library, category "Article &amp; UX", and drag the "Dark Mode Toggle" block in.</li>
+  <li><strong>Choose the button position.</strong> Click the block to set the position, such as a floating button in the bottom-right corner, or shown in the header, as well as in the mobile bottom bar.</li>
+  <li id="step3"><strong>Export the XML and upload.</strong> Click Export, then take the file to blogger.com → Theme → three-dot menu → Backup/Restore → select the XML file.</li>
+  <li id="step4"><strong>Test the toggle and persistence.</strong> Open the live site, tap the toggle, then refresh the page. Confirm the site remembers your choice with no white flash on load. Try switching to another page to see the mode stays.</li>
+</ol>
+<p class="note">BlogKub's dark mode button works with the site's central theme controller, so it syncs consistently with the dark mode button in the bottom bar and other features, without conflicting.</p>
+
+<h2>Dark mode and the device setting</h2>
+<p>Some readers already set their device to dark mode system-wide. BlogKub respects this. If a reader has never chosen on your site, the site starts by following the device setting (prefers-color-scheme) automatically, but when the reader taps to choose, that choice is remembered and takes priority over the system setting. This is the correct behavior by modern web standards.</p>
+
+<h2>Does dark mode affect SEO?</h2>
+<p>Dark mode is not a direct ranking factor, but it has a good indirect effect, because it reduces eye fatigue and increases reading comfort, so readers stay longer and bounce less, which is a behavioral quality signal. Importantly, BlogKub builds dark mode without hiding or duplicating content and without affecting page speed, so it is completely safe for SEO.</p>
+
+<h2>Common problems and how to fix them</h2>
+<h3>Some images or boxes are glaringly bright in dark mode</h3>
+<p>This usually happens with transparent-background images or PNGs that have a white background. Use images with a genuinely transparent background, or images that look good in both modes, and avoid embedding fixed white in article content.</p>
+<h3>Some text is hard to read in dark mode</h3>
+<p>This happens when you set a fixed text color (such as black) in the post yourself. Leave the color as the theme default, so the system switches colors to be readable in both modes automatically.</p>
+<h3>The button overlaps another floating button</h3>
+<p>If you enable several floating buttons at once (such as back-to-top and dark mode), choose opposite sides in the block settings so they do not stack.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Enable dark mode as a standard feature of the site, especially blogs people read at length or at night.</li>
+  <li>Do not embed fixed text/background colors in post content. Let the theme control the color so toggling looks good.</li>
+  <li>Use images that look good in both modes, or transparent-background images, so there is no odd white frame in dark mode.</li>
+  <li>Test both modes before publishing every time, especially the live article page with images and boxes.</li>
+  <li>To let readers customize more, try adding a <a href="/en/learn/themepicker">theme color picker</a> alongside, so they can adjust both brightness and accent tone.</li>
+</ul>
+
+<h2>Color theory and contrast for comfortable dark mode</h2>
+<p>Good dark mode is not just inverting white to pure black. A pure black background (#000000) with glaring white text (#ffffff) gives contrast so high it causes "halation", where text seems to glow and blur, especially for people with astigmatism. A good standard uses a dark blue-gray background (such as a #0f172a tone) and soft white text instead of glaring white, keeping contrast at a comfortable level.</p>
+<p>BlogKub designs its dark mode palette to pass accessibility contrast (WCAG), with the main text and background different enough for continuous reading while not so glaring it tires the eyes. Accent colors and links are tuned to still stand out on a dark background without disappearing. This is the detail people often overlook when making dark mode themselves, but it is what makes dark mode "genuinely comfortable to read" rather than just "there to tap".</p>
+<p>The caution on the writer's side is: do not set fixed text or background colors in post content, because embedded colors do not adapt to the mode, making some paragraphs unreadable in dark mode. Letting the theme control the color is the safest path.</p>
+
+<h2>Dark mode and site speed (Core Web Vitals)</h2>
+<p>A common question is whether adding dark mode slows the site. The answer is that it has almost no effect, because BlogKub does dark mode by switching CSS color variables, not loading a second stylesheet or calling extra external files. The script that sets the theme before rendering is tiny and fast, so it does not significantly affect Largest Contentful Paint (LCP) or Interaction to Next Paint (INP).</p>
+<p>Importantly, setting the theme before rendering prevents a layout shift from the page changing color mid-load, which is also good for the Cumulative Layout Shift (CLS) score. You could say BlogKub's dark mode is designed to be "light and fast", in line with the whole theme's philosophy of embedding CSS in b:skin and not relying on external resources.</p>
+
+<h2>A pre-publish checklist for dark mode</h2>
+<ul>
+  <li>Open the live article page in dark mode and read every part: headings, paragraphs, links, callout boxes, tables, and image captions, and check they are all clear.</li>
+  <li>Check images for no odd white frame or white background clashing with the dark background.</li>
+  <li>Toggle the mode and refresh, confirming the site remembers the choice and does not flash.</li>
+  <li>Test on a real phone, because most people use dark mode on mobile the most.</li>
+  <li>Check the dark mode button does not overlap another floating button, such as back-to-top.</li>
+  <li>Visit the site for the first time in dark mode (from a device set to dark system-wide) to see the system default works.</li>
+</ul>
+<p>Once you pass this checklist, you can be confident your dark mode is ready in every situation, both for readers who deliberately choose and readers who let the site follow their device. This one round of testing prevents the annoying issues that often appear after publishing, such as an unreadable paragraph or an image that stands out, which are harder to fix later than checking thoroughly from the start.</p>
+
+<h2>Wrapping up</h2>
+<p>Dark mode is a feature that instantly lifts reading comfort and the site's modern image. The keys are remembering the reader's choice, no flash on load, and syncing colors across the site consistently, all three of which BlogKub handles automatically. You just add the Dark Mode Toggle block, choose the button position, and Export it. With that, your readers get a better reading experience day and night. And to raise long-article reading further, try adding a <a href="/en/learn/progress">reading progress bar</a> alongside.</p>
+
+<h2>Frequently asked questions (FAQ)</h2>
+<details><summary>Does dark mode in BlogKub remember the reader's choice?</summary><p>Yes. When a reader toggles to dark or light, the site saves the choice and uses it on the next visit, keeping the experience consistent across every page.</p></details>
+<details><summary>Does the page flash white before turning dark?</summary><p>No. The system sets the theme before the page renders, so a reader who chose dark mode sees a dark background immediately with no white flash (FOUC).</p></details>
+<details><summary>Can dark mode follow the reader's device setting?</summary><p>Yes. If the reader has never chosen themselves, the site follows the device setting (prefers-color-scheme). When the reader taps to choose, that choice is remembered and takes priority over the system setting.</p></details>
+<details><summary>Where can the dark mode button go?</summary><p>Both a floating button in a screen corner (such as bottom right) and a button in the header, as well as in the mobile bottom bar. You choose the position in the block settings.</p></details>
+<details><summary>Does dark mode work on every part of the site?</summary><p>It works site-wide, because colors are set through theme variables. When you toggle, the header, content, cards, footer, and features change together consistently, readable in both modes.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub feature guide series. Content and schema (TechArticle + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger blogger who wants everyone to be able to have a beautiful blog without writing code. These guides bring together hands-on experience building themes and doing SEO on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo} thHref="/learn/dark-mode">
+  <Fragment set:html={body} />
+</EnLayout>
