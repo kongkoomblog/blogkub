@@ -742,7 +742,7 @@
         { icon: "⚡", title: "Fast", text: "Loads quickly, smooth on all devices" },
         { icon: "♥", title: "Caring", text: "We care about every reader" }
       ] },
-      affiliate: { label: "Check the latest price at", style: "full", onCards: true, gallery: true, logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
+      affiliate: { label: "Check the latest price at", style: "full", onCards: true, galMode: "lead", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "Article Summary", style: "card" },
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
@@ -796,7 +796,7 @@
         { icon: "⚡", title: "รวดเร็ว", text: "โหลดไว ใช้งานลื่นทุกอุปกรณ์" },
         { icon: "♥", title: "ใส่ใจ", text: "ดูแลผู้อ่านทุกคนด้วยหัวใจ" }
       ] },
-      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", onCards: true, gallery: true, logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
+      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", onCards: true, galMode: "lead", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "สรุปบทความ", style: "card" },
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
@@ -2896,7 +2896,8 @@
     shopee: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#EE4D2D"/><path d="M8.9 8.4v-.9a3.1 3.1 0 0 1 6.2 0v.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M6.1 8.7h11.8l-.85 8.05a1.65 1.65 0 0 1-1.65 1.45H8.6a1.65 1.65 0 0 1-1.65-1.45L6.1 8.7Z" fill="#fff"/><path d="M13.75 11.85c-.7-.62-3.05-.72-3.05.62 0 1.2 2.65.72 2.65 1.98 0 1.35-2.4 1.2-3.1.4" fill="none" stroke="#EE4D2D" stroke-width="1.35" stroke-linecap="round"/></svg>',
     lazada: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0F146D"/><path d="M12 18.3c-2.3-1.35-5-3.2-5-5.85V9.1l5-2.75 5 2.75v3.35c0 2.65-2.7 4.5-5 5.85Z" fill="#fff"/><path d="M12 15.9c-1.25-.75-2.75-1.8-2.75-3.25v-1.9L12 9.25l2.75 1.5v1.9c0 1.45-1.5 2.5-2.75 3.25Z" fill="#F0148A"/></svg>',
     tiktok: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#010101"/><path d="M12.55 5.6h2.2c.3 1.75 1.35 2.85 3.05 3.05v2.2c-1.05.05-2-.25-2.95-.85v3.9c0 3.3-2.85 4.95-5.05 3.9-1.85-.85-2.45-2.9-1.85-4.5.55-1.5 2.15-2.4 3.85-2.1v2.25c-1-.2-1.75.3-1.85 1.1-.1.8.45 1.5 1.25 1.5.85 0 1.35-.65 1.35-1.65V5.6Z" fill="#fff"/><path d="M11.35 4.6h2.2c.3 1.75 1.35 2.85 3.05 3.05v2.2" fill="none" stroke="#25F4EE" stroke-width="1.15" stroke-linejoin="round"/><path d="M11.5 11.35c-1.85-.35-3.6.6-4.2 2.15" fill="none" stroke="#FE2C55" stroke-width="1.15" stroke-linecap="round"/></svg>',
-    amazon: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#232F3E"/><path d="M5.4 15.4c3.6 2.35 8.9 2.35 12.6.25" fill="none" stroke="#FF9900" stroke-width="1.9" stroke-linecap="round"/><path d="M16.4 14.5l2.3.15-.75 2.2" fill="none" stroke="#FF9900" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.6 11.6c0-2 1.5-2.6 3.6-2.75m0 0c0-.9-.05-1.5-1.05-1.5-.8 0-1.35.4-1.5 1.1l-1.9-.2C8.1 6.6 9.5 6 11.2 6c2.2 0 3.1.9 3.1 2.75v3.2c0 .65.25.95.5 1.3l-1.6 1.05c-.3-.3-.5-.55-.7-.9-.6.6-1.25.95-2.25.95-1.4 0-2.4-.85-2.4-2.15 0-1.05.6-1.75 1.5-2.1.75-.3 1.75-.4 2.85-.45" fill="#fff"/></svg>'
+    amazon: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#232F3E"/><path d="M5.4 15.4c3.6 2.35 8.9 2.35 12.6.25" fill="none" stroke="#FF9900" stroke-width="1.9" stroke-linecap="round"/><path d="M16.4 14.5l2.3.15-.75 2.2" fill="none" stroke="#FF9900" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.6 11.6c0-2 1.5-2.6 3.6-2.75m0 0c0-.9-.05-1.5-1.05-1.5-.8 0-1.35.4-1.5 1.1l-1.9-.2C8.1 6.6 9.5 6 11.2 6c2.2 0 3.1.9 3.1 2.75v3.2c0 .65.25.95.5 1.3l-1.6 1.05c-.3-.3-.5-.55-.7-.9-.6.6-1.25.95-2.25.95-1.4 0-2.4-.85-2.4-2.15 0-1.05.6-1.75 1.5-2.1.75-.3 1.75-.4 2.85-.45" fill="#fff"/></svg>',
+    bigc: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#A5CD39"/><path d="M18 9.5a6.35 6.35 0 1 0 0 5.9" fill="none" stroke="#E3051B" stroke-width="5" stroke-linecap="butt"/><path d="M8.5 3.9h7.3l-1.5 4.3H7z" fill="#E3051B"/><path d="M9.2 4.7h5.6l-1 2.7H8.2z" fill="#FFE500"/></svg>'
   };
   // bg = brand colour · fg/dfg override the button text when the brand colour is unreadable
   // (yellow on white, black in dark mode) · lm = initial chip when there is no drawn glyph
@@ -2944,7 +2945,9 @@
     return txt("label", tpl("ข้อความนำหน้าแถบ", "Bar label"), p.label || "") +
       seg("style", tpl("สไตล์ปุ่ม", "Button style"), p.style || "full", [["full", tpl("ไอคอน + ชื่อ", "Icon + name")], ["compact", tpl("ชื่ออย่างเดียว", "Name only")]]) +
       tog("onCards", tpl("แสดงไอคอนร้านบนการ์ดบทความ", "Show store icons on post cards"), p.onCards !== false, tpl("ตรงตำแหน่ง “ลิงก์พันธมิตร”", "At the “Affiliate link” spot")) +
-      tog("gallery", tpl("แกลเลอรีรูปสินค้าใต้หัวข้อ H1", "Product gallery under the H1"), p.gallery !== false, tpl("ย้ายรูปในบทความมารวมเป็นแกลเลอรีเลื่อนดู แล้ววางแถบร้านค้าไว้ใต้แกลเลอรี", "Collects the post images into a swipeable gallery, with the store bar below it")) +
+      seg("galMode", tpl("แกลเลอรีใต้ H1", "Gallery under the H1"), p.galMode || (p.gallery === false ? "off" : "lead"),
+        [["lead", tpl("รูปหัวบทความ", "Lead photos")], ["all", tpl("รูปทั้งหมด", "All images")], ["off", tpl("ปิด", "Off")]]) +
+      '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("<b>รูปหัวบทความ</b> = ย้ายเฉพาะรูปที่อยู่ก่อนย่อหน้าแรกมาทำแกลเลอรี · รูปที่แทรกกลางบทความยังอยู่ที่เดิม (แนะนำ)<br><b>รูปทั้งหมด</b> = ดูดรูปทุกใบในบทความมารวมไว้ข้างบน", "<b>Lead photos</b> = only the pictures above the first paragraph move into the gallery; images placed further down stay where you wrote them (recommended)<br><b>All images</b> = pulls every picture in the post up into the gallery") + '</div></div>' +
       txt("logoShopee", "Logo Shopee (URL)", p.logoShopee || "", tpl("เว้นว่าง = ใช้ไอคอนสวยของ BlogKub", "Blank = use BlogKub's own icon")) +
       txt("logoLazada", "Logo Lazada (URL)", p.logoLazada || "") +
       txt("logoTiktok", "Logo TikTok (URL)", p.logoTiktok || "") +
@@ -3017,7 +3020,8 @@
       zoom: tpl("แตะเพื่อขยาย", "Tap to zoom"),
       full: p.style !== "compact",
       cards: p.onCards !== false,
-      gal: p.gallery !== false,
+      gal: (p.galMode || (p.gallery === false ? "off" : "lead")) !== "off",
+      galMode: p.galMode || (p.gallery === false ? "off" : "lead"),
       logos: { shopee: p.logoShopee || "", lazada: p.logoLazada || "", tiktok: p.logoTiktok || "", amazon: p.logoAmazon || "", bigc: p.logoBigc || "" }
     });
     var sc = "<script>/*<![CDATA[*/(function(){"
@@ -3059,9 +3063,20 @@
       + "if(data.length<2){pv.style.display='none';nx.style.display='none';}"
       + "return doOpen;}"
       // ── gallery: lift standalone images out of the flow into one unit ──
+      + "function pickImgs(body){"
+      + "function ok(im){if(im.closest('.bxb-gal'))return false;var w=parseInt(im.getAttribute('width')||im.naturalWidth||0,10);return !(w&&w<180);}"
+      // 'all' sweeps the whole post; 'lead' only takes the photos sitting above the first real
+      // paragraph, so pictures placed further down stay exactly where they were written.
+      + "if(CFG.galMode==='all')return [].slice.call(body.querySelectorAll('img')).filter(ok);"
+      + "var out=[],kids=[].slice.call(body.children);"
+      + "for(var i=0;i<kids.length;i++){var el=kids[i];"
+      + "var got=(el.tagName==='IMG'?[el]:[].slice.call(el.querySelectorAll('img'))).filter(ok);"
+      + "var txt=(el.textContent||'').replace(/\\s+/g,' ').trim();"
+      + "if(got.length){out=out.concat(got);continue;}"
+      + "if(txt.length>=40)break;}"
+      + "return out;}"
       + "function buildGal(body){"
-      + "var imgs=[].slice.call(body.querySelectorAll('img')).filter(function(im){"
-      + "if(im.closest('.bxb-gal'))return false;var w=parseInt(im.getAttribute('width')||im.naturalWidth||0,10);return !(w&&w<180);});"
+      + "var imgs=pickImgs(body);"
       + "if(imgs.length<2)return null;imgs=imgs.slice(0,12);"
       + "var data=imgs.map(function(im){return{full:big(im.currentSrc||im.src),thumb:im.currentSrc||im.src,alt:im.getAttribute('alt')||''};});"
       + "imgs.forEach(function(im){var n=im,pa=im.parentNode;"
