@@ -264,6 +264,9 @@
       + "@media(max-width:600px){.bxb-lb-nav{width:40px;height:40px;font-size:22px}}"
       + "</style>";
     var sc = "<script>/*<![CDATA[*/(function(){"
+      // Blogger boots its own image viewer from these globals; blanking them stops a second
+      // overlay appearing under this one even when its script wins the load race.
+      + "try{window._LightboxLoader=null;window.lightboxLoader=null;}catch(e){}"
       + "var scope=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body');"
       + "if(!scope)return;"
       + "var imgs=[].slice.call(scope.querySelectorAll('img')).filter(function(im){"
@@ -289,9 +292,12 @@
       + "var h=a?(a.getAttribute('href')||''):'';"
       + "var isImg=a&&(a.hasAttribute('imageanchor')||/\\.(jpe?g|png|gif|webp|avif|bmp)(\\?|#|$)/i.test(h));"
       + "if(isImg){if(h)im.setAttribute('data-bxb-full',h);"
-      + "a.removeAttribute('href');a.removeAttribute('imageanchor');a.style.cursor='zoom-in';"
-      + "a.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();open(i);},true);}"
-      + "else{im.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open(i);});}});"
+      // Blogger's viewer hangs off that anchor, so unwrap the image out of it entirely — with the
+      // anchor gone from the DOM its handlers go too, whichever script loaded first.
+      + "if(a.children.length===1&&!a.textContent.trim()&&a.parentNode){a.parentNode.insertBefore(im,a);a.parentNode.removeChild(a);}"
+      + "else{a.removeAttribute('href');a.removeAttribute('imageanchor');}}"
+      + "im.style.cursor='zoom-in';"
+      + "im.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open(i);});});"
       + "ov.querySelector('.bxb-lb-scrim').addEventListener('click',close);"
       + "ov.querySelector('.bxb-lb-close').addEventListener('click',close);"
       + "ov.querySelector('.bxb-lb-prev').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});"
