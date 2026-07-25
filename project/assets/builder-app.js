@@ -87,6 +87,7 @@
     copycode: '<rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/>',
     dropcap: '<path d="M5 20V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14"/><path d="M5 13h8"/><path d="M17 20V10M17 14h4"/>',
     anchorlink: '<path d="M10 13a5 5 0 0 0 7 0l2-2a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-2 2a5 5 0 0 0 7 7l1-1"/>',
+    affiliate: '<path d="M3 6h18l-1.4 9.3a2 2 0 0 1-2 1.7H6.4a2 2 0 0 1-2-1.7L3 6z"/><path d="M8 6V4.5a4 4 0 0 1 8 0V6"/>',
     proscons: '<path d="M7 10v11M2 13v6a1 1 0 0 0 1 1h1V13H3a1 1 0 0 0-1 1z"/><path d="M7 10l3-7a2 2 0 0 1 2 2v3h5a2 2 0 0 1 2 2l-1.5 6a2 2 0 0 1-2 1.5H7"/>',
     faq: '<circle cx="12" cy="12" r="9.5"/><path d="M9.2 9.3a2.8 2.8 0 0 1 5.3 1c0 1.8-2.7 2.4-2.7 4"/><path d="M12 17h.01"/>',
     breadcrumb: '<path d="M4 7h5l2.5 5L9 17H4"/><path d="M13 7h5l2.5 5L18 17h-5"/>',
@@ -685,6 +686,7 @@
     ["บทความ & UX", [
       ["callout", "กล่อง Callout", "note / tip / warning …"],
       ["proscons", "Pros/Cons + คะแนน", "ข้อดี-ข้อเสีย + กล่องรีวิว"],
+      ["affiliate", "แถบปุ่มร้านค้า (Affiliate)", "สแกนลิงก์ → ปุ่มร้านอัตโนมัติ"],
       ["faq", "คำถามที่พบบ่อย (FAQ)", "accordion + FAQ schema"],
       ["slider", "สไลด์รูป/แกลเลอรี", "เลื่อนรูป + คำบรรยาย"],
       ["sharebar", "แถบแชร์ลอยข้างจอ", "sticky share (บนหน้าบทความ)"],
@@ -740,6 +742,7 @@
         { icon: "⚡", title: "Fast", text: "Loads quickly, smooth on all devices" },
         { icon: "♥", title: "Caring", text: "We care about every reader" }
       ] },
+      affiliate: { label: "Check the latest price at", style: "full", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "Article Summary", style: "card" },
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
@@ -793,6 +796,7 @@
         { icon: "⚡", title: "รวดเร็ว", text: "โหลดไว ใช้งานลื่นทุกอุปกรณ์" },
         { icon: "♥", title: "ใส่ใจ", text: "ดูแลผู้อ่านทุกคนด้วยหัวใจ" }
       ] },
+      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "สรุปบทความ", style: "card" },
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
@@ -2008,6 +2012,18 @@
           '</div>' +
           '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("คลิกรูปในเนื้อหาบทความเพื่อขยายเต็มจอ · เลื่อนซ้าย/ขวา ปิดด้วย ✕ หรือ Esc · ดึงรูปความละเอียดสูงให้อัตโนมัติ", "Click any image in a post to view it fullscreen · swipe/arrow between images, close with ✕ or Esc · auto-loads the high-res version") + '</div>' +
           '</div>';
+      case "affiliate":
+        var affLabel = esc(p.label || tpl("เช็คราคาล่าสุดได้ที่", "Check the latest price at"));
+        var affSample = [["Shopee", "#fff4ee", "#f97316", "#f97316"], ["Lazada", "#fff0fd", "#a020f0", "#a020f0"], ["TikTok Shop", "#f0fafa", "#222", "#222"]];
+        var affBtns = affSample.map(function (s) { return '<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid ' + s[2] + ';background:' + s[1] + ';color:' + s[3] + '">' + s[0] + '</span>'; }).join("");
+        return '<div style="padding:18px 32px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("แถบปุ่มร้านค้า (Affiliate)", "Affiliate button bar") + '</div>' +
+          '<div style="display:flex;flex-direction:column;gap:8px">' +
+            '<div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#888"><span style="width:3px;height:14px;background:' + pr + ';border-radius:99px"></span>' + affLabel + '</div>' +
+            '<div style="display:flex;gap:8px;flex-wrap:wrap">' + affBtns + '</div>' +
+          '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("วางลิงก์ Affiliate ในบทความตามปกติ · ระบบสแกนลิงก์แล้วสร้างแถบปุ่มร้านค้าให้อัตโนมัติ", "Paste your affiliate links in the post as usual · the system scans them and builds the store button bar automatically") + '</div>' +
+          '</div>';
       case "copycode":
         return '<div style="padding:18px 32px">' +
           '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("ปุ่มคัดลอกโค้ด", "Copy code button") + '</div>' +
@@ -2181,8 +2197,8 @@
   function dz(idx) { var d = el("div", { class: "dropzone", "data-idx": idx }); return d; }
   function blkLabel(t) {
     var m = BL === "en"
-      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", morefrom: "Random / Recent Posts", stories: "Web Stories", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", faq: "FAQ Accordion", slider: "Image Slider", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", translate: "Language / Translate", themepicker: "Theme Color Picker", notfound: "404 Page" }
-      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", morefrom: "สุ่ม / บทความล่าสุด", stories: "สตอรี่ (Web Stories)", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", faq: "คำถามที่พบบ่อย (FAQ)", slider: "สไลด์รูป/แกลเลอรี", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", translate: "แปลภาษา (Translate)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
+      ? { header: "Header", hero: "Hero", footer: "Footer", postgrid: "Post Grid", postlist: "Post List", featured: "Featured", about: "About", text: "Text", cta: "CTA", image: "Image", ad: "Ad", newsletter: "Newsletter", share: "Social Share", columns: "Columns", sidebar: "Sidebar", search: "Search", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "Table of Contents", related: "Related Posts", morefrom: "Random / Recent Posts", stories: "Web Stories", progress: "Progress Bar", callout: "Callout Boxes", readtime: "Reading Time", bookmark: "Bookmarks", lightbox: "Image Lightbox", copycode: "Copy Code Button", dropcap: "Drop Cap", anchorlink: "Heading Anchors", proscons: "Pros & Cons + Score", affiliate: "Affiliate Buttons", faq: "FAQ Accordion", slider: "Image Slider", sharebar: "Sticky Share Bar", breadcrumb: "Breadcrumbs", backtotop: "Back to Top", announce: "Announcement Bar", cookie: "Cookie Consent", translate: "Language / Translate", themepicker: "Theme Color Picker", notfound: "404 Page" }
+      : { header: "ส่วนหัว", hero: "Hero", footer: "ส่วนท้าย", postgrid: "ตารางบทความ", postlist: "รายการบทความ", featured: "บทความเด่น", about: "เกี่ยวกับ", text: "ข้อความ", cta: "CTA", image: "รูปภาพ", ad: "โฆษณา", newsletter: "Newsletter", share: "Social Share", columns: "คอลัมน์", sidebar: "Sidebar", search: "ค้นหา", darkmode: "Dark Mode Toggle", aeo: "AEO Summary Box", toc: "สารบัญ (TOC)", related: "บทความที่เกี่ยวข้อง", morefrom: "สุ่ม / บทความล่าสุด", stories: "สตอรี่ (Web Stories)", progress: "Progress Bar", callout: "กล่อง Callout", readtime: "เวลาในการอ่าน", bookmark: "บุ๊กมาร์ก", lightbox: "ซูมรูปภาพ (Lightbox)", copycode: "ปุ่มคัดลอกโค้ด", dropcap: "ตัวอักษรตัวแรกใหญ่", anchorlink: "ลิงก์หัวข้อ (Anchor)", proscons: "Pros/Cons + คะแนน", affiliate: "แถบปุ่มร้านค้า", faq: "คำถามที่พบบ่อย (FAQ)", slider: "สไลด์รูป/แกลเลอรี", sharebar: "แถบแชร์ลอยข้างจอ", breadcrumb: "เส้นทางนำทาง (Breadcrumb)", backtotop: "ปุ่มกลับขึ้นบน", announce: "แถบประกาศ", cookie: "แถบคุกกี้ (Consent)", translate: "แปลภาษา (Translate)", themepicker: "เลือกสีธีม", notfound: "หน้า 404" };
     return m[t] || t;
   }
 
@@ -2190,7 +2206,7 @@
   // ฟีเจอร์ที่มีได้ 1 อันต่อหน้า · กดเพิ่ม/ทำสำเนาซ้ำจะแจ้งเตือนแทน
   // toc/darkmode/notfound/progress/aeo/related = utility ที่ inject ครั้งเดียว,
   // sidebar = โครงหน้า 2 คอลัมน์มีได้ชุดเดียว, header/footer = โครงบน-ล่างของทุกหน้า
-  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, morefrom: 1, stories: 1, translate: 1, themepicker: 1 };
+  var SINGLETON_BLOCKS = { toc: 1, darkmode: 1, notfound: 1, progress: 1, sidebar: 1, header: 1, footer: 1, aeo: 1, related: 1, callout: 1, readtime: 1, bookmark: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, affiliate: 1, faq: 1, slider: 1, sharebar: 1, breadcrumb: 1, backtotop: 1, announce: 1, cookie: 1, morefrom: 1, stories: 1, translate: 1, themepicker: 1 };
   function singletonExists(type) {
     return !!SINGLETON_BLOCKS[type] && S.blocks.some(function (b) { return b.type === type; });
   }
@@ -2522,6 +2538,7 @@
       }
       case "text": return txt("heading", "หัวข้อ", p.heading) + area("body", "เนื้อหา", p.body, true) + seg("align", "จัดวาง", p.align, [["left", "ซ้าย"], ["center", "กลาง"]]);
       case "columns": return columnsFields(b, p);
+      case "affiliate": return affiliateFields(b, p);
       case "cta": {
         var ctaTid = S && S.templateId, ctaExtra = "";
         if (ctaTid === "course" || ctaTid === "company") ctaExtra += txt("sub", tpl("คำโปรย", "Subtitle"), p.sub != null ? p.sub : "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide"));
@@ -2854,6 +2871,66 @@
       seg("cols", "จำนวนคอลัมน์", String(p.cols || 3), [["2", "2"], ["3", "3"]]) +
       '<div class="field"><label>รายการคอลัมน์</label><div class="menu-editor">' + rows + '</div>' +
       (items.length < 4 ? '<button class="menu-add" data-cadd>+ เพิ่มคอลัมน์</button>' : "") + '</div>';
+  }
+
+  // Affiliate button bar — props panel. Auto-detects store links; no per-link entry.
+  function affiliateFields(b, p) {
+    return txt("label", tpl("ข้อความนำหน้าแถบ", "Bar label"), p.label || "") +
+      seg("style", tpl("สไตล์", "Style"), p.style || "full", [["full", tpl("โลโก้ + ชื่อ", "Logo + name")], ["compact", tpl("ชื่ออย่างเดียว", "Name only")]]) +
+      txt("logoShopee", "Logo Shopee (URL)", p.logoShopee || "", tpl("เว้นว่าง = ปุ่มสีแบรนด์ + ชื่อ", "Blank = brand-color button + name")) +
+      txt("logoLazada", "Logo Lazada (URL)", p.logoLazada || "") +
+      txt("logoTiktok", "Logo TikTok (URL)", p.logoTiktok || "") +
+      txt("logoAmazon", "Logo Amazon (URL)", p.logoAmazon || "") +
+      '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("แค่วางลิงก์ Shopee / Lazada / TikTok / Amazon ในบทความตามปกติ · ระบบจะสแกนแล้วสร้างแถบปุ่มร้านค้าให้อัตโนมัติ พร้อม rel=&quot;nofollow sponsored&quot;", "Just paste your Shopee / Lazada / TikTok / Amazon links in the post · the system scans them and builds the store bar automatically, with rel=&quot;nofollow sponsored&quot;") + '</div></div>';
+  }
+
+  // Affiliate button bar — injected CSS + link-scanning script (auto-detect store, brand color/logo).
+  function affiliateStatic(p) {
+    p = p || {};
+    var css = "<style>"
+      + ".bxb-aff{display:flex;flex-direction:column;gap:8px;margin:16px 0}"
+      + ".bxb-aff-label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#888}"
+      + ".bxb-aff-label::before{content:'';width:3px;height:14px;background:var(--primary,#6366f1);border-radius:99px;flex:none}"
+      + ".bxb-aff-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}"
+      + ".bxb-aff-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 13px 6px 9px;border-radius:99px;text-decoration:none;font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid;transition:transform .15s,box-shadow .15s,opacity .15s;white-space:nowrap}"
+      + ".bxb-aff-btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.14);opacity:.94}"
+      + ".bxb-aff-btn:active{transform:scale(.97)}"
+      + ".bxb-aff-btn img{width:20px;height:20px;object-fit:contain;border-radius:4px;display:block;flex:none}"
+      + ".bxb-aff-shopee{background:#fff4ee;border-color:#f97316;color:#f97316}"
+      + ".bxb-aff-lazada{background:#fff0fd;border-color:#a020f0;color:#a020f0}"
+      + ".bxb-aff-tiktok{background:#f0fafa;border-color:#222;color:#222}"
+      + ".bxb-aff-amazon{background:#fff8ee;border-color:#f90;color:#c45500}"
+      + "[data-theme=dark] .bxb-aff-label{color:#888}"
+      + "[data-theme=dark] .bxb-aff-shopee{background:#2a1a10;color:#f97316}"
+      + "[data-theme=dark] .bxb-aff-lazada{background:#1e0a2a;border-color:#a020f0;color:#c060ff}"
+      + "[data-theme=dark] .bxb-aff-tiktok{background:#0a1a1a;border-color:#aaa;color:#eee}"
+      + "[data-theme=dark] .bxb-aff-amazon{background:#1e1400;color:#f90}"
+      + "</style>";
+    var cfg = JSON.stringify({
+      label: p.label || tpl("เช็คราคาล่าสุดได้ที่", "Check the latest price at"),
+      full: p.style !== "compact",
+      logos: { shopee: p.logoShopee || "", lazada: p.logoLazada || "", tiktok: p.logoTiktok || "", amazon: p.logoAmazon || "" }
+    });
+    var sc = "<script>/*<![CDATA[*/(function(){"
+      + "var CFG=" + cfg + ";"
+      + "function init(){"
+      + "var body=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body')||document.querySelector('.entry-content')||document.querySelector('article');"
+      + "if(!body||body.querySelector('.bxb-aff'))return;"
+      + "var P=[{k:'shopee',re:/shopee\\.[a-z.]+|shp\\.ee/i,cls:'bxb-aff-shopee',label:'Shopee'},"
+      + "{k:'lazada',re:/lazada\\.[a-z.]+|s\\.lazada/i,cls:'bxb-aff-lazada',label:'Lazada'},"
+      + "{k:'tiktok',re:/tiktok\\.com|vm\\.tiktok|tiktokshop/i,cls:'bxb-aff-tiktok',label:'TikTok Shop'},"
+      + "{k:'amazon',re:/amazon\\.[a-z.]+|amzn\\.(to|asia)/i,cls:'bxb-aff-amazon',label:'Amazon'}];"
+      + "var found={};body.querySelectorAll('a[href]').forEach(function(a){var h=a.getAttribute('href')||'';P.forEach(function(pl){if(!found[pl.k]&&pl.re.test(h))found[pl.k]=h;});});"
+      + "var items=P.filter(function(pl){return found[pl.k];});if(!items.length)return;"
+      + "var bar=document.createElement('div');bar.className='bxb-aff';bar.setAttribute('role','navigation');bar.setAttribute('aria-label',CFG.label);"
+      + "var lab=document.createElement('div');lab.className='bxb-aff-label';lab.textContent=CFG.label;bar.appendChild(lab);"
+      + "var row=document.createElement('div');row.className='bxb-aff-row';"
+      + "items.forEach(function(pl){var a=document.createElement('a');a.href=found[pl.k];a.className='bxb-aff-btn '+pl.cls;a.rel='nofollow sponsored noopener';a.target='_blank';a.title=CFG.label+' '+pl.label;var lg=CFG.logos[pl.k];if(CFG.full&&lg){var im=document.createElement('img');im.src=lg;im.alt=pl.label;im.loading='lazy';a.appendChild(im);}var sp=document.createElement('span');sp.textContent=pl.label;a.appendChild(sp);row.appendChild(a);});"
+      + "bar.appendChild(row);body.insertBefore(bar,body.firstChild);"
+      + "}"
+      + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}"
+      + "})();/*]]>*/</script>";
+    return css + sc;
   }
 
   /* ---------- SEO panel (incl. label indexing toggle) ---------- */
@@ -3640,7 +3717,7 @@
     //   0 announce · 1 header · 2 hero · 4 content sections · 6 post extras (related/morefrom/
     //   stories) · 7 error page (404) · 8 footer · 9 non-flow utilities (style/script/fixed-UI).
     // A stable sort preserves the user's relative order WITHIN a zone (e.g. content blocks).
-    var UTIL_BOTTOM = { darkmode: 1, backtotop: 1, progress: 1, sharebar: 1, themepicker: 1, cookie: 1, translate: 1, bookmark: 1, readtime: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, faq: 1, slider: 1, callout: 1 };
+    var UTIL_BOTTOM = { darkmode: 1, backtotop: 1, progress: 1, sharebar: 1, themepicker: 1, cookie: 1, translate: 1, bookmark: 1, readtime: 1, lightbox: 1, copycode: 1, dropcap: 1, anchorlink: 1, proscons: 1, affiliate: 1, faq: 1, slider: 1, callout: 1 };
     function zoneOf(t) {
       if (t === "announce") return 0;
       if (t === "header") return 1;
@@ -5260,6 +5337,8 @@ tplStyleVars(),
         return lightboxStatic();
       case "copycode":
         return copycodeStatic();
+      case "affiliate":
+        return affiliateStatic(p);
       case "dropcap":
         return dropcapStatic(p);
       case "anchorlink":
