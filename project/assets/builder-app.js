@@ -742,7 +742,7 @@
         { icon: "⚡", title: "Fast", text: "Loads quickly, smooth on all devices" },
         { icon: "♥", title: "Caring", text: "We care about every reader" }
       ] },
-      affiliate: { label: "Check the latest price at", style: "full", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "" },
+      affiliate: { label: "Check the latest price at", style: "full", onCards: true, gallery: true, logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "Article Summary", style: "card" },
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
@@ -796,7 +796,7 @@
         { icon: "⚡", title: "รวดเร็ว", text: "โหลดไว ใช้งานลื่นทุกอุปกรณ์" },
         { icon: "♥", title: "ใส่ใจ", text: "ดูแลผู้อ่านทุกคนด้วยหัวใจ" }
       ] },
-      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "" },
+      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", onCards: true, gallery: true, logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "สรุปบทความ", style: "card" },
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
@@ -2014,15 +2014,30 @@
           '</div>';
       case "affiliate":
         var affLabel = esc(p.label || tpl("เช็คราคาล่าสุดได้ที่", "Check the latest price at"));
-        var affSample = [["Shopee", "#fff4ee", "#f97316", "#f97316"], ["Lazada", "#fff0fd", "#a020f0", "#a020f0"], ["TikTok Shop", "#f0fafa", "#222", "#222"]];
-        var affBtns = affSample.map(function (s) { return '<span style="display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid ' + s[2] + ';background:' + s[1] + ';color:' + s[3] + '">' + s[0] + '</span>'; }).join("");
+        var affTone = { shopee: ["#fff4ee", "#f97316", "#c2410c"], lazada: ["#f2f3ff", "#0F146D", "#0F146D"], tiktok: ["#f2f6f6", "#222", "#222"], amazon: ["#fff8ee", "#f90", "#b45309"], bigc: ["#f0fdf4", "#00A14B", "#047857"] };
+        var affBtns = AFF_STORES.slice(0, 4).map(function (s) {
+          var t = affTone[s.k];
+          return '<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 14px 6px 7px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid ' + t[1] + ';background:' + t[0] + ';color:' + t[2] + '">' +
+            (p.style === "compact" ? "" : AFF_ICONS[s.k]) + s.label + '</span>';
+        }).join("");
+        var affGal = p.gallery === false ? "" :
+          '<div style="margin-bottom:14px">' +
+            '<div style="aspect-ratio:16/10;border-radius:12px;background:linear-gradient(135deg,#eef1f8,#dde3f0);display:grid;place-items:center;color:#94a3b8;font-size:12px;position:relative;overflow:hidden">' +
+              svg('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>', 1.6) +
+              '<span style="position:absolute;right:10px;bottom:8px;background:rgba(15,23,42,.72);color:#fff;font-size:11px;font-weight:600;padding:3px 9px;border-radius:99px">1 / 5</span>' +
+            '</div>' +
+            '<div style="display:flex;gap:6px;margin-top:6px">' +
+              [0, 1, 2, 3, 4].map(function (i) { return '<div style="width:52px;height:40px;border-radius:7px;background:#e6ebf5;border:2px solid ' + (i === 0 ? pr : "transparent") + '"></div>'; }).join("") +
+            '</div>' +
+          '</div>';
         return '<div style="padding:18px 32px">' +
-          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("แถบปุ่มร้านค้า (Affiliate)", "Affiliate button bar") + '</div>' +
-          '<div style="display:flex;flex-direction:column;gap:8px">' +
+          '<div style="font-size:11px;font-weight:700;color:#828aa0;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px">' + tpl("หน้าสินค้า Affiliate", "Affiliate product page") + '</div>' +
+          affGal +
+          '<div style="display:flex;flex-direction:column;gap:9px">' +
             '<div style="display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#888"><span style="width:3px;height:14px;background:' + pr + ';border-radius:99px"></span>' + affLabel + '</div>' +
             '<div style="display:flex;gap:8px;flex-wrap:wrap">' + affBtns + '</div>' +
           '</div>' +
-          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("วางลิงก์ Affiliate ในบทความตามปกติ · ระบบสแกนลิงก์แล้วสร้างแถบปุ่มร้านค้าให้อัตโนมัติ", "Paste your affiliate links in the post as usual · the system scans them and builds the store button bar automatically") + '</div>' +
+          '<div style="margin-top:10px;font-size:12px;color:#828aa0;line-height:1.6">' + tpl("วางลิงก์ Affiliate ในบทความตามปกติ · ระบบสแกนลิงก์แล้วสร้างแกลเลอรีใต้ H1 และแถบปุ่มร้านค้าให้อัตโนมัติ", "Paste your affiliate links in the post as usual · the system builds the gallery under the H1 and the store button bar automatically") + '</div>' +
           '</div>';
       case "copycode":
         return '<div style="padding:18px 32px">' +
@@ -2873,61 +2888,175 @@
       (items.length < 4 ? '<button class="menu-add" data-cadd>+ เพิ่มคอลัมน์</button>' : "") + '</div>';
   }
 
+  // Original BlogKub store glyphs (not brand logo replicas): rounded badge + white mark in brand colour.
+  // Used by the canvas preview; the exported theme embeds the same paths inside its injected script.
+  var AFF_ICONS = {
+    shopee: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#EE4D2D"/><path d="M8.7 8.3v-.7a3.3 3.3 0 0 1 6.6 0v.7" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><path d="M6 8.7h12l-.9 8a1.7 1.7 0 0 1-1.7 1.5H8.6a1.7 1.7 0 0 1-1.7-1.5l-.9-8Z" fill="#fff"/><path d="M13.7 12c-.6-.5-2.9-.8-2.9.5 0 1.2 2.6.8 2.6 2 0 1.3-2.3 1.1-3 .4" fill="none" stroke="#EE4D2D" stroke-width="1.15" stroke-linecap="round"/></svg>',
+    lazada: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0F146D"/><path d="M12 5.6l5.6 3.2v6L12 18.4 6.4 14.8v-6L12 5.6Z" fill="#fff"/><path d="M12 9.1l3 1.7v3.1l-3 1.7-3-1.7v-3.1l3-1.7Z" fill="#F0148A"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#010101"/><path d="M14.6 6.2c.35 1.6 1.3 2.6 2.9 2.8v2.1c-1 .1-1.9-.15-2.85-.75v3.5c0 3.15-2.6 4.65-4.7 3.75-1.75-.75-2.35-2.6-1.9-4.1.45-1.5 1.95-2.45 3.6-2.2v2.15c-.95-.15-1.65.35-1.75 1.1-.1.75.45 1.4 1.2 1.4.8 0 1.35-.6 1.35-1.5V6.2h2.15Z" fill="#fff"/><path d="M13.5 5.4c.35 1.6 1.3 2.6 2.9 2.8" fill="none" stroke="#25F4EE" stroke-width="1.1" stroke-linecap="round"/></svg>',
+    amazon: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#FF9900"/><path d="M12 5.4l5.2 2.5-5.2 2.5-5.2-2.5L12 5.4Z" fill="#fff"/><path d="M6.5 9.1l5 2.4v4.9l-5-2.4V9.1Zm11 0v4.9l-5 2.4v-4.9l5-2.4Z" fill="#fff" opacity=".82"/><path d="M6.6 18.3c3.3 1.7 7.5 1.7 10.8 0" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>',
+    bigc: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#00A14B"/><path d="M6 7h1.8l1.7 7.5h6.4l1.5-5.2H9.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10.4" cy="17.2" r="1.25" fill="#fff"/><circle cx="15.4" cy="17.2" r="1.25" fill="#fff"/></svg>'
+  };
+  var AFF_STORES = [
+    { k: "shopee", label: "Shopee", cls: "bxb-aff-shopee" },
+    { k: "lazada", label: "Lazada", cls: "bxb-aff-lazada" },
+    { k: "tiktok", label: "TikTok Shop", cls: "bxb-aff-tiktok" },
+    { k: "amazon", label: "Amazon", cls: "bxb-aff-amazon" },
+    { k: "bigc", label: "Big C", cls: "bxb-aff-bigc" }
+  ];
+
   // Affiliate button bar — props panel. Auto-detects store links; no per-link entry.
   function affiliateFields(b, p) {
     return txt("label", tpl("ข้อความนำหน้าแถบ", "Bar label"), p.label || "") +
-      seg("style", tpl("สไตล์", "Style"), p.style || "full", [["full", tpl("โลโก้ + ชื่อ", "Logo + name")], ["compact", tpl("ชื่ออย่างเดียว", "Name only")]]) +
-      txt("logoShopee", "Logo Shopee (URL)", p.logoShopee || "", tpl("เว้นว่าง = ปุ่มสีแบรนด์ + ชื่อ", "Blank = brand-color button + name")) +
+      seg("style", tpl("สไตล์ปุ่ม", "Button style"), p.style || "full", [["full", tpl("ไอคอน + ชื่อ", "Icon + name")], ["compact", tpl("ชื่ออย่างเดียว", "Name only")]]) +
+      tog("onCards", tpl("แสดงไอคอนร้านบนการ์ดบทความ", "Show store icons on post cards"), p.onCards !== false, tpl("ตรงตำแหน่ง “ลิงก์พันธมิตร”", "At the “Affiliate link” spot")) +
+      tog("gallery", tpl("แกลเลอรีรูปสินค้าใต้หัวข้อ H1", "Product gallery under the H1"), p.gallery !== false, tpl("ย้ายรูปในบทความมารวมเป็นแกลเลอรีเลื่อนดู แล้ววางแถบร้านค้าไว้ใต้แกลเลอรี", "Collects the post images into a swipeable gallery, with the store bar below it")) +
+      txt("logoShopee", "Logo Shopee (URL)", p.logoShopee || "", tpl("เว้นว่าง = ใช้ไอคอนสวยของ BlogKub", "Blank = use BlogKub's own icon")) +
       txt("logoLazada", "Logo Lazada (URL)", p.logoLazada || "") +
       txt("logoTiktok", "Logo TikTok (URL)", p.logoTiktok || "") +
       txt("logoAmazon", "Logo Amazon (URL)", p.logoAmazon || "") +
-      '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("แค่วางลิงก์ Shopee / Lazada / TikTok / Amazon ในบทความตามปกติ · ระบบจะสแกนแล้วสร้างแถบปุ่มร้านค้าให้อัตโนมัติ พร้อม rel=&quot;nofollow sponsored&quot;", "Just paste your Shopee / Lazada / TikTok / Amazon links in the post · the system scans them and builds the store bar automatically, with rel=&quot;nofollow sponsored&quot;") + '</div></div>';
+      txt("logoBigc", "Logo Big C (URL)", p.logoBigc || "") +
+      '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("แค่วางลิงก์ Shopee / Lazada / TikTok / Amazon / Big C ในบทความตามปกติ · ระบบจะสแกนแล้วสร้างแถบปุ่มร้านค้าให้อัตโนมัติ พร้อม rel=&quot;nofollow sponsored&quot;", "Just paste your Shopee / Lazada / TikTok / Amazon / Big C links in the post · the system scans them and builds the store bar automatically, with rel=&quot;nofollow sponsored&quot;") + '</div></div>';
   }
 
-  // Affiliate button bar — injected CSS + link-scanning script (auto-detect store, brand color/logo).
+  // Affiliate product page — injected CSS + script. Scans post links to detect stores, draws the
+  // brand-coloured button bar, optionally collects post images into a gallery under the H1, and
+  // marks matching post cards at the "affiliate link" spot (store data pulled from the Blogger feed).
   function affiliateStatic(p) {
     p = p || {};
     var css = "<style>"
-      + ".bxb-aff{display:flex;flex-direction:column;gap:8px;margin:16px 0}"
-      + ".bxb-aff-label{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#888}"
+      // ── store button bar ──
+      + ".bxb-aff{display:flex;flex-direction:column;gap:9px;margin:18px 0}"
+      + ".bxb-aff-label{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:#7a8395}"
       + ".bxb-aff-label::before{content:'';width:3px;height:14px;background:var(--primary,#6366f1);border-radius:99px;flex:none}"
       + ".bxb-aff-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}"
-      + ".bxb-aff-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 13px 6px 9px;border-radius:99px;text-decoration:none;font-family:inherit;font-size:13px;font-weight:600;border:1.5px solid;transition:transform .15s,box-shadow .15s,opacity .15s;white-space:nowrap}"
-      + ".bxb-aff-btn:hover{transform:translateY(-1px);box-shadow:0 3px 10px rgba(0,0,0,.14);opacity:.94}"
+      + ".bxb-aff-btn{display:inline-flex;align-items:center;gap:7px;padding:6px 14px 6px 7px;border-radius:99px;text-decoration:none;font-family:inherit;font-size:13.5px;font-weight:600;border:1.5px solid;transition:transform .15s,box-shadow .15s;white-space:nowrap;line-height:1.4}"
+      + ".bxb-aff-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.13)}"
       + ".bxb-aff-btn:active{transform:scale(.97)}"
-      + ".bxb-aff-btn img{width:20px;height:20px;object-fit:contain;border-radius:4px;display:block;flex:none}"
-      + ".bxb-aff-shopee{background:#fff4ee;border-color:#f97316;color:#f97316}"
-      + ".bxb-aff-lazada{background:#fff0fd;border-color:#a020f0;color:#a020f0}"
-      + ".bxb-aff-tiktok{background:#f0fafa;border-color:#222;color:#222}"
-      + ".bxb-aff-amazon{background:#fff8ee;border-color:#f90;color:#c45500}"
-      + "[data-theme=dark] .bxb-aff-label{color:#888}"
-      + "[data-theme=dark] .bxb-aff-shopee{background:#2a1a10;color:#f97316}"
-      + "[data-theme=dark] .bxb-aff-lazada{background:#1e0a2a;border-color:#a020f0;color:#c060ff}"
-      + "[data-theme=dark] .bxb-aff-tiktok{background:#0a1a1a;border-color:#aaa;color:#eee}"
-      + "[data-theme=dark] .bxb-aff-amazon{background:#1e1400;color:#f90}"
+      + ".bxb-aff-btn svg,.bxb-aff-btn img{width:20px;height:20px;display:block;flex:none;border-radius:6px}"
+      + ".bxb-aff-btn img{object-fit:contain}"
+      + ".bxb-aff-shopee{background:#fff4ee;border-color:#EE4D2D;color:#c2410c}"
+      + ".bxb-aff-lazada{background:#f1f2ff;border-color:#0F146D;color:#0F146D}"
+      + ".bxb-aff-tiktok{background:#f1f6f6;border-color:#111;color:#111}"
+      + ".bxb-aff-amazon{background:#fff8ee;border-color:#FF9900;color:#b45309}"
+      + ".bxb-aff-bigc{background:#f0fdf4;border-color:#00A14B;color:#047857}"
+      + "[data-theme=dark] .bxb-aff-label{color:#8b93a5}"
+      + "[data-theme=dark] .bxb-aff-shopee{background:#2a1710;border-color:#EE4D2D;color:#ff8a5c}"
+      + "[data-theme=dark] .bxb-aff-lazada{background:#12142e;border-color:#4a52c9;color:#9aa2ff}"
+      + "[data-theme=dark] .bxb-aff-tiktok{background:#141414;border-color:#9aa;color:#eaeaea}"
+      + "[data-theme=dark] .bxb-aff-amazon{background:#241a05;border-color:#FF9900;color:#ffb547}"
+      + "[data-theme=dark] .bxb-aff-bigc{background:#062016;border-color:#00A14B;color:#34d399}"
+      // ── product gallery ──
+      + ".bxb-gal{margin:0 0 18px}"
+      + ".bxb-gal-main{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-2,#f1f3f8);border:1px solid var(--border-soft,rgba(128,128,128,.18))}"
+      + ".bxb-gal-main>img{display:block;width:100%;height:auto;margin:0;cursor:zoom-in}"
+      + ".bxb-gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:rgba(15,23,42,.55);color:#fff;font-size:19px;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent}"
+      + ".bxb-gal-nav:hover{background:rgba(15,23,42,.8)}"
+      + ".bxb-gal-prev{left:9px}.bxb-gal-next{right:9px}"
+      + ".bxb-gal-count{position:absolute;right:10px;bottom:10px;background:rgba(15,23,42,.72);color:#fff;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;letter-spacing:.02em}"
+      + ".bxb-gal-thumbs{display:flex;gap:7px;margin-top:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}"
+      + ".bxb-gal-th{flex:none;width:64px;height:50px;padding:0;border-radius:8px;overflow:hidden;border:2px solid transparent;background:var(--surface-2,#eef1f7);cursor:pointer;transition:border-color .15s,opacity .15s;opacity:.72}"
+      + ".bxb-gal-th>img{width:100%;height:100%;object-fit:cover;display:block;margin:0}"
+      + ".bxb-gal-th.on{border-color:var(--primary,#6366f1);opacity:1}"
+      + ".bxb-gal-th:hover{opacity:1}"
+      // ── store icons on post cards ──
+      + ".bxb-aff-cardic{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}"
+      + ".bxb-aff-cardic svg,.bxb-aff-cardic img{width:17px;height:17px;display:block;border-radius:5px}"
+      + ".bxb-aff-cardic img{object-fit:contain}"
       + "</style>";
     var cfg = JSON.stringify({
       label: p.label || tpl("เช็คราคาล่าสุดได้ที่", "Check the latest price at"),
       full: p.style !== "compact",
-      logos: { shopee: p.logoShopee || "", lazada: p.logoLazada || "", tiktok: p.logoTiktok || "", amazon: p.logoAmazon || "" }
+      cards: p.onCards !== false,
+      gal: p.gallery !== false,
+      logos: { shopee: p.logoShopee || "", lazada: p.logoLazada || "", tiktok: p.logoTiktok || "", amazon: p.logoAmazon || "", bigc: p.logoBigc || "" }
     });
     var sc = "<script>/*<![CDATA[*/(function(){"
-      + "var CFG=" + cfg + ";"
-      + "function init(){"
-      + "var body=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body')||document.querySelector('.entry-content')||document.querySelector('article');"
-      + "if(!body||body.querySelector('.bxb-aff'))return;"
+      + "var CFG=" + cfg + ",IC=" + JSON.stringify(AFF_ICONS) + ";"
       + "var P=[{k:'shopee',re:/shopee\\.[a-z.]+|shp\\.ee/i,cls:'bxb-aff-shopee',label:'Shopee'},"
       + "{k:'lazada',re:/lazada\\.[a-z.]+|s\\.lazada/i,cls:'bxb-aff-lazada',label:'Lazada'},"
       + "{k:'tiktok',re:/tiktok\\.com|vm\\.tiktok|tiktokshop/i,cls:'bxb-aff-tiktok',label:'TikTok Shop'},"
-      + "{k:'amazon',re:/amazon\\.[a-z.]+|amzn\\.(to|asia)/i,cls:'bxb-aff-amazon',label:'Amazon'}];"
-      + "var found={};body.querySelectorAll('a[href]').forEach(function(a){var h=a.getAttribute('href')||'';P.forEach(function(pl){if(!found[pl.k]&&pl.re.test(h))found[pl.k]=h;});});"
-      + "var items=P.filter(function(pl){return found[pl.k];});if(!items.length)return;"
+      + "{k:'amazon',re:/amazon\\.[a-z.]+|amzn\\.(to|asia)/i,cls:'bxb-aff-amazon',label:'Amazon'},"
+      + "{k:'bigc',re:/bigc\\.co\\.th|bigc\\.online/i,cls:'bxb-aff-bigc',label:'Big C'}];"
+      // mark(): icon markup for a store (user logo wins over the built-in glyph)
+      + "function mark(k,lbl){var lg=CFG.logos[k];if(lg){return '<img src=\"'+lg+'\" alt=\"'+lbl+'\" loading=\"lazy\"/>';}return IC[k]||'';}"
+      // big(): ask Blogger for a larger rendition of a thumbnail URL
+      + "function big(u){return String(u||'').replace(/\\/s\\d+(-c)?\\//,'/s1600/').replace(/\\/w\\d+-h\\d+(-p-k-no-nu)?\\//,'/s1600/').replace(/=s\\d+.*$/,'=s1600');}"
+      + "function buildBar(found,items){"
       + "var bar=document.createElement('div');bar.className='bxb-aff';bar.setAttribute('role','navigation');bar.setAttribute('aria-label',CFG.label);"
       + "var lab=document.createElement('div');lab.className='bxb-aff-label';lab.textContent=CFG.label;bar.appendChild(lab);"
       + "var row=document.createElement('div');row.className='bxb-aff-row';"
-      + "items.forEach(function(pl){var a=document.createElement('a');a.href=found[pl.k];a.className='bxb-aff-btn '+pl.cls;a.rel='nofollow sponsored noopener';a.target='_blank';a.title=CFG.label+' '+pl.label;var lg=CFG.logos[pl.k];if(CFG.full&&lg){var im=document.createElement('img');im.src=lg;im.alt=pl.label;im.loading='lazy';a.appendChild(im);}var sp=document.createElement('span');sp.textContent=pl.label;a.appendChild(sp);row.appendChild(a);});"
-      + "bar.appendChild(row);body.insertBefore(bar,body.firstChild);"
+      + "items.forEach(function(pl){var a=document.createElement('a');a.href=found[pl.k];a.className='bxb-aff-btn '+pl.cls;"
+      + "a.rel='nofollow sponsored noopener';a.target='_blank';a.title=CFG.label+' '+pl.label;"
+      + "a.innerHTML=(CFG.full?mark(pl.k,pl.label):'')+'<span>'+pl.label+'</span>';row.appendChild(a);});"
+      + "bar.appendChild(row);return bar;}"
+      // ── gallery: pull standalone images out of the flow into one swipeable unit ──
+      + "function buildGal(body){"
+      + "var imgs=[].slice.call(body.querySelectorAll('img')).filter(function(im){"
+      + "if(im.closest('.bxb-gal'))return false;var w=parseInt(im.getAttribute('width')||im.naturalWidth||0,10);return !(w&&w<180);});"
+      + "if(imgs.length<2)return null;imgs=imgs.slice(0,10);"
+      + "var data=imgs.map(function(im){return{full:big(im.currentSrc||im.src),thumb:im.currentSrc||im.src,alt:im.getAttribute('alt')||''};});"
+      + "imgs.forEach(function(im){var n=im,pa=im.parentNode;"
+      + "while(pa&&pa!==body&&pa.children.length===1&&!pa.textContent.trim()){n=pa;pa=pa.parentNode;}"
+      + "if(n.parentNode)n.parentNode.removeChild(n);});"
+      + "var g=document.createElement('div');g.className='bxb-gal';"
+      + "var main=document.createElement('div');main.className='bxb-gal-main';"
+      + "var mi=document.createElement('img');mi.src=data[0].full;mi.alt=data[0].alt;mi.loading='eager';main.appendChild(mi);"
+      + "var cnt=document.createElement('span');cnt.className='bxb-gal-count';cnt.textContent='1 / '+data.length;main.appendChild(cnt);"
+      + "var pv=document.createElement('button');pv.type='button';pv.className='bxb-gal-nav bxb-gal-prev';pv.setAttribute('aria-label','Previous');pv.innerHTML='&#8249;';"
+      + "var nx=document.createElement('button');nx.type='button';nx.className='bxb-gal-nav bxb-gal-next';nx.setAttribute('aria-label','Next');nx.innerHTML='&#8250;';"
+      + "main.appendChild(pv);main.appendChild(nx);g.appendChild(main);"
+      + "var strip=document.createElement('div');strip.className='bxb-gal-thumbs';"
+      + "var cur=0;var ths=data.map(function(d,i){var b=document.createElement('button');b.type='button';b.className='bxb-gal-th'+(i?'':' on');"
+      + "b.setAttribute('aria-label','Image '+(i+1));var t=document.createElement('img');t.src=d.thumb;t.alt='';t.loading='lazy';b.appendChild(t);"
+      + "b.addEventListener('click',function(){go(i);});strip.appendChild(b);return b;});"
+      + "g.appendChild(strip);"
+      + "function go(i){cur=(i+data.length)%data.length;mi.src=data[cur].full;mi.alt=data[cur].alt;cnt.textContent=(cur+1)+' / '+data.length;"
+      + "ths.forEach(function(b,bi){b.classList.toggle('on',bi===cur);});"
+      + "if(ths[cur])ths[cur].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}"
+      + "pv.addEventListener('click',function(){go(cur-1);});nx.addEventListener('click',function(){go(cur+1);});"
+      + "var sx=0;main.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});"
+      + "main.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)go(cur+(dx<0?1:-1));},{passive:true});"
+      + "return g;}"
+      // ── post page ──
+      + "function initPost(){"
+      + "var body=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body')||document.querySelector('.entry-content');"
+      + "if(!body||body.querySelector('.bxb-aff'))return;"
+      + "var found={};body.querySelectorAll('a[href]').forEach(function(a){var h=a.getAttribute('href')||'';"
+      + "P.forEach(function(pl){if(!found[pl.k]&&pl.re.test(h))found[pl.k]=h;});});"
+      + "var items=P.filter(function(pl){return found[pl.k];});"
+      + "var gal=CFG.gal?buildGal(body):null;"
+      + "if(gal)body.insertBefore(gal,body.firstChild);"
+      + "if(items.length){var bar=buildBar(found,items);body.insertBefore(bar,gal?gal.nextSibling:body.firstChild);}"
       + "}"
+      // ── post cards: read the feed once (12 h cache) and badge each matching card ──
+      + "function initCards(){"
+      + "var cards=[].slice.call(document.querySelectorAll('.rv-card,.bxb-card,.bxb-pc,.post-card'));"
+      + "if(!cards.length)return;"
+      + "var K='bxb-aff-map',now=Date.now(),map=null;"
+      + "try{var raw=sessionStorage.getItem(K);if(raw){var o=JSON.parse(raw);if(o&&now-o.t<432e5)map=o.m;}}catch(e){}"
+      + "if(map){paint(map);return;}"
+      + "fetch('/feeds/posts/default?alt=json&max-results=100')"
+      + ".then(function(r){return r.json();}).then(function(j){"
+      + "var m={},es=(j&&j.feed&&j.feed.entry)||[];"
+      + "es.forEach(function(en){var u='';(en.link||[]).forEach(function(l){if(l.rel==='alternate')u=l.href;});"
+      + "if(!u)return;var c=(en.content&&en.content.$t)||(en.summary&&en.summary.$t)||'';var hit=[];"
+      + "P.forEach(function(pl){if(pl.re.test(c))hit.push(pl.k);});"
+      + "if(hit.length){try{m[new URL(u,location.href).pathname]=hit;}catch(e){}}});"
+      + "try{sessionStorage.setItem(K,JSON.stringify({t:now,m:m}));}catch(e){}paint(m);}).catch(function(){});"
+      + "function paint(m){cards.forEach(function(card){"
+      + "if(card.querySelector('.bxb-aff-cardic'))return;"
+      + "var a=card.querySelector('a[href]');if(!a)return;var key;"
+      + "try{key=new URL(a.getAttribute('href'),location.href).pathname;}catch(e){return;}"
+      + "var hit=m[key];if(!hit||!hit.length)return;"
+      + "var wrap=document.createElement('span');wrap.className='bxb-aff-cardic';"
+      + "wrap.innerHTML=hit.map(function(k){var pl=P.filter(function(x){return x.k===k;})[0];return pl?mark(k,pl.label):'';}).join('');"
+      + "wrap.setAttribute('title',CFG.label+': '+hit.join(', '));"
+      + "var disc=card.querySelector('.rv-card-disc'),foot=card.querySelector('.rv-card-foot');"
+      + "if(disc&&disc.parentNode){disc.appendChild(document.createTextNode(' '));disc.appendChild(wrap);}"
+      + "else if(foot){foot.insertBefore(wrap,foot.firstChild);}else{card.appendChild(wrap);}});}"
+      + "}"
+      + "function init(){initPost();if(CFG.cards)initCards();}"
       + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}"
       + "})();/*]]>*/</script>";
     return css + sc;
