@@ -742,7 +742,7 @@
         { icon: "⚡", title: "Fast", text: "Loads quickly, smooth on all devices" },
         { icon: "♥", title: "Caring", text: "We care about every reader" }
       ] },
-      affiliate: { label: "Check the latest price at", style: "full", onCards: true, galMode: "lead", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
+      affiliate: { label: "Check the latest price at", style: "full", onCards: true, galMode: "copy", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "Article Summary", style: "card" },
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
@@ -796,7 +796,7 @@
         { icon: "⚡", title: "รวดเร็ว", text: "โหลดไว ใช้งานลื่นทุกอุปกรณ์" },
         { icon: "♥", title: "ใส่ใจ", text: "ดูแลผู้อ่านทุกคนด้วยหัวใจ" }
       ] },
-      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", onCards: true, galMode: "lead", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
+      affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", onCards: true, galMode: "copy", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
       aeo: { title: "สรุปบทความ", style: "card" },
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
@@ -2945,9 +2945,9 @@
     return txt("label", tpl("ข้อความนำหน้าแถบ", "Bar label"), p.label || "") +
       seg("style", tpl("สไตล์ปุ่ม", "Button style"), p.style || "full", [["full", tpl("ไอคอน + ชื่อ", "Icon + name")], ["compact", tpl("ชื่ออย่างเดียว", "Name only")]]) +
       tog("onCards", tpl("แสดงไอคอนร้านบนการ์ดบทความ", "Show store icons on post cards"), p.onCards !== false, tpl("ตรงตำแหน่ง “ลิงก์พันธมิตร”", "At the “Affiliate link” spot")) +
-      seg("galMode", tpl("แกลเลอรีใต้ H1", "Gallery under the H1"), p.galMode || (p.gallery === false ? "off" : "lead"),
-        [["lead", tpl("รูปหัวบทความ", "Lead photos")], ["all", tpl("รูปทั้งหมด", "All images")], ["off", tpl("ปิด", "Off")]]) +
-      '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("<b>รูปหัวบทความ</b> = ย้ายเฉพาะรูปที่อยู่ก่อนย่อหน้าแรกมาทำแกลเลอรี · รูปที่แทรกกลางบทความยังอยู่ที่เดิม (แนะนำ)<br><b>รูปทั้งหมด</b> = ดูดรูปทุกใบในบทความมารวมไว้ข้างบน", "<b>Lead photos</b> = only the pictures above the first paragraph move into the gallery; images placed further down stay where you wrote them (recommended)<br><b>All images</b> = pulls every picture in the post up into the gallery") + '</div></div>' +
+      seg("galMode", tpl("แกลเลอรีใต้ H1", "Gallery under the H1"), p.galMode || (p.gallery === false ? "off" : "copy"),
+        [["copy", tpl("ทั้งหมด (คงรูปเดิม)", "All (keep in post)")], ["lead", tpl("ย้ายรูปหัว", "Move lead")], ["all", tpl("ย้ายทั้งหมด", "Move all")], ["off", tpl("ปิด", "Off")]]) +
+      '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl("<b>ทั้งหมด (คงรูปเดิม)</b> = แกลเลอรีข้างบนโชว์รูปครบทุกใบ และรูปยังแสดงในบทความตามปกติครบเหมือนเดิม (แนะนำ)<br><b>ย้ายรูปหัว</b> = ย้ายเฉพาะรูปก่อนย่อหน้าแรกขึ้นไป · <b>ย้ายทั้งหมด</b> = ดูดรูปทุกใบขึ้นข้างบน (บทความจะไม่เหลือรูป)", "<b>All (keep in post)</b> = the gallery shows every photo up top while the article keeps all of its images exactly as written (recommended)<br><b>Move lead</b> = only photos above the first paragraph move up · <b>Move all</b> = every image is pulled up, leaving none in the article") + '</div></div>' +
       txt("logoShopee", "Logo Shopee (URL)", p.logoShopee || "", tpl("เว้นว่าง = ใช้ไอคอนสวยของ BlogKub", "Blank = use BlogKub's own icon")) +
       txt("logoLazada", "Logo Lazada (URL)", p.logoLazada || "") +
       txt("logoTiktok", "Logo TikTok (URL)", p.logoTiktok || "") +
@@ -3020,8 +3020,8 @@
       zoom: tpl("แตะเพื่อขยาย", "Tap to zoom"),
       full: p.style !== "compact",
       cards: p.onCards !== false,
-      gal: (p.galMode || (p.gallery === false ? "off" : "lead")) !== "off",
-      galMode: p.galMode || (p.gallery === false ? "off" : "lead"),
+      gal: (p.galMode || (p.gallery === false ? "off" : "copy")) !== "off",
+      galMode: p.galMode || (p.gallery === false ? "off" : "copy"),
       logos: { shopee: p.logoShopee || "", lazada: p.logoLazada || "", tiktok: p.logoTiktok || "", amazon: p.logoAmazon || "", bigc: p.logoBigc || "" }
     });
     var sc = "<script>/*<![CDATA[*/(function(){"
@@ -3067,7 +3067,7 @@
       + "function ok(im){if(im.closest('.bxb-gal'))return false;var w=parseInt(im.getAttribute('width')||im.naturalWidth||0,10);return !(w&&w<180);}"
       // 'all' sweeps the whole post; 'lead' only takes the photos sitting above the first real
       // paragraph, so pictures placed further down stay exactly where they were written.
-      + "if(CFG.galMode==='all')return [].slice.call(body.querySelectorAll('img')).filter(ok);"
+      + "if(CFG.galMode==='all'||CFG.galMode==='copy')return [].slice.call(body.querySelectorAll('img')).filter(ok);"
       + "var out=[],kids=[].slice.call(body.children);"
       + "for(var i=0;i<kids.length;i++){var el=kids[i];"
       + "var got=(el.tagName==='IMG'?[el]:[].slice.call(el.querySelectorAll('img'))).filter(ok);"
@@ -3079,9 +3079,11 @@
       + "var imgs=pickImgs(body);"
       + "if(imgs.length<2)return null;imgs=imgs.slice(0,12);"
       + "var data=imgs.map(function(im){return{full:big(im.currentSrc||im.src),thumb:im.currentSrc||im.src,alt:im.getAttribute('alt')||''};});"
-      + "imgs.forEach(function(im){var n=im,pa=im.parentNode;"
+      // 'copy' mirrors the photos into the gallery and leaves the article untouched; the other
+      // modes lift each picture (and its now-empty wrapper) out of the flow.
+      + "if(CFG.galMode!=='copy'){imgs.forEach(function(im){var n=im,pa=im.parentNode;"
       + "while(pa&&pa!==body&&pa.children.length===1&&!pa.textContent.trim()){n=pa;pa=pa.parentNode;}"
-      + "if(n.parentNode)n.parentNode.removeChild(n);});"
+      + "if(n.parentNode)n.parentNode.removeChild(n);});}"
       + "var g=document.createElement('div');g.className='bxb-gal';"
       + "var main=document.createElement('div');main.className='bxb-gal-main';"
       + "var mi=document.createElement('img');mi.src=data[0].full;mi.alt=data[0].alt;mi.loading='eager';"
