@@ -847,6 +847,9 @@
       if (tid === "course") { out.sub = en ? "Start learning today. No hidden fees." : "เริ่มต้นเรียนรู้วันนี้ ไม่มีค่าใช้จ่ายซ่อนเร้น"; out.stats = en ? "20,000+ | Students\n50+ | Courses\n100+ | Instructors" : "20,000+ | นักเรียน\n50+ | คอร์ส\n100+ | ผู้สอน"; }
       if (tid === "company") out.sub = en ? "Ready to get started with us?" : "พร้อมที่จะเริ่มต้นกับเราแล้วหรือยัง?";
     }
+    // On the affiliate/review template the summary sits right under the store bar, so it reads as a
+    // buying decision ("Before you buy") rather than a generic article recap.
+    if (type === "aeo" && tid === "review") out.title = en ? "Before you buy" : "สรุปก่อนตัดสินใจ";
     return out;
   }
   // Parse a newline-separated list field into trimmed non-empty items.
@@ -2014,11 +2017,9 @@
           '</div>';
       case "affiliate":
         var affLabel = esc(p.label || tpl("เช็คราคาล่าสุดได้ที่", "Check the latest price at"));
-        var affTone = { shopee: ["#fff4ee", "#f97316", "#c2410c"], lazada: ["#f2f3ff", "#0F146D", "#0F146D"], tiktok: ["#f2f6f6", "#222", "#222"], amazon: ["#fff8ee", "#f90", "#b45309"], bigc: ["#f0fdf4", "#00A14B", "#047857"] };
-        var affBtns = AFF_STORES.slice(0, 4).map(function (s) {
-          var t = affTone[s.k];
-          return '<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 14px 6px 7px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid ' + t[1] + ';background:' + t[0] + ';color:' + t[2] + '">' +
-            (p.style === "compact" ? "" : AFF_ICONS[s.k]) + s.label + '</span>';
+        var affBtns = AFF_STORES.slice(0, 5).map(function (s) {
+          return '<span style="display:inline-flex;align-items:center;gap:7px;padding:6px 14px 6px 7px;border-radius:99px;font-size:13px;font-weight:600;border:1.5px solid ' + s.bg + ';background:' + s.bg + '12;color:' + (s.fg || s.bg) + '">' +
+            (p.style === "compact" ? "" : affMark(s, "")) + s.label + '</span>';
         }).join("");
         var affGal = p.gallery === false ? "" :
           '<div style="margin-bottom:14px">' +
@@ -2888,22 +2889,55 @@
       (items.length < 4 ? '<button class="menu-add" data-cadd>+ เพิ่มคอลัมน์</button>' : "") + '</div>';
   }
 
-  // Original BlogKub store glyphs (not brand logo replicas): rounded badge + white mark in brand colour.
-  // Used by the canvas preview; the exported theme embeds the same paths inside its injected script.
+  // Store marks drawn for BlogKub — original artwork in each brand's colour, never a copy of the
+  // registered logo. Brands with a globally known symbol get a drawn glyph; the rest get a bold
+  // initial chip, which stays legible at 17–20px far better than a generic cart would.
   var AFF_ICONS = {
-    shopee: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#EE4D2D"/><path d="M8.7 8.3v-.7a3.3 3.3 0 0 1 6.6 0v.7" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/><path d="M6 8.7h12l-.9 8a1.7 1.7 0 0 1-1.7 1.5H8.6a1.7 1.7 0 0 1-1.7-1.5l-.9-8Z" fill="#fff"/><path d="M13.7 12c-.6-.5-2.9-.8-2.9.5 0 1.2 2.6.8 2.6 2 0 1.3-2.3 1.1-3 .4" fill="none" stroke="#EE4D2D" stroke-width="1.15" stroke-linecap="round"/></svg>',
-    lazada: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0F146D"/><path d="M12 5.6l5.6 3.2v6L12 18.4 6.4 14.8v-6L12 5.6Z" fill="#fff"/><path d="M12 9.1l3 1.7v3.1l-3 1.7-3-1.7v-3.1l3-1.7Z" fill="#F0148A"/></svg>',
-    tiktok: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#010101"/><path d="M14.6 6.2c.35 1.6 1.3 2.6 2.9 2.8v2.1c-1 .1-1.9-.15-2.85-.75v3.5c0 3.15-2.6 4.65-4.7 3.75-1.75-.75-2.35-2.6-1.9-4.1.45-1.5 1.95-2.45 3.6-2.2v2.15c-.95-.15-1.65.35-1.75 1.1-.1.75.45 1.4 1.2 1.4.8 0 1.35-.6 1.35-1.5V6.2h2.15Z" fill="#fff"/><path d="M13.5 5.4c.35 1.6 1.3 2.6 2.9 2.8" fill="none" stroke="#25F4EE" stroke-width="1.1" stroke-linecap="round"/></svg>',
-    amazon: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#FF9900"/><path d="M12 5.4l5.2 2.5-5.2 2.5-5.2-2.5L12 5.4Z" fill="#fff"/><path d="M6.5 9.1l5 2.4v4.9l-5-2.4V9.1Zm11 0v4.9l-5 2.4v-4.9l5-2.4Z" fill="#fff" opacity=".82"/><path d="M6.6 18.3c3.3 1.7 7.5 1.7 10.8 0" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round"/></svg>',
-    bigc: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#00A14B"/><path d="M6 7h1.8l1.7 7.5h6.4l1.5-5.2H9.1" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="10.4" cy="17.2" r="1.25" fill="#fff"/><circle cx="15.4" cy="17.2" r="1.25" fill="#fff"/></svg>'
+    shopee: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#EE4D2D"/><path d="M8.9 8.4v-.9a3.1 3.1 0 0 1 6.2 0v.9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round"/><path d="M6.1 8.7h11.8l-.85 8.05a1.65 1.65 0 0 1-1.65 1.45H8.6a1.65 1.65 0 0 1-1.65-1.45L6.1 8.7Z" fill="#fff"/><path d="M13.75 11.85c-.7-.62-3.05-.72-3.05.62 0 1.2 2.65.72 2.65 1.98 0 1.35-2.4 1.2-3.1.4" fill="none" stroke="#EE4D2D" stroke-width="1.35" stroke-linecap="round"/></svg>',
+    lazada: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#0F146D"/><path d="M12 18.3c-2.3-1.35-5-3.2-5-5.85V9.1l5-2.75 5 2.75v3.35c0 2.65-2.7 4.5-5 5.85Z" fill="#fff"/><path d="M12 15.9c-1.25-.75-2.75-1.8-2.75-3.25v-1.9L12 9.25l2.75 1.5v1.9c0 1.45-1.5 2.5-2.75 3.25Z" fill="#F0148A"/></svg>',
+    tiktok: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#010101"/><path d="M12.55 5.6h2.2c.3 1.75 1.35 2.85 3.05 3.05v2.2c-1.05.05-2-.25-2.95-.85v3.9c0 3.3-2.85 4.95-5.05 3.9-1.85-.85-2.45-2.9-1.85-4.5.55-1.5 2.15-2.4 3.85-2.1v2.25c-1-.2-1.75.3-1.85 1.1-.1.8.45 1.5 1.25 1.5.85 0 1.35-.65 1.35-1.65V5.6Z" fill="#fff"/><path d="M11.35 4.6h2.2c.3 1.75 1.35 2.85 3.05 3.05v2.2" fill="none" stroke="#25F4EE" stroke-width="1.15" stroke-linejoin="round"/><path d="M11.5 11.35c-1.85-.35-3.6.6-4.2 2.15" fill="none" stroke="#FE2C55" stroke-width="1.15" stroke-linecap="round"/></svg>',
+    amazon: '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><rect width="24" height="24" rx="7" fill="#232F3E"/><path d="M5.4 15.4c3.6 2.35 8.9 2.35 12.6.25" fill="none" stroke="#FF9900" stroke-width="1.9" stroke-linecap="round"/><path d="M16.4 14.5l2.3.15-.75 2.2" fill="none" stroke="#FF9900" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.6 11.6c0-2 1.5-2.6 3.6-2.75m0 0c0-.9-.05-1.5-1.05-1.5-.8 0-1.35.4-1.5 1.1l-1.9-.2C8.1 6.6 9.5 6 11.2 6c2.2 0 3.1.9 3.1 2.75v3.2c0 .65.25.95.5 1.3l-1.6 1.05c-.3-.3-.5-.55-.7-.9-.6.6-1.25.95-2.25.95-1.4 0-2.4-.85-2.4-2.15 0-1.05.6-1.75 1.5-2.1.75-.3 1.75-.4 2.85-.45" fill="#fff"/></svg>'
   };
+  // bg = brand colour · fg/dfg override the button text when the brand colour is unreadable
+  // (yellow on white, black in dark mode) · lm = initial chip when there is no drawn glyph
   var AFF_STORES = [
-    { k: "shopee", label: "Shopee", cls: "bxb-aff-shopee" },
-    { k: "lazada", label: "Lazada", cls: "bxb-aff-lazada" },
-    { k: "tiktok", label: "TikTok Shop", cls: "bxb-aff-tiktok" },
-    { k: "amazon", label: "Amazon", cls: "bxb-aff-amazon" },
-    { k: "bigc", label: "Big C", cls: "bxb-aff-bigc" }
+    { k: "shopee", label: "Shopee", bg: "#EE4D2D", re: "shopee\\.[a-z.]+|shp\\.ee" },
+    { k: "lazada", label: "Lazada", bg: "#0F146D", dfg: "#9aa2ff", re: "lazada\\.[a-z.]+|s\\.lazada" },
+    { k: "tiktok", label: "TikTok Shop", bg: "#010101", dfg: "#eaeaea", re: "tiktok\\.com|vm\\.tiktok|vt\\.tiktok|tiktokshop" },
+    { k: "amazon", label: "Amazon", bg: "#FF9900", fg: "#b45309", re: "amazon\\.[a-z.]+|amzn\\.(to|asia)" },
+    { k: "bigc", label: "Big C", bg: "#00A14B", lm: "C", re: "bigc\\.co\\.th|bigc\\.online" },
+    { k: "lotus", label: "Lotus's", bg: "#00A9E0", lm: "L", re: "lotuss\\.com|tescolotus" },
+    { k: "makro", label: "Makro", bg: "#DA291C", lm: "M", re: "makro\\.co\\.th|makroclick" },
+    { k: "tops", label: "Tops", bg: "#E4002B", lm: "T", re: "tops\\.co\\.th|topsonline" },
+    { k: "homepro", label: "HomePro", bg: "#F58220", lm: "H", re: "homepro\\.co\\.th" },
+    { k: "nocnoc", label: "NocNoc", bg: "#FF6A13", lm: "N", re: "nocnoc\\.com" },
+    { k: "thaiwat", label: "ไทวัสดุ", bg: "#FFC20E", fg: "#8a6300", lmfg: "#4a3500", lm: "TW", re: "thaiwatsadu\\.com" },
+    { k: "ikea", label: "IKEA", bg: "#0058A3", lm: "IK", re: "ikea\\.(co\\.th|com)" },
+    { k: "watsons", label: "Watsons", bg: "#00A0AF", lm: "W", re: "watsons\\.co\\.th" },
+    { k: "konvy", label: "Konvy", bg: "#FF6699", lm: "K", re: "konvy\\.com" },
+    { k: "central", label: "Central", bg: "#C8102E", lm: "C", re: "central\\.co\\.th|centralonline" },
+    { k: "robinson", label: "Robinson", bg: "#E4002B", lm: "R", re: "robinson\\.co\\.th" },
+    { k: "powerbuy", label: "Power Buy", bg: "#003DA5", dfg: "#7f9fe0", lm: "P", re: "powerbuy\\.co\\.th" },
+    { k: "advice", label: "Advice", bg: "#0066B3", lm: "A", re: "advice\\.co\\.th" },
+    { k: "jib", label: "JIB", bg: "#E30613", lm: "J", re: "jib\\.co\\.th" },
+    { k: "banana", label: "BaNANA", bg: "#FFD400", fg: "#8a7000", lmfg: "#4a3c00", lm: "B", re: "bnn\\.in\\.th|bananaitshop" },
+    { k: "aliexpress", label: "AliExpress", bg: "#E62E04", lm: "AE", re: "aliexpress\\.|alicdn\\.com|s\\.click\\.ali" },
+    { k: "temu", label: "Temu", bg: "#FB7701", lm: "T", re: "temu\\.com" },
+    { k: "shein", label: "SHEIN", bg: "#000000", dfg: "#eaeaea", lm: "S", re: "shein\\.com|shein\\.[a-z]{2}" },
+    { k: "agoda", label: "Agoda", bg: "#5C2D91", dfg: "#c4a2f0", lm: "a", re: "agoda\\.com" },
+    { k: "booking", label: "Booking.com", bg: "#003580", dfg: "#7fa3d8", lm: "B", re: "booking\\.com" },
+    { k: "klook", label: "Klook", bg: "#FF5722", lm: "K", re: "klook\\.com" },
+    { k: "traveloka", label: "Traveloka", bg: "#1BA0E2", lm: "T", re: "traveloka\\.com" },
+    { k: "grab", label: "Grab", bg: "#00B14F", lm: "G", re: "grab\\.com|grab\\.onelink" },
+    { k: "lineman", label: "LINE MAN", bg: "#06C755", lm: "L", re: "lineman|wongnai\\.com" }
   ];
+  // Icon markup for one store: user-supplied logo wins, then a drawn glyph, then the initial chip.
+  function affMark(s, logo) {
+    if (logo) return '<img src="' + esc(logo) + '" alt="' + esc(s.label) + '" loading="lazy"/>';
+    if (AFF_ICONS[s.k]) return AFF_ICONS[s.k];
+    var t = s.lm || s.label.charAt(0);
+    return '<i class="bxb-aff-lm" aria-hidden="true" data-n="' + t.length + '" style="background:' + s.bg + (s.lmfg ? ";color:" + s.lmfg : "") + '">' + esc(t) + "</i>";
+  }
 
   // Affiliate button bar — props panel. Auto-detects store links; no per-link entry.
   function affiliateFields(b, p) {
@@ -2933,19 +2967,10 @@
       + ".bxb-aff-btn{display:inline-flex;align-items:center;gap:7px;padding:6px 14px 6px 7px;border-radius:99px;text-decoration:none;font-family:inherit;font-size:13.5px;font-weight:600;border:1.5px solid;transition:transform .15s,box-shadow .15s;white-space:nowrap;line-height:1.4}"
       + ".bxb-aff-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(0,0,0,.13)}"
       + ".bxb-aff-btn:active{transform:scale(.97)}"
-      + ".bxb-aff-btn svg,.bxb-aff-btn img{width:20px;height:20px;display:block;flex:none;border-radius:6px}"
-      + ".bxb-aff-btn img{object-fit:contain}"
-      + ".bxb-aff-shopee{background:#fff4ee;border-color:#EE4D2D;color:#c2410c}"
-      + ".bxb-aff-lazada{background:#f1f2ff;border-color:#0F146D;color:#0F146D}"
-      + ".bxb-aff-tiktok{background:#f1f6f6;border-color:#111;color:#111}"
-      + ".bxb-aff-amazon{background:#fff8ee;border-color:#FF9900;color:#b45309}"
-      + ".bxb-aff-bigc{background:#f0fdf4;border-color:#00A14B;color:#047857}"
-      + "[data-theme=dark] .bxb-aff-label{color:#8b93a5}"
-      + "[data-theme=dark] .bxb-aff-shopee{background:#2a1710;border-color:#EE4D2D;color:#ff8a5c}"
-      + "[data-theme=dark] .bxb-aff-lazada{background:#12142e;border-color:#4a52c9;color:#9aa2ff}"
-      + "[data-theme=dark] .bxb-aff-tiktok{background:#141414;border-color:#9aa;color:#eaeaea}"
-      + "[data-theme=dark] .bxb-aff-amazon{background:#241a05;border-color:#FF9900;color:#ffb547}"
-      + "[data-theme=dark] .bxb-aff-bigc{background:#062016;border-color:#00A14B;color:#34d399}"
+      + ".bxb-aff-btn svg,.bxb-aff-btn img,.bxb-aff-btn .bxb-aff-lm{width:20px;height:20px;display:block;flex:none;border-radius:6px}"
+      + ".bxb-aff-btn img{object-fit:contain;background:#fff}"
+      + ".bxb-aff-lm{display:inline-grid;place-items:center;font-size:11px;font-weight:800;font-style:normal;color:#fff;line-height:1;letter-spacing:-.02em}"
+      + ".bxb-aff-lm[data-n='2']{font-size:8.5px}"
       // ── product gallery ──
       + ".bxb-gal{margin:0 0 18px}"
       + ".bxb-gal-main{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-2,#f1f3f8);border:1px solid var(--border-soft,rgba(128,128,128,.18))}"
@@ -2953,55 +2978,101 @@
       + ".bxb-gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:rgba(15,23,42,.55);color:#fff;font-size:19px;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent}"
       + ".bxb-gal-nav:hover{background:rgba(15,23,42,.8)}"
       + ".bxb-gal-prev{left:9px}.bxb-gal-next{right:9px}"
-      + ".bxb-gal-count{position:absolute;right:10px;bottom:10px;background:rgba(15,23,42,.72);color:#fff;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;letter-spacing:.02em}"
+      + ".bxb-gal-count{position:absolute;right:10px;bottom:10px;background:rgba(15,23,42,.72);color:#fff;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;pointer-events:none}"
+      + ".bxb-gal-zoom{position:absolute;left:10px;bottom:10px;background:rgba(15,23,42,.72);color:#fff;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:5px;pointer-events:none}"
       + ".bxb-gal-thumbs{display:flex;gap:7px;margin-top:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}"
       + ".bxb-gal-th{flex:none;width:64px;height:50px;padding:0;border-radius:8px;overflow:hidden;border:2px solid transparent;background:var(--surface-2,#eef1f7);cursor:pointer;transition:border-color .15s,opacity .15s;opacity:.72}"
       + ".bxb-gal-th>img{width:100%;height:100%;object-fit:cover;display:block;margin:0}"
       + ".bxb-gal-th.on{border-color:var(--primary,#6366f1);opacity:1}"
       + ".bxb-gal-th:hover{opacity:1}"
-      // ── store icons on post cards ──
-      + ".bxb-aff-cardic{display:inline-flex;align-items:center;gap:4px;vertical-align:middle}"
-      + ".bxb-aff-cardic svg,.bxb-aff-cardic img{width:17px;height:17px;display:block;border-radius:5px}"
-      + ".bxb-aff-cardic img{object-fit:contain}"
+      // ── fullscreen viewer ──
+      + ".bxb-lb{position:fixed;inset:0;z-index:99999;background:rgba(8,10,16,.95);display:none;align-items:center;justify-content:center;padding:22px}"
+      + ".bxb-lb.on{display:flex}"
+      + "body.bxb-lb-open{overflow:hidden}"
+      + ".bxb-lb-img{max-width:100%;max-height:86vh;width:auto;height:auto;object-fit:contain;border-radius:10px;display:block;margin:0}"
+      + ".bxb-lb-x{position:absolute;top:14px;right:14px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.16);color:#fff;font-size:22px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .15s;-webkit-tap-highlight-color:transparent}"
+      + ".bxb-lb-x:hover{background:rgba(255,255,255,.3)}"
+      + ".bxb-lb-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.14);color:#fff;font-size:26px;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .15s}"
+      + ".bxb-lb-nav:hover{background:rgba(255,255,255,.28)}"
+      + ".bxb-lb-prev{left:14px}.bxb-lb-next{right:14px}"
+      + ".bxb-lb-c{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);color:#fff;font-size:13px;font-weight:600;background:rgba(255,255,255,.14);padding:5px 14px;border-radius:99px}"
+      + "@media(max-width:600px){.bxb-lb-nav{width:38px;height:38px;font-size:21px}.bxb-lb-prev{left:6px}.bxb-lb-next{right:6px}}"
+      // ── store marks on post cards (with brand-name tooltip) ──
+      + ".bxb-aff-cardic{display:inline-flex;align-items:center;gap:5px;vertical-align:middle}"
+      + ".bxb-aff-ic{position:relative;display:inline-flex;line-height:0}"
+      + ".bxb-aff-ic svg,.bxb-aff-ic img,.bxb-aff-ic .bxb-aff-lm{width:18px;height:18px;display:block;border-radius:5px}"
+      + ".bxb-aff-ic img{object-fit:contain;background:#fff}"
+      + ".bxb-aff-ic .bxb-aff-lm{font-size:10px}"
+      + ".bxb-aff-ic .bxb-aff-lm[data-n='2']{font-size:8px}"
+      + ".bxb-aff-ic::after{content:attr(data-name);position:absolute;bottom:calc(100% + 9px);left:50%;transform:translateX(-50%) translateY(4px) scale(.92);background:#0f172a;color:#fff;font-size:12.5px;font-weight:700;letter-spacing:.01em;padding:5px 11px;border-radius:8px;white-space:nowrap;opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;z-index:30;box-shadow:0 6px 18px rgba(0,0,0,.28)}"
+      + ".bxb-aff-ic::before{content:'';position:absolute;bottom:calc(100% + 3px);left:50%;transform:translateX(-50%) translateY(4px);border:5px solid transparent;border-top-color:#0f172a;opacity:0;pointer-events:none;transition:opacity .16s,transform .16s;z-index:30}"
+      + ".bxb-aff-ic:hover::after,.bxb-aff-ic.on::after{opacity:1;transform:translateX(-50%) translateY(0) scale(1)}"
+      + ".bxb-aff-ic:hover::before,.bxb-aff-ic.on::before{opacity:1;transform:translateX(-50%) translateY(0)}"
       + "</style>";
+    var stores = AFF_STORES.map(function (s) {
+      return { k: s.k, label: s.label, re: s.re, bg: s.bg, fg: s.fg || s.bg, dfg: s.dfg || s.fg || s.bg, mark: affMark(s, "") };
+    });
     var cfg = JSON.stringify({
       label: p.label || tpl("เช็คราคาล่าสุดได้ที่", "Check the latest price at"),
+      zoom: tpl("แตะเพื่อขยาย", "Tap to zoom"),
       full: p.style !== "compact",
       cards: p.onCards !== false,
       gal: p.gallery !== false,
       logos: { shopee: p.logoShopee || "", lazada: p.logoLazada || "", tiktok: p.logoTiktok || "", amazon: p.logoAmazon || "", bigc: p.logoBigc || "" }
     });
     var sc = "<script>/*<![CDATA[*/(function(){"
-      + "var CFG=" + cfg + ",IC=" + JSON.stringify(AFF_ICONS) + ";"
-      + "var P=[{k:'shopee',re:/shopee\\.[a-z.]+|shp\\.ee/i,cls:'bxb-aff-shopee',label:'Shopee'},"
-      + "{k:'lazada',re:/lazada\\.[a-z.]+|s\\.lazada/i,cls:'bxb-aff-lazada',label:'Lazada'},"
-      + "{k:'tiktok',re:/tiktok\\.com|vm\\.tiktok|tiktokshop/i,cls:'bxb-aff-tiktok',label:'TikTok Shop'},"
-      + "{k:'amazon',re:/amazon\\.[a-z.]+|amzn\\.(to|asia)/i,cls:'bxb-aff-amazon',label:'Amazon'},"
-      + "{k:'bigc',re:/bigc\\.co\\.th|bigc\\.online/i,cls:'bxb-aff-bigc',label:'Big C'}];"
-      // mark(): icon markup for a store (user logo wins over the built-in glyph)
-      + "function mark(k,lbl){var lg=CFG.logos[k];if(lg){return '<img src=\"'+lg+'\" alt=\"'+lbl+'\" loading=\"lazy\"/>';}return IC[k]||'';}"
-      // big(): ask Blogger for a larger rendition of a thumbnail URL
+      + "var CFG=" + cfg + ",ST=" + JSON.stringify(stores) + ";"
+      + "var dark=function(){return document.documentElement.getAttribute('data-theme')==='dark';};"
+      + "ST.forEach(function(s){s.rx=new RegExp(s.re,'i');});"
+      // mark(): user logo beats the drawn mark
+      + "function mark(s){var lg=CFG.logos[s.k];if(lg)return '<img src=\"'+lg+'\" alt=\"'+s.label+'\" loading=\"lazy\"/>';return s.mark;}"
       + "function big(u){return String(u||'').replace(/\\/s\\d+(-c)?\\//,'/s1600/').replace(/\\/w\\d+-h\\d+(-p-k-no-nu)?\\//,'/s1600/').replace(/=s\\d+.*$/,'=s1600');}"
       + "function buildBar(found,items){"
       + "var bar=document.createElement('div');bar.className='bxb-aff';bar.setAttribute('role','navigation');bar.setAttribute('aria-label',CFG.label);"
       + "var lab=document.createElement('div');lab.className='bxb-aff-label';lab.textContent=CFG.label;bar.appendChild(lab);"
       + "var row=document.createElement('div');row.className='bxb-aff-row';"
-      + "items.forEach(function(pl){var a=document.createElement('a');a.href=found[pl.k];a.className='bxb-aff-btn '+pl.cls;"
-      + "a.rel='nofollow sponsored noopener';a.target='_blank';a.title=CFG.label+' '+pl.label;"
-      + "a.innerHTML=(CFG.full?mark(pl.k,pl.label):'')+'<span>'+pl.label+'</span>';row.appendChild(a);});"
+      + "items.forEach(function(s){var a=document.createElement('a');a.href=found[s.k];a.className='bxb-aff-btn';"
+      + "a.style.borderColor=s.bg;a.style.background=s.bg+'12';a.style.color=dark()?s.dfg:s.fg;"
+      + "a.rel='nofollow sponsored noopener';a.target='_blank';a.title=CFG.label+' '+s.label;"
+      + "a.innerHTML=(CFG.full?mark(s):'')+'<span>'+s.label+'</span>';row.appendChild(a);});"
       + "bar.appendChild(row);return bar;}"
-      // ── gallery: pull standalone images out of the flow into one swipeable unit ──
+      // ── fullscreen viewer, shared by the gallery ──
+      + "function makeLB(data){"
+      + "var lb=document.createElement('div');lb.className='bxb-lb';lb.setAttribute('role','dialog');lb.setAttribute('aria-modal','true');"
+      + "var im=document.createElement('img');im.className='bxb-lb-img';im.alt='';lb.appendChild(im);"
+      + "var x=document.createElement('button');x.type='button';x.className='bxb-lb-x';x.setAttribute('aria-label','Close');x.innerHTML='&#10005;';lb.appendChild(x);"
+      + "var pv=document.createElement('button');pv.type='button';pv.className='bxb-lb-nav bxb-lb-prev';pv.setAttribute('aria-label','Previous');pv.innerHTML='&#8249;';lb.appendChild(pv);"
+      + "var nx=document.createElement('button');nx.type='button';nx.className='bxb-lb-nav bxb-lb-next';nx.setAttribute('aria-label','Next');nx.innerHTML='&#8250;';lb.appendChild(nx);"
+      + "var c=document.createElement('div');c.className='bxb-lb-c';lb.appendChild(c);"
+      + "document.body.appendChild(lb);var i=0,open=false;"
+      + "function show(n){i=(n+data.length)%data.length;im.src=data[i].full;im.alt=data[i].alt;c.textContent=(i+1)+' / '+data.length;}"
+      + "function doOpen(n){show(n);lb.classList.add('on');document.body.classList.add('bxb-lb-open');open=true;x.focus();}"
+      + "function doClose(){lb.classList.remove('on');document.body.classList.remove('bxb-lb-open');open=false;}"
+      + "x.addEventListener('click',doClose);"
+      + "lb.addEventListener('click',function(e){if(e.target===lb)doClose();});"
+      + "pv.addEventListener('click',function(e){e.stopPropagation();show(i-1);});"
+      + "nx.addEventListener('click',function(e){e.stopPropagation();show(i+1);});"
+      + "document.addEventListener('keydown',function(e){if(!open)return;"
+      + "if(e.key==='Escape')doClose();else if(e.key==='ArrowLeft')show(i-1);else if(e.key==='ArrowRight')show(i+1);});"
+      + "var sx=0;lb.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});"
+      + "lb.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)show(i+(dx<0?1:-1));},{passive:true});"
+      + "if(data.length<2){pv.style.display='none';nx.style.display='none';}"
+      + "return doOpen;}"
+      // ── gallery: lift standalone images out of the flow into one unit ──
       + "function buildGal(body){"
       + "var imgs=[].slice.call(body.querySelectorAll('img')).filter(function(im){"
       + "if(im.closest('.bxb-gal'))return false;var w=parseInt(im.getAttribute('width')||im.naturalWidth||0,10);return !(w&&w<180);});"
-      + "if(imgs.length<2)return null;imgs=imgs.slice(0,10);"
+      + "if(imgs.length<2)return null;imgs=imgs.slice(0,12);"
       + "var data=imgs.map(function(im){return{full:big(im.currentSrc||im.src),thumb:im.currentSrc||im.src,alt:im.getAttribute('alt')||''};});"
       + "imgs.forEach(function(im){var n=im,pa=im.parentNode;"
       + "while(pa&&pa!==body&&pa.children.length===1&&!pa.textContent.trim()){n=pa;pa=pa.parentNode;}"
       + "if(n.parentNode)n.parentNode.removeChild(n);});"
       + "var g=document.createElement('div');g.className='bxb-gal';"
       + "var main=document.createElement('div');main.className='bxb-gal-main';"
-      + "var mi=document.createElement('img');mi.src=data[0].full;mi.alt=data[0].alt;mi.loading='eager';main.appendChild(mi);"
+      + "var mi=document.createElement('img');mi.src=data[0].full;mi.alt=data[0].alt;mi.loading='eager';"
+      + "mi.setAttribute('role','button');mi.setAttribute('tabindex','0');main.appendChild(mi);"
+      + "var zm=document.createElement('span');zm.className='bxb-gal-zoom';"
+      + "zm.innerHTML='<svg viewBox=\"0 0 24 24\" width=\"13\" height=\"13\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"6.5\"/><path d=\"M20 20l-3.6-3.6M11 8.6v4.8M8.6 11h4.8\"/></svg><span>'+CFG.zoom+'</span>';main.appendChild(zm);"
       + "var cnt=document.createElement('span');cnt.className='bxb-gal-count';cnt.textContent='1 / '+data.length;main.appendChild(cnt);"
       + "var pv=document.createElement('button');pv.type='button';pv.className='bxb-gal-nav bxb-gal-prev';pv.setAttribute('aria-label','Previous');pv.innerHTML='&#8249;';"
       + "var nx=document.createElement('button');nx.type='button';nx.className='bxb-gal-nav bxb-gal-next';nx.setAttribute('aria-label','Next');nx.innerHTML='&#8250;';"
@@ -3015,6 +3086,9 @@
       + "ths.forEach(function(b,bi){b.classList.toggle('on',bi===cur);});"
       + "if(ths[cur])ths[cur].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});}"
       + "pv.addEventListener('click',function(){go(cur-1);});nx.addEventListener('click',function(){go(cur+1);});"
+      + "var openLB=makeLB(data);"
+      + "mi.addEventListener('click',function(){openLB(cur);});"
+      + "mi.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();openLB(cur);}});"
       + "var sx=0;main.addEventListener('touchstart',function(e){sx=e.touches[0].clientX;},{passive:true});"
       + "main.addEventListener('touchend',function(e){var dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>45)go(cur+(dx<0?1:-1));},{passive:true});"
       + "return g;}"
@@ -3023,13 +3097,13 @@
       + "var body=document.querySelector('.bxb-post-article .post-body')||document.querySelector('.post-body')||document.querySelector('.entry-content');"
       + "if(!body||body.querySelector('.bxb-aff'))return;"
       + "var found={};body.querySelectorAll('a[href]').forEach(function(a){var h=a.getAttribute('href')||'';"
-      + "P.forEach(function(pl){if(!found[pl.k]&&pl.re.test(h))found[pl.k]=h;});});"
-      + "var items=P.filter(function(pl){return found[pl.k];});"
+      + "ST.forEach(function(s){if(!found[s.k]&&s.rx.test(h))found[s.k]=h;});});"
+      + "var items=ST.filter(function(s){return found[s.k];});"
       + "var gal=CFG.gal?buildGal(body):null;"
       + "if(gal)body.insertBefore(gal,body.firstChild);"
       + "if(items.length){var bar=buildBar(found,items);body.insertBefore(bar,gal?gal.nextSibling:body.firstChild);}"
       + "}"
-      // ── post cards: read the feed once (12 h cache) and badge each matching card ──
+      // ── post cards: one cached feed read, then badge every matching card ──
       + "function initCards(){"
       + "var cards=[].slice.call(document.querySelectorAll('.rv-card,.bxb-card,.bxb-pc,.post-card'));"
       + "if(!cards.length)return;"
@@ -3041,7 +3115,7 @@
       + "var m={},es=(j&&j.feed&&j.feed.entry)||[];"
       + "es.forEach(function(en){var u='';(en.link||[]).forEach(function(l){if(l.rel==='alternate')u=l.href;});"
       + "if(!u)return;var c=(en.content&&en.content.$t)||(en.summary&&en.summary.$t)||'';var hit=[];"
-      + "P.forEach(function(pl){if(pl.re.test(c))hit.push(pl.k);});"
+      + "ST.forEach(function(s){if(s.rx.test(c))hit.push(s.k);});"
       + "if(hit.length){try{m[new URL(u,location.href).pathname]=hit;}catch(e){}}});"
       + "try{sessionStorage.setItem(K,JSON.stringify({t:now,m:m}));}catch(e){}paint(m);}).catch(function(){});"
       + "function paint(m){cards.forEach(function(card){"
@@ -3050,11 +3124,19 @@
       + "try{key=new URL(a.getAttribute('href'),location.href).pathname;}catch(e){return;}"
       + "var hit=m[key];if(!hit||!hit.length)return;"
       + "var wrap=document.createElement('span');wrap.className='bxb-aff-cardic';"
-      + "wrap.innerHTML=hit.map(function(k){var pl=P.filter(function(x){return x.k===k;})[0];return pl?mark(k,pl.label):'';}).join('');"
-      + "wrap.setAttribute('title',CFG.label+': '+hit.join(', '));"
+      + "hit.forEach(function(k){var s=ST.filter(function(x){return x.k===k;})[0];if(!s)return;"
+      + "var sp=document.createElement('span');sp.className='bxb-aff-ic';sp.setAttribute('data-name',s.label);"
+      + "sp.setAttribute('title',s.label);sp.innerHTML=mark(s);"
+      + "sp.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();"
+      + "var was=sp.classList.contains('on');"
+      + "wrap.querySelectorAll('.bxb-aff-ic').forEach(function(o){o.classList.remove('on');});"
+      + "if(!was)sp.classList.add('on');});"
+      + "wrap.appendChild(sp);});"
       + "var disc=card.querySelector('.rv-card-disc'),foot=card.querySelector('.rv-card-foot');"
       + "if(disc&&disc.parentNode){disc.appendChild(document.createTextNode(' '));disc.appendChild(wrap);}"
-      + "else if(foot){foot.insertBefore(wrap,foot.firstChild);}else{card.appendChild(wrap);}});}"
+      + "else if(foot){foot.insertBefore(wrap,foot.firstChild);}else{card.appendChild(wrap);}});"
+      + "document.addEventListener('click',function(e){if(e.target.closest&&e.target.closest('.bxb-aff-ic'))return;"
+      + "document.querySelectorAll('.bxb-aff-ic.on').forEach(function(o){o.classList.remove('on');});});}"
       + "}"
       + "function init(){initPost();if(CFG.cards)initCards();}"
       + "if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',init);}else{init();}"
