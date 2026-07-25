@@ -272,7 +272,7 @@
       + "if(im.closest&&im.closest('.bxb-gal'))return false;"
       + "var w=parseInt(im.getAttribute('width')||'0',10);if(w&&w<70)return false;return true;});"
       + "if(!imgs.length)return;"
-      + "function big(im){var s=im.getAttribute('data-original')||im.src;"
+      + "function big(im){var s=im.getAttribute('data-bxb-full')||im.getAttribute('data-original')||im.src;"
       + "s=s.replace(/\\/s\\d+(-[a-z]+)?\\//,'/s1600/').replace(/\\/w\\d+-h\\d+[^/]*\\//,'/s1600/').replace(/=s\\d+[^&]*/,'=s1600').replace(/=w\\d+-h\\d+[^&]*/,'=s1600');return s;}"
       + "var ov=document.createElement('div');ov.className='bxb-lb';"
       + "ov.innerHTML='<div class=\"bxb-lb-scrim\"></div><button class=\"bxb-lb-close\" aria-label=\"close\" type=\"button\">\\u2715</button><button class=\"bxb-lb-nav bxb-lb-prev\" aria-label=\"prev\" type=\"button\">\\u2039</button><img class=\"bxb-lb-img\" alt=\"\"/><button class=\"bxb-lb-nav bxb-lb-next\" aria-label=\"next\" type=\"button\">\\u203A</button><div class=\"bxb-lb-cap\"></div>';"
@@ -281,7 +281,17 @@
       + "function show(i){cur=(i+imgs.length)%imgs.length;pic.src=big(imgs[cur]);var a=imgs[cur].getAttribute('alt')||'';cap.textContent=a;cap.style.display=a?'block':'none';}"
       + "function open(i){show(i);ov.classList.add('open');document.documentElement.style.overflow='hidden';}"
       + "function close(){ov.classList.remove('open');document.documentElement.style.overflow='';}"
-      + "imgs.forEach(function(im,i){im.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open(i);});});"
+      // Blogger wraps post images in <a imageanchor href="…jpg"> and opens its own viewer from it.
+      // Take that anchor over: keep the full-size URL, strip the trigger, and claim the click during
+      // capture so only this lightbox opens instead of stacking on top of Blogger's.
+      + "imgs.forEach(function(im,i){"
+      + "var a=im.closest?im.closest('a'):(im.parentNode&&im.parentNode.tagName==='A'?im.parentNode:null);"
+      + "var h=a?(a.getAttribute('href')||''):'';"
+      + "var isImg=a&&(a.hasAttribute('imageanchor')||/\\.(jpe?g|png|gif|webp|avif|bmp)(\\?|#|$)/i.test(h));"
+      + "if(isImg){if(h)im.setAttribute('data-bxb-full',h);"
+      + "a.removeAttribute('href');a.removeAttribute('imageanchor');a.style.cursor='zoom-in';"
+      + "a.addEventListener('click',function(e){e.preventDefault();e.stopImmediatePropagation();open(i);},true);}"
+      + "else{im.addEventListener('click',function(e){e.preventDefault();e.stopPropagation();open(i);});}});"
       + "ov.querySelector('.bxb-lb-scrim').addEventListener('click',close);"
       + "ov.querySelector('.bxb-lb-close').addEventListener('click',close);"
       + "ov.querySelector('.bxb-lb-prev').addEventListener('click',function(e){e.stopPropagation();show(cur-1);});"
