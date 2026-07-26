@@ -4356,7 +4356,7 @@ footerVars(),
 tplStyleVars(),
 "h1,h2,h3{line-height:1.2}",
 ".site-header{background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;z-index:50}",
-".site-bar{display:flex;align-items:center;gap:20px;padding:14px 20px;max-width:1080px;margin:0 auto}",
+".site-bar{position:relative;display:flex;align-items:center;gap:20px;padding:14px 20px;max-width:1080px;margin:0 auto}",
 ".site-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;color:var(--primary);flex:none;min-width:0}",
 ".site-logo img{height:34px;width:auto;max-width:130px;object-fit:contain;display:block}",
 "@media(max-width:768px){.site-logo{font-size:18px;gap:8px}.site-logo img{height:26px;max-width:104px}}",
@@ -4375,12 +4375,20 @@ tplStyleVars(),
 ".site-nav li:hover>.dropdown{display:block;opacity:1;transform:translateY(0)}",
 ".site-nav .dropdown li a{display:block;padding:10px 16px;font-size:14px;color:var(--text-main);white-space:nowrap;font-weight:400;border-radius:0}",
 ".site-nav .dropdown li a:hover{background:var(--hover-bg);color:var(--primary)}",
-".nav-search{display:flex;align-items:center;gap:4px;margin-left:auto}",
-".nav-search input{padding:8px 12px;border:1px solid var(--border-med);border-radius:var(--radius);font-size:13px;width:160px;background:var(--bg-surface);color:var(--text-main)}",
-".nav-search button{padding:8px 12px;background:var(--primary);color:#fff;border:0;border-radius:var(--radius);cursor:pointer}",
+".nav-search-btn{flex:none;margin-left:8px;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--border-med);background:transparent;color:var(--text-main);cursor:pointer;padding:0;transition:background .15s,color .15s,border-color .15s}",
+".nav-search-btn svg{width:18px;height:18px;display:block}",
+".nav-search-btn:hover,.nav-search-btn[aria-expanded='true']{background:var(--hover-bg);color:var(--primary);border-color:var(--primary)}",
+".nav-search-pop{position:absolute;top:calc(100% + 5px);right:20px;z-index:95;width:min(400px,calc(100vw - 32px));background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:10px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}",
+".nav-search-pop.open{opacity:1;visibility:visible;transform:translateY(0)}",
+".nav-search-pop form{display:flex;align-items:center;gap:8px;padding:3px 5px 3px 13px;border:1px solid var(--border-med);border-radius:12px;background:var(--bg-surface)}",
+".nav-search-pop svg{width:17px;height:17px;flex:none;color:var(--text-subtle)}",
+".nav-search-pop input{flex:1;min-width:0;border:0;background:none;padding:10px 0;font-size:14.5px;font-family:inherit;color:var(--text-main);outline:none}",
+".nav-search-pop button[type=submit]{flex:none;border:0;background:var(--primary);color:#fff;font-family:inherit;font-weight:600;font-size:13.5px;padding:9px 15px;border-radius:9px;cursor:pointer}",
+".nav-search-x{flex:none;width:32px;height:32px;border-radius:50%;border:1px solid var(--border-med);background:transparent;color:var(--text-main);font-size:13px;cursor:pointer;padding:0}",
+".nav-search-x:hover{background:var(--hover-bg)}",
 "@media(max-width:768px){",
 "body.menu-open{overflow:hidden}",
-".nav-search{display:none}",
+".nav-search-btn,.nav-search-pop{display:none}",
 ".nav-burger{display:flex}",
 ".nav-close{display:flex;position:absolute;top:14px;right:14px;width:36px;height:36px;align-items:center;justify-content:center;border-radius:50%;background:var(--hover-bg);border:1px solid var(--border-med);font-size:18px;cursor:pointer;color:var(--text-main);z-index:2}",
 ".site-nav{position:fixed;top:0;bottom:0;width:82%;max-width:320px;background:var(--bg-header);z-index:60;padding:16px 0 32px;transition:transform .28s cubic-bezier(.22,1,.36,1);box-shadow:var(--nav-shadow);overflow-y:auto}",
@@ -4700,15 +4708,17 @@ tplStyleVars(),
 ".rv-catbtn:hover,.rv-catbtn[aria-expanded='true']{background:var(--hover-bg);color:var(--primary)}",
 ".rv-cat-caret{width:15px;height:15px;flex:none;opacity:.7;transition:transform .22s}",
 ".rv-catbtn[aria-expanded='true'] .rv-cat-caret{transform:rotate(180deg)}",
-".rv-cat-drop{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-8px);z-index:90;background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:8px;max-width:min(760px,calc(100vw - 32px));max-height:min(70vh,560px);overflow-y:auto;opacity:0;visibility:hidden;transition:opacity .18s,transform .18s,visibility .18s}",
-".rv-cat-drop.open{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}",
-".rv-cat-drop::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;background:var(--bg-header);border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg);border-radius:2px 0 0 0}",
-".rv-cat-list{list-style:none;margin:0;padding:0;display:grid;gap:2px}",
+".rv-cat-drop{position:absolute;top:calc(100% + 9px);left:0;z-index:90;background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:8px;min-width:250px;max-width:min(760px,calc(100vw - 28px));max-height:min(70vh,560px);overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}",
+".rv-cat-drop.open{opacity:1;visibility:visible;transform:translateY(0)}",
+// two classes on purpose: `.site-nav ul{display:flex}` outranks a single class and would
+// otherwise lay the dropdown out as one horizontal row across the page
+".rv-cat-drop .rv-cat-list,.rv-cat-sheet .rv-cat-list{list-style:none;margin:0;padding:0;display:grid;gap:2px;grid-template-columns:1fr;width:auto}",
 ".rv-cat-drop[data-cols='2'] .rv-cat-list{grid-template-columns:repeat(2,minmax(196px,1fr));gap:2px 6px}",
 ".rv-cat-drop[data-cols='3'] .rv-cat-list{grid-template-columns:repeat(3,minmax(188px,1fr));gap:2px 6px}",
+".rv-cat-list li{position:static}",
 ".rv-cat-list li[hidden]{display:none}",
-".rv-cat-list a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:background .15s,color .15s}",
-".rv-cat-list a:hover{background:var(--hover-bg);color:var(--primary)}",
+".rv-cat-drop .rv-cat-list a,.rv-cat-sheet .rv-cat-list a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:background .15s,color .15s;white-space:normal}",
+".rv-cat-drop .rv-cat-list a:hover,.rv-cat-sheet .rv-cat-list a:hover{background:var(--hover-bg);color:var(--primary)}",
 ".rv-cat-ic{flex:none;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:var(--bg-surface);font-size:14px;line-height:1}",
 ".rv-cat-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
 ".rv-cat-n{flex:none;min-width:26px;text-align:center;font-size:11.5px;font-weight:700;color:var(--text-muted);background:var(--bg-surface-2);border-radius:99px;padding:3px 8px;line-height:1.25}",
@@ -5093,7 +5103,20 @@ tplStyleVars(),
               "<button type='submit'>" + tpl("ค้นหา", "Search") + "</button></form>" +
             "<ul>" + hMenu + "</ul>" +
           "</nav>" +
-          (p.showSearch ? "<form action='/search' method='get' class='nav-search' role='search'><input name='q' type='search' placeholder='ค้นหา…' aria-label='ค้นหา'/><button type='submit' aria-label='ค้นหา'>🔍</button></form>" : "") +
+          // The always-open search field ate the space the menu needed, so the bar now carries
+          // just the magnifier and the field drops down from it on click.
+          (p.showSearch
+            ? "<button type='button' class='nav-search-btn' id='bxbNavSearchBtn' aria-label='" + tpl("ค้นหา", "Search") + "' aria-expanded='false' aria-controls='bxbNavSearchPop'>" +
+                "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-hidden='true'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>" +
+              "</button>" +
+              "<div class='nav-search-pop' id='bxbNavSearchPop'>" +
+                "<form action='/search' method='get' role='search'>" +
+                  "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-hidden='true'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>" +
+                  "<input name='q' type='search' placeholder='" + tpl("ค้นหาในบล็อกนี้…", "Search this blog…") + "' aria-label='" + tpl("ค้นหา", "Search") + "'/>" +
+                  "<button type='submit'>" + tpl("ค้นหา", "Search") + "</button>" +
+                  "<button type='button' class='nav-search-x' id='bxbNavSearchX' aria-label='" + tpl("ปิด", "Close") + "'>✕</button>" +
+                "</form></div>"
+            : "") +
           "<label for='navtoggle' class='nav-burger' aria-label='เปิดเมนู'><span></span><span></span><span></span></label>" +
           "<label for='navtoggle' class='nav-scrim'></label>" +
           "</div></header>" +
@@ -5105,11 +5128,26 @@ tplStyleVars(),
                 "if(window.innerWidth<=768){e.preventDefault();var li=a.parentElement;li.classList.toggle('open');a.setAttribute('aria-expanded',li.classList.contains('open'));}" +
               "});" +
             "});" +
+            (p.showSearch
+              ? "var nsb=document.getElementById('bxbNavSearchBtn'),nsp=document.getElementById('bxbNavSearchPop'),nsx=document.getElementById('bxbNavSearchX');"
+              + "if(nsb&&nsp){"
+              + "function nsSet(o){nsp.classList.toggle('open',o);nsb.setAttribute('aria-expanded',o?'true':'false');"
+              + "if(o){var i=nsp.querySelector('input');if(i)setTimeout(function(){i.focus();},160);}}"
+              + "nsb.addEventListener('click',function(e){e.stopPropagation();nsSet(!nsp.classList.contains('open'));});"
+              + "if(nsx)nsx.addEventListener('click',function(){nsSet(false);nsb.focus();});"
+              + "document.addEventListener('click',function(e){if(!nsp.contains(e.target)&&e.target!==nsb)nsSet(false);});"
+              + "document.addEventListener('keydown',function(e){if(e.key==='Escape')nsSet(false);});"
+              + "}"
+              : "") +
             (hCats.length ? CAT_FILTER_JS
               + "var cb2=document.getElementById('rvCatBtn'),cd=document.getElementById('rvCatDrop');"
               + "if(cb2&&cd){"
               + "function cset(o){cd.classList.toggle('open',o);cb2.setAttribute('aria-expanded',o?'true':'false');"
-              + "if(o){var f=cd.querySelector('.rv-cat-filter');if(f)setTimeout(function(){f.focus();},120);}}"
+              // a 3-column panel opening near the right edge would run off screen, so nudge it back
+              + "if(o){cd.style.left='0';cd.style.marginLeft='0';"
+              + "var r=cd.getBoundingClientRect(),over=r.right-(window.innerWidth-14);"
+              + "if(over>0)cd.style.marginLeft=(-over)+'px';"
+              + "var f=cd.querySelector('.rv-cat-filter');if(f)setTimeout(function(){f.focus();},120);}}"
               + "cb2.addEventListener('click',function(e){e.stopPropagation();cset(!cd.classList.contains('open'));});"
               + "document.addEventListener('click',function(e){if(!cd.contains(e.target)&&e.target!==cb2)cset(false);});"
               + "document.addEventListener('keydown',function(e){if(e.key==='Escape')cset(false);});"
