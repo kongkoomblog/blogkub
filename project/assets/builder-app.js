@@ -773,7 +773,7 @@
       ] },
       affiliate: { label: "Check the latest price at", style: "full", onCards: true, galMode: "copy", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
-      aeo: { title: "Article Summary", style: "card" },
+      aeo: { title: "Article Summary", style: "card", onPages: false },
       toc: { title: "Table of Contents", maxDepth: "3", numbered: true },
       related: { heading: "Related Posts", count: 4, columns: 2, showImage: true },
       morefrom: { mode: "recent", label: "", count: 6, columns: 3, showImage: true },
@@ -828,7 +828,7 @@
       ] },
       affiliate: { label: "เช็คราคาล่าสุดได้ที่", style: "full", onCards: true, galMode: "copy", logoShopee: "", logoLazada: "", logoTiktok: "", logoAmazon: "", logoBigc: "" },
       darkmode: { position: "bottom-right" },
-      aeo: { title: "สรุปบทความ", style: "card" },
+      aeo: { title: "สรุปบทความ", style: "card", onPages: false },
       toc: { title: "สารบัญ", maxDepth: "3", numbered: true },
       related: { heading: "บทความที่เกี่ยวข้อง", count: 4, columns: 2, showImage: true },
       morefrom: { mode: "recent", label: "", count: 6, columns: 3, showImage: true },
@@ -2839,6 +2839,7 @@
       case "darkmode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ปุ่มฝังใน Header โดยอัตโนมัติ · <b>มือถือ</b>: วางก่อนปุ่มเมนู ☰ | <b>Desktop</b>: วางหลังช่องค้นหา 🔍<br>หากไม่มีบล็อก Header จะลอยตัวมุมขวาล่างแทน<br><small>รองรับ <code>prefers-color-scheme</code> + จดจำใน localStorage</small></div></div>';
       case "aeo": return txt("title", "หัวข้อกล่องสรุป", p.title || "สรุปบทความ")
         + seg("style", "สไตล์", p.style || "card", [["card", "การ์ด"], ["highlight", "ไฮไลท์"], ["minimal", "เรียบ"]])
+        + tog("onPages", "แสดงบนหน้าเพจด้วย", p.onPages, "ปกติแสดงเฉพาะบทความ · หน้าเพจอย่างเกี่ยวกับเรา/ติดต่อเรา มักไม่มีคำอธิบายให้สรุป กล่องจะโล่ง")
         + '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ไม่ต้องใช้ AI/API · ดึง “คำอธิบายสำหรับการค้นหา” ของโพสต์ก่อน ถ้าไม่มีจะตัดจากเนื้อหาให้อัตโนมัติ (ฝั่งเซิร์ฟเวอร์ Blogger) · ใช้ <code>.qt-aeo-summary</code> คู่กับ SpeakableSpecification ให้ Google/AI อ่านสรุปได้</div></div>';
       case "callout":
         var coRows = CALLOUT_TYPES.map(function (t) {
@@ -6057,7 +6058,10 @@ tplStyleVars(),
         // Summary text (server-side, no AI/API): data:view.description holds this post's
         // Search Description on item pages (same value Blogger renders into <meta name=description>).
         // data:post.metaDescription does NOT exist as a Blogger tag, which is why it was blank.
-        return "<b:if cond='data:view.isSingleItem'>"
+        // isPost, not isSingleItem: isSingleItem is also true on static pages, and a page
+        // like About or Contact usually has no Search Description and no summarisable body,
+        // so the box rendered there as an empty shell. Opt back in with the onPages toggle.
+        return "<b:if cond='data:view." + (p.onPages ? "isSingleItem" : "isPost") + "'>"
           + "<aside class='qt-aeo-summary' aria-label='" + aeoTitle + "' style='" + aeoCSS + "'>"
           + "<div style='font-size:11.5px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px'>&#128214; " + aeoTitle + "</div>"
           + "<p class='qt-aeo-text' style='font-size:15px;line-height:1.7;margin:0'>"
