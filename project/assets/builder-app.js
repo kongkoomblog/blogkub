@@ -547,9 +547,14 @@
       + ".bxb-story-cap{font-size:11px;color:var(--text-muted,#64748b);margin-top:6px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}"
       + ".bxb-sv{position:fixed;inset:0;z-index:9999;background:#000;display:none;align-items:center;justify-content:center}"
       + ".bxb-sv.open{display:flex}"
-      + ".bxb-sv-stage{position:relative;width:100%;max-width:440px;height:100%;background:#111;overflow:hidden}"
-      + ".bxb-sv-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}"
-      + ".bxb-sv-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent 22%,transparent 52%,rgba(0,0,0,.88))}"
+      + ".bxb-sv-stage{position:relative;width:100%;height:100%;background:#111;overflow:hidden}"
+      // a phone is already story-shaped; anything wider needs a 9:16 card or the frame turns
+      // into a tall slot and cover() shaves the sides off every landscape photo
+      + "@media(min-width:560px){.bxb-sv-stage{width:auto;height:min(100%,880px);aspect-ratio:9/16;max-width:100%;border-radius:16px}}"
+      + ".bxb-sv-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform:scale(1.15);filter:blur(26px) brightness(.5);pointer-events:none}"
+      // contain, not cover: blog photos are landscape and cropping them to 9:16 leaves a sliver
+      + ".bxb-sv-img{position:absolute;inset:0;width:100%;height:100%;max-width:100%;object-fit:contain;z-index:1}"
+      + ".bxb-sv-shade{position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(180deg,rgba(0,0,0,.6),transparent 20%,transparent 46%,rgba(0,0,0,.9))}"
       + ".bxb-sv-bars{position:absolute;top:12px;left:12px;right:12px;display:flex;gap:4px;z-index:4}"
       + ".bxb-sv-bar{flex:1;height:3px;background:rgba(255,255,255,.35);border-radius:2px;overflow:hidden}"
       + ".bxb-sv-bar>i{display:block;height:100%;width:0;background:#fff}"
@@ -566,6 +571,7 @@
       + "<div class='bxb-sv' role='dialog' aria-modal='true' aria-label='" + tpl("สตอรี่บทความ", "Article stories") + "'>"
       + "<div class='bxb-sv-stage'>"
       + "<div class='bxb-sv-bars'></div>"
+      + "<img class='bxb-sv-bg' alt='' aria-hidden='true'/>"
       + "<img class='bxb-sv-img' alt=''/>"
       + "<div class='bxb-sv-shade'></div>"
       + "<button type='button' class='bxb-sv-nav bxb-sv-prev' aria-label='" + tpl("ก่อนหน้า", "Previous") + "'></button>"
@@ -579,7 +585,7 @@
       + "var count=parseInt(sec.getAttribute('data-count'),10)||8,label=sec.getAttribute('data-label')||'',DUR=parseInt(sec.getAttribute('data-dur'),10)||5000;"
       + "var base='/feeds/posts/default'+(label?'/-/'+encodeURIComponent(label):'');"
       + "var vw=document.querySelector('.bxb-sv'),stage=vw.querySelector('.bxb-sv-stage'),barsBox=vw.querySelector('.bxb-sv-bars');"
-      + "var svImg=vw.querySelector('.bxb-sv-img'),svTitle=vw.querySelector('.bxb-sv-title'),svDate=vw.querySelector('.bxb-sv-date'),svCta=vw.querySelector('.bxb-sv-cta');"
+      + "var svImg=vw.querySelector('.bxb-sv-img'),svBg=vw.querySelector('.bxb-sv-bg'),svTitle=vw.querySelector('.bxb-sv-title'),svDate=vw.querySelector('.bxb-sv-date'),svCta=vw.querySelector('.bxb-sv-cta');"
       + "var slides=[],idx=0,timer=null;var SEEN='bxb-stories-seen';"
       + "function seen(){try{return JSON.parse(localStorage.getItem(SEEN))||{};}catch(e){return {};}}"
       + "function big(u){return u?u.replace(/\\/s\\d+(-c)?\\//,'/s720/'):u;}"
@@ -600,7 +606,7 @@
       + "function renderBars(){barsBox.innerHTML='';slides.forEach(function(_,k){var bar=document.createElement('div');bar.className='bxb-sv-bar';var fi=document.createElement('i');bar.appendChild(fi);barsBox.appendChild(bar);});}"
       + "function markSeen(u){try{var s=seen();s[u]=1;localStorage.setItem(SEEN,JSON.stringify(s));}catch(e){}var items=row.children;if(items[idx])items[idx].classList.add('seen');}"
       + "function play(){clearTimeout(timer);var bars=barsBox.children;for(var k=0;k<bars.length;k++){var fi=bars[k].firstChild;fi.style.transition='none';fi.style.width=(k<idx?'100%':'0');}var cur=bars[idx].firstChild;void cur.offsetWidth;cur.style.transition='width '+DUR+'ms linear';cur.style.width='100%';timer=setTimeout(next,DUR);}"
-      + "function show(){var s=slides[idx];svImg.src=s.big||s.thumb;svTitle.textContent=s.title;svDate.textContent=s.date;svCta.href=s.url;markSeen(s.url);play();}"
+      + "function show(){var s=slides[idx];var u=s.big||s.thumb;svImg.src=u;if(svBg)svBg.src=u;svTitle.textContent=s.title;svDate.textContent=s.date;svCta.href=s.url;markSeen(s.url);play();}"
       + "function open(i){idx=i;renderBars();vw.classList.add('open');document.documentElement.style.overflow='hidden';show();}"
       + "function close(){clearTimeout(timer);vw.classList.remove('open');document.documentElement.style.overflow='';}"
       + "function next(){if(idx<slides.length-1){idx++;show();}else{close();}}"
@@ -2424,6 +2430,8 @@
       return;
     }
     var b = { id: uid(), type: type, props: blockDefaults(type) };
+    // a story row is a front-page device; on an article it is just one stray circle
+    if (type === "stories") b.vis = { scope: "home", hideMobile: false };
     if (idx == null || idx > S.blocks.length) idx = S.blocks.length;
     var minIdx = (S.blocks.length > 0 && S.blocks[0].type === "header") ? 1 : 0;
     var maxIdx = (S.blocks.length > 0 && S.blocks[S.blocks.length - 1].type === "footer") ? S.blocks.length - 1 : S.blocks.length;
