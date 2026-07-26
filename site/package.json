@@ -7,10 +7,13 @@
     "build": "astro build",
     "preview": "astro preview",
     "prebuild": "node scripts/sync-public.mjs",
-    "postbuild": "node scripts/build-en-learn-hub.mjs && node scripts/build-hreflang.mjs && node scripts/build-feeds.mjs && node scripts/build-sitemaps.mjs",
+    "postbuild": "node scripts/build-en-learn-hub.mjs && node scripts/build-hreflang.mjs && node scripts/build-feeds.mjs && node scripts/build-sitemaps.mjs && node scripts/indexnow-plan.mjs",
     "design:lint": "design.md lint ../DESIGN.md --format text",
     "design:tokens": "design.md export --format dtcg ../DESIGN.md > ../design.tokens.json",
-    "design:spec": "design.md spec --rules"
+    "design:spec": "design.md spec --rules",
+    "indexnow:all": "node scripts/indexnow-plan.mjs --all",
+    "indexnow:submit": "node scripts/indexnow-submit.mjs",
+    "indexnow:dry": "node scripts/indexnow-submit.mjs --dry-run"
   },
   "dependencies": {
     "astro": "^7.1.3"

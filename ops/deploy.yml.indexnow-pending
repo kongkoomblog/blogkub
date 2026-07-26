@@ -1,0 +1,67 @@
+name: Deploy to Cloudflare
+
+# Push to main -> the site builds with Astro and deploys itself.
+# Secrets required (Repo → Settings → Secrets and variables → Actions):
+#   CLOUDFLARE_API_TOKEN   = token with the "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  = your Cloudflare account ID
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'project/**'
+      - 'site/**'
+      - 'wrangler.jsonc'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:      # lets you trigger a deploy by hand from the Actions tab
+    inputs:
+      indexnow_all:
+        description: 'Resubmit every URL to IndexNow, not just the changed ones'
+        type: boolean
+        default: false
+
+concurrency:
+  group: deploy-blogkub
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build site (Astro)
+        run: |
+          cd site
+          npm ci
+          npm run build
+        # Produces site/dist: 47 pages from shared Astro layouts + all other
+        # pages/assets copied from ./project via the prebuild sync step.
+        # postbuild also plans the IndexNow submission by diffing this build
+        # against the state file published by the previous deploy.
+
+      - name: Plan full IndexNow resubmission
+        if: github.event_name == 'workflow_dispatch' && inputs.indexnow_all
+        run: cd site && npm run indexnow:all
+
+      - name: Deploy (wrangler)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: '4'
+          # After cutover, wrangler.jsonc serves ./site/dist (the Astro build).
+          command: deploy
+
+      # Runs last on purpose: IndexNow asks crawlers to come and fetch a page
+      # right now, so it has to already be live. A failure here does not undo
+      # a good deploy, so the job is allowed to keep its green tick.
+      - name: Notify IndexNow
+        continue-on-error: true
+        run: cd site && npm run indexnow:submit
