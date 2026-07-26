@@ -868,6 +868,8 @@
     // On the affiliate/review template the summary sits right under the store bar, so it reads as a
     // buying decision ("Before you buy") rather than a generic article recap.
     if (type === "aeo" && tid === "review") out.title = en ? "Before you buy" : "สรุปก่อนตัดสินใจ";
+    // Readers land on an affiliate blog looking for verdicts, so the feed is framed as reviews.
+    if (type === "postgrid" && tid === "review") out.heading = en ? "Latest Reviews" : "รีวิวล่าสุด";
     return out;
   }
   // Parse a newline-separated list field into trimmed non-empty items.
@@ -1443,12 +1445,15 @@
               '</div>' +
               '<div style="border-top:1px solid #f0f0f8;padding:11px 17px;display:flex;justify-content:space-between;align-items:center">' +
                 '<span style="font-size:10px;color:#94a3b8">' + tpl("* ลิงก์พันธมิตร", "* Affiliate link") + '</span>' +
-                '<a style="font-size:13px;font-weight:700;color:#fff;background:' + pr + ';padding:8px 16px;border-radius:8px;text-decoration:none">' + tpl("ดูดีลเลย →", "See Deal →") + '</a>' +
+                '<a style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,' + pr + ',' + ac + ');padding:9px 19px;border-radius:99px;text-decoration:none;white-space:nowrap;box-shadow:0 3px 10px ' + pr + '3d">' + tpl("ดูดีลเลย →", "See Deal →") + '</a>' +
               '</div>' +
             '</article>';
           }
           return '<section style="padding:60px 0"><div style="max-width:1180px;margin:0 auto;padding:0 20px">' +
-            (p.heading ? '<h2 style="font-family:' + fontStack(d.font) + ';font-size:22px;font-weight:800;margin:0 0 24px;color:#0f172a">' + esc(p.heading) + '</h2>' : '') +
+            (p.heading ? '<h2 style="display:flex;align-items:center;gap:14px;font-family:' + fontStack(d.font) + ';font-size:28px;font-weight:800;letter-spacing:-.025em;line-height:1.18;margin:0 0 26px;color:#0f172a">' +
+              '<span style="flex:none;width:6px;height:1.05em;border-radius:99px;background:linear-gradient(180deg,' + pr + ',' + ac + ');box-shadow:0 0 0 4px ' + pr + '14"></span>' +
+              esc(p.heading) +
+              '<span style="flex:1;min-width:18px;height:2px;border-radius:2px;background:linear-gradient(90deg,' + pr + '40,transparent)"></span></h2>' : '') +
             '<div style="display:grid;grid-template-columns:repeat(' + rvCols + ',1fr);gap:20px">' + rvCards + '</div>' +
           '</div></section>';
         }
@@ -4450,8 +4455,9 @@ tplStyleVars(),
 ".rv-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(58% 80% at 84% 8%,rgba(255,255,255,.3),transparent 60%);pointer-events:none}",
 ".rv-hero::after{content:'\\2605';position:absolute;right:-8px;bottom:-56px;font-size:270px;line-height:1;color:rgba(255,255,255,.1);pointer-events:none;transform:rotate(-8deg)}",
 ".rv-hero .wrap{position:relative;z-index:1;max-width:900px}",
-".rv-h2{position:relative;display:inline-block;font-size:22px;font-weight:800;margin:0 0 24px;color:var(--text-main);font-family:var(--font);padding-bottom:11px}",
-".rv-h2::after{content:'';position:absolute;left:0;bottom:0;width:44px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--accent))}",
+".rv-h2{display:flex;align-items:center;gap:14px;font-size:clamp(21px,3.4vw,30px);font-weight:800;margin:0 0 26px;color:var(--text-main);font-family:var(--font);letter-spacing:-.025em;line-height:1.18}",
+".rv-h2::before{content:'';flex:none;width:6px;height:1.05em;border-radius:99px;background:linear-gradient(180deg,var(--primary),var(--accent));box-shadow:0 0 0 4px var(--primary)14}",
+".rv-h2::after{content:'';flex:1;min-width:18px;height:2px;border-radius:2px;background:linear-gradient(90deg,var(--primary)40,transparent)}",
 ".rv-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:18px}",
 ".rv-hero-title{font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px;font-family:var(--font)}",
 ".rv-hero-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;margin:0 0 22px;max-width:500px}",
@@ -4459,7 +4465,9 @@ tplStyleVars(),
 ".rv-hero-stars{color:#fff;font-size:18px;letter-spacing:2px}",
 ".rv-hero-score{font-size:16px;font-weight:700;color:#fff}",
 ".rv-hero-count{font-size:14px;color:rgba(255,255,255,.72)}",
-".rv-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:13px 30px;border-radius:var(--radius);text-decoration:none;font-size:15px}",
+".rv-hero-btn{display:inline-block;background:#fff;color:var(--primary);font-weight:700;padding:14px 32px;border-radius:99px;text-decoration:none;font-size:15px;box-shadow:0 6px 22px rgba(0,0,0,.2);transition:transform .18s,box-shadow .18s}",
+".rv-hero-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,0,0,.27)}",
+".rv-hero-btn:active{transform:translateY(0) scale(.97)}",
 ".rv-reviews{padding:64px 20px}",
 ".rv-grid{display:grid;gap:22px}",
 ".rv-card{border-radius:var(--radius);overflow:hidden;background:var(--bg-surface);box-shadow:0 2px 12px rgba(0,0,0,.07);transition:transform .2s,box-shadow .2s}",
@@ -4475,7 +4483,9 @@ tplStyleVars(),
 ".rv-card-stars{color:#f59e0b;font-size:13px;letter-spacing:1px;margin-bottom:8px}",
 ".rv-card-excerpt{font-size:13px;color:var(--text-muted);line-height:1.55;margin-bottom:10px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}",
 ".rv-card-foot{border-top:1px solid var(--border);padding:11px 18px;display:flex;justify-content:space-between;align-items:center}",
-".rv-card-deal{display:inline-block;font-size:13px;font-weight:700;color:#fff;background:var(--primary);padding:8px 18px;border-radius:calc(var(--radius)*0.7);text-decoration:none}",
+".rv-card-deal{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:#fff;background:linear-gradient(135deg,var(--primary),var(--accent));padding:9px 19px;border-radius:99px;text-decoration:none;white-space:nowrap;box-shadow:0 3px 10px var(--primary)3d;transition:transform .18s,box-shadow .18s,filter .18s}",
+".rv-card-deal:hover{transform:translateY(-2px);box-shadow:0 8px 20px var(--primary)5c;filter:saturate(1.1)}",
+".rv-card-deal:active{transform:translateY(0) scale(.97)}",
 ".rv-card-disc{font-size:10px;color:var(--text-muted)}",
 ".rv-about{padding:64px 20px;background:var(--bg-surface)}",
 ".rv-about-inner{max-width:820px;margin:0 auto;display:flex;gap:36px;align-items:center;flex-wrap:wrap}",
