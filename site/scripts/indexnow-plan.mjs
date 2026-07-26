@@ -35,8 +35,16 @@ import { join } from 'node:path';
 const DIST = 'dist';
 const SITE = 'https://www.blogkub.com';
 const STATE_PATH = 'indexnow-state.json';
-const QUEUE_FILE = '.indexnow-queue.json';
 const FORCE_ALL = process.argv.includes('--all');
+
+// A full resubmission writes to its own queue file, and that is not a detail.
+// `wrangler deploy` runs its own `npm run build` (see wrangler.jsonc), so the
+// ordinary postbuild planner runs a second time between this script and the
+// submitter. Sharing one queue file meant that second run quietly overwrote a
+// forced 104-URL queue with the ordinary "nothing changed" one, and the
+// submission silently did nothing. Nothing on the ordinary path ever writes
+// this name, so a forced queue now survives the rebuild.
+const QUEUE_FILE = FORCE_ALL ? '.indexnow-queue-all.json' : '.indexnow-queue.json';
 
 // Not pages, so they never appear in sitemap.xml's own <loc> list.
 const EXTRA_URLS = [`${SITE}/sitemap.xml`, `${SITE}/sitemap-images.xml`];
@@ -106,6 +114,6 @@ if (missing.length) console.log(`indexnow: ${missing.length} sitemap URL(s) had 
 if (removed.length) console.log(`indexnow: ${removed.length} URL(s) disappeared since last deploy (not submitted, IndexNow is for live URLs)`);
 console.log(
   FORCE_ALL
-    ? `indexnow: full submission requested -> ${queue.length} of ${urls.length} URLs queued`
+    ? `indexnow: full submission requested -> ${queue.length} of ${urls.length} URLs queued in ${QUEUE_FILE}`
     : `indexnow: ${queue.length} changed of ${Object.keys(pages).length} pages queued`
 );

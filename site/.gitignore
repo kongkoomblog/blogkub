@@ -6,3 +6,4 @@ public/
 # IndexNow submission queue: a per-build artefact handed from the plan step
 # to the submit step, never meaningful outside a single run.
 .indexnow-queue.json
+.indexnow-queue-all.json

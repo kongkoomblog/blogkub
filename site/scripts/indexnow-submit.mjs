@@ -14,10 +14,14 @@
  * Flags:
  *   --dry-run   do everything except the final POST
  */
-import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { readFileSync, existsSync, readdirSync, unlinkSync } from 'node:fs';
 
 const SITE = 'https://www.blogkub.com';
-const QUEUE_FILE = '.indexnow-queue.json';
+// A forced full resubmission parks its queue under its own name so the rebuild
+// that `wrangler deploy` performs cannot overwrite it. It wins when present,
+// and is consumed once submitted so the next ordinary deploy does not repeat it.
+const QUEUE_ALL = '.indexnow-queue-all.json';
+const QUEUE_FILE = existsSync(QUEUE_ALL) ? QUEUE_ALL : '.indexnow-queue.json';
 const ENDPOINT = 'https://api.indexnow.org/indexnow';
 const BATCH = 10000;              // protocol maximum per POST
 const DRY = process.argv.includes('--dry-run');
@@ -104,4 +108,7 @@ for (let i = 0; i < urls.length; i += BATCH) {
   console.log(`indexnow: submitted ${batch.length} URL(s), HTTP ${res.status}`);
   sent += batch.length;
 }
+// Only after every batch is through. A half-submitted forced run should stay
+// on disk so a re-run finishes the job rather than silently dropping it.
+if (!DRY && QUEUE_FILE === QUEUE_ALL) unlinkSync(QUEUE_ALL);
 console.log(`indexnow: done, ${sent} URL(s) announced`);
