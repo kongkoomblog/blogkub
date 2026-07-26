@@ -1,4 +1,16 @@
 {
+  // Deploys are driven by .github/workflows/deploy.yml, which builds the site
+  // and then runs `wrangler deploy` to upload site/dist.
+  //
+  // There is deliberately no "build" block here. Wrangler runs it on every
+  // `wrangler deploy`, which meant the site was built a second time inside the
+  // deploy step, after the workflow had already built it. That rebuild re-ran
+  // the postbuild chain, including the IndexNow planner, and a planner run
+  // between the plan step and the submit step is exactly what silently emptied
+  // a forced submission queue once already.
+  //
+  // If a build command is ever needed here again, check what happens when the
+  // whole postbuild chain runs twice per deploy before adding it back.
   "name": "blogkub",
   "compatibility_date": "2026-07-07",
   "compatibility_flags": [
@@ -6,10 +18,6 @@
   ],
   "observability": {
     "enabled": true
-  },
-  "build": {
-    "command": "npm ci && npm run build",
-    "cwd": "site"
   },
   "assets": {
     "directory": "site/dist",
