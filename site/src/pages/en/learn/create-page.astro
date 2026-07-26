@@ -1,0 +1,158 @@
+---
+import EnLayout from '../../../layouts/EnLayout.astro';
+const seo = `<title>How to create a page in Blogger 2026 (pages vs posts, and which ones you need)</title>
+<link rel="canonical" href="https://www.blogkub.com/en/learn/create-page">
+<meta property="og:url" content="https://www.blogkub.com/en/learn/create-page">
+<meta name="description" content="How to create a page in Blogger step by step, how pages differ from posts, how to link the URL to a menu item in BlogKub, and which pages your blog needs before applying to AdSense.">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="How to create a page in Blogger">
+<meta property="og:description" content="How pages differ from posts, how to create one, and which pages you need.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"Patpisan Dathong","alternateName":["PATPISAN DATHONG","Ben","LuMoo"],"url":"https://www.blogkub.com/en/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"Founder and author of BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "en" },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.blogkub.com/en/" },
+      { "@type": "ListItem", "position": 2, "name": "Learn", "item": "https://www.blogkub.com/en/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "Create a page" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "How to create a page in Blogger and link it to a theme menu",
+      "description": "Steps for creating a page in Blogger, publishing it, copying the URL, and linking it to a menu item in a theme built with BlogKub.",
+      "inLanguage": "en",
+      "totalTime": "PT10M",
+      "tool": [{ "@type": "HowToTool", "name": "Blogger account" }, { "@type": "HowToTool", "name": "BlogKub" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "Open the Pages menu", "text": "Go to blogger.com, select the blog, and click Pages in the left menu.", "url": "https://www.blogkub.com/en/learn/create-page#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "Create the page and write it", "text": "Click New page, then add the page title and content.", "url": "https://www.blogkub.com/en/learn/create-page#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Publish and copy the URL", "text": "Click Publish, then copy the URL of the published page.", "url": "https://www.blogkub.com/en/learn/create-page#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "Link it in BlogKub", "text": "In the theme builder, add a menu item of type Page and paste the URL, then export the XML and upload it to Blogger.", "url": "https://www.blogkub.com/en/learn/create-page#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "mainEntityOfPage": "https://www.blogkub.com/en/learn/create-page",
+      "headline": "How to create a page in Blogger",
+      "description": "A detailed guide to creating pages in Blogger, how they differ from posts, and which pages a blog should have.",
+      "inLanguage": "en", "datePublished": "2026-07-26T09:00:00+07:00", "dateModified": "2026-07-26T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "What is the difference between a page and a post in Blogger?", "acceptedAnswer": { "@type": "Answer", "text": "A post is dated content, ordered by time, shown on the home page, taggable with labels, and included in the feed. A page is static: it does not appear on the home page, takes no labels, and suits information that rarely changes, such as About and Contact." } },
+        { "@type": "Question", "name": "How many pages can a Blogger blog have?", "acceptedAnswer": { "@type": "Answer", "text": "Up to 20 pages per blog, which is generous in practice, because the genuinely necessary pages number no more than five or six." } },
+        { "@type": "Question", "name": "Which pages should a blog have before applying to AdSense?", "acceptedAnswer": { "@type": "Answer", "text": "At minimum About, Contact, and a Privacy Policy. AdSense requires a privacy policy covering cookies and the data collected by advertising providers. About and Contact exist to establish that a real person stands behind the site." } },
+        { "@type": "Question", "name": "I created a page but it does not show in the menu", "acceptedAnswer": { "@type": "Answer", "text": "Blogger pages do not join the menu automatically. You have to link the URL yourself. In a BlogKub theme, add a menu item of type Page, paste the URL, and export the theme again." } },
+        { "@type": "Question", "name": "Does Google index Blogger pages?", "acceptedAnswer": { "@type": "Answer", "text": "It can, like any other page, unless you have blocked it. But pages are rarely what brings search traffic. Their real job is to supply necessary information and make the site credible." } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/en/">Home</a> › <a href="https://www.blogkub.com/en/learn/">Learn</a> › <span>Create a page</span></nav>
+<article>
+<h1>How to create a page in Blogger and link it to your menu</h1>
+<p class="lead">Menu items like About, Contact, and Privacy Policy are not made from posts. They are made from what Blogger calls Pages. This guide covers how pages differ from posts, how to create one, how to link its URL to a menu item in your theme, and which pages are worth having from day one.</p>
+<p class="meta">Updated 26 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+
+<div class="tldr"><p><strong>In short:</strong> go to blogger.com → <strong>Pages</strong> → <strong>New page</strong>, write it, and publish. Then <strong>copy that page URL</strong> and paste it into a Page-type menu item in BlogKub, and export the XML. Pages <strong>do not join the menu on their own</strong>: you always link them yourself. The pages to have before applying to AdSense are About, Contact, and a Privacy Policy.</p></div>
+
+<h2>How pages differ from posts</h2>
+<p>New Blogger users mix these up, because the editor looks almost identical for both. Their roles are quite different.</p>
+<ul>
+  <li><strong>Posts</strong> are content tied to time. They carry a date, order newest first on the home page, take labels, appear in the RSS feed, and are the main thing that brings readers in from search.</li>
+  <li><strong>Pages</strong> are static. They do not appear on the home page, take no labels, are not in the feed, and are not ordered by date. They suit information that barely changes.</li>
+</ul>
+<p>The simplest test is to ask <strong>whether this content will go stale.</strong> A review, a news item, or a lesson that might get a sequel should be a post. Information someone looks up to confirm the site is real, such as who you are, how to reach you, and what data the site collects, should be a page.</p>
+<p>One limit worth knowing: <strong>Blogger allows up to 20 pages per blog.</strong> That sounds tight but is generous in practice, since most blogs genuinely use five or six. If you feel you are running out, some of those pages probably should have been posts.</p>
+
+<h2 id="step1">Creating a page, step by step</h2>
+<ol class="steps">
+  <li><strong>Open the Pages menu.</strong> Go to blogger.com, select the blog, and click <strong>Pages</strong> in the left menu. Not Posts.</li>
+  <li id="step2"><strong>Create the page.</strong> Click <strong>New page</strong>. You get an editor that looks like the post editor. Add the title and content as usual.</li>
+  <li id="step3"><strong>Publish.</strong> Click Publish at the top right. The page will show as published in the list.</li>
+  <li><strong>Copy the URL.</strong> Back in the page list, open the page you just made in a new tab and copy the URL from the address bar.</li>
+</ol>
+<p>A Blogger page URL looks roughly like <code>yourblog/p/page-name.html</code>. Note the <code>/p/</code> segment, which distinguishes it from a post at <code>/2026/07/post-name.html</code>. That is an instant way to tell which kind of URL you are holding.</p>
+
+<h2 id="step4">Linking the URL to a menu in a BlogKub theme</h2>
+<p>The step that trips most people up is that <strong>a page you created will not appear in the menu by itself.</strong> Blogger does not add it for you. You have to tell the theme which menu slot points where.</p>
+<p>In the BlogKub theme builder:</p>
+<ol class="steps">
+  <li>Open the menu block and add a new menu item</li>
+  <li>Set its type to <strong>Page</strong></li>
+  <li>Paste the URL you copied from Blogger</li>
+  <li>Set the label shown on the menu, such as About</li>
+  <li>Tick <strong>Page created in Blogger</strong> to record that the page really exists</li>
+  <li>Export the XML and upload it in Blogger under <strong>Theme → three-dot menu → Backup/Restore</strong></li>
+</ol>
+<p>That tick box is a reminder to yourself, because the common mistake is adding the menu label in the theme and then forgetting to create the actual page in Blogger. Readers then click the menu and hit a not-found page, which costs more credibility than it sounds like it should.</p>
+
+<h2>The pages a blog should have from the start</h2>
+<p>Not every page is necessary, but three are worth having before the site gets traffic, because readers and the AdSense review both look for them.</p>
+
+<h3>About</h3>
+<p>Say who you are, why you write about this, and what a reader gets from the site. It does not need to be long, but it should sound like a person and contain detail nobody else could copy, such as your actual experience with the subject. This is one of the few places you can demonstrate that a real person is behind the site.</p>
+
+<h3>Contact</h3>
+<p>Give at least one channel that genuinely works: an email address, a contact form, or a social page. One warning: <strong>do not use the personal email you rely on for important accounts.</strong> Set up a separate address for the site, because any address published on a public page will be harvested by bots.</p>
+
+<h3>Privacy Policy</h3>
+<p>This one is required if you plan to apply to AdSense, which expects the site to tell users about cookies and the data advertising providers collect. Cover what the site collects, what it is used for, whether third parties are involved, and how readers can opt out.</p>
+<p>If your site carries commission links, state that here or on a separate disclosure page. Both readers and ad platforms expect it.</p>
+
+<h2>Other pages that help but are not required</h2>
+<ul>
+  <li><strong>Terms of use</strong>, worth having if you allow comments or user submissions</li>
+  <li><strong>A best-of index</strong>, which gives new readers a starting point, though it is premature while you have few posts</li>
+  <li><strong>An FAQ</strong>, which cuts down repeat questions arriving through the contact page</li>
+  <li><strong>A sponsorship disclosure</strong>, needed if you accept paid reviews</li>
+</ul>
+<p>Do not build all of these on day one. Do the three core pages properly first and add others when there is a real reason. A menu full of empty pages looks worse than a short menu where every page has substance.</p>
+
+<h2>Common problems and fixes</h2>
+<h3>The menu link leads to a not-found page</h3>
+<p>Two usual causes: the page was never published, or the URL in the menu has a typo. Open that URL directly in a new tab first to confirm the page loads at all.</p>
+<h3>I made a page but cannot find it in the list</h3>
+<p>Check that you clicked Pages rather than Posts. The two keep separate lists, and a page accidentally made as a post will sit among the posts.</p>
+<h3>I want to change the URL of a published page</h3>
+<p>Possible only before the first publish. After that the URL is locked. Changing it means creating a new page and updating the menu link, which is why it pays to <strong>get the page title right the first time.</strong></p>
+<h3>A page is showing on the home page among the posts</h3>
+<p>This should not happen, since pages do not enter the home feed. If you see it, check whether you created a post by mistake.</p>
+
+<h2>Best practices</h2>
+<ul>
+  <li>Keep page titles short and plain, because the title shapes a URL you cannot change later</li>
+  <li>Write real content on every page. Do not leave empty pages just to pad the menu</li>
+  <li>Use a separate email for the contact page, not your main personal address</li>
+  <li>Test every menu link after each theme export</li>
+  <li>Revisit the privacy policy whenever you add a new tool to the site, such as analytics or ads</li>
+</ul>
+
+<h2>Summary</h2>
+<p>Pages are what make a blog read as a site with an owner rather than a pile of posts. The process is short: create it under <strong>Pages</strong>, publish, copy the URL, and link it to a menu item in your theme. The two things to remember are that <strong>pages never join the menu automatically</strong> and that <strong>the URL is fixed once published.</strong> Start with About, Contact, and a Privacy Policy, then add more when you have a reason.</p>
+<p>The other job worth doing while setting up a new site is <a href="/en/learn/favicon">setting the site icon</a>, since both are things readers notice before they read a word of your content.</p>
+
+<h2>FAQ</h2>
+<details><summary>What is the difference between a page and a post in Blogger?</summary><p>A post is dated content, ordered by time, shown on the home page, taggable with labels, and included in the feed. A page is static: it does not appear on the home page, takes no labels, and suits information that rarely changes, such as About and Contact.</p></details>
+<details><summary>How many pages can a Blogger blog have?</summary><p>Up to 20 pages per blog, which is generous in practice, because the genuinely necessary pages number no more than five or six.</p></details>
+<details><summary>Which pages should a blog have before applying to AdSense?</summary><p>At minimum About, Contact, and a Privacy Policy. AdSense requires a privacy policy covering cookies and the data collected by advertising providers. About and Contact exist to establish that a real person stands behind the site.</p></details>
+<details><summary>I created a page but it does not show in the menu</summary><p>Blogger pages do not join the menu automatically. You have to link the URL yourself. In a BlogKub theme, add a menu item of type Page, paste the URL, and export the theme again.</p></details>
+<details><summary>Does Google index Blogger pages?</summary><p>It can, like any other page, unless you have blocked it. But pages are rarely what brings search traffic. Their real job is to supply necessary information and make the site credible.</p></details>
+<hr>
+<p class="meta">Part of the BlogKub guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="Patpisan Dathong (Ben), founder of BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">Written by</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">Patpisan Dathong <span style="color:var(--muted,#828aa0);font-weight:600">(Ben)</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">Founder of BlogKub and a Blogger-platform blogger who wants people to build good-looking blogs without writing code. This guide series collects years of theme and SEO work on Blogger.</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip (LuMoo)</a></div></div></aside>
+</article>
+</main>`;
+---
+<EnLayout seo={seo}>
+  <Fragment set:html={body} />
+</EnLayout>

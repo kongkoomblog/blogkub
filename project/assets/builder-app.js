@@ -930,6 +930,10 @@
   var HISTORY = [];
   var KEY = "bxb_project_v1";
   var DOCS_BASE = "/learn/";
+  // Help links follow the builder UI language, so an English user lands on the
+  // English guide rather than a Thai one. BL is assigned further down but is a
+  // var in this same scope, and nothing calls this before the UI has booted.
+  function docsUrl(slug) { return (BL === "en" ? "/en/learn/" : DOCS_BASE) + (slug || ""); }
 
   function freshProject(name, design) {
     return {
@@ -2617,7 +2621,7 @@
           '<div class="url-chip' + (m.pageSlug ? "" : " empty") + '">' + (m.pageSlug ? computedUrl : tpl("กรอกชื่อหน้าก่อน", "Enter page slug first")) + "</div>" +
           '<div class="menu-page-status">' +
           '<label class="tg-mini"><input type="checkbox" data-mpc="' + i + '"' + (m.pageCreated ? " checked" : "") + '><span class="tg-lbl">' + tpl("สร้างหน้าเพจใน Blogger แล้ว", "Page created in Blogger") + '</span></label>' +
-          (!m.pageCreated ? ' <a href="/learn/" target="_blank" rel="noopener noreferrer" class="help-link-sm">' + tpl("📖 วิธีสร้างหน้าเพจ", "📖 How to create a page") + '</a>' : "") +
+          (!m.pageCreated ? ' <a href="' + esc(docsUrl("create-page")) + '" target="_blank" rel="noopener noreferrer" class="help-link-sm">' + tpl("📖 วิธีสร้างหน้าเพจ", "📖 How to create a page") + '</a>' : "") +
           "</div>";
       } else if (t === "label") {
         sec = '<input class="inp" data-mlname="' + i + '" value="' + esc(m.labelName || "") + '" placeholder="' + tpl("ชื่อป้ายกำกับ เช่น ข่าวสาร, รีวิว", "Label name (e.g. news, reviews)") + '">' +
@@ -3537,7 +3541,7 @@
     var infoNote = '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('หน้าป้ายกำกับถูกตั้งเป็น <b>noindex, follow</b> (ค่าแนะนำ) · กันเนื้อหาซ้ำ แต่ยังส่งต่อค่าลิงก์ภายในได้', 'Label pages are set to <b>noindex, follow</b> (recommended) · prevents duplicate content while still passing internal link equity.') + '</div></div>';
     if (!on) return infoNote;
     var warnNote = '<div class="note warn">' + svg('<path d="M10.3 3.9L1.8 18a2 2 0 001.7 3h17a2 2 0 001.7-3L13.7 3.9a2 2 0 00-3.4 0z"/><path d="M12 9v4M12 17h.01"/>', 2) + '<div>' + tpl('<b>กฎสำคัญ: 1 บทความ ต่อ 1 ป้ายกำกับเท่านั้น</b><br>เมื่อเปิดให้ทำดัชนี Label ได้ ให้ติดป้ายกำกับ <b>เพียงป้ายเดียว</b> ต่อบทความ มิฉะนั้นบทความเดียวจะไปโผล่หลายหน้า Label → เกิดเนื้อหาซ้ำ (duplicate) และถูกมองว่าเป็น <b>หน้าขยะ/thin content</b> ระบบจะสร้าง CollectionPage + Breadcrumb ให้หน้า Label อัตโนมัติเพื่อให้มีคุณภาพพอ', '<b>Important: 1 article → 1 label only</b><br>With label indexing enabled, each article must use <b>only one label</b>. Multiple labels cause duplicate content across label pages, flagged as <b>thin content</b>. The builder auto-generates CollectionPage + Breadcrumb for label pages to maintain quality.') + '</div></div>';
-    var learnMore = '<div style="padding:4px 16px 12px"><a href="' + esc(DOCS_BASE + 'label-indexing') + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 อ่านคู่มือแบบละเอียด', '📖 Read the full guide') + ' →</a></div>';
+    var learnMore = '<div style="padding:4px 16px 12px"><a href="' + esc(docsUrl("label-indexing")) + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 อ่านคู่มือแบบละเอียด', '📖 Read the full guide') + ' →</a></div>';
     var stepData = [
       tpl('เปิด <a href="https://www.blogger.com" target="_blank" rel="noopener" style="color:var(--brand)"><b>Blogger.com</b></a> → เลือกบล็อกของคุณ', 'Open <a href="https://www.blogger.com" target="_blank" rel="noopener" style="color:var(--brand)"><b>Blogger.com</b></a> → select your blog'),
       tpl('กดเมนู <b>☰</b> มุมซ้ายบน', 'Click <b>☰</b> menu (top-left corner)'),
@@ -3581,7 +3585,7 @@
       + '<li>' + tpl('หรืออัปโหลดรูป 32×32px ขึ้น Blogger แล้วคัดลอก URL', 'Or upload a 32×32px image to Blogger and copy the URL') + '</li>'
       + '</ol>'
       + '<div class="img-guide-note">' + tpl('Favicon แสดงบน browser tab และผลการค้นหา Google · แนะนำขนาด 32×32 หรือ 64×64px', 'Favicon shows on browser tabs and Google results · recommended 32×32 or 64×64px') + '</div>'
-      + '<div style="padding:6px 11px 10px"><a href="' + esc(DOCS_BASE) + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 วิธีอัพโหลด Favicon ใน Blogger', '📖 How to upload a Favicon in Blogger') + ' →</a></div>'
+      + '<div style="padding:6px 11px 10px"><a href="' + esc(docsUrl("favicon")) + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 วิธีอัพโหลด Favicon ใน Blogger', '📖 How to upload a Favicon in Blogger') + ' →</a></div>'
       + '</details>';
     return '<div class="field"><label>' + tr("URL รูป Favicon") + '</label>'
       + '<input class="inp fav-url-inp" id="favUrlInp" data-sk="favUrl" value="' + esc(val) + '" placeholder="https://yourblog.blogspot.com/favicon.ico">'

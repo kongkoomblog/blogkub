@@ -1,0 +1,158 @@
+---
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+const seo = `<title>วิธีเปลี่ยนไอคอนเว็บ Favicon ใน Blogger 2026 (อัปโหลด ขนาด และวิธีแก้เมื่อไม่ขึ้น)</title>
+<link rel="canonical" href="https://www.blogkub.com/learn/favicon">
+<meta property="og:url" content="https://www.blogkub.com/learn/favicon">
+<meta name="description" content="วิธีอัปโหลด Favicon ใน Blogger ทีละขั้น พร้อมข้อกำหนดขนาดไฟล์ 100KB รูปสี่เหลี่ยมจัตุรัส วิธีหา URL มาใส่ใน BlogKub เงื่อนไขที่ Google ใช้แสดงไอคอนในผลค้นหา และวิธีแก้เมื่อเปลี่ยนแล้วยังไม่ขึ้น">
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
+<meta property="og:type" content="article">
+<meta property="og:title" content="วิธีเปลี่ยนไอคอนเว็บ Favicon ใน Blogger">
+<meta property="og:description" content="อัปโหลดทีละขั้น ข้อกำหนดขนาด และวิธีแก้เมื่อเปลี่ยนแล้วยังไม่ขึ้น">
+<meta property="og:locale" content="th_TH">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [{"@type":"Person","@id":"https://www.blogkub.com/#patpisan","name":"ภัทร์พิศาล ดาทอง","alternateName":["PATPISAN DATHONG","เบน","LuMoo"],"url":"https://www.blogkub.com/about","image":"https://www.blogkub.com/author-patpisan.png","jobTitle":"ผู้ก่อตั้งและผู้เขียน BlogKub","worksFor":{"@id":"https://www.blogkub.com/#org"},"sameAs":["https://www.facebook.com/patpisan","https://pantip.com/profile/2448725"]},
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "th" },
+    { "@type": "BreadcrumbList", "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://www.blogkub.com/" },
+      { "@type": "ListItem", "position": 2, "name": "เรียนรู้", "item": "https://www.blogkub.com/learn/" },
+      { "@type": "ListItem", "position": 3, "name": "ไอคอนเว็บ (Favicon)" }
+    ]},
+    {
+      "@type": "HowTo",
+      "name": "วิธีอัปโหลดและเปลี่ยน Favicon ใน Blogger",
+      "description": "ขั้นตอนการเปลี่ยนไอคอนเว็บของบล็อก Blogger ตั้งแต่เตรียมไฟล์ อัปโหลด จนถึงนำ URL ไปใช้ในธีมที่สร้างด้วย BlogKub",
+      "inLanguage": "th",
+      "totalTime": "PT5M",
+      "tool": [{ "@type": "HowToTool", "name": "บัญชี Blogger" }, { "@type": "HowToTool", "name": "ไฟล์รูปสี่เหลี่ยมจัตุรัส" }],
+      "step": [
+        { "@type": "HowToStep", "position": 1, "name": "เตรียมไฟล์รูป", "text": "เตรียมรูปสี่เหลี่ยมจัตุรัส ขนาดด้านละ 96 หรือ 144 พิกเซล และไฟล์ต้องเล็กกว่า 100KB", "url": "https://www.blogkub.com/learn/favicon#step1" },
+        { "@type": "HowToStep", "position": 2, "name": "อัปโหลดใน Blogger", "text": "เข้า blogger.com เลือกบล็อก แล้วไปที่ รูปแบบ กดไอคอนดินสอบนกล่อง Favicon เลือกไฟล์ แล้วกดบันทึก", "url": "https://www.blogkub.com/learn/favicon#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "คัดลอก URL ของไอคอน", "text": "เปิด URL ของบล็อกตามด้วย /favicon.ico เพื่อยืนยันว่าไอคอนขึ้นแล้ว แล้วคัดลอก URL นั้นไว้", "url": "https://www.blogkub.com/learn/favicon#step3" },
+        { "@type": "HowToStep", "position": 4, "name": "ใส่ URL ใน BlogKub", "text": "วาง URL ลงในช่อง Favicon ของ BlogKub แล้ว Export XML ไปอัปโหลดเข้า Blogger", "url": "https://www.blogkub.com/learn/favicon#step4" }
+      ]
+    },
+    {
+      "@type": "TechArticle",
+      "mainEntityOfPage": "https://www.blogkub.com/learn/favicon",
+      "headline": "วิธีเปลี่ยนไอคอนเว็บ Favicon ใน Blogger",
+      "description": "คู่มือละเอียดการอัปโหลด Favicon ใน Blogger ข้อกำหนดขนาดไฟล์ และวิธีแก้เมื่อไอคอนยังไม่เปลี่ยน",
+      "inLanguage": "th", "datePublished": "2026-07-26T09:00:00+07:00", "dateModified": "2026-07-26T09:00:00+07:00",
+      "author": { "@id": "https://www.blogkub.com/#patpisan" }, "publisher": { "@id": "https://www.blogkub.com/#org" }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        { "@type": "Question", "name": "Favicon ของ Blogger ต้องมีขนาดเท่าไหร่", "acceptedAnswer": { "@type": "Answer", "text": "Blogger จำกัดขนาดไฟล์ไว้ไม่เกิน 100KB และควรเป็นรูปสี่เหลี่ยมจัตุรัส แนะนำด้านละ 96 หรือ 144 พิกเซล เพราะ Google ระบุว่าไอคอนที่ใช้แสดงในผลค้นหาควรมีขนาดเป็นจำนวนเท่าของ 48 พิกเซล" } },
+        { "@type": "Question", "name": "URL ของ Favicon ใน Blogger คืออะไร", "acceptedAnswer": { "@type": "Answer", "text": "คือ URL ของบล็อกตามด้วย /favicon.ico เช่น https://yourblog.blogspot.com/favicon.ico ถ้าใช้โดเมนของตัวเองก็เปลี่ยนเป็นโดเมนนั้นแทน เปิด URL นี้ในเบราว์เซอร์เพื่อยืนยันว่าไอคอนอัปโหลดสำเร็จแล้ว" } },
+        { "@type": "Question", "name": "เปลี่ยน Favicon แล้วทำไมยังเห็นรูปเดิม", "acceptedAnswer": { "@type": "Answer", "text": "เกือบทุกครั้งเกิดจากแคชของเบราว์เซอร์ ซึ่งเก็บไอคอนไว้นานกว่าไฟล์ทั่วไป ลองเปิดในหน้าต่างไม่ระบุตัวตนหรือล้างแคช ส่วนไอคอนที่แสดงในผลค้นหา Google ต้องรอให้ Googlebot กลับมาเก็บข้อมูลใหม่ ซึ่งบังคับให้เร็วขึ้นไม่ได้" } },
+        { "@type": "Question", "name": "ต้องใช้ไฟล์นามสกุล .ico เท่านั้นไหม", "acceptedAnswer": { "@type": "Answer", "text": "ไม่จำเป็น Blogger รับไฟล์ภาพทั่วไปอย่าง PNG ได้ และ Google รองรับทั้ง ICO PNG SVG GIF JPEG แนะนำ PNG เพราะทำง่ายและรองรับพื้นหลังโปร่งใส" } },
+        { "@type": "Question", "name": "Favicon มีผลต่อ SEO ไหม", "acceptedAnswer": { "@type": "Answer", "text": "ไม่ได้เป็นปัจจัยจัดอันดับโดยตรง แต่ Google แสดงไอคอนข้างผลค้นหาบนมือถือ ไอคอนที่ชัดและจำง่ายจึงช่วยให้ผลของคุณสะดุดตากว่าเว็บที่ใช้ไอคอนเริ่มต้น ซึ่งมีผลต่ออัตราการคลิก" } }
+      ]
+    }
+  ]
+}
+</script>`;
+const body = `<main class="wrap">
+<nav class="crumb" aria-label="breadcrumb"><a href="https://www.blogkub.com/">หน้าแรก</a> › <a href="https://www.blogkub.com/learn/">เรียนรู้</a> › <span>ไอคอนเว็บ (Favicon)</span></nav>
+<article>
+<h1>วิธีเปลี่ยนไอคอนเว็บ (Favicon) ใน Blogger</h1>
+<p class="lead">Favicon คือรูปเล็กๆ ที่โผล่บนแท็บเบราว์เซอร์ ในรายการบุ๊กมาร์ก และข้างผลค้นหาบนมือถือ บล็อกที่ยังไม่ตั้งค่าจะติดรูปตัว B สีส้มของ Blogger ซึ่งทำให้ดูเหมือนเว็บที่ยังทำไม่เสร็จ บทความนี้พาทำตั้งแต่เตรียมไฟล์จนถึงแก้ปัญหาเปลี่ยนแล้วไม่ขึ้น</p>
+<p class="meta">อัปเดต 26 กรกฎาคม 2026 · อ่านประมาณ 8 นาที · ระดับ: เริ่มต้น</p>
+
+<div class="tldr"><p><strong>สรุปสั้น:</strong> เตรียมรูป <strong>สี่เหลี่ยมจัตุรัส ด้านละ 96 หรือ 144 พิกเซล ไฟล์เล็กกว่า 100KB</strong> แล้วอัปโหลดที่ blogger.com → <strong>รูปแบบ</strong> → กล่อง <strong>Favicon</strong> จากนั้น URL ของไอคอนจะอยู่ที่ <code>ชื่อบล็อกของคุณ/favicon.ico</code> นำ URL นี้ไปวางในช่อง Favicon ของ BlogKub ได้เลย ถ้าเปลี่ยนแล้วยังเห็นรูปเดิม เกือบทุกครั้งคือแคชเบราว์เซอร์ ไม่ใช่ตั้งค่าผิด</p></div>
+
+<h2>Favicon คืออะไร และทำไมบล็อกถึงควรมี</h2>
+<p><strong>Favicon คือไอคอนประจำเว็บที่เบราว์เซอร์นำไปแสดงในที่ต่างๆ แทนตัวเว็บ</strong> จุดที่เห็นบ่อยที่สุดคือบนแท็บ ถัดมาคือรายการบุ๊กมาร์ก ประวัติการเข้าชม และไอคอนที่ปรากฏเมื่อผู้ใช้บันทึกเว็บไว้บนหน้าจอโฮมของมือถือ</p>
+<p>จุดที่คนมักมองข้ามคือ <strong>ผลการค้นหาบนมือถือ</strong> Google แสดงไอคอนของเว็บไว้ข้างชื่อเรื่องในผลค้นหา เมื่อผู้ใช้เลื่อนดูผลลัพธ์สิบกว่ารายการ เว็บที่มีไอคอนชัดเจนจะสะดุดตากว่าเว็บที่ยังใช้ไอคอนเริ่มต้น ตรงนี้ไม่ใช่ปัจจัยจัดอันดับ แต่มีผลกับการที่คนจะกดเข้าหรือไม่</p>
+<p>อีกเหตุผลที่สำคัญไม่แพ้กันคือความน่าเชื่อถือ ผู้อ่านที่เปิดหลายแท็บพร้อมกันจะจำเว็บของคุณจากไอคอน ถ้าไอคอนยังเป็นค่าเริ่มต้นของ Blogger เว็บของคุณจะดูเหมือนบล็อกที่เพิ่งสร้างและยังไม่ได้ดูแล ทั้งที่เนื้อหาข้างในอาจดีมาก</p>
+
+<h2>เตรียมไฟล์ให้ถูกก่อน จะได้ไม่ต้องอัปโหลดซ้ำ</h2>
+<p>Blogger และ Google มีเงื่อนไขที่ต่างกันเล็กน้อย ถ้าทำให้ผ่านทั้งสองฝั่งตั้งแต่แรกจะไม่ต้องกลับมาแก้</p>
+<ul>
+  <li><strong>ต้องเป็นสี่เหลี่ยมจัตุรัส</strong> ความกว้างเท่ากับความสูง ถ้าใช้รูปผอมหรือแบนมันจะถูกบีบจนเพี้ยน และ Google อาจไม่นำไปแสดงในผลค้นหาเลย</li>
+  <li><strong>ไฟล์ต้องเล็กกว่า 100KB</strong> เป็นข้อจำกัดของ Blogger เอง ถ้าไฟล์ใหญ่กว่านี้จะอัปโหลดไม่ผ่าน</li>
+  <li><strong>ขนาดที่แนะนำคือด้านละ 96 หรือ 144 พิกเซล</strong> Google ระบุว่าไอคอนที่ใช้แสดงในผลค้นหาควรมีขนาดเป็นจำนวนเท่าของ 48 พิกเซล ทำใหญ่ไว้ดีกว่าเล็ก เพราะย่อลงได้แต่ขยายขึ้นแล้วจะแตก</li>
+  <li><strong>ใช้ PNG ได้ ไม่ต้องเป็น .ico</strong> Google รองรับทั้ง ICO, PNG, SVG, GIF และ JPEG แนะนำ PNG เพราะทำง่ายและรองรับพื้นหลังโปร่งใส</li>
+</ul>
+<p>เรื่องการออกแบบมีข้อเดียวที่สำคัญที่สุด คือ <strong>ไอคอนจะถูกย่อลงเหลือประมาณ 16 พิกเซลบนแท็บ</strong> ตัวหนังสือเล็กๆ จะกลายเป็นรอยเปื้อนทันที ให้ใช้สัญลักษณ์เดียว ตัวอักษรตัวเดียว หรือรูปทรงเรียบง่ายที่มีสีตัดกับพื้นหลังชัดเจน อย่าเอาโลโก้เต็มที่มีชื่อเว็บมาย่อ</p>
+
+<h2 id="step1">อัปโหลด Favicon ใน Blogger ทีละขั้น</h2>
+<ol class="steps">
+  <li><strong>เตรียมไฟล์</strong> ทำรูปสี่เหลี่ยมจัตุรัสตามข้อกำหนดข้างบน บันทึกเป็น PNG ให้ไฟล์เล็กกว่า 100KB</li>
+  <li id="step2"><strong>เข้าหน้าตั้งค่า</strong> เปิด blogger.com เลือกบล็อกที่ต้องการ แล้วกดเมนู <strong>รูปแบบ</strong> ทางซ้าย</li>
+  <li><strong>แก้ไขกล่อง Favicon</strong> กล่องนี้อยู่บนสุดซ้ายของผัง กดไอคอนดินสอเพื่อแก้ไข แล้วเลือกไฟล์ที่เตรียมไว้ จากนั้นกดบันทึก</li>
+  <li id="step3"><strong>ยืนยันว่าอัปโหลดสำเร็จ</strong> เปิดแท็บใหม่แล้วพิมพ์ URL ของบล็อกตามด้วย <code>/favicon.ico</code> ถ้าเห็นรูปที่เพิ่งอัปโหลดแสดงว่าเรียบร้อย</li>
+</ol>
+<p>ถ้ากดบันทึกแล้วขึ้นข้อความแจ้งเตือน ให้ตรวจสองอย่างก่อนเสมอ คือขนาดไฟล์เกิน 100KB หรือรูปไม่ได้เป็นสี่เหลี่ยมจัตุรัส สองข้อนี้คือสาเหตุเกือบทั้งหมดของการอัปโหลดไม่ผ่าน</p>
+
+<h2 id="step4">นำ URL มาใส่ในธีมที่สร้างด้วย BlogKub</h2>
+<p>ในตัวสร้างธีมของ BlogKub มีช่องให้กรอก URL ของ Favicon เพื่อให้ธีมประกาศไอคอนไว้ในหน้าเว็บโดยตรง วิธีหา URL มาใส่คือ</p>
+<ul>
+  <li><strong>บล็อกที่ใช้โดเมน blogspot:</strong> URL คือ <code>https://ชื่อบล็อกของคุณ.blogspot.com/favicon.ico</code></li>
+  <li><strong>บล็อกที่ใช้โดเมนของตัวเอง:</strong> เปลี่ยนเป็นโดเมนนั้น เช่น <code>https://yourdomain.com/favicon.ico</code></li>
+</ul>
+<p>วาง URL ลงในช่อง Favicon แล้วกด Export XML นำไฟล์ไปอัปโหลดเข้า Blogger ที่ <strong>ธีม → เมนูสามจุด → กู้คืน</strong> เท่านี้ธีมก็จะประกาศไอคอนให้เบราว์เซอร์รู้จักตั้งแต่โหลดหน้าแรก</p>
+<p>ข้อควรระวังคือ <strong>อย่าใช้ URL รูปจากที่อื่นที่คุณควบคุมไม่ได้</strong> เช่นลิงก์รูปจากเว็บฝากรูปฟรีหรือรูปในแชท เพราะถ้าวันหนึ่งลิงก์นั้นตาย ไอคอนของคุณจะหายไปทั้งเว็บ ให้ใช้ URL ที่อยู่บนโดเมนของคุณเองเสมอ</p>
+
+<h2>เงื่อนไขของ Google สำหรับไอคอนในผลค้นหา</h2>
+<p>การที่ Google จะนำไอคอนของคุณไปแสดงข้างผลค้นหาไม่ได้เกิดขึ้นอัตโนมัติทุกเว็บ มีเงื่อนไขที่ควรรู้</p>
+<ul>
+  <li><strong>ไฟล์ต้องเข้าถึงได้</strong> ถ้าไฟล์ไอคอนถูกบล็อกใน robots.txt Google จะเก็บข้อมูลไม่ได้และไม่แสดงให้</li>
+  <li><strong>URL ควรอยู่คงที่</strong> อย่าเปลี่ยน URL ของไอคอนบ่อยๆ เพราะ Google ต้องเก็บข้อมูลใหม่ทุกครั้ง</li>
+  <li><strong>ไอคอนควรสื่อถึงแบรนด์</strong> Google ระบุว่าไอคอนควรเป็นตัวแทนของเว็บ ไม่ควรเป็นรูปที่ไม่เกี่ยวข้องหรือชวนเข้าใจผิด</li>
+  <li><strong>ต้องรอ</strong> ไอคอนจะปรากฏในผลค้นหาหลัง Googlebot กลับมาเก็บข้อมูลหน้าแรกของเว็บอีกครั้ง ซึ่งอาจใช้เวลาหลายวันถึงหลายสัปดาห์ และไม่มีวิธีเร่ง</li>
+</ul>
+
+<h2>เปลี่ยนแล้วยังเห็นรูปเดิม แก้ยังไง</h2>
+<p>นี่คือปัญหาที่คนถามมากที่สุด และเกือบทุกครั้ง <strong>ไม่ใช่ความผิดของการตั้งค่า</strong> แต่เป็นเรื่องแคช เบราว์เซอร์เก็บ favicon ไว้นานกว่าไฟล์ประเภทอื่นมาก เพราะถือว่าเป็นไฟล์ที่แทบไม่เปลี่ยน</p>
+<p>ให้ไล่ตรวจตามลำดับนี้</p>
+<ol class="steps">
+  <li><strong>ตรวจที่ต้นทางก่อน</strong> เปิด <code>ชื่อบล็อกของคุณ/favicon.ico</code> ตรงๆ ถ้าตรงนี้เป็นรูปใหม่แล้ว แปลว่าอัปโหลดสำเร็จ ปัญหาอยู่ที่ฝั่งการแสดงผลเท่านั้น</li>
+  <li><strong>เปิดในหน้าต่างไม่ระบุตัวตน</strong> ถ้าเห็นรูปใหม่ที่นี่ ยืนยันได้ว่าเป็นแคชของเบราว์เซอร์ปกติ</li>
+  <li><strong>ล้างแคชเบราว์เซอร์</strong> หรือรอสักวันสองวันแล้วกลับมาดูใหม่ ไอคอนจะอัปเดตเอง</li>
+  <li><strong>ตรวจในมือถือแยกต่างหาก</strong> แคชของมือถือเป็นคนละชุดกับเดสก์ท็อป อาจอัปเดตไม่พร้อมกัน</li>
+</ol>
+<p>ถ้าเปิด <code>/favicon.ico</code> แล้วยังเป็นรูปเดิมจริงๆ ค่อยกลับไปตรวจว่ากดบันทึกในหน้ารูปแบบเรียบร้อยหรือยัง และไฟล์ที่เลือกผ่านเงื่อนไข 100KB กับสี่เหลี่ยมจัตุรัสหรือเปล่า</p>
+
+<h2>ปัญหาอื่นที่พบบ่อย</h2>
+<h3>ไอคอนขึ้นบนแท็บแล้ว แต่ในผลค้นหา Google ยังเป็นรูปเดิม</h3>
+<p>เป็นเรื่องปกติและต้องรอ Google เก็บข้อมูลไอคอนแยกจากเนื้อหาหน้าเว็บ และอัปเดตตามรอบของตัวเอง ไม่มีเครื่องมือสั่งให้รีเฟรชเฉพาะไอคอนได้ ที่ทำได้คือทำให้ไฟล์เข้าถึงง่ายและอย่าเปลี่ยน URL ไปมา</p>
+<h3>ไอคอนดูเบลอหรือแตก</h3>
+<p>มักเกิดจากใช้รูปต้นฉบับที่เล็กเกินไปแล้วถูกขยาย ให้ทำใหม่จากไฟล์ที่ใหญ่กว่า เช่นด้านละ 144 พิกเซล แล้วค่อยให้ระบบย่อลงเอง</p>
+<h3>พื้นหลังโปร่งใสกลายเป็นสีขาวหรือดำ</h3>
+<p>บางที่ที่นำไอคอนไปแสดงจะเติมพื้นหลังให้เอง ถ้าอยากให้ควบคุมได้แน่นอน ให้ใส่พื้นหลังทึบเป็นสีของแบรนด์ไปเลยแทนการใช้พื้นโปร่งใส</p>
+<h3>เปลี่ยนโดเมนแล้วไอคอนหาย</h3>
+<p>ถ้าย้ายจาก blogspot ไปโดเมนของตัวเอง อย่าลืมกลับมาแก้ URL ในช่อง Favicon ของ BlogKub ให้ชี้ไปโดเมนใหม่ แล้ว Export ธีมใหม่อีกครั้ง</p>
+
+<h2>แนวทางปฏิบัติที่ดี</h2>
+<ul>
+  <li>ใช้สัญลักษณ์เดียวหรือตัวอักษรตัวเดียว อย่าย่อโลโก้เต็มที่มีชื่อเว็บลงมา</li>
+  <li>เลือกสีที่ตัดกับทั้งพื้นขาวและพื้นดำ เพราะแท็บของเบราว์เซอร์มีทั้งโหมดสว่างและโหมดมืด</li>
+  <li>ทำไฟล์ต้นฉบับเก็บไว้ที่ขนาดใหญ่ เผื่อวันหลังต้องทำไอคอนขนาดอื่น</li>
+  <li>ตั้งค่าให้เสร็จตั้งแต่ตอนเปิดบล็อกใหม่ๆ จะได้ไม่ต้องรอ Google เก็บข้อมูลใหม่ตอนที่เว็บโตแล้ว</li>
+  <li>ตรวจผลทั้งบนเดสก์ท็อปและมือถือ เพราะแคชคนละชุดกัน</li>
+</ul>
+
+<h2>สรุป</h2>
+<p>Favicon เป็นงานสิบนาทีที่ทำครั้งเดียวจบ แต่ส่งผลกับภาพลักษณ์ของบล็อกทุกครั้งที่มีคนเปิดแท็บหรือเห็นเว็บของคุณในผลค้นหา สิ่งที่ต้องจำมีแค่สามข้อ คือ <strong>รูปต้องเป็นสี่เหลี่ยมจัตุรัส ไฟล์ต้องเล็กกว่า 100KB และ URL อยู่ที่ /favicon.ico เสมอ</strong> ส่วนอาการเปลี่ยนแล้วไม่ขึ้นนั้นเกือบทั้งหมดคือแคช ไม่ใช่การตั้งค่าผิด ให้ตรวจที่ต้นทางก่อนแล้วค่อยสรุป</p>
+<p>เมื่อตั้งค่าไอคอนเรียบร้อยแล้ว ขั้นต่อไปที่ควรทำคือ<a href="/learn/create-page">สร้างหน้าเพจพื้นฐาน</a>อย่างหน้าเกี่ยวกับเราและหน้าติดต่อ ซึ่งเป็นสิ่งที่ทั้งผู้อ่านและ AdSense มองหา</p>
+
+<h2>คำถามที่พบบ่อย (FAQ)</h2>
+<details><summary>Favicon ของ Blogger ต้องมีขนาดเท่าไหร่</summary><p>Blogger จำกัดขนาดไฟล์ไว้ไม่เกิน 100KB และควรเป็นรูปสี่เหลี่ยมจัตุรัส แนะนำด้านละ 96 หรือ 144 พิกเซล เพราะ Google ระบุว่าไอคอนที่ใช้แสดงในผลค้นหาควรมีขนาดเป็นจำนวนเท่าของ 48 พิกเซล</p></details>
+<details><summary>URL ของ Favicon ใน Blogger คืออะไร</summary><p>คือ URL ของบล็อกตามด้วย /favicon.ico เช่น https://yourblog.blogspot.com/favicon.ico ถ้าใช้โดเมนของตัวเองก็เปลี่ยนเป็นโดเมนนั้นแทน เปิด URL นี้ในเบราว์เซอร์เพื่อยืนยันว่าไอคอนอัปโหลดสำเร็จแล้ว</p></details>
+<details><summary>เปลี่ยน Favicon แล้วทำไมยังเห็นรูปเดิม</summary><p>เกือบทุกครั้งเกิดจากแคชของเบราว์เซอร์ ซึ่งเก็บไอคอนไว้นานกว่าไฟล์ทั่วไป ลองเปิดในหน้าต่างไม่ระบุตัวตนหรือล้างแคช ส่วนไอคอนที่แสดงในผลค้นหา Google ต้องรอให้ Googlebot กลับมาเก็บข้อมูลใหม่ ซึ่งบังคับให้เร็วขึ้นไม่ได้</p></details>
+<details><summary>ต้องใช้ไฟล์นามสกุล .ico เท่านั้นไหม</summary><p>ไม่จำเป็น Blogger รับไฟล์ภาพทั่วไปอย่าง PNG ได้ และ Google รองรับทั้ง ICO PNG SVG GIF JPEG แนะนำ PNG เพราะทำง่ายและรองรับพื้นหลังโปร่งใส</p></details>
+<details><summary>Favicon มีผลต่อ SEO ไหม</summary><p>ไม่ได้เป็นปัจจัยจัดอันดับโดยตรง แต่ Google แสดงไอคอนข้างผลค้นหาบนมือถือ ไอคอนที่ชัดและจำง่ายจึงช่วยให้ผลของคุณสะดุดตากว่าเว็บที่ใช้ไอคอนเริ่มต้น ซึ่งมีผลต่ออัตราการคลิก</p></details>
+<hr>
+<p class="meta">บทความในชุดคู่มือ BlogKub · เนื้อหาและ Schema (HowTo + FAQPage) พร้อมเผยแพร่บน blogkub.com</p>
+<aside class="author-box" style="display:flex;gap:16px;align-items:flex-start;background:var(--surface,#f7f8fc);border:1px solid var(--border,#e8eaf2);border-radius:16px;padding:20px 22px;margin:44px 0 8px"><img src="https://www.blogkub.com/author-patpisan.png" width="72" height="72" loading="lazy" alt="ภัทร์พิศาล ดาทอง (เบน) ผู้ก่อตั้ง BlogKub" style="width:72px;height:72px;border-radius:50%;flex:none;border:2px solid var(--primary,#6366f1)"><div style="min-width:0"><div style="font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--muted,#828aa0);font-weight:700;margin-bottom:3px">เขียนโดย</div><div style="font-weight:800;font-size:17px;color:var(--fg,#1e2333)">ภัทร์พิศาล ดาทอง <span style="color:var(--muted,#828aa0);font-weight:600">· เบน</span></div><p style="margin:7px 0 12px;font-size:14.5px;color:var(--fg-soft,#4a5063);line-height:1.65">ผู้ก่อตั้ง BlogKub และบล็อกเกอร์สาย Blogger ที่อยากให้คนไทยมีบล็อกสวยได้เองโดยไม่ต้องเขียนโค้ด รวบรวมประสบการณ์ทำธีมและ SEO บน Blogger มาเรียบเรียงเป็นคู่มือชุดนี้</p><div style="display:flex;gap:10px;flex-wrap:wrap;font-size:13.5px"><a href="https://www.facebook.com/patpisan" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Facebook</a><a href="https://pantip.com/profile/2448725" rel="author noopener" target="_blank" style="padding:5px 12px;border:1px solid var(--border,#e8eaf2);border-radius:999px;text-decoration:none;color:var(--primary,#6366f1);font-weight:600">Pantip · LuMoo</a></div></div></aside>
+</article>
+</main>`;
+---
+<ArticleLayout seo={seo}>
+  <Fragment set:html={body} />
+</ArticleLayout>
