@@ -738,7 +738,8 @@
         { id: "m2", type: "search", label: "Posts",   url: "/search" },
         { id: "m3", type: "page",   label: "About",   pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
         { id: "m4", type: "page",   label: "Contact", pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
-      ], sticky: true, showSearch: true, mobileSide: "right" },
+      ], sticky: true, showSearch: true, mobileSide: "right",
+      categories: [], catLabel: "Categories", catFooter: true, catFooterMax: 12 },
       hero: { eyebrow: "✦ Personal Blog", title: "Welcome to Our Blog", subtitle: "Sharing knowledge and quality articles, updated every week", btnText: "Read Latest Posts", align: "center", bg: "gradient", showImage: true, imageUrl: "" },
       footer: { about: "A blog sharing knowledge and quality articles", copyright: "© 2026 MyBlog. All rights reserved.",
         footerLinks: [{ label: "Home", url: "/" }, { label: "Posts", url: "/search" }, { label: "About", url: "/p/about.html" }, { label: "Contact", url: "/p/contact.html" }],
@@ -792,7 +793,8 @@
         { id: "m2", type: "search", label: "บทความ",  url: "/search" },
         { id: "m3", type: "page",   label: "เกี่ยวกับ", pageSlug: "about",   pageCreated: true, url: "/p/about.html" },
         { id: "m4", type: "page",   label: "ติดต่อ",    pageSlug: "contact", pageCreated: true, url: "/p/contact.html" }
-      ], sticky: true, showSearch: true, mobileSide: "right" },
+      ], sticky: true, showSearch: true, mobileSide: "right",
+      categories: [], catLabel: "หมวดหมู่สินค้า", catFooter: true, catFooterMax: 12 },
       hero: { eyebrow: "✦ Personal Blog", title: "ยินดีต้อนรับสู่บล็อกของเรา", subtitle: "แบ่งปันความรู้ บทความคุณภาพ อัปเดตใหม่ทุกสัปดาห์", btnText: "อ่านบทความล่าสุด", align: "center", bg: "gradient", showImage: true, imageUrl: "" },
       footer: { about: "บล็อกแบ่งปันความรู้และบทความคุณภาพ", copyright: "© 2026 MyBlog. สงวนลิขสิทธิ์",
         footerLinks: [{ label: "หน้าแรก", url: "/" }, { label: "บทความ", url: "/search" }, { label: "เกี่ยวกับ", url: "/p/about.html" }, { label: "ติดต่อ", url: "/p/contact.html" }],
@@ -870,6 +872,18 @@
     if (type === "aeo" && tid === "review") out.title = en ? "Before you buy" : "สรุปก่อนตัดสินใจ";
     // Readers land on an affiliate blog looking for verdicts, so the feed is framed as reviews.
     if (type === "postgrid" && tid === "review") out.heading = en ? "Latest Reviews" : "รีวิวล่าสุด";
+    // Seed the category menu with working examples so the review template ships with a live menu.
+    // Label links are used because they resolve on a brand-new blog; page links would 404 until
+    // the user creates the pages, and the props panel nudges them to switch once they have.
+    if (type === "header" && tid === "review") {
+      var seed = en
+        ? ["Electronics", "Home & Living", "Kitchen", "Health & Beauty", "Pets", "Sports & Outdoors"]
+        : ["เครื่องใช้ไฟฟ้า", "บ้านและไลฟ์สไตล์", "ครัวและอาหาร", "สุขภาพและความงาม", "สัตว์เลี้ยง", "กีฬาและกลางแจ้ง"];
+      var seedIcons = ["🔌", "🏠", "🍳", "💄", "🐶", "🏃"];
+      out.categories = seed.map(function (name, i) {
+        return { id: "c" + (i + 1), label: name, linkType: "label", labelName: name, icon: seedIcons[i], count: "" };
+      });
+    }
     return out;
   }
   // Parse a newline-separated list field into trimmed non-empty items.
@@ -968,6 +982,64 @@
   }
   function footerLinksOf(p) { return Array.isArray(p.footerLinks) ? p.footerLinks : []; }
   function socialLinksOf(p) { return Array.isArray(p.socialLinks) ? p.socialLinks : []; }
+
+  /* ---------- Product categories (review template · hand-entered, plain HTML) ---------- */
+  function catsOf(p) { return Array.isArray(p.categories) ? p.categories : []; }
+  // one category row -> a real URL. Page links win on SEO, label links work with zero setup.
+  function catUrlFor(c) {
+    var t = c.linkType || "label";
+    if (t === "label") {
+      var ln = (c.labelName || "").trim();
+      return ln ? "/search/label/" + encodeURIComponent(ln) : "";
+    }
+    if (t === "page") {
+      var raw = (c.pageSlug || "").trim();
+      if (!raw) return "";
+      if (/^\/p\/.+\.html$/.test(raw)) return raw;
+      return pageNameToUrl(raw) || "";
+    }
+    return (c.url || "").trim();
+  }
+  function headerBlockOf() {
+    var bs = (S && S.blocks) || [];
+    for (var i = 0; i < bs.length; i++) { if (bs[i].type === "header") return bs[i]; }
+    return null;
+  }
+  // categories only exist on the review template, and only once the user has filled them in
+  function reviewCats() {
+    if (!S || S.templateId !== "review") return [];
+    var hb = headerBlockOf();
+    if (!hb) return [];
+    return catsOf(hb.props).filter(function (c) { return (c.label || "").trim() && catUrlFor(c); });
+  }
+  function catMenuLabel() {
+    var hb = headerBlockOf();
+    var v = hb && hb.props.catLabel;
+    return (v != null && v !== "") ? v : tpl("หมวดหมู่สินค้า", "Categories");
+  }
+  // 1 column up to 8 items, 2 up to 16, 3 beyond · keeps the small case looking like a plain menu
+  function catCols(n) { return n <= 8 ? 1 : (n <= 16 ? 2 : 3); }
+  var CAT_FILTER_MIN = 16; // show the type-to-filter box only once the list gets long
+  // Shared <li> markup for the desktop dropdown and the mobile sheet, so one filter handles both.
+  // Each row is its own SiteNavigationElement rather than one scope wrapping every name.
+  function catItemsHtml(cats) {
+    return cats.map(function (c) {
+      var url = catUrlFor(c);
+      return "<li role='none' itemscope='itemscope' itemtype='https://schema.org/SiteNavigationElement'>" +
+        "<a role='menuitem' href='" + esc(url) + "' itemprop='url'>" +
+        (c.icon ? "<span class='rv-cat-ic' aria-hidden='true'>" + esc(c.icon) + "</span>" : "") +
+        "<span class='rv-cat-name' itemprop='name'>" + esc(c.label) + "</span>" +
+        (String(c.count || "").trim() ? "<span class='rv-cat-n'>" + esc(String(c.count).trim()) + "</span>" : "") +
+        "</a></li>";
+    }).join("");
+  }
+  function catSearchHtml(n, id) {
+    if (n < CAT_FILTER_MIN) return "";
+    return "<div class='rv-cat-search'>" +
+      "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' aria-hidden='true'><circle cx='11' cy='11' r='7'/><path d='m21 21-4.3-4.3'/></svg>" +
+      "<input type='search' id='" + id + "' class='rv-cat-filter' autocomplete='off' placeholder='" + tpl("พิมพ์เพื่อกรองหมวดหมู่…", "Type to filter categories…") + "' aria-label='" + tpl("กรองหมวดหมู่", "Filter categories") + "'/>" +
+      "</div>";
+  }
   // Ensure link URLs are absolute · if user enters "facebook.com" without a protocol, add https://
   function absUrl(url) {
     url = (url || "").trim();
@@ -1082,6 +1154,20 @@
   var DARK_THEME_VARS = "[data-theme=dark]{--bg-body:#0f172a;--bg-surface:#1e293b;--bg-surface-2:#2d3748;--bg-header:#1a2438;--text-main:#e2e8f0;--text-muted:#94a3b8;--text-subtle:#64748b;--border:rgba(255,255,255,.08);--border-med:rgba(255,255,255,.18);--hover-bg:rgba(255,255,255,.06);--nav-shadow:0 0 48px rgba(0,0,0,.55);--drop-shadow:0 8px 24px rgba(0,0,0,.4)}";
   // shared dark-mode controller · every toggle (Dark Mode block, bottom-nav Mode) uses this so they stay in sync
   var THEME_CTRL_JS = "window.__bxbTheme=window.__bxbTheme||(function(){var K='bxb-theme',subs=[];function cur(){return document.documentElement.dataset.theme==='dark'?'dark':'light';}function apply(t){document.documentElement.dataset.theme=t;try{localStorage.setItem(K,t);}catch(e){}subs.forEach(function(f){try{f(t);}catch(e){}});}var init=null;try{init=localStorage.getItem(K);}catch(e){}if(!document.documentElement.dataset.theme){document.documentElement.dataset.theme=init||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');}return{get:cur,set:apply,toggle:function(){apply(cur()==='dark'?'light':'dark');},sub:function(f){subs.push(f);try{f(cur());}catch(e){}}};})();";
+  // Type-to-filter for the category dropdown and sheet. Defined once, called with either root.
+  var CAT_FILTER_JS = "window.__bxbCatFilter=window.__bxbCatFilter||function(root){"
+    + "var inp=root.querySelector('.rv-cat-filter');if(!inp)return;"
+    + "var lis=[].slice.call(root.querySelectorAll('.rv-cat-list>li'));"
+    + "var none=root.querySelector('.rv-cat-none');"
+    + "inp.addEventListener('input',function(){"
+    + "var q=inp.value.trim().toLowerCase(),hit=0;"
+    + "lis.forEach(function(li){"
+    + "var n=li.querySelector('.rv-cat-name');"
+    + "var ok=!q||(n&&n.textContent.toLowerCase().indexOf(q)>=0);"
+    + "li.hidden=!ok;if(ok)hit++;});"
+    + "if(none)none.hidden=hit>0;});"
+    + "inp.addEventListener('keydown',function(e){if(e.key==='Escape'){e.stopPropagation();inp.value='';inp.dispatchEvent(new Event('input'));}});"
+    + "};";
   var BOTNAV_ICONS = {
     home:   '<path d="M3 10.5 12 4l9 6.5"/><path d="M5 9.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/>',
     search: '<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>',
@@ -1090,8 +1176,9 @@
     share:  '<path d="M4 12v6.5a1.5 1.5 0 0 0 1.5 1.5h13a1.5 1.5 0 0 0 1.5-1.5V12"/><path d="M12 15V4"/><path d="m8 7.5 4-4 4 4"/>'
   };
   function botNavLabels() {
-    return { home: tpl("หน้าแรก", "Home"), search: tpl("ค้นหา", "Search"), menu: tpl("เมนู", "Menu"), mode: tpl("โหมด", "Mode"), share: tpl("แชร์", "Share") };
+    return { home: tpl("หน้าแรก", "Home"), search: tpl("ค้นหา", "Search"), menu: tpl("เมนู", "Menu"), mode: tpl("โหมด", "Mode"), share: tpl("แชร์", "Share"), cats: tpl("หมวดหมู่", "Categories") };
   }
+  var CAT_GRID_ICON = '<rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/>';
   // exported bottom nav (mobile-only) · Home / Search / Menu(drawer) / Mode(dark) / Share
   function botNavStatic() {
     var L = botNavLabels(), hasDark = false;
@@ -1134,13 +1221,31 @@
       + "<button type='submit'>" + tpl("ค้นหา", "Search") + "</button>"
       + "<button type='button' class='bxb-sp-close' id='bxbSpClose' aria-label='" + tpl("ปิด", "Close") + "'>✕</button>"
       + "</form></div>";
+    // Slot 3 becomes Categories on the review template. The site menu (Home / About / Contact)
+    // still lives in the top-right hamburger, so nothing is lost by swapping it out.
+    var bnCats = reviewCats();
+    var slot3 = bnCats.length
+      ? "<button type='button' class='bxb-bn' id='bxbCatBtn' aria-haspopup='dialog' aria-expanded='false' aria-controls='rvCatSheet'>" + bi(CAT_GRID_ICON) + "<span>" + L.cats + "</span></button>"
+      : "<label class='bxb-bn' for='navtoggle'>" + bi(BOTNAV_ICONS.menu) + "<span>" + L.menu + "</span></label>";
     var bar = "<nav class='bxb-botnav' aria-label='" + tpl("เมนูล่าง", "Bottom menu") + "'>"
       + "<a class='bxb-bn' href='/'>" + bi(BOTNAV_ICONS.home) + "<span>" + L.home + "</span></a>"
       + "<button type='button' class='bxb-bn' id='bxbSearchTgl'>" + bi(BOTNAV_ICONS.search) + "<span>" + L.search + "</span></button>"
-      + "<label class='bxb-bn' for='navtoggle'>" + bi(BOTNAV_ICONS.menu) + "<span>" + L.menu + "</span></label>"
+      + slot3
       + "<button type='button' class='bxb-bn' id='bxbModeBtn'>" + bi(BOTNAV_ICONS.mode) + "<span>" + L.mode + "</span></button>"
       + "<button type='button' class='bxb-bn' id='bxbShareBtn'>" + bi(BOTNAV_ICONS.share) + "<span>" + L.share + "</span></button>"
       + "</nav>";
+    var sheet = bnCats.length
+      ? "<div class='rv-cat-scrim' id='rvCatScrim'></div>"
+        + "<div class='rv-cat-sheet' id='rvCatSheet' role='dialog' aria-modal='true' aria-labelledby='rvCatSheetTitle'>"
+        + "<div class='rv-cat-sheet-head'>"
+        + "<h3 id='rvCatSheetTitle'>" + esc(catMenuLabel()) + "</h3>"
+        + "<button type='button' class='rv-cat-x' id='rvCatSheetX' aria-label='" + tpl("ปิด", "Close") + "'>✕</button>"
+        + "</div>"
+        + catSearchHtml(bnCats.length, "rvCatFilterM")
+        + "<ul class='rv-cat-list' role='menu'>" + catItemsHtml(bnCats) + "</ul>"
+        + "<p class='rv-cat-none' hidden='hidden'>" + tpl("ไม่พบหมวดหมู่ที่ค้นหา", "No matching category") + "</p>"
+        + "</div>"
+      : "";
     var sc = "<script>/*<![CDATA[*/(function(){"
       + THEME_CTRL_JS
       + "var TC=window.__bxbTheme;"
@@ -1162,8 +1267,21 @@
       + "if(cls)cls.addEventListener('click',function(){spSet(false);});"
       + "if(scr)scr.addEventListener('click',function(){spSet(false);});"
       + "document.addEventListener('keydown',function(e){if(e.key==='Escape')spSet(false);});"
+      + (bnCats.length ? CAT_FILTER_JS
+        + "var sh=document.getElementById('rvCatSheet'),shb=document.getElementById('bxbCatBtn'),"
+        + "shx=document.getElementById('rvCatSheetX'),shs=document.getElementById('rvCatScrim');"
+        + "if(sh&&shb){"
+        + "function shSet(o){sh.classList.toggle('open',o);if(shs)shs.classList.toggle('open',o);"
+        + "shb.setAttribute('aria-expanded',o?'true':'false');document.body.classList.toggle('rv-cat-lock',o);"
+        + "if(o){var f=sh.querySelector('.rv-cat-filter');if(f)setTimeout(function(){f.focus();},300);}}"
+        + "shb.addEventListener('click',function(){shSet(!sh.classList.contains('open'));});"
+        + "if(shx)shx.addEventListener('click',function(){shSet(false);});"
+        + "if(shs)shs.addEventListener('click',function(){shSet(false);});"
+        + "document.addEventListener('keydown',function(e){if(e.key==='Escape')shSet(false);});"
+        + "window.__bxbCatFilter(sh);"
+        + "}" : "")
       + "}());/*]]>*/<\/script>";
-    return css + pop + bar + sc;
+    return css + pop + bar + sheet + sc;
   }
   // in-builder preview of the bottom nav (mobile view only)
   function botNavPreview() {
@@ -1172,8 +1290,9 @@
     function item(pp, lb) {
       return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;color:#64748b;font-size:11px;font-weight:500">' + bi(pp) + '<span>' + lb + '</span></div>';
     }
+    var pvSlot3 = reviewCats().length ? item(CAT_GRID_ICON, L.cats) : item(BOTNAV_ICONS.menu, L.menu);
     return '<div style="position:sticky;bottom:0;display:flex;background:#fff;border-top:1px solid #e8eaf2;box-shadow:0 -4px 20px rgba(0,0,0,.07);padding:8px 4px 10px">' +
-      item(BOTNAV_ICONS.home, L.home) + item(BOTNAV_ICONS.search, L.search) + item(BOTNAV_ICONS.menu, L.menu) + item(BOTNAV_ICONS.mode, L.mode) + item(BOTNAV_ICONS.share, L.share) +
+      item(BOTNAV_ICONS.home, L.home) + item(BOTNAV_ICONS.search, L.search) + pvSlot3 + item(BOTNAV_ICONS.mode, L.mode) + item(BOTNAV_ICONS.share, L.share) +
       '</div>';
   }
   var PAGE_CHECKLIST = [
@@ -1246,7 +1365,30 @@
               '</div>';
           }
           return '<a style="color:#1e2333;font-weight:500;font-size:15px;text-decoration:none;display:inline-flex;align-items:center;gap:6px">' + ic + esc(m.label) + "</a>";
-        }).join("");
+        });
+        // mirror the exported category dropdown so the canvas shows what ships
+        var pvCats = reviewCats();
+        if (pvCats.length && !isMob) {
+          var pvCols = catCols(pvCats.length);
+          var pvRows = pvCats.slice(0, pvCols * 4).map(function (c) {
+            return '<a style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:13.5px;color:#1e2333;text-decoration:none;white-space:nowrap">' +
+              (c.icon ? '<span style="flex:none;width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#f7f8fc;font-size:13px">' + esc(c.icon) + '</span>' : '') +
+              '<span style="flex:1;overflow:hidden;text-overflow:ellipsis">' + esc(c.label) + '</span>' +
+              (String(c.count || "").trim() ? '<span style="flex:none;font-size:11px;font-weight:700;color:#828aa0;background:#f0f1f7;border-radius:99px;padding:3px 8px">' + esc(String(c.count).trim()) + '</span>' : '') +
+              '</a>';
+          }).join("");
+          var pvMore = pvCats.length > pvCols * 4
+            ? '<div style="grid-column:1/-1;text-align:center;font-size:11.5px;color:#9aa;padding:6px 0 2px">' + tpl("และอีก " + (pvCats.length - pvCols * 4) + " หมวด", "+" + (pvCats.length - pvCols * 4) + " more") + '</div>'
+            : "";
+          menu.splice(menu.length > 1 ? 1 : menu.length, 0,
+            '<div style="position:relative;display:inline-block">' +
+              '<a style="color:' + pr + ';font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;background:#f4f5fb;padding:7px 13px;border-radius:8px">' +
+                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" style="width:16px;height:16px"><rect x="3" y="3" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="3" width="7.5" height="7.5" rx="2"/><rect x="3" y="13.5" width="7.5" height="7.5" rx="2"/><rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2"/></svg>' +
+                esc(catMenuLabel()) + ' <span style="font-size:10px">▾</span></a>' +
+              '<div style="position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#fff;border:1px solid #eef;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.13);padding:8px;z-index:3;display:grid;grid-template-columns:repeat(' + pvCols + ',minmax(180px,1fr));gap:2px 6px">' + pvRows + pvMore + '</div>' +
+            '</div>');
+        }
+        menu = menu.join("");
         var hdrLogoUrl = S.seo && S.seo.logoUrl;
         // logo image (auto-sized) + blog name on one row, image leading
         var hdrLogoDesktop = '<div style="display:flex;align-items:center;gap:10px;min-width:0">' +
@@ -2150,9 +2292,23 @@
           return '<div title="' + ic.label + '" style="width:34px;height:34px;border-radius:8px;background:' + fChip + ';display:grid;place-items:center;flex-shrink:0">' +
             '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:' + fFg + '">' + ic.svg + '</svg></div>';
         }).join("");
+        var pvFHb = headerBlockOf();
+        var pvFCats = (pvFHb && pvFHb.props.catFooter === false) ? [] : reviewCats();
+        var pvFMax = parseInt(pvFHb && pvFHb.props.catFooterMax != null ? pvFHb.props.catFooterMax : 12, 10);
+        if (pvFMax > 0) pvFCats = pvFCats.slice(0, pvFMax);
+        var pvFCatsHtml = pvFCats.length
+          ? '<div><div style="display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:' + fFg + ';margin-bottom:12px">' +
+              '<span style="width:4px;height:14px;border-radius:99px;background:linear-gradient(180deg,' + d.primary + ',' + d.accent + ')"></span>' + esc(catMenuLabel()) + '</div>' +
+            '<div style="display:flex;flex-wrap:wrap;gap:7px">' + pvFCats.map(function (c) {
+              return '<span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:' + fMuted + ';background:' + fChip + ';border-radius:99px;padding:5px 12px">' +
+                (c.icon ? esc(c.icon) : "") + esc(c.label) +
+                (String(c.count || "").trim() ? '<span style="opacity:.6;font-size:10.5px;font-weight:700">' + esc(String(c.count).trim()) + '</span>' : '') +
+                '</span>';
+            }).join("") + '</div></div>'
+          : "";
         var fGridStyle = VIEW === "mobile"
           ? "display:flex;flex-direction:column;gap:24px"
-          : "display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start";
+          : "display:grid;grid-template-columns:" + (pvFCatsHtml ? "1.4fr .8fr 1.3fr" : "1.5fr 1fr") + ";gap:40px;align-items:start";
         var fLogoUrl = S.seo && S.seo.logoUrl;
         var fLogoPart = '<div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">' +
           (fLogoUrl ? '<img src="' + esc(fLogoUrl) + '" alt="" style="height:28px;width:auto;max-width:120px;object-fit:contain;flex:none">' : '') +
@@ -2165,6 +2321,7 @@
             (fSocials.length ? '<div style="display:flex;gap:8px;flex-wrap:wrap">' + fSocialHtml + '</div>' : '') +
           '</div>' +
           (fLinks.length ? '<div style="display:grid;grid-template-columns:repeat(' + fLinksCols + ',1fr);gap:6px 24px;padding-top:4px">' + fLinksHtml + '</div>' : '') +
+          pvFCatsHtml +
           '</div>' +
           '<div style="text-align:center;color:' + fDim + ';font-size:12px;margin-top:36px;padding-top:18px;border-top:1px solid ' + fLine + ';max-width:980px;margin-left:auto;margin-right:auto">' + esc(p.copyright) + '</div>' +
           '</div>';
@@ -2506,6 +2663,54 @@
       "</div>";
   }
 
+  // Category editor · review template only. Hand-entered so the user controls anchor text,
+  // link target and ordering, which is where the real internal-linking value sits.
+  function categoriesEditor(p) {
+    var cats = catsOf(p);
+    var usesLabel = false;
+    var rows = cats.map(function (c, i) {
+      var t = c.linkType || "label";
+      var url = catUrlFor(c);
+      if (t === "label") usesLabel = true;
+      var typeSel = '<select class="inp" data-catt="' + i + '" style="flex:0 0 auto;width:104px;padding:6px 4px;font-size:12px">' +
+        '<option value="page"' + (t === "page" ? " selected" : "") + '>' + tpl("หน้าเพจ", "Page") + '</option>' +
+        '<option value="label"' + (t === "label" ? " selected" : "") + '>' + tpl("ป้ายกำกับ", "Label") + '</option>' +
+        '<option value="url"' + (t === "url" ? " selected" : "") + '>' + tpl("URL เอง", "Custom URL") + '</option>' +
+        '</select>';
+      var val = t === "page" ? (c.pageSlug || "") : t === "label" ? (c.labelName || "") : (c.url || "");
+      var ph = t === "page" ? tpl("ชื่อหน้า เช่น electronics", "Page slug, e.g. electronics")
+             : t === "label" ? tpl("ชื่อป้ายกำกับให้ตรงเป๊ะ", "Exact label name")
+             : "https://…";
+      return '<div class="menu-row" data-cati="' + i + '">' +
+        '<div class="menu-row-top">' +
+          '<span class="menu-grip">⋮⋮</span>' +
+          '<input class="inp menu-label" data-catl="' + i + '" value="' + esc(c.label || "") + '" placeholder="' + tpl("ชื่อหมวดหมู่", "Category name") + '">' +
+          '<input class="inp" data-catic="' + i + '" value="' + esc(c.icon || "") + '" placeholder="🏷" title="' + tpl("ไอคอน (ไม่บังคับ)", "Icon (optional)") + '" style="flex:0 0 auto;width:44px;padding:6px 2px;text-align:center;font-size:15px">' +
+          '<input class="inp" data-catn="' + i + '" value="' + esc(c.count || "") + '" placeholder="#" title="' + tpl("จำนวน (ไม่บังคับ)", "Count (optional)") + '" style="flex:0 0 auto;width:48px;padding:6px 2px;text-align:center;font-size:12px">' +
+          '<button class="menu-del" data-catdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
+        '</div>' +
+        '<div class="menu-secondary" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel +
+          '<input class="inp" data-catv="' + i + '" value="' + esc(val) + '" placeholder="' + ph + '" style="flex:1;min-width:130px">' +
+          '<div class="url-chip' + (url ? "" : " empty") + '" style="flex-basis:100%">' + (url ? esc(url) : tpl("ยังไม่มีลิงก์ · หมวดนี้จะถูกข้าม", "No link yet, this row is skipped")) + '</div>' +
+        '</div>' +
+      '</div>';
+    }).join("");
+    var n = cats.length;
+    return '<div class="field"><label>' + tr("หมวดหมู่สินค้า") + '</label>' +
+      '<div class="menu-list">' + rows + '</div>' +
+      '<button class="menu-add" data-catadd="1">' + tr("+ เพิ่มหมวดหมู่") + '</button>' +
+      '<div class="hint" style="margin-top:6px">' + tpl(
+        'กรอกเอง คุมข้อความลิงก์และปลายทางได้เต็มที่ · เมนูจะซ่อนอัตโนมัติถ้ายังไม่ได้กรอก · ตอนนี้ ' + n + ' หมวด → ดรอปดาวน์ ' + catCols(n) + ' คอลัมน์' + (n >= CAT_FILTER_MIN ? ' + ช่องกรอง' : ''),
+        'Hand-entered so you control anchor text and destination. The menu hides itself while empty. ' + n + ' categories → ' + catCols(n) + '-column dropdown' + (n >= CAT_FILTER_MIN ? ' with a filter box' : '')) + '</div>' +
+      (usesLabel ? '<div class="note warn">' + svg('<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>', 2) + '<div>' + tpl(
+        'ลิงก์แบบ "ป้ายกำกับ" ชี้ไป <code>/search/label/…</code> ซึ่ง robots.txt ของ Blogger บล็อกไว้ ใช้ได้ทันทีแต่ Google ไม่เก็บดัชนี · ถ้าอยากได้ผล SEO ให้สร้างหน้าเพจต่อหมวด แล้วเปลี่ยนเป็นแบบ "หน้าเพจ"',
+        'A "Label" link points at <code>/search/label/…</code>, which Blogger blocks in robots.txt. It works right away but Google will not index it. For SEO value, create a page per category and switch the row to "Page".') + '</div></div>' : '') +
+      '</div>' +
+      txt("catLabel", "ชื่อเมนูที่แสดง", p.catLabel != null ? p.catLabel : tpl("หมวดหมู่สินค้า", "Categories")) +
+      tog("catFooter", "แสดงในส่วนท้ายเว็บ (Footer)", p.catFooter !== false, tpl("ได้ลิงก์ภายในติดทุกหน้า", "Internal links on every page")) +
+      seg("catFooterMax", "จำนวนสูงสุดใน Footer", String(p.catFooterMax == null ? 12 : p.catFooterMax), [["8", "8"], ["12", "12"], ["0", tpl("ทั้งหมด", "All")]]);
+  }
+
   function footerEditor(p) {
     var fItems = footerLinksOf(p);
     var sItems = socialLinksOf(p);
@@ -2550,7 +2755,13 @@
       case "header": return imgUrlSeo("logoUrl", "URL รูปโลโก้ (Header & Footer & Schema)", S.seo && S.seo.logoUrl || "")
         + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>' + tpl('แนะนำ 512×512px · PNG โปร่งใส · ≤200KB · ซิงก์กับ Knowledge Graph "URL โลโก้" อัตโนมัติ', 'Recommended 512×512px · PNG transparent · ≤200KB · synced with Knowledge Graph "Logo URL"') + '</div></div>'
         + txt("logoText", "ชื่อบล็อก / ข้อความโลโก้", p.logoText, tpl('ซิงก์ไปยัง SEO → ชื่อบล็อก อัตโนมัติ', 'Auto-synced to SEO → Blog name'))
-        + menuEditor(p) + tog("showMenuIcons", "แสดงไอคอนหน้าเมนู", p.showMenuIcons !== false) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch) + tog("mobileBottomNav", "แถบเมนูล่าง (มือถือ)", p.mobileBottomNav !== false, tpl("หน้าแรก · ค้นหา · เมนู · โหมด · แชร์", "Home · Search · Menu · Mode · Share"));
+        + menuEditor(p)
+        + (S && S.templateId === "review" ? categoriesEditor(p) : "")
+        + tog("showMenuIcons", "แสดงไอคอนหน้าเมนู", p.showMenuIcons !== false) + seg("mobileSide", "เมนูมือถือเด้งจาก", p.mobileSide || "right", [["left", "◧ ซ้าย"], ["right", "ขวา ◨"]]) + tog("sticky", "ติดด้านบน (Sticky)", p.sticky) + tog("showSearch", "แสดงปุ่มค้นหา", p.showSearch)
+        + tog("mobileBottomNav", "แถบเมนูล่าง (มือถือ)", p.mobileBottomNav !== false,
+            S && S.templateId === "review" && catsOf(p).length
+              ? tpl("หน้าแรก · ค้นหา · หมวดหมู่ · โหมด · แชร์", "Home · Search · Categories · Mode · Share")
+              : tpl("หน้าแรก · ค้นหา · เมนู · โหมด · แชร์", "Home · Search · Menu · Mode · Share"));
       case "hero": {
         var heroTid = S && S.templateId, heroExtra = "";
         if (heroTid === "review") heroExtra = tog("showRating", tpl("แสดงแถบคะแนนรีวิว", "Show rating bar"), p.showRating !== false) + txt("rating", tpl("คะแนน (เช่น 4.8/5)", "Score (e.g. 4.8/5)"), p.rating != null ? p.rating : "", tpl("เว้นว่าง = ซ่อน", "Leave blank to hide")) + txt("ratingCount", tpl("ข้อความจำนวนรีวิว", "Rating count text"), p.ratingCount != null ? p.ratingCount : "", tpl("เช่น จาก 1,200+ รีวิว · เว้นว่าง = ซ่อน", "e.g. from 1,200+ reviews · blank = hide"));
@@ -2854,6 +3065,27 @@
         });
       });
     }
+    // category bindings (review template)
+    $$("[data-catl]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catl].label = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
+    $$("[data-catic]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catic].icon = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
+    $$("[data-catn]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catn].count = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
+    $$("[data-catt]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = catsOf(b.props); arr[+sel.dataset.catt].linkType = sel.value; b.props.categories = arr; commit(); renderProps(); }); });
+    $$("[data-catv]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        var i = +inp.dataset.catv, arr = catsOf(b.props), t = arr[i].linkType || "label";
+        if (t === "page") arr[i].pageSlug = inp.value; else if (t === "label") arr[i].labelName = inp.value; else arr[i].url = inp.value;
+        b.props.categories = arr; renderCanvas(); save();
+        var chip = inp.parentElement && inp.parentElement.querySelector(".url-chip");
+        if (chip) { var u = catUrlFor(arr[i]); chip.textContent = u || tpl("ยังไม่มีลิงก์ · หมวดนี้จะถูกข้าม", "No link yet, this row is skipped"); chip.classList.toggle("empty", !u); }
+      });
+    });
+    $$("[data-catdel]", c).forEach(function (btn) { btn.addEventListener("click", function () { var arr = catsOf(b.props); arr.splice(+btn.dataset.catdel, 1); b.props.categories = arr; commit(); renderProps(); }); });
+    var catadd = c.querySelector("[data-catadd]");
+    if (catadd) catadd.addEventListener("click", function () {
+      var arr = catsOf(b.props);
+      arr.push({ id: uid(), label: tpl("หมวดหมู่ใหม่", "New category"), linkType: "label", labelName: "", icon: "", count: "" });
+      b.props.categories = arr; commit(); renderProps();
+    });
     // footer link bindings
     $$("[data-fll]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = footerLinksOf(b.props); arr[+inp.dataset.fll].label = inp.value; b.props.footerLinks = arr; renderCanvas(); save(); }); });
     $$("[data-ficon]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = footerLinksOf(b.props); arr[+sel.dataset.ficon].icon = sel.value; b.props.footerLinks = arr; renderCanvas(); save(); }); });
@@ -4204,7 +4436,9 @@ tplStyleVars(),
 ".post-body pre code{background:none;padding:0}",
 ".site-footer{background:var(--footer-bg);color:var(--footer-fg);padding:52px 20px 28px;border-top:3px solid var(--primary,#6366f1)}",
 ".footer-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:48px;max-width:980px;margin:0 auto;align-items:start}",
-"@media(max-width:768px){.footer-grid{grid-template-columns:1fr;gap:28px}}",
+".footer-grid--cats{grid-template-columns:1.4fr .8fr 1.3fr;gap:40px}",
+"@media(max-width:900px){.footer-grid--cats{grid-template-columns:1fr 1fr;gap:32px}.footer-grid--cats .footer-cats{grid-column:1/-1}}",
+"@media(max-width:768px){.footer-grid,.footer-grid--cats{grid-template-columns:1fr;gap:28px}}",
 ".footer-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:var(--footer-fg);margin-bottom:12px;font-family:$(titlefont)}",
 ".footer-logo img{height:28px;width:auto;max-width:120px;object-fit:contain;display:block}",
 ".footer-about{color:var(--footer-muted);font-size:14px;line-height:1.65;margin:0 0 20px;max-width:340px}",
@@ -4460,6 +4694,52 @@ tplStyleVars(),
 ".rv-hero-eyebrow{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.78);margin-bottom:18px}",
 ".rv-hero-title{font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.06;letter-spacing:-.02em;color:#fff;margin:0 0 16px;font-family:var(--font)}",
 ".rv-hero-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;margin:0 0 22px;max-width:500px}",
+/* ── category menu · desktop dropdown, mobile sheet, footer chips ── */
+".rv-catli{position:relative}",
+".rv-catbtn{display:inline-flex;align-items:center;gap:8px;font:inherit;font-weight:500;color:var(--text-main);background:none;border:0;cursor:pointer;padding:8px 12px;border-radius:8px;transition:background .15s,color .15s}",
+".rv-catbtn:hover,.rv-catbtn[aria-expanded='true']{background:var(--hover-bg);color:var(--primary)}",
+".rv-cat-caret{width:15px;height:15px;flex:none;opacity:.7;transition:transform .22s}",
+".rv-catbtn[aria-expanded='true'] .rv-cat-caret{transform:rotate(180deg)}",
+".rv-cat-drop{position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%) translateY(-8px);z-index:90;background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:8px;max-width:min(760px,calc(100vw - 32px));max-height:min(70vh,560px);overflow-y:auto;opacity:0;visibility:hidden;transition:opacity .18s,transform .18s,visibility .18s}",
+".rv-cat-drop.open{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}",
+".rv-cat-drop::before{content:'';position:absolute;top:-6px;left:50%;width:12px;height:12px;margin-left:-6px;background:var(--bg-header);border-left:1px solid var(--border);border-top:1px solid var(--border);transform:rotate(45deg);border-radius:2px 0 0 0}",
+".rv-cat-list{list-style:none;margin:0;padding:0;display:grid;gap:2px}",
+".rv-cat-drop[data-cols='2'] .rv-cat-list{grid-template-columns:repeat(2,minmax(196px,1fr));gap:2px 6px}",
+".rv-cat-drop[data-cols='3'] .rv-cat-list{grid-template-columns:repeat(3,minmax(188px,1fr));gap:2px 6px}",
+".rv-cat-list li[hidden]{display:none}",
+".rv-cat-list a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:background .15s,color .15s}",
+".rv-cat-list a:hover{background:var(--hover-bg);color:var(--primary)}",
+".rv-cat-ic{flex:none;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:var(--bg-surface);font-size:14px;line-height:1}",
+".rv-cat-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
+".rv-cat-n{flex:none;min-width:26px;text-align:center;font-size:11.5px;font-weight:700;color:var(--text-muted);background:var(--bg-surface-2);border-radius:99px;padding:3px 8px;line-height:1.25}",
+".rv-cat-list a:hover .rv-cat-n{background:var(--primary);color:#fff}",
+".rv-cat-search{display:flex;align-items:center;gap:8px;margin:2px 4px 8px;padding:2px 6px 2px 12px;border:1px solid var(--border-med);border-radius:11px;background:var(--bg-surface)}",
+".rv-cat-search svg{width:16px;height:16px;flex:none;color:var(--text-subtle)}",
+".rv-cat-search input{flex:1;min-width:0;border:0;background:none;padding:9px 0;font-size:14px;font-family:inherit;color:var(--text-main);outline:none}",
+".rv-cat-none{margin:6px 4px 4px;padding:14px;text-align:center;font-size:13px;color:var(--text-muted)}",
+".rv-cat-scrim,.rv-cat-sheet{display:none}",
+"@media(max-width:768px){",
+".rv-catli{display:none}",
+"body.rv-cat-lock{overflow:hidden}",
+".rv-cat-scrim{display:block;position:fixed;inset:0;z-index:210;background:rgba(0,0,0,.45);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .25s}",
+".rv-cat-scrim.open{opacity:1;pointer-events:auto}",
+".rv-cat-sheet{display:flex;flex-direction:column;position:fixed;left:0;right:0;bottom:0;z-index:220;background:var(--bg-header);border-radius:20px 20px 0 0;box-shadow:0 -10px 40px rgba(0,0,0,.22);padding:0 10px calc(14px + env(safe-area-inset-bottom,0px));max-height:78vh;transform:translateY(102%);visibility:hidden;transition:transform .3s cubic-bezier(.22,1,.36,1),visibility .3s}",
+".rv-cat-sheet.open{transform:translateY(0);visibility:visible}",
+".rv-cat-sheet-head{position:relative;flex:none;display:flex;align-items:center;padding:16px 6px 12px;border-bottom:1px solid var(--border)}",
+".rv-cat-sheet-head::before{content:'';position:absolute;top:7px;left:50%;width:40px;height:4px;margin-left:-20px;border-radius:99px;background:var(--border-med)}",
+".rv-cat-sheet-head h3{margin:0;font-size:16px;font-weight:700;color:var(--text-main)}",
+".rv-cat-x{margin-left:auto;width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:50%;border:1px solid var(--border-med);background:transparent;color:var(--text-main);font-size:15px;cursor:pointer;-webkit-tap-highlight-color:transparent}",
+".rv-cat-x:active{background:var(--hover-bg)}",
+".rv-cat-sheet .rv-cat-search{margin:12px 4px 4px}",
+".rv-cat-sheet .rv-cat-list{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:6px 0 4px;grid-template-columns:1fr}",
+".rv-cat-sheet .rv-cat-list a{padding:13px 10px;font-size:15px}",
+"}",
+".footer-cats-head{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:.03em;color:var(--footer-fg);margin:0 0 14px}",
+".footer-cats-head::before{content:'';flex:none;width:4px;height:15px;border-radius:99px;background:linear-gradient(180deg,var(--primary),var(--accent))}",
+".footer-cats-wrap{display:flex;flex-wrap:wrap;gap:8px}",
+".footer-cat{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--footer-muted);background:var(--footer-chip);border:1px solid transparent;border-radius:99px;padding:6px 13px;text-decoration:none;transition:color .2s,background .2s,border-color .2s,transform .18s}",
+".footer-cat:hover{color:var(--footer-fg);background:transparent;border-color:color-mix(in srgb,var(--primary) 55%,transparent);transform:translateY(-2px)}",
+".footer-cat-n{opacity:.62;font-size:11px;font-weight:700}",
 ".rv-hero-rating{display:flex;align-items:center;gap:10px;margin-bottom:30px}",
 ".rv-hero-stars{color:#fff;font-size:18px;letter-spacing:2px}",
 ".rv-hero-score{font-size:16px;font-weight:700;color:#fff}",
@@ -4776,7 +5056,25 @@ tplStyleVars(),
           }
           var cur = (t === "home") ? " expr:aria-current='data:view.isHomepage ? \"page\" : \"false\"'" : "";
           return "<li><a href='" + href + "'" + cur + ">" + ic + "<span>" + esc(m.label) + "</span></a></li>";
-        }).join("");
+        });
+        // Category dropdown sits second in the bar (right after Home), the spot readers expect it.
+        var hCats = reviewCats();
+        if (hCats.length) {
+          var hcCols = catCols(hCats.length);
+          var hCatLi = "<li class='rv-catli'>" +
+            "<button type='button' class='rv-catbtn' id='rvCatBtn' aria-haspopup='true' aria-expanded='false' aria-controls='rvCatDrop'>" +
+              "<svg class='nav-ic' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'><rect x='3' y='3' width='7.5' height='7.5' rx='2'/><rect x='13.5' y='3' width='7.5' height='7.5' rx='2'/><rect x='3' y='13.5' width='7.5' height='7.5' rx='2'/><rect x='13.5' y='13.5' width='7.5' height='7.5' rx='2'/></svg>" +
+              "<span>" + esc(catMenuLabel()) + "</span>" +
+              "<svg class='rv-cat-caret' viewBox='0 0 24 24' aria-hidden='true'><path d='M7 10l5 5 5-5z' fill='currentColor'/></svg>" +
+            "</button>" +
+            "<div class='rv-cat-drop' id='rvCatDrop' data-cols='" + hcCols + "'>" +
+              catSearchHtml(hCats.length, "rvCatFilterD") +
+              "<ul class='rv-cat-list' role='menu'>" + catItemsHtml(hCats) + "</ul>" +
+              "<p class='rv-cat-none' hidden='hidden'>" + tpl("ไม่พบหมวดหมู่ที่ค้นหา", "No matching category") + "</p>" +
+            "</div></li>";
+          hMenu.splice(hMenu.length > 1 ? 1 : hMenu.length, 0, hCatLi);
+        }
+        hMenu = hMenu.join("");
         var stickyStyle = p.sticky ? " style='position:sticky;top:0;z-index:50'" : "";
         return "<header role='banner' class='site-header'" + stickyStyle + ">" +
           "<input type='checkbox' id='navtoggle' class='nav-toggle-cb' hidden='hidden'/>" +
@@ -4807,6 +5105,16 @@ tplStyleVars(),
                 "if(window.innerWidth<=768){e.preventDefault();var li=a.parentElement;li.classList.toggle('open');a.setAttribute('aria-expanded',li.classList.contains('open'));}" +
               "});" +
             "});" +
+            (hCats.length ? CAT_FILTER_JS
+              + "var cb2=document.getElementById('rvCatBtn'),cd=document.getElementById('rvCatDrop');"
+              + "if(cb2&&cd){"
+              + "function cset(o){cd.classList.toggle('open',o);cb2.setAttribute('aria-expanded',o?'true':'false');"
+              + "if(o){var f=cd.querySelector('.rv-cat-filter');if(f)setTimeout(function(){f.focus();},120);}}"
+              + "cb2.addEventListener('click',function(e){e.stopPropagation();cset(!cd.classList.contains('open'));});"
+              + "document.addEventListener('click',function(e){if(!cd.contains(e.target)&&e.target!==cb2)cset(false);});"
+              + "document.addEventListener('keydown',function(e){if(e.key==='Escape')cset(false);});"
+              + "window.__bxbCatFilter(cd);"
+              + "}" : "") +
           "}());/*]]>*/<\/script>" +
           (p.mobileBottomNav !== false ? botNavStatic() : "");
       case "hero":
@@ -5417,8 +5725,25 @@ tplStyleVars(),
           return "<a href='" + esc(absUrl(s.url)) + "' target='_blank' rel='noopener noreferrer' class='footer-social-icon' aria-label='" + ic.label + "' style='--ic-color:" + ic.color + "'>" +
             "<svg viewBox='0 0 24 24' width='18' height='18' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>" + ic.svg + "</svg></a>";
         }).join("\n");
+        // Footer categories reuse the header's list, so there is nothing extra to fill in.
+        // Chips wrap instead of stacking, which keeps 20 entries looking tidy rather than long.
+        var fCats = reviewCats();
+        var fHb = headerBlockOf();
+        if (fHb && fHb.props.catFooter === false) fCats = [];
+        var fCatMax = parseInt(fHb && fHb.props.catFooterMax != null ? fHb.props.catFooterMax : 12, 10);
+        if (fCatMax > 0) fCats = fCats.slice(0, fCatMax);
+        var fCatsHtml = fCats.length
+          ? "<div class='footer-cats'><div class='footer-cats-head'>" + esc(catMenuLabel()) + "</div>" +
+            "<div class='footer-cats-wrap'>" + fCats.map(function (c) {
+              return "<a class='footer-cat' href='" + esc(catUrlFor(c)) + "'>" +
+                (c.icon ? "<span aria-hidden='true'>" + esc(c.icon) + "</span>" : "") +
+                "<span>" + esc(c.label) + "</span>" +
+                (String(c.count || "").trim() ? "<span class='footer-cat-n'>" + esc(String(c.count).trim()) + "</span>" : "") +
+                "</a>";
+            }).join("") + "</div></div>"
+          : "";
         return "<footer role='contentinfo' class='site-footer'><div class='wrap'>" +
-          "<div class='footer-grid'>" +
+          "<div class='footer-grid" + (fCatsHtml ? " footer-grid--cats" : "") + "'>" +
             "<div class='footer-brand'>" +
               "<div class='footer-logo'>" +
                 (S.seo && S.seo.logoUrl ? "<img src='" + esc(S.seo.logoUrl) + "' alt='' loading='lazy'/>" : "") +
@@ -5427,6 +5752,7 @@ tplStyleVars(),
               (sfSocials.length ? "<div class='footer-social'>" + sfSocialHtml + "</div>" : "") +
             "</div>" +
             (sfLinks.length ? "<nav class='footer-links' aria-label='Footer'>" + sfLinksHtml + "</nav>" : "") +
+            fCatsHtml +
           "</div>" +
           "<div class='footer-bottom'>" + esc(p.copyright) + "</div>" +
           "</div></footer>";
@@ -6442,6 +6768,8 @@ tplStyleVars(),
     "คำถามที่พบบ่อย (FAQ)": "FAQ Accordion", "accordion + FAQ schema": "accordion + FAQ schema", "คัดลอกโค้ด FAQ": "Copy the FAQ snippet",
     "แถบแชร์ลอยข้างจอ": "Sticky Share Bar", "sticky share (บนหน้าบทความ)": "sticky share (post pages)", "ตำแหน่งแถบ": "Bar position",
     "สไลด์รูป/แกลเลอรี": "Image Slider", "เลื่อนรูป + คำบรรยาย": "Swipe images + captions", "คัดลอกโค้ดสไลด์": "Copy the slider snippet",
+    "หมวดหมู่สินค้า": "Product categories", "+ เพิ่มหมวดหมู่": "+ Add category", "ชื่อเมนูที่แสดง": "Menu label",
+    "แสดงในส่วนท้ายเว็บ (Footer)": "Show in the footer", "จำนวนสูงสุดใน Footer": "Max shown in footer",
     "สุ่ม / ล่าสุด ตามป้ายกำกับ": "Random / Recent by label", "Random / Recent posts": "Random / Recent posts", "โหมด": "Mode", "ล่าสุด": "Recent", "สุ่ม": "Random", "กรองตามป้ายกำกับ (เว้นว่าง = ทุกป้าย)": "Filter by label (blank = all)",
     "สตอรี่ (Web Stories)": "Web Stories", "วงกลม + ดูเต็มจอ": "Rings + fullscreen viewer", "หัวข้อส่วน (เว้นว่างได้)": "Section heading (optional)", "จำนวนสตอรี่": "Story count", "เวลาต่อสตอรี่ (วินาที)": "Seconds per story",
     "เส้นทางนำทาง (Breadcrumb)": "Breadcrumbs", "หน้าแรก › หมวด › บทความ + schema": "Home › Category › Post + schema", "ข้อความหน้าแรก": "Home label",
