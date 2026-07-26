@@ -15,6 +15,12 @@
  * every URL is treated as new, which is exactly the behaviour wanted the
  * first time round.
  *
+ * The two sitemaps are announced alongside the pages. They are not listed in
+ * sitemap.xml themselves, so they get added by hand, and they go through the
+ * same hash comparison as everything else. Their <lastmod> is a date, so they
+ * only change on a day the site is actually rebuilt, which keeps them to at
+ * most one submission per day rather than one per deploy.
+ *
  * Writes two files:
  *   dist/indexnow-state.json   ships with the site, read by the next run
  *   .indexnow-queue.json       the URLs to submit, read by indexnow-submit
@@ -32,10 +38,15 @@ const STATE_PATH = 'indexnow-state.json';
 const QUEUE_FILE = '.indexnow-queue.json';
 const FORCE_ALL = process.argv.includes('--all');
 
+// Not pages, so they never appear in sitemap.xml's own <loc> list.
+const EXTRA_URLS = [`${SITE}/sitemap.xml`, `${SITE}/sitemap-images.xml`];
+
 // canonical URL -> the file that serves it (astro build.format 'file')
 function fileFor(url) {
   let p = url.replace(SITE, '') || '/';
   p = p.replace(/[?#].*$/, '');
+  // already a real filename (the sitemaps); everything else is an extensionless page
+  if (/\.[a-z0-9]+$/i.test(p)) return join(DIST, p.replace(/^\//, ''));
   if (p.endsWith('/')) p += 'index';
   return join(DIST, p.replace(/^\//, '') + '.html');
 }
@@ -70,7 +81,7 @@ async function previousState() {
   }
 }
 
-const urls = urlsFromSitemap();
+const urls = [...urlsFromSitemap(), ...EXTRA_URLS];
 const pages = {};
 const missing = [];
 for (const url of urls) {
