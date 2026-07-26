@@ -12,6 +12,12 @@
  * Only pairs where BOTH files exist get tagged, so a Thai page with no
  * translation yet is left untouched (no dangling hreflang). Pages that
  * already declare x-default (the hand-built homepages) are skipped.
+ *
+ * The visible EN/TH switch is repointed here too. Article pages ship it as a
+ * hardcoded link to the other language's homepage, which drops a reader who
+ * was halfway through a guide back at the front door. This step already knows
+ * which pairs exist, so it is the one place that can rewrite that link without
+ * ever pointing at a page that was never translated.
  */
 import { readFileSync, writeFileSync, readdirSync, statSync, existsSync } from 'node:fs';
 import { join } from 'node:path';
@@ -37,6 +43,7 @@ const urlFromRel = (rel) => {
 };
 
 let tagged = 0;
+let switched = 0;
 for (const f of walk(DIST)) {
   const rel = f.slice(DIST.length + 1).replace(/\\/g, '/');
   const isEn = rel === 'en/index.html' || rel.startsWith('en/');
@@ -54,8 +61,27 @@ for (const f of walk(DIST)) {
     `<link rel="alternate" hreflang="en" href="${enUrl}">\n` +
     `<link rel="alternate" hreflang="x-default" href="${enUrl}">\n`;
 
-  const out = html.replace('</head>', block + '</head>');
+  let out = html.replace('</head>', block + '</head>');
+  out = repointSwitch(out, isEn, isEn ? thUrl : enUrl);
   if (out !== html) { writeFileSync(f, out); tagged++; }
 }
 
-console.log(`hreflang: tagged ${tagged} pages (th/en/x-default pairs)`);
+// Rewrite the counterpart link inside the language switch, in both the desktop
+// header and the mobile drawer. Only the href of the *other* language moves; the
+// current-language link still points home, which is what a reader expects from it.
+function repointSwitch(html, isEn, href) {
+  const target = isEn ? 'th' : 'en';
+  const path = href.replace(SITE, '');
+  let n = 0;
+  const next = html.replace(
+    new RegExp(`(<a\\s[^>]*href=")([^"]*)("[^>]*hreflang="${target}"[^>]*>)`, 'g'),
+    (m, a, _old, b) => { n++; return a + path + b; }
+  ).replace(
+    new RegExp(`(<a\\s[^>]*hreflang="${target}"[^>]*href=")([^"]*)(")`, 'g'),
+    (m, a, _old, b) => { n++; return a + path + b; }
+  );
+  if (n) switched += n;
+  return next;
+}
+
+console.log(`hreflang: tagged ${tagged} pages (th/en/x-default pairs), repointed ${switched} language links`);
