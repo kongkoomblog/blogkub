@@ -929,7 +929,7 @@
   var VIEW = window.innerWidth <= 1000 ? "mobile" : "desktop";
   var HISTORY = [];
   var KEY = "bxb_project_v1";
-  var DOCS_BASE = "/docs/";
+  var DOCS_BASE = "/learn/";
 
   function freshProject(name, design) {
     return {
@@ -2617,7 +2617,7 @@
           '<div class="url-chip' + (m.pageSlug ? "" : " empty") + '">' + (m.pageSlug ? computedUrl : tpl("กรอกชื่อหน้าก่อน", "Enter page slug first")) + "</div>" +
           '<div class="menu-page-status">' +
           '<label class="tg-mini"><input type="checkbox" data-mpc="' + i + '"' + (m.pageCreated ? " checked" : "") + '><span class="tg-lbl">' + tpl("สร้างหน้าเพจใน Blogger แล้ว", "Page created in Blogger") + '</span></label>' +
-          (!m.pageCreated ? ' <a href="/docs/create-page" target="_blank" class="help-link-sm">' + tpl("📖 วิธีสร้างหน้าเพจ", "📖 How to create a page") + '</a>' : "") +
+          (!m.pageCreated ? ' <a href="/learn/" target="_blank" rel="noopener noreferrer" class="help-link-sm">' + tpl("📖 วิธีสร้างหน้าเพจ", "📖 How to create a page") + '</a>' : "") +
           "</div>";
       } else if (t === "label") {
         sec = '<input class="inp" data-mlname="' + i + '" value="' + esc(m.labelName || "") + '" placeholder="' + tpl("ชื่อป้ายกำกับ เช่น ข่าวสาร, รีวิว", "Label name (e.g. news, reviews)") + '">' +
@@ -3581,7 +3581,7 @@
       + '<li>' + tpl('หรืออัปโหลดรูป 32×32px ขึ้น Blogger แล้วคัดลอก URL', 'Or upload a 32×32px image to Blogger and copy the URL') + '</li>'
       + '</ol>'
       + '<div class="img-guide-note">' + tpl('Favicon แสดงบน browser tab และผลการค้นหา Google · แนะนำขนาด 32×32 หรือ 64×64px', 'Favicon shows on browser tabs and Google results · recommended 32×32 or 64×64px') + '</div>'
-      + '<div style="padding:6px 11px 10px"><a href="' + esc(DOCS_BASE + 'favicon') + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 วิธีอัพโหลด Favicon ใน Blogger', '📖 How to upload a Favicon in Blogger') + ' →</a></div>'
+      + '<div style="padding:6px 11px 10px"><a href="' + esc(DOCS_BASE) + '" target="_blank" rel="noopener noreferrer" class="docs-learn-btn">' + tpl('📖 วิธีอัพโหลด Favicon ใน Blogger', '📖 How to upload a Favicon in Blogger') + ' →</a></div>'
       + '</details>';
     return '<div class="field"><label>' + tr("URL รูป Favicon") + '</label>'
       + '<input class="inp fav-url-inp" id="favUrlInp" data-sk="favUrl" value="' + esc(val) + '" placeholder="https://yourblog.blogspot.com/favicon.ico">'
@@ -3667,6 +3667,9 @@
       if (inp.type === "checkbox") inp.addEventListener("change", function () {
         S.seo[k] = inp.checked; save();
         if (k === "labelIndex" || k === "schema" || k === "schemaSoftwareApp") renderSeo();
+        // label indexing is also shown in the category editor; redraw it so the two
+        // doorways to this one value never disagree until the page is reloaded
+        if (k === "labelIndex") renderProps();
       });
       else inp.addEventListener("input", function () {
         S.seo[k] = inp.value; save();
