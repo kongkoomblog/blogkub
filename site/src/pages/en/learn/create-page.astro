@@ -3,11 +3,11 @@ import EnLayout from '../../../layouts/EnLayout.astro';
 const seo = `<title>How to create a page in Blogger 2026 (pages vs posts, and which ones you need)</title>
 <link rel="canonical" href="https://www.blogkub.com/en/learn/create-page">
 <meta property="og:url" content="https://www.blogkub.com/en/learn/create-page">
-<meta name="description" content="How to create a page in Blogger step by step, how pages differ from posts, how to link the URL to a menu item in BlogKub, and which pages your blog needs before applying to AdSense.">
+<meta name="description" content="How to create a page in Blogger step by step, why to title it in the Latin alphabet before renaming it, how pages differ from posts, how to link the URL to a menu item in BlogKub, and which pages your blog needs before applying to AdSense.">
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1">
 <meta property="og:type" content="article">
 <meta property="og:title" content="How to create a page in Blogger">
-<meta property="og:description" content="How pages differ from posts, how to create one, and which pages you need.">
+<meta property="og:description" content="Title it in the Latin alphabet first, or the URL comes out as blog-page.html.">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">
@@ -30,8 +30,8 @@ const seo = `<title>How to create a page in Blogger 2026 (pages vs posts, and wh
       "tool": [{ "@type": "HowToTool", "name": "Blogger account" }, { "@type": "HowToTool", "name": "BlogKub" }],
       "step": [
         { "@type": "HowToStep", "position": 1, "name": "Open the Pages menu", "text": "Go to blogger.com, select the blog, and click Pages in the left menu.", "url": "https://www.blogkub.com/en/learn/create-page#step1" },
-        { "@type": "HowToStep", "position": 2, "name": "Create the page and write it", "text": "Click New page, then add the page title and content.", "url": "https://www.blogkub.com/en/learn/create-page#step2" },
-        { "@type": "HowToStep", "position": 3, "name": "Publish and copy the URL", "text": "Click Publish, then copy the URL of the published page.", "url": "https://www.blogkub.com/en/learn/create-page#step3" },
+        { "@type": "HowToStep", "position": 2, "name": "Create the page with a Latin-alphabet title", "text": "Click New page and title it in the Latin alphabet, such as about, because Blogger builds the URL from the title at first publish. Then write the content.", "url": "https://www.blogkub.com/en/learn/create-page#step2" },
+        { "@type": "HowToStep", "position": 3, "name": "Publish, then rename the title", "text": "Publish to lock the URL as /p/about.html, then rename the title into your own language without the URL changing, and copy the URL.", "url": "https://www.blogkub.com/en/learn/create-page#step3" },
         { "@type": "HowToStep", "position": 4, "name": "Link it in BlogKub", "text": "In the theme builder, add a menu item of type Page and paste the URL, then export the XML and upload it to Blogger.", "url": "https://www.blogkub.com/en/learn/create-page#step4" }
       ]
     },
@@ -50,7 +50,9 @@ const seo = `<title>How to create a page in Blogger 2026 (pages vs posts, and wh
         { "@type": "Question", "name": "How many pages can a Blogger blog have?", "acceptedAnswer": { "@type": "Answer", "text": "Up to 20 pages per blog, which is generous in practice, because the genuinely necessary pages number no more than five or six." } },
         { "@type": "Question", "name": "Which pages should a blog have before applying to AdSense?", "acceptedAnswer": { "@type": "Answer", "text": "At minimum About, Contact, and a Privacy Policy. AdSense requires a privacy policy covering cookies and the data collected by advertising providers. About and Contact exist to establish that a real person stands behind the site." } },
         { "@type": "Question", "name": "I created a page but it does not show in the menu", "acceptedAnswer": { "@type": "Answer", "text": "Blogger pages do not join the menu automatically. You have to link the URL yourself. In a BlogKub theme, add a menu item of type Page, paste the URL, and export the theme again." } },
-        { "@type": "Question", "name": "Does Google index Blogger pages?", "acceptedAnswer": { "@type": "Answer", "text": "It can, like any other page, unless you have blocked it. But pages are rarely what brings search traffic. Their real job is to supply necessary information and make the site credible." } }
+        { "@type": "Question", "name": "Does Google index Blogger pages?", "acceptedAnswer": { "@type": "Answer", "text": "It can, like any other page, unless you have blocked it. But pages are rarely what brings search traffic. Their real job is to supply necessary information and make the site credible." } },
+        { "@type": "Question", "name": "Why title the page in the Latin alphabet first?", "acceptedAnswer": { "@type": "Answer", "text": "Blogger builds the URL from the title at first publish, keeping only Latin letters and digits. A title written entirely in a non-Latin script leaves nothing to build from, so Blogger falls back to blog-page.html, which cannot be changed. Title it about, publish, then rename the title into your own language. The URL stays /p/about.html." } },
+        { "@type": "Question", "name": "Can I set a page URL manually like a post?", "acceptedAnswer": { "@type": "Answer", "text": "No. The post editor has a Permalink option where you can type the slug yourself, but pages do not offer it. The title is the only way to influence a page URL, and only before the first publish." } }
       ]
     }
   ]
@@ -61,9 +63,9 @@ const body = `<main class="wrap">
 <article>
 <h1>How to create a page in Blogger and link it to your menu</h1>
 <p class="lead">Menu items like About, Contact, and Privacy Policy are not made from posts. They are made from what Blogger calls Pages. This guide covers how pages differ from posts, how to create one, how to link its URL to a menu item in your theme, and which pages are worth having from day one.</p>
-<p class="meta">Updated 26 July 2026 &nbsp; About a 9 minute read &nbsp; Level: Beginner</p>
+<p class="meta">Updated 26 July 2026 &nbsp; About an 11 minute read &nbsp; Level: Beginner</p>
 
-<div class="tldr"><p><strong>In short:</strong> go to blogger.com → <strong>Pages</strong> → <strong>New page</strong>, write it, and publish. Then <strong>copy that page URL</strong> and paste it into a Page-type menu item in BlogKub, and export the XML. Pages <strong>do not join the menu on their own</strong>: you always link them yourself. The pages to have before applying to AdSense are About, Contact, and a Privacy Policy.</p></div>
+<div class="tldr"><p><strong>In short:</strong> go to blogger.com → <strong>Pages</strong> → <strong>New page</strong>, write it, and publish. Then <strong>copy that page URL</strong> and paste it into a Page-type menu item in BlogKub, and export the XML. Pages <strong>do not join the menu on their own</strong>: you always link them yourself. The pages to have before applying to AdSense are About, Contact, and a Privacy Policy.<br><strong>Important:</strong> title the page in the <strong>Latin alphabet first</strong>, such as <code>about</code>, publish it, and only then rename it into your own language. The URL is built from the title at first publish and cannot be changed afterwards.</p></div>
 
 <h2>How pages differ from posts</h2>
 <p>New Blogger users mix these up, because the editor looks almost identical for both. Their roles are quite different.</p>
@@ -77,11 +79,30 @@ const body = `<main class="wrap">
 <h2 id="step1">Creating a page, step by step</h2>
 <ol class="steps">
   <li><strong>Open the Pages menu.</strong> Go to blogger.com, select the blog, and click <strong>Pages</strong> in the left menu. Not Posts.</li>
-  <li id="step2"><strong>Create the page.</strong> Click <strong>New page</strong>. You get an editor that looks like the post editor. Add the title and content as usual.</li>
+  <li id="step2"><strong>Create the page.</strong> Click <strong>New page</strong>. You get an editor that looks like the post editor. <strong>Give it a Latin-alphabet title first</strong>, such as <code>about</code>, then write the content. The next section explains why, and it matters more than it sounds.</li>
   <li id="step3"><strong>Publish.</strong> Click Publish at the top right. The page will show as published in the list.</li>
-  <li><strong>Copy the URL.</strong> Back in the page list, open the page you just made in a new tab and copy the URL from the address bar.</li>
+  <li><strong>Now rename it into your own language.</strong> Go back in and change the title to whatever your readers should see. The URL will not follow.</li>
+  <li><strong>Copy the URL.</strong> Open the page in a new tab and copy the URL from the address bar.</li>
 </ol>
 <p>A Blogger page URL looks roughly like <code>yourblog/p/page-name.html</code>. Note the <code>/p/</code> segment, which distinguishes it from a post at <code>/2026/07/post-name.html</code>. That is an instant way to tell which kind of URL you are holding.</p>
+
+<h2 id="naming">Title it in the Latin alphabet first, then rename it</h2>
+<p>This one bites anyone writing in a non-Latin script, and once it has bitten you it cannot be undone.</p>
+<p><strong>Blogger builds a page URL from the title at the moment you first publish</strong>, keeping only Latin letters and digits. If your title is written entirely in Thai, Arabic, Japanese or any other non-Latin script, every character is dropped and nothing is left to build a URL from. Blogger falls back to a generic one:</p>
+<p><code>https://yourblog.blogspot.com/p/blog-page.html</code></p>
+<p>Create several such pages and you get <code>blog-page_1.html</code>, <code>blog-page_2.html</code>, and so on. Nobody can tell which is which, neither you when wiring up the menu, nor Google, which treats words in a URL as one small signal about what a page covers.</p>
+<p>Worse, <strong>pages have no custom permalink field the way posts do.</strong> In the post editor there is a Permalink option where you can type the slug yourself. Pages do not offer it. The title is your only lever on the URL.</p>
+
+<h3>The way around it</h3>
+<ol class="steps">
+  <li><strong>Title it in the Latin alphabet first.</strong> Use a short, meaningful word: <code>about</code>, <code>contact</code>, <code>privacy</code>.</li>
+  <li><strong>Publish.</strong> The URL is now locked as <code>https://yourblog.blogspot.com/p/about.html</code>.</li>
+  <li><strong>Go back and rename the title</strong> into your own language, then update.</li>
+  <li><strong>Check the URL did not move.</strong> It is still <code>/p/about.html</code>, while the heading readers see is in your language.</li>
+</ol>
+<p>You end up with both: a URL anyone can read, and a title in the language your readers actually speak.</p>
+<p><strong>If you already published with a non-Latin title</strong>, that URL cannot be changed. The only route is to create a fresh page with a Latin title, move the content across, delete the old page, and update the menu link. Do it early: once other sites link to it or Google has indexed it, cleaning up gets messier.</p>
+<p>For the Latin slug itself, use one word or two joined by a hyphen, all lowercase, such as <code>about</code>, <code>contact</code>, <code>privacy-policy</code>. Avoid bare numbers like <code>page1</code>, which tell you nothing when you come back to them later.</p>
 
 <h2 id="step4">Linking the URL to a menu in a BlogKub theme</h2>
 <p>The step that trips most people up is that <strong>a page you created will not appear in the menu by itself.</strong> Blogger does not add it for you. You have to tell the theme which menu slot points where.</p>
@@ -124,7 +145,9 @@ const body = `<main class="wrap">
 <h3>I made a page but cannot find it in the list</h3>
 <p>Check that you clicked Pages rather than Posts. The two keep separate lists, and a page accidentally made as a post will sit among the posts.</p>
 <h3>I want to change the URL of a published page</h3>
-<p>Possible only before the first publish. After that the URL is locked. Changing it means creating a new page and updating the menu link, which is why it pays to <strong>get the page title right the first time.</strong></p>
+<p>Possible only before the first publish. After that the URL is locked. Changing it means creating a new page and updating the menu link, which is why it pays to <strong>get the page title right the first time.</strong> See <a href="#naming">titling the page</a> for how.</p>
+<h3>The page URL came out as blog-page.html</h3>
+<p>The title was written entirely in a non-Latin script when you first published, so every character was stripped and nothing was left to build a URL from. It cannot be fixed in place: create a new page with a Latin-alphabet title instead. See <a href="#naming">titling the page</a>.</p>
 <h3>A page is showing on the home page among the posts</h3>
 <p>This should not happen, since pages do not enter the home feed. If you see it, check whether you created a post by mistake.</p>
 
@@ -146,6 +169,8 @@ const body = `<main class="wrap">
 <details><summary>How many pages can a Blogger blog have?</summary><p>Up to 20 pages per blog, which is generous in practice, because the genuinely necessary pages number no more than five or six.</p></details>
 <details><summary>Which pages should a blog have before applying to AdSense?</summary><p>At minimum About, Contact, and a Privacy Policy. AdSense requires a privacy policy covering cookies and the data collected by advertising providers. About and Contact exist to establish that a real person stands behind the site.</p></details>
 <details><summary>I created a page but it does not show in the menu</summary><p>Blogger pages do not join the menu automatically. You have to link the URL yourself. In a BlogKub theme, add a menu item of type Page, paste the URL, and export the theme again.</p></details>
+<details><summary>Why title the page in the Latin alphabet first?</summary><p>Blogger builds the URL from the title at first publish, keeping only Latin letters and digits. A title written entirely in a non-Latin script leaves nothing to build from, so Blogger falls back to blog-page.html, which cannot be changed. Title it about, publish, then rename the title into your own language. The URL stays /p/about.html.</p></details>
+<details><summary>Can I set a page URL manually like a post?</summary><p>No. The post editor has a Permalink option where you can type the slug yourself, but pages do not offer it. The title is the only way to influence a page URL, and only before the first publish.</p></details>
 <details><summary>Does Google index Blogger pages?</summary><p>It can, like any other page, unless you have blocked it. But pages are rarely what brings search traffic. Their real job is to supply necessary information and make the site credible.</p></details>
 <hr>
 <p class="meta">Part of the BlogKub guide series. Content and schema (HowTo + FAQPage) ready to publish on blogkub.com.</p>
