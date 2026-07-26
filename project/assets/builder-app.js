@@ -2717,13 +2717,30 @@
       '<div class="hint" style="margin-top:6px">' + tpl(
         'กรอกเอง คุมข้อความลิงก์และปลายทางได้เต็มที่ · เมนูจะซ่อนอัตโนมัติถ้ายังไม่ได้กรอก · ตอนนี้ ' + n + ' หมวด → ดรอปดาวน์ ' + catCols(n) + ' คอลัมน์' + (n >= CAT_FILTER_MIN ? ' + ช่องกรอง' : ''),
         'Hand-entered so you control anchor text and destination. The menu hides itself while empty. ' + n + ' categories → ' + catCols(n) + '-column dropdown' + (n >= CAT_FILTER_MIN ? ' with a filter box' : '')) + '</div>' +
-      (usesLabel ? '<div class="note warn">' + svg('<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>', 2) + '<div>' + tpl(
-        'ลิงก์แบบ "ป้ายกำกับ" ชี้ไป <code>/search/label/…</code> ซึ่ง robots.txt ของ Blogger บล็อกไว้ ใช้ได้ทันทีแต่ Google ไม่เก็บดัชนี · ถ้าอยากได้ผล SEO ให้สร้างหน้าเพจต่อหมวด แล้วเปลี่ยนเป็นแบบ "หน้าเพจ"',
-        'A "Label" link points at <code>/search/label/…</code>, which Blogger blocks in robots.txt. It works right away but Google will not index it. For SEO value, create a page per category and switch the row to "Page".') + '</div></div>' : '') +
+      (usesLabel ? labelLinkNote() : '') +
       '</div>' +
       txt("catLabel", "ชื่อเมนูที่แสดง", p.catLabel != null ? p.catLabel : tpl("หมวดหมู่สินค้า", "Categories")) +
       tog("catFooter", "แสดงในส่วนท้ายเว็บ (Footer)", p.catFooter !== false, tpl("ได้ลิงก์ภายในติดทุกหน้า", "Internal links on every page")) +
       seg("catFooterMax", "จำนวนสูงสุดใน Footer", String(p.catFooterMax == null ? 12 : p.catFooterMax), [["8", "8"], ["12", "12"], ["0", tpl("ทั้งหมด", "All")]]);
+  }
+
+
+  // The label-indexing switch lives in SEO and is site-wide. Showing it again here is a
+  // second doorway to the same value, not a second setting, so both panels redraw on change.
+  function labelLinkNote() {
+    var on = !!(S.seo && S.seo.labelIndex);
+    var body = on
+      ? tpl('เปิด <b>อนุญาตให้ทำดัชนีหน้าป้ายกำกับ</b> ไว้แล้ว ธีมจะสั่ง <code>index,follow</code> ให้หน้าป้ายกำกับ · ยังต้องวาง robots.txt ที่ให้ไว้ในหน้าต่าง Export ลงใน Blogger ด้วย ไม่งั้น Google จะเข้ามาอ่านไม่ได้',
+            'Label indexing is on, so the theme marks label pages <code>index,follow</code>. You still have to paste the robots.txt from the Export window into Blogger, otherwise Google is not allowed to fetch them.')
+      : tpl('ลิงก์แบบ "ป้ายกำกับ" ชี้ไป <code>/search/label/…</code> ซึ่ง Blogger บล็อกไว้ใน robots.txt ใช้ได้ทันทีแต่ Google ไม่เก็บดัชนี',
+            'A "Label" link points at <code>/search/label/…</code>, which Blogger blocks in robots.txt. It works right away but Google will not index it.');
+    return '<div class="note ' + (on ? 'ok' : 'warn') + '">' +
+      svg(on ? '<path d="M20 6L9 17l-5-5"/>' : '<path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/>', on ? 2.5 : 2) +
+      '<div>' + body +
+      '<label class="tg" style="margin:10px 0 0;padding:0"><span class="lbl">' + tr('อนุญาตให้ทำดัชนีหน้าป้ายกำกับ') +
+      '<small>' + tpl('ตั้งค่าเดียวกับในหน้า SEO · มีผลกับทุกป้ายกำกับทั้งบล็อก', 'The same switch as in SEO settings, and it applies to every label on the blog') + '</small></span>' +
+      '<input type="checkbox" data-seok="labelIndex"' + (on ? ' checked' : '') + '><span class="sw-tg"></span></label>' +
+      '</div></div>';
   }
 
   function footerEditor(p) {
@@ -3080,6 +3097,13 @@
         });
       });
     }
+    // the label-indexing mirror writes the SEO value itself, so the two views cannot drift
+    $$("[data-seok]", c).forEach(function (inp) {
+      inp.addEventListener("change", function () {
+        S.seo[inp.dataset.seok] = inp.checked;
+        commit(); renderSeo(); renderProps();
+      });
+    });
     // category bindings (review template)
     $$("[data-catl]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catl].label = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
     $$("[data-catic]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catic].icon = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
@@ -6440,7 +6464,12 @@ tplStyleVars(),
     var su = (S && S.seo && S.seo.siteUrl) || "";
     var domain = su ? su.replace(/\/$/, "") : "https://yourblog.blogspot.com";
     var atomUrl = domain + "/atom.xml?redirect=false&start-index=1&max-results=500";
-    var robotsTxt = "User-agent: *\nDisallow: /search\nAllow: /\n\nUser-agent: Googlebot\nDisallow: /search\nAllow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: ChatGPT-User\nAllow: /\n\nUser-agent: PerplexityBot\nAllow: /\n\nUser-agent: ClaudeBot\nAllow: /\n\nUser-agent: GPTBot\nAllow: /\n\nUser-agent: Google-Extended\nAllow: /\n\nSitemap: " + atomUrl;
+    // The label-indexing switch is pointless if this file still forbids /search: robots.txt
+    // wins over the meta tag, so Google would never fetch the page to read it.
+    var searchRule = (S.seo && S.seo.labelIndex)
+      ? "Disallow: /search?q=\nDisallow: /search/label/*?\nAllow: /search/label/\n"
+      : "Disallow: /search\n";
+    var robotsTxt = "User-agent: *\n" + searchRule + "Allow: /\n\nUser-agent: Googlebot\n" + searchRule + "Allow: /\n\nUser-agent: OAI-SearchBot\nAllow: /\n\nUser-agent: ChatGPT-User\nAllow: /\n\nUser-agent: PerplexityBot\nAllow: /\n\nUser-agent: ClaudeBot\nAllow: /\n\nUser-agent: GPTBot\nAllow: /\n\nUser-agent: Google-Extended\nAllow: /\n\nSitemap: " + atomUrl;
     return '<div style="padding:14px 18px 14px">'
       + '<div style="font-family:var(--fd);font-weight:600;font-size:11.5px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px">📖 วิธีนำธีมไปใช้บน Blogger</div>'
       + '<ol style="padding-left:22px;display:flex;flex-direction:column;gap:7px;font-size:13px;color:var(--ink-2);line-height:1.6">'
