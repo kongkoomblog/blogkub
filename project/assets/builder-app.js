@@ -1431,10 +1431,11 @@
           for (var rvi = 0; rvi < (p.count || 6); rvi++) {
             var rvCat = rvCats[rvi % 6];
             var rvScore = rvScores[rvi % 6];
-            var rvIsBest = rvi < 2;
             rvCards += '<article style="border-radius:' + r + ';overflow:hidden;background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08)">' +
               '<div style="aspect-ratio:16/9;background:linear-gradient(135deg,' + (rvi % 2 === 0 ? pr + ',' + ac : ac + ',' + pr) + ');position:relative">' +
-                (rvIsBest ? '<span style="position:absolute;top:10px;left:10px;font-size:10px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:4px 10px;border-radius:20px;background:' + pr + ';color:#fff">' + tpl("แนะนำ", "BEST PICK") + '</span>' : '') +
+                '<span style="position:absolute;top:12px;left:12px;display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;line-height:1.2;padding:6px 13px 6px 10px;border-radius:99px;background:linear-gradient(135deg,' + pr + 'a6,' + ac + '7a);-webkit-backdrop-filter:blur(10px) saturate(1.5);backdrop-filter:blur(10px) saturate(1.5);border:1px solid rgba(255,255,255,.34);box-shadow:0 4px 14px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.3);text-shadow:0 1px 2px rgba(0,0,0,.3);color:#fff;white-space:nowrap">' +
+                  '<i style="width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.26);flex:none"></i>' + rvCat +
+                '</span>' +
                 '<span style="position:absolute;top:10px;right:10px;font-size:14px;font-weight:800;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.96);color:' + pr + '">' + rvScore + '</span>' +
               '</div>' +
               '<div style="padding:14px 17px 4px">' +
@@ -4474,7 +4475,10 @@ tplStyleVars(),
 ".rv-card:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(0,0,0,.12)}",
 ".rv-card-img{aspect-ratio:16/9;overflow:hidden;position:relative;background:linear-gradient(135deg,var(--primary)25,var(--accent)50)}",
 ".rv-card-img img{width:100%;height:100%;object-fit:cover;display:block;position:absolute;inset:0}",
-".rv-card-best{position:absolute;top:16px;left:-36px;width:142px;transform:rotate(-45deg);text-align:center;font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:5px 0;background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.28);z-index:3}",
+".rv-card-best{position:absolute;top:12px;left:12px;z-index:3;display:inline-flex;align-items:center;gap:7px;max-width:calc(100% - 78px);padding:6px 13px 6px 10px;border-radius:99px;font-size:11px;font-weight:700;letter-spacing:.01em;line-height:1.2;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:linear-gradient(135deg,var(--primary)a6,var(--accent)7a);-webkit-backdrop-filter:blur(10px) saturate(1.5);backdrop-filter:blur(10px) saturate(1.5);border:1px solid rgba(255,255,255,.34);box-shadow:0 4px 14px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.3);text-shadow:0 1px 2px rgba(0,0,0,.3);transition:background .25s,border-color .25s}",
+".rv-card-best::before{content:'';flex:none;width:6px;height:6px;border-radius:50%;background:#fff;box-shadow:0 0 0 3px rgba(255,255,255,.26)}",
+".rv-card:hover .rv-card-best{background:linear-gradient(135deg,var(--primary)dd,var(--accent)bb);border-color:rgba(255,255,255,.52)}",
+"@supports not ((backdrop-filter:blur(2px)) or (-webkit-backdrop-filter:blur(2px))){.rv-card-best{background:linear-gradient(135deg,var(--primary)e6,var(--accent)cc)}}",
 ".rv-card-score{position:absolute;top:10px;right:10px;font-size:14px;font-weight:800;padding:5px 10px;border-radius:8px;background:rgba(255,255,255,.96);color:var(--primary);line-height:1}",
 ".rv-card-body{padding:14px 18px 4px}",
 ".rv-card-cat{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--primary);margin-bottom:5px}",
