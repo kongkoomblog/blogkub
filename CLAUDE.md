@@ -98,9 +98,9 @@ time against a site that has not been updated yet.**
   anything above U+007F.
 - **The public contact address is hello@blogkub.com.** Never publish the owner's
   personal email.
-- Builder help links use `DOCS_BASE = "/learn/"`. `/docs/` does not exist and never did.
-- The `favicon` and `create-page` guides are still unwritten, so those two links point
-  at the `/learn/` hub rather than 404.
+- Builder help links go through `docsUrl(slug)`, which follows the builder UI language
+  and returns `/learn/<slug>` or `/en/learn/<slug>`. `/docs/` does not exist and never
+  did. Do not hardcode a help URL: an English user must not land on a Thai guide.
 
 ## Testing without a browser
 
