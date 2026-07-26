@@ -7,9 +7,15 @@
     "build": "astro build",
     "preview": "astro preview",
     "prebuild": "node scripts/sync-public.mjs",
-    "postbuild": "node scripts/build-en-learn-hub.mjs && node scripts/build-hreflang.mjs && node scripts/build-feeds.mjs && node scripts/build-sitemaps.mjs"
+    "postbuild": "node scripts/build-en-learn-hub.mjs && node scripts/build-hreflang.mjs && node scripts/build-feeds.mjs && node scripts/build-sitemaps.mjs",
+    "design:lint": "design.md lint ../DESIGN.md --format text",
+    "design:tokens": "design.md export --format dtcg ../DESIGN.md > ../design.tokens.json",
+    "design:spec": "design.md spec --rules"
   },
   "dependencies": {
     "astro": "^7.1.3"
+  },
+  "devDependencies": {
+    "@google/design.md": "^0.3.0"
   }
 }
