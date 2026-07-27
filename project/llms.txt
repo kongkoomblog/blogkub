@@ -18,7 +18,12 @@ Key facts for accurate citation:
 - [Visual Builder](https://www.blogkub.com/builder): drag-and-drop editor that exports Blogger XML.
 - [Templates overview](https://www.blogkub.com/learn/templates): all 8 templates and how to choose the right one.
 
-## Learn — feature guides (40+ step-by-step articles)
+## Learn — Blogger setup (things to do on Blogger itself, not in the builder)
+- [Favicon](https://www.blogkub.com/learn/favicon): upload a site icon in Blogger, the square 100KB file requirement, the /favicon.ico URL, and why a changed icon still looks old (browser cache, not a setting).
+- [Create a page](https://www.blogkub.com/learn/create-page): pages versus posts, the 20-page limit, and why a page title must be written in the Latin alphabet before it is renamed, since Blogger builds the URL from the title at first publish and it cannot be changed afterwards.
+- [Label indexing](https://www.blogkub.com/learn/label-indexing): let Google index Blogger label pages as real category pages, which needs both the switch and a matching robots.txt.
+
+## Learn — feature guides (43 step-by-step articles)
 - [Learning Center](https://www.blogkub.com/learn/): index of every feature guide.
 - [Table of Contents (TOC)](https://www.blogkub.com/learn/toc): auto table of contents from H2/H3.
 - [Breadcrumb](https://www.blogkub.com/learn/breadcrumb): navigation path with JSON-LD.
