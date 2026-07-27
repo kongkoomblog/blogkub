@@ -252,8 +252,12 @@ select.inp option,.sel option{background:var(--panel-2);color:var(--ink);}
 .acc-hidden{display:none !important;}
 
 /* toggle */
-.tg{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px;}
-.tg .lbl{font-size:14px;font-weight:500;}
+/* .field label{display:block} outranks a bare .tg, so a toggle placed inside a
+   field turned into a block. Its switch is a <span>, and an inline span ignores
+   width, so the 40px track collapsed to its 2px border with the knob hanging
+   out. Match the higher specificity rather than relying on source order. */
+.tg,.field label.tg{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px;}
+.tg .lbl{font-size:14px;font-weight:500;min-width:0;}
 .tg .lbl small{display:block;font-size:12px;color:var(--ink-3);font-weight:400;margin-top:2px;}
 .tg input{display:none;}
 .tg .sw-tg{width:40px;height:23px;border-radius:14px;background:var(--surface-2);border:1px solid var(--border-2);position:relative;transition:.2s;flex:none;}
@@ -264,6 +268,10 @@ select.inp option,.sel option{background:var(--panel-2);color:var(--ink);}
 /* note box */
 .note{margin:0 16px 14px;padding:11px 13px;border-radius:9px;font-size:13px;line-height:1.6;display:flex;gap:9px;}
 .note svg{width:15px;height:15px;flex:none;margin-top:1px;}
+/* A flex child defaults to min-width:auto, so it refuses to shrink below its
+   content. A note containing a .tg row therefore pushed the fixed-width switch
+   past the box edge and clipped it. Both levels need to be allowed to shrink. */
+.note>div{min-width:0;flex:1;}
 .note.warn{background:rgba(245,158,11,.1);color:#fbbf24;border:1px solid rgba(245,158,11,.25);}
 .note.ok{background:rgba(34,197,94,.1);color:#4ade80;border:1px solid rgba(34,197,94,.22);}
 .note.info{background:rgba(99,102,241,.1);color:#a5b4fc;border:1px solid rgba(99,102,241,.22);}

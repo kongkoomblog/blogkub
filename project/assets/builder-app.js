@@ -920,7 +920,7 @@
     { id: "magazine", cat: "ข่าว/นิตยสาร", catEn: "News / Magazine", name: "Magazine", desc: "นิตยสารหลายคอลัมน์", descEn: "Multi-column magazine layout", c: ["#dc2626", "#f43f5e"], blocks: ["header", "featured", "postgrid", "postlist", "footer"], design: { primary: "#dc2626", accent: "#f43f5e", font: "serif", radius: 6 } },
     { id: "company", cat: "ธุรกิจ", catEn: "Business", name: "Company", desc: "เว็บบริษัทมืออาชีพ", descEn: "Professional company website", c: ["#1e40af", "#3b82f6"], blocks: ["header", "hero", "about", "cta", "footer"], design: { primary: "#1e40af", accent: "#3b82f6", font: "sans", radius: 8 } },
     { id: "course", cat: "การศึกษา", catEn: "Education", name: "Online Course", desc: "คอร์สเรียนออนไลน์", descEn: "Online learning & courses", c: ["#9333ea", "#6366f1"], blocks: ["header", "hero", "featured", "cta", "footer"], design: { primary: "#9333ea", accent: "#6366f1", font: "sans", radius: 14 } },
-    { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
+    { id: "review", cat: "Affiliate", catEn: "Affiliate", name: "Product Review", desc: "รีวิวสินค้า Affiliate", descEn: "Product review & affiliate blog", c: ["#ea580c", "#f59e0b"], blocks: ["header", "hero", "postgrid", "about", "affiliate", "bookmark", "footer"], design: { primary: "#ea580c", accent: "#f59e0b", font: "sans", radius: 10 } }
   ];
 
   /* ---------- STATE ---------- */
@@ -1108,6 +1108,43 @@
     none:     { emoji: "∅", p: "" }
   };
   var MENU_ICON_KEYS = Object.keys(MENU_ICONS);
+  // Product-category icons. Stored as the emoji itself rather than a key, because
+  // that is what the old free-text field saved and existing projects must keep
+  // working. Anything typed by hand before is preserved as an extra option.
+  var CAT_ICONS = [
+    ["", "∅"],
+    ["🔌", "เครื่องใช้ไฟฟ้า|Electronics"],
+    ["📱", "มือถือ/แกดเจ็ต|Phones and gadgets"],
+    ["💻", "คอมพิวเตอร์|Computers"],
+    ["🏠", "บ้านและไลฟ์สไตล์|Home and living"],
+    ["🍳", "ครัวและอาหาร|Kitchen and food"],
+    ["🛋️", "เฟอร์นิเจอร์|Furniture"],
+    ["💄", "สุขภาพและความงาม|Health and beauty"],
+    ["👕", "แฟชั่น|Fashion"],
+    ["👟", "รองเท้า|Shoes"],
+    ["🏃", "กีฬาและกลางแจ้ง|Sports and outdoors"],
+    ["🐶", "สัตว์เลี้ยง|Pets"],
+    ["👶", "แม่และเด็ก|Mother and baby"],
+    ["🚗", "ยานยนต์|Automotive"],
+    ["🎮", "เกม|Games"],
+    ["📚", "หนังสือ|Books"],
+    ["🌱", "สวนและต้นไม้|Garden"],
+    ["🧰", "เครื่องมือ|Tools"],
+    ["🎁", "ของขวัญ|Gifts"],
+    ["🛒", "ทั่วไป|General"],
+    ["⭐", "แนะนำ|Recommended"],
+    ["🔥", "ขายดี|Best sellers"]
+  ];
+  function catIconOptions(cur) {
+    var v = cur || "";
+    var list = CAT_ICONS.slice();
+    // keep an emoji typed before this picker existed
+    if (v && !list.some(function (x) { return x[0] === v; })) list.splice(1, 0, [v, tpl("ของเดิม", "Current")]);
+    return list.map(function (x) {
+      var lbl = x[1].indexOf("|") > -1 ? tpl(x[1].split("|")[0], x[1].split("|")[1]) : x[1];
+      return '<option value="' + esc(x[0]) + '"' + (x[0] === v ? " selected" : "") + '>' + (x[0] ? x[0] + " " + esc(lbl) : esc(lbl)) + "</option>";
+    }).join("");
+  }
   // keyword → icon (Thai + English) · first match wins
   var MENU_ICON_HINTS = [
     ["home",     "หน้าแรก|หน้าหลัก|home|homepage"],
@@ -2704,7 +2741,8 @@
         '<div class="menu-row-top">' +
           '<span class="menu-grip">⋮⋮</span>' +
           '<input class="inp menu-label" data-catl="' + i + '" value="' + esc(c.label || "") + '" placeholder="' + tpl("ชื่อหมวดหมู่", "Category name") + '">' +
-          '<input class="inp" data-catic="' + i + '" value="' + esc(c.icon || "") + '" placeholder="🏷" title="' + tpl("ไอคอน (ไม่บังคับ)", "Icon (optional)") + '" style="flex:0 0 auto;width:44px;padding:6px 2px;text-align:center;font-size:15px">' +
+          '<select class="inp menu-icon-sel" data-catic="' + i + '" title="' + tpl("ไอคอนหมวดหมู่ (ไม่บังคับ)", "Category icon (optional)") + '" style="flex:0 0 auto;width:50px;padding:6px 2px;text-align:center;font-size:15px">' +
+          catIconOptions(c.icon) + '</select>' +
           '<input class="inp" data-catn="' + i + '" value="' + esc(c.count || "") + '" placeholder="#" title="' + tpl("จำนวน (ไม่บังคับ)", "Count (optional)") + '" style="flex:0 0 auto;width:48px;padding:6px 2px;text-align:center;font-size:12px">' +
           '<button class="menu-del" data-catdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         '</div>' +
@@ -2725,7 +2763,14 @@
       '</div>' +
       txt("catLabel", "ชื่อเมนูที่แสดง", p.catLabel != null ? p.catLabel : tpl("หมวดหมู่สินค้า", "Categories")) +
       tog("catFooter", "แสดงในส่วนท้ายเว็บ (Footer)", p.catFooter !== false, tpl("ได้ลิงก์ภายในติดทุกหน้า", "Internal links on every page")) +
-      seg("catFooterMax", "จำนวนสูงสุดใน Footer", String(p.catFooterMax == null ? 12 : p.catFooterMax), [["8", "8"], ["12", "12"], ["0", tpl("ทั้งหมด", "All")]]);
+      (p.catFooter !== false
+        ? seg("catFooterMax", "แสดงในส่วนท้ายกี่หมวด", String(p.catFooterMax == null ? 12 : p.catFooterMax), [["8", "8"], ["12", "12"], ["0", tpl("ทั้งหมด", "All")]]) +
+          '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>', 2) +
+          '<div>' + tpl(
+            'จำกัดจำนวนหมวดที่โผล่ในส่วนท้ายเว็บเท่านั้น <b>ไม่ได้ลบหมวด</b> และไม่กระทบเมนูด้านบนหรือหน้าหมวดหมู่ ที่เหลือยังกดเข้าได้จากเมนูตามปกติ · ส่วนท้ายแสดงทุกหน้า ถ้ายัดครบทุกหมวดจะยาวเกินและลิงก์แต่ละอันมีน้ำหนักน้อยลง เลือก <b>8</b> ถ้าอยากให้กระชับ <b>12</b> เป็นค่ากลางที่ใช้ได้กับเกือบทุกเว็บ เลือก <b>ทั้งหมด</b> ต่อเมื่อมีหมวดไม่เกินราว 15 หมวดและอยากให้ทุกหมวดมีลิงก์ติดทุกหน้าจริง ๆ',
+            'Caps how many categories appear in the footer only. <b>It deletes nothing</b> and does not touch the top menu or the category pages, the rest are still reachable from the menu. The footer shows on every page, so listing every category makes it long and spreads link weight thinly. Pick <b>8</b> to keep it tight, <b>12</b> suits most sites, and <b>All</b> only if you have around 15 or fewer and genuinely want each one linked from every page.') +
+          '</div></div>'
+        : '');
   }
 
 
@@ -3111,7 +3156,7 @@
     });
     // category bindings (review template)
     $$("[data-catl]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catl].label = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
-    $$("[data-catic]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catic].icon = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
+    $$("[data-catic]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = catsOf(b.props); arr[+sel.dataset.catic].icon = sel.value; b.props.categories = arr; renderCanvas(); save(); }); });
     $$("[data-catn]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catn].count = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
     $$("[data-catt]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = catsOf(b.props); arr[+sel.dataset.catt].linkType = sel.value; b.props.categories = arr; commit(); renderProps(); }); });
     $$("[data-catv]", c).forEach(function (inp) {
