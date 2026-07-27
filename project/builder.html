@@ -605,47 +605,47 @@ body.sheet-settled .panel.right{animation:none;}
     <!-- STEP 1: gate -->
     <div class="ob-step" id="obGate">
       <div class="ob-logo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6l-4 6 4 6"/><path d="M16 6l4 6-4 6"/></svg></div>
-      <h1>เริ่มต้นใช้งาน BlogKub</h1>
-      <p class="sub">ก่อนสร้างธีม · คุณมีบล็อกบน Blogger (blogspot.com) แล้วหรือยัง?</p>
+      <h1 data-th="เริ่มต้นใช้งาน BlogKub" data-en="Get started with BlogKub">เริ่มต้นใช้งาน BlogKub</h1>
+      <p class="sub" data-th="ก่อนสร้างธีม · คุณมีบล็อกบน Blogger (blogspot.com) แล้วหรือยัง?" data-en="Before we build a theme: do you already have a blog on Blogger (blogspot.com)?">ก่อนสร้างธีม · คุณมีบล็อกบน Blogger (blogspot.com) แล้วหรือยัง?</p>
       <div class="gate-grid">
         <button class="gate-card" id="gateYes">
           <span class="gc-ic ok">✓</span>
-          <span class="gc-t">สมัครแล้ว</span>
-          <span class="gc-d">ฉันมีบล็อก blogspot.com พร้อมแล้ว ไปเลือกแม่แบบเพื่อเริ่มออกแบบ</span>
+          <span class="gc-t" data-th="สมัครแล้ว" data-en="Yes, I have one">สมัครแล้ว</span>
+          <span class="gc-d" data-th="ฉันมีบล็อก blogspot.com พร้อมแล้ว ไปเลือกแม่แบบเพื่อเริ่มออกแบบ" data-en="My blogspot.com blog is ready. Take me to the templates.">ฉันมีบล็อก blogspot.com พร้อมแล้ว ไปเลือกแม่แบบเพื่อเริ่มออกแบบ</span>
         </button>
         <button class="gate-card" id="gateNo">
           <span class="gc-ic warn">?</span>
-          <span class="gc-t">ยังไม่สมัคร</span>
-          <span class="gc-d">ฉันยังไม่มีบล็อก ดูวิธีสมัคร Blogger แบบละเอียดทีละขั้น</span>
+          <span class="gc-t" data-th="ยังไม่สมัคร" data-en="Not yet">ยังไม่สมัคร</span>
+          <span class="gc-d" data-th="ฉันยังไม่มีบล็อก ดูวิธีสมัคร Blogger แบบละเอียดทีละขั้น" data-en="I do not have a blog yet. Show me how to create one, step by step.">ฉันยังไม่มีบล็อก ดูวิธีสมัคร Blogger แบบละเอียดทีละขั้น</span>
         </button>
       </div>
     </div>
 
     <!-- STEP 2: registration guide -->
     <div class="ob-step" id="obGuide" style="display:none">
-      <button class="ob-back" data-back="gate">← กลับ</button>
-      <h1>วิธีสมัคร Blogger ทีละขั้น</h1>
-      <p class="sub">ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย</p>
+      <button class="ob-back" data-back="gate" data-th="← กลับ" data-en="← Back">← กลับ</button>
+      <h1 data-th="วิธีสมัคร Blogger ทีละขั้น" data-en="Creating a Blogger blog, step by step">วิธีสมัคร Blogger ทีละขั้น</h1>
+      <p class="sub" data-th="ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย" data-en="About 10 minutes. Follow these steps, then come back and start designing.">ใช้เวลาประมาณ 10 นาที ทำตามนี้แล้วกลับมาเริ่มออกแบบได้เลย</p>
       <ol class="guide-list" id="guideList"></ol>
       <div class="guide-tip">
-        <b>💡 เทคนิคสำคัญก่อนเริ่มเขียน (เพื่อให้ Google ประทับใจครั้งแรก)</b>
-        <p>หลังตั้งชื่อบล็อกและ URL แล้ว <b>อย่าเพิ่งเปิดให้ค้นหาเจอ</b> · ทำตามนี้ก่อน:</p>
+        <b data-th="💡 เทคนิคสำคัญก่อนเริ่มเขียน (เพื่อให้ Google ประทับใจครั้งแรก)" data-en="💡 Worth doing before you write anything (so Google's first look is a good one)">💡 เทคนิคสำคัญก่อนเริ่มเขียน (เพื่อให้ Google ประทับใจครั้งแรก)</b>
+        <p data-th="หลังตั้งชื่อบล็อกและ URL แล้ว &lt;b&gt;อย่าเพิ่งเปิดให้ค้นหาเจอ&lt;/b&gt; · ทำตามนี้ก่อน:" data-en="Once the name and URL are set, &lt;b&gt;do not make it findable yet&lt;/b&gt;. Do this first:" data-html="1">หลังตั้งชื่อบล็อกและ URL แล้ว <b>อย่าเพิ่งเปิดให้ค้นหาเจอ</b> · ทำตามนี้ก่อน:</p>
         <ul id="tipList"></ul>
       </div>
       <div class="start-foot">
-        <button class="btn btn-primary" id="guideDone">สมัครเสร็จแล้ว · ไปเลือกแม่แบบ →</button>
+        <button class="btn btn-primary" id="guideDone" data-th="สมัครเสร็จแล้ว · ไปเลือกแม่แบบ →" data-en="Done, take me to the templates →">สมัครเสร็จแล้ว · ไปเลือกแม่แบบ →</button>
       </div>
     </div>
 
     <!-- STEP 3: template picker -->
     <div class="ob-step" id="obTpl" style="display:none">
-      <button class="ob-back" data-back="gate">← กลับ</button>
-      <h1>เลือกแม่แบบเริ่มต้น</h1>
-      <p class="sub">เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า · ปรับต่อได้ทุกอย่าง</p>
+      <button class="ob-back" data-back="gate" data-th="← กลับ" data-en="← Back">← กลับ</button>
+      <h1 data-th="เลือกแม่แบบเริ่มต้น" data-en="Pick a starting template">เลือกแม่แบบเริ่มต้น</h1>
+      <p class="sub" data-th="เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า · ปรับต่อได้ทุกอย่าง" data-en="Choose the kind of site you are building, or start from a blank page. Everything stays editable.">เลือกประเภทเว็บไซต์เพื่อเริ่มจากแม่แบบที่ออกแบบมาให้ หรือเริ่มจากหน้าเปล่า · ปรับต่อได้ทุกอย่าง</p>
       <div class="cat-tabs" id="catTabs"></div>
       <div class="tpl-grid" id="startGrid"></div>
       <div class="start-foot">
-        <button class="btn btn-ghost" id="blankBtn">หรือเริ่มจากหน้าเปล่า →</button>
+        <button class="btn btn-ghost" id="blankBtn" data-th="หรือเริ่มจากหน้าเปล่า →" data-en="Or start from a blank page →">หรือเริ่มจากหน้าเปล่า →</button>
       </div>
     </div>
 

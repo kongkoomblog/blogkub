@@ -6920,23 +6920,45 @@ tplStyleVars(),
     ["obGate", "obGuide", "obTpl"].forEach(function (id) { var e = $("#" + id); if (e) e.style.display = id === name ? "" : "none"; });
     try { $(".start").scrollTop = 0; } catch (e) {}
   }
-  var GUIDE = [
-    ["ไปที่ Blogger", "เปิด <code>blogger.com</code> แล้วลงชื่อเข้าใช้ด้วยบัญชี Google ของคุณ (ถ้ายังไม่มี สมัคร Gmail ก่อน)"],
-    ["สร้างบล็อกใหม่", "กด <b>สร้างบล็อก (Create New Blog)</b> ในเมนูซ้าย"],
-    ["ตั้งชื่อบล็อก", "ใส่ชื่อบล็อกที่ต้องการ · เป็นชื่อที่แสดงบนหัวเว็บ เปลี่ยนภายหลังได้"],
-    ["ตั้งที่อยู่ (URL)", "เลือก URL เช่น <code>yourblog.blogspot.com</code> ระบบจะบอกว่าว่างหรือไม่ · เลือกให้สั้น จำง่าย"],
-    ["ยืนยันสร้างบล็อก", "กด <b>บันทึก</b> · ตอนนี้คุณมีบล็อก Blogger พร้อมแล้ว"]
-  ];
-  var TIPS = [
-    "ไปที่ <b>การตั้งค่า → ความเป็นส่วนตัว</b> แล้ว <b>ปิด</b> \"อนุญาตให้เครื่องมือค้นหาพบบล็อกของคุณ\" ไว้ก่อน",
-    "ที่ <b>การตั้งค่า → สิทธิ์ → ผู้อ่านบล็อก</b> เลือก <b>\"เฉพาะผู้เขียนบล็อก\"</b> เพื่อซ่อนระหว่างเตรียมเนื้อหา",
-    "อัปโหลดธีมที่สร้างจากเครื่องมือนี้ แล้วเขียนบทความคุณภาพสัก <b>2–3 บทความ</b> ให้เว็บดูสมบูรณ์",
-    "เมื่อพร้อม ค่อย <b>เปิดสาธารณะ + เปิดให้ค้นหาเจอ</b> · Googlebot จะเข้ามาเก็บข้อมูลครั้งแรกแล้วเห็นเว็บที่จริงจัง มีเนื้อหาครบ สร้างความประทับใจที่ดีต่ออันดับ"
-  ];
-  (function initGuide() {
-    var gl = $("#guideList"); if (gl) gl.innerHTML = GUIDE.map(function (g) { return "<li><b>" + g[0] + "</b><span>" + g[1] + "</span></li>"; }).join("");
-    var tl = $("#tipList"); if (tl) tl.innerHTML = TIPS.map(function (t) { return "<li>" + t + "</li>"; }).join("");
-  })();
+  // Onboarding copy lives here in both languages and is re-rendered on every language
+  // change. It used to be Thai-only and painted once at load, so switching to English
+  // left the whole signup guide in Thai.
+  var GUIDE = {
+    th: [
+      ["ไปที่ Blogger", "เปิด <code>blogger.com</code> แล้วลงชื่อเข้าใช้ด้วยบัญชี Google ของคุณ (ถ้ายังไม่มี สมัคร Gmail ก่อน)"],
+      ["สร้างบล็อกใหม่", "กด <b>สร้างบล็อก (Create New Blog)</b> ในเมนูซ้าย"],
+      ["ตั้งชื่อบล็อก", "ใส่ชื่อบล็อกที่ต้องการ · เป็นชื่อที่แสดงบนหัวเว็บ เปลี่ยนภายหลังได้"],
+      ["ตั้งที่อยู่ (URL)", "เลือก URL เช่น <code>yourblog.blogspot.com</code> ระบบจะบอกว่าว่างหรือไม่ · เลือกให้สั้น จำง่าย"],
+      ["ยืนยันสร้างบล็อก", "กด <b>บันทึก</b> · ตอนนี้คุณมีบล็อก Blogger พร้อมแล้ว"]
+    ],
+    en: [
+      ["Go to Blogger", "Open <code>blogger.com</code> and sign in with your Google account. If you do not have one, create a Gmail address first."],
+      ["Create a new blog", "Click <b>Create New Blog</b> in the left menu."],
+      ["Name the blog", "Enter the name readers will see in the header. You can change it later."],
+      ["Choose the address", "Pick a URL such as <code>yourblog.blogspot.com</code>. Blogger tells you whether it is free. Keep it short and easy to remember."],
+      ["Confirm", "Click <b>Save</b>. Your Blogger blog now exists."]
+    ]
+  };
+  var TIPS = {
+    th: [
+      "ไปที่ <b>การตั้งค่า → ความเป็นส่วนตัว</b> แล้ว <b>ปิด</b> \"อนุญาตให้เครื่องมือค้นหาพบบล็อกของคุณ\" ไว้ก่อน",
+      "ที่ <b>การตั้งค่า → สิทธิ์ → ผู้อ่านบล็อก</b> เลือก <b>\"เฉพาะผู้เขียนบล็อก\"</b> เพื่อซ่อนระหว่างเตรียมเนื้อหา",
+      "อัปโหลดธีมที่สร้างจากเครื่องมือนี้ แล้วเขียนบทความคุณภาพสัก <b>2–3 บทความ</b> ให้เว็บดูสมบูรณ์",
+      "เมื่อพร้อม ค่อย <b>เปิดสาธารณะ + เปิดให้ค้นหาเจอ</b> · Googlebot จะเข้ามาเก็บข้อมูลครั้งแรกแล้วเห็นเว็บที่จริงจัง มีเนื้อหาครบ สร้างความประทับใจที่ดีต่ออันดับ"
+    ],
+    en: [
+      "Go to <b>Settings → Privacy</b> and turn <b>off</b> \"Let search engines find your blog\" for now.",
+      "Under <b>Settings → Permissions → Blog readers</b>, choose <b>Blog authors only</b> to keep it hidden while you prepare.",
+      "Upload the theme you build here, then write <b>two or three</b> real articles so the site does not look empty.",
+      "Only then make it <b>public and findable</b>. Googlebot's first crawl will meet a finished site with real content rather than an empty shell."
+    ]
+  };
+  function renderGuide() {
+    var g = GUIDE[BL] || GUIDE.th, t = TIPS[BL] || TIPS.th;
+    var gl = $("#guideList"); if (gl) gl.innerHTML = g.map(function (x) { return "<li><b>" + x[0] + "</b><span>" + x[1] + "</span></li>"; }).join("");
+    var tl = $("#tipList"); if (tl) tl.innerHTML = t.map(function (x) { return "<li>" + x + "</li>"; }).join("");
+  }
+  renderGuide();
   if ($("#gateYes")) $("#gateYes").addEventListener("click", function () { obStep("obTpl"); });
   if ($("#gateNo")) $("#gateNo").addEventListener("click", function () { obStep("obGuide"); });
   if ($("#guideDone")) $("#guideDone").addEventListener("click", function () { obStep("obTpl"); });
@@ -7220,11 +7242,22 @@ tplStyleVars(),
     var tn = [].filter.call(elm.childNodes, function (n) { return n.nodeType === 3 && n.textContent.trim(); })[0];
     if (tn && DICT[tn.textContent.trim()]) tn.textContent = (elm.classList.contains("mob-btn") ? " " : "") + DICT[tn.textContent.trim()];
   }
+  // Elements carrying data-th/data-en hold both languages in the markup, so switching
+  // is symmetric and cannot get stuck. Everything below still goes through the one-way
+  // DICT path, which only translates TH -> EN and needs a hand-written restore to come
+  // back. Prefer data-th/data-en for anything new.
+  function applyLangAttrs() {
+    $$("[data-th],[data-en]").forEach(function (el) {
+      var v = BL === "en" ? (el.dataset.en || el.dataset.th) : (el.dataset.th || el.dataset.en);
+      if (v == null) return;
+      if (el.dataset.html === "1") el.innerHTML = v; else el.textContent = v;
+    });
+  }
   function translateChrome() {
+    applyLangAttrs();
     if (BL === "en") {
       // TH → EN: translate static elements that render functions don't rebuild
-      $$(".lib-group h4, .sec-title, .p-head, label, .seg button, .tg .lbl, .p-tabs button, .gc-t, .cat-tab, .start h1, .lib-item .nm > small").forEach(trLeaf);
-      $$(".start .sub, .gc-d, .start-foot button, .ob-back").forEach(trLeaf);
+      $$(".lib-group h4, .sec-title, .p-head, label, .seg button, .tg .lbl, .p-tabs button, .cat-tab, .lib-item .nm > small").forEach(trLeaf);
       $$(".lib-item .nm, .mob-switch button, #restartBtn, #exportBtn, #toggleReport, #toggleGuide, #copyXml, #dlXml").forEach(trLeadText);
       var sd = document.querySelector("#saveDot span"); if (sd && DICT[sd.textContent.trim()]) sd.textContent = DICT[sd.textContent.trim()];
     } else {
@@ -7276,7 +7309,7 @@ tplStyleVars(),
     document.querySelectorAll("[data-bl]").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
     var mlb = document.getElementById("mobLangBtn"); if (mlb) mlb.textContent = lang.toUpperCase();
     buildLib(); setupLibDrag(); if (typeof renderProps === "function") renderProps(); renderSeo(); renderDesign();
-    if (S) renderCanvas(); else renderStart();
+    if (S) renderCanvas(); else { renderStart(); renderGuide(); }
     translateChrome();
     updateTips();
   }
