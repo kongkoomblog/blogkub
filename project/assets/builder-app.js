@@ -6955,6 +6955,8 @@ tplStyleVars(),
   };
   function renderGuide() {
     var g = GUIDE[BL] || GUIDE.th, t = TIPS[BL] || TIPS.th;
+    // the full write-up lives on the site, so send readers to their own language
+    var gf = $("#guideFull"); if (gf) gf.setAttribute("href", BL === "en" ? "/en/blog/start-blogger-blog" : "/blog/start-blogger-blog");
     var gl = $("#guideList"); if (gl) gl.innerHTML = g.map(function (x) { return "<li><b>" + x[0] + "</b><span>" + x[1] + "</span></li>"; }).join("");
     var tl = $("#tipList"); if (tl) tl.innerHTML = t.map(function (x) { return "<li>" + x + "</li>"; }).join("");
   }
