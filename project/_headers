@@ -60,8 +60,18 @@
 /ads.txt
   Content-Type: text/plain; charset=utf-8
 
+# --- Search engine ownership proof ---
+# Yandex checks this file byte for byte, so the file itself must not be edited.
+# It is 30 characters of text with no title and no canonical, which is exactly
+# the kind of page that should never reach an index. Keeping it out via a
+# response header leaves the file untouched and the verification intact.
+/yandex_79b68877ecfa0831.html
+  X-Robots-Tag: noindex, nofollow
+
 # --- Everything else (HTML pages): always revalidate so edits show instantly ---
 /*
   Cache-Control: public, max-age=0, must-revalidate
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: SAMEORIGIN
+  Strict-Transport-Security: max-age=31536000
