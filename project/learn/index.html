@@ -91,6 +91,31 @@ h1 .proto{font-size:10px;vertical-align:middle;background:linear-gradient(100deg
 </style>
 <link rel="alternate" type="application/rss+xml" title="BlogKub RSS" href="https://www.blogkub.com/rss.xml">
 <link rel="alternate" type="application/feed+json" title="BlogKub JSON Feed" href="https://www.blogkub.com/feed.json">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    { "@type": "Organization", "@id": "https://www.blogkub.com/#org", "name": "BlogKub", "url": "https://www.blogkub.com/" },
+    { "@type": "WebSite", "@id": "https://www.blogkub.com/#website", "url": "https://www.blogkub.com/", "name": "BlogKub", "publisher": { "@id": "https://www.blogkub.com/#org" }, "inLanguage": "th" },
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.blogkub.com/learn/#page",
+      "url": "https://www.blogkub.com/learn/",
+      "name": "ศูนย์เรียนรู้ BlogKub",
+      "description": "รวมคู่มือฟีเจอร์ธีม Blogger และการตั้งค่า Blogger ทีละขั้น",
+      "inLanguage": "th",
+      "isPartOf": { "@id": "https://www.blogkub.com/#website" }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "หน้าแรก", "item": "https://www.blogkub.com/" },
+        { "@type": "ListItem", "position": 2, "name": "ศูนย์เรียนรู้" }
+      ]
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <header class="wrap">
