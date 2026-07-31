@@ -70,6 +70,20 @@ export default {
           }
         }
       }
+      // A .md fetched by its own URL. This used to be a `/*.md` rule in _headers, which
+      // is the one Cloudflare-parsed thing the first failing deploy changed, so it was
+      // removed and the job moved here. The charset has to be stated either way: Workers
+      // Static Assets drops it on deploy and a .md file declares nothing in-band, which
+      // is what turned llms.txt into mojibake once already.
+      if (new URL(request.url).pathname.endsWith('.md')) {
+        const res = await env.ASSETS.fetch(request);
+        if (res.ok) {
+          const headers = new Headers(res.headers);
+          headers.set('Content-Type', 'text/markdown; charset=utf-8');
+          return new Response(res.body, { status: res.status, headers });
+        }
+        return res;
+      }
     } catch {
       // fall through
     }

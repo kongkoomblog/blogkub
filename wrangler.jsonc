@@ -24,6 +24,6 @@
     "directory": "site/dist",
     "not_found_handling": "404-page",
     "binding": "ASSETS",
-    "run_worker_first": ["/*", "!/assets/*", "!/learn/images/*", "!/learn/og/*", "!/blog/images/*", "!/*.png", "!/*.ico", "!/*.xml", "!/*.json", "!/*.txt", "!/*.webmanifest", "!/*.md"]
+    "run_worker_first": ["/*", "!/assets/*", "!/learn/images/*", "!/learn/og/*", "!/blog/images/*", "!/*.png", "!/*.ico", "!/*.xml", "!/*.json", "!/*.txt", "!/*.webmanifest"]
   }
 }
