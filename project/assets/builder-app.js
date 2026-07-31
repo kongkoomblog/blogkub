@@ -5305,15 +5305,23 @@ tplStyleVars(),
 ".sb-h2{border-radius:0;border-left:6px solid var(--accent);padding-left:12px}",
 
 /* ── 3 · REVIEW — ขี้เล่น: บล็อบพาสเทล ป้ายเอียง เงาแบบตัน ── */
-".rv-hero{background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 20%,var(--bg-base)),var(--bg-base) 56%,color-mix(in srgb,var(--primary) 13%,var(--bg-base)))}",
-".rv-hero::before{content:'';position:absolute;top:-80px;right:-70px;width:320px;height:320px;border-radius:46% 54% 60% 40%/52% 42% 58% 48%;background:color-mix(in srgb,var(--accent) 30%,transparent);animation:bxbBlob 16s ease-in-out infinite;pointer-events:none}",
-".rv-hero-eyebrow{transform:rotate(-2deg)}",
+/* No background override: every child of .rv-hero is white or white-alpha, so tinting
+   the hero pastel left white text on near-white. The title measured 1.25:1 against a
+   3:1 requirement. The playful look comes from the blob, tilted badges and solid
+   shadows below, which all read over the original saturated gradient. */
+".rv-hero::before{content:'';position:absolute;top:-80px;right:-70px;width:320px;height:320px;border-radius:46% 54% 60% 40%/52% 42% 58% 48%;background:color-mix(in srgb,var(--accent) 10%,transparent);animation:bxbBlob 16s ease-in-out infinite;pointer-events:none}",
+/* These three are white at .78, .85 and .72 in the base sheet, which put them at
+   3.4, 3.8 and 3.1 against the hero long before this block existed. They are the
+   lines the eye actually struggles with, so lift them past 4.5. */
+    ".rv-hero-eyebrow{transform:rotate(-2deg);color:rgba(255,255,255,.95)}",
+    ".rv-hero-sub{color:rgba(255,255,255,.95)}",
+    ".rv-hero-count{color:rgba(255,255,255,.92)}",
 ".rv-hero-btn{border-radius:999px;box-shadow:0 6px 0 color-mix(in srgb,var(--primary) 34%,transparent)}",
 ".rv-hero-btn:hover{transform:translateY(2px);box-shadow:0 3px 0 color-mix(in srgb,var(--primary) 34%,transparent)}",
 ".rv-card{border-radius:22px;border:0;box-shadow:0 12px 30px -14px color-mix(in srgb,var(--primary) 36%,transparent)}",
 ".rv-card-img{border-radius:18px 18px 0 0}",
 ".rv-card-best,.rv-card-disc{transform:rotate(-4deg);border-radius:999px;box-shadow:0 4px 0 color-mix(in srgb,var(--primary) 26%,transparent)}",
-".rv-hero-score{border-radius:999px;padding:2px 12px;background:color-mix(in srgb,var(--accent) 28%,transparent)}",
+".rv-hero-score{border-radius:999px;padding:2px 12px;background:rgba(0,0,0,.4)}",
 ".rv-about-avatar{border-radius:44% 56% 54% 46%/50% 44% 56% 50%;animation:bxbBlob 18s ease-in-out infinite}",
 
 /* ── 4 · MAGAZINE — กระดาษฉีก บล็อกพาสเทลสลับสี กริดไม่เท่ากัน ── */
@@ -5357,11 +5365,14 @@ tplStyleVars(),
 ".edu-cta{border-radius:26px;background:linear-gradient(120deg,color-mix(in srgb,var(--primary) 88%,#000),color-mix(in srgb,var(--accent) 55%,#000))}",
 
 /* ── 7 · COMPANY — คมกริบ แถบเฉียง เส้นแดงนำสายตา ── */
-".corp-hero{background:linear-gradient(105deg,var(--bg-surface) 0 57%,color-mix(in srgb,var(--primary) 11%,var(--bg-base)) 57%);border-radius:0;position:relative;overflow:hidden}",
-".corp-hero::before{content:'';position:absolute;top:0;bottom:0;right:0;width:46%;background:var(--primary);clip-path:polygon(24% 0,100% 0,100% 100%,0 100%);opacity:.09;pointer-events:none}",
-".corp-hero::after{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--primary)}",
+/* Background left alone for the same reason as .rv-hero: the title, sub and outline
+   button are all white. Only the geometry changes here. */
+    ".corp-hero{border-radius:0;position:relative;overflow:hidden}",
+".corp-hero::before{content:'';position:absolute;top:0;bottom:0;right:0;width:46%;background:#fff;clip-path:polygon(24% 0,100% 0,100% 100%,0 100%);opacity:.035;pointer-events:none}",
+".corp-hero::after{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--accent)}",
 ".corp-hero .wrap{position:relative;z-index:1}",
-".corp-hero-eyebrow{border-radius:0;border-left:4px solid var(--primary);padding-left:11px;background:none;color:var(--primary)}",
+".corp-hero-eyebrow{border-radius:0;border-left:4px solid var(--accent);padding-left:11px;background:none;color:rgba(255,255,255,.88)}",
+    ".corp-hero-sub{color:rgba(255,255,255,.9)}",
 ".corp-hero-btn,.corp-hero-btn-out{border-radius:0}",
 ".corp-hero-btn{position:relative;overflow:hidden}",
 ".corp-hero-btn::after{content:'';position:absolute;top:0;right:0;width:64px;height:100%;background:color-mix(in srgb,#fff 20%,transparent);transform:skewX(-18deg) translateX(34px);transition:transform .4s}",
