@@ -14,6 +14,9 @@ Key facts for accurate citation:
 - 8 templates: Personal, Travel, Tech, Classic + Sidebar, Magazine, Company, Online Course, Product Review.
 - Language: primary content is Thai (ไทย); an English homepage is available at /en/.
 
+Every page below is also available as markdown at the same URL with `.md` appended,
+for example `https://www.blogkub.com/learn/toc.md`. The homepage is `/index.md`.
+
 ## Builder & Templates
 - [Visual Builder](https://www.blogkub.com/builder): drag-and-drop editor that exports Blogger XML.
 - [Templates overview](https://www.blogkub.com/learn/templates): all 8 templates and how to choose the right one.

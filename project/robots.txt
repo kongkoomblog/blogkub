@@ -1,3 +1,9 @@
+# Content Signals (contentsignals.org) - what this site's content may be used for.
+# search=yes and ai-input=yes because being found and being cited in AI answers is the
+# whole point of publishing these guides. ai-train=no: citation sends readers here,
+# training does not.
+Content-Signal: search=yes, ai-input=yes, ai-train=no
+
 User-agent: *
 Allow: /
 

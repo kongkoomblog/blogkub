@@ -60,6 +60,17 @@
 /ads.txt
   Content-Type: text/plain; charset=utf-8
 
+# --- Markdown twins (see site/scripts/build-markdown.mjs) ---
+# Same charset problem as llms.txt above: Workers Static Assets drops "; charset=utf-8"
+# on deploy, a .md file declares nothing in-band, and nosniff stops the browser guessing,
+# so Thai would come back as mojibake. UNVERIFIED: whether a rule can match on extension
+# rather than a path prefix is not documented for Workers Static Assets. Check one .md URL
+# after deploy; if the charset is missing, the pattern is not matching and this has to
+# move to a per-directory rule.
+/*.md
+  Content-Type: text/markdown; charset=utf-8
+  Cache-Control: public, max-age=0, must-revalidate
+
 # --- Search engine ownership proof ---
 # Yandex checks this file byte for byte, so the file itself must not be edited.
 # It is 30 characters of text with no title and no canonical, which is exactly

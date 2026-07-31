@@ -20,4 +20,15 @@ function walk(dir) {
   }
 }
 walk(PAGES);
-console.log(`sync-public: copied ../project -> public, removed ${removed} migrated page(s)`);
+
+// Internal notes live alongside the assets in ../project, so the copy above was putting
+// them on the public site: PROJECT-HANDOFF.md, DEPLOY-README.md and the rest were all
+// readable at their own URLs. None contains a credential, but DEPLOY-README walks
+// through creating a Cloudflare API token, and several describe an architecture the
+// site moved off long ago, which is worth neither publishing nor letting a crawler read.
+// They stay in git where they are; they just stop being deployed.
+let internal = 0;
+for (const e of readdirSync('public')) {
+  if (e.endsWith('.md') && e !== 'llms.md') { rmSync(join('public', e)); internal++; }
+}
+console.log(`sync-public: copied ../project -> public, removed ${removed} migrated page(s), ${internal} internal doc(s)`);
