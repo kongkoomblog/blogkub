@@ -1041,7 +1041,7 @@
       var url = catUrlFor(c);
       return "<li role='none' itemscope='itemscope' itemtype='https://schema.org/SiteNavigationElement'>" +
         "<a role='menuitem' href='" + esc(url) + "' itemprop='url'>" +
-        (c.icon ? "<span class='rv-cat-ic' aria-hidden='true'>" + esc(c.icon) + "</span>" : "") +
+        (function () { var g = catIconSvg(c, "static"); return g ? "<span class='rv-cat-ic' aria-hidden='true'>" + g + "</span>" : ""; })() +
         "<span class='rv-cat-name' itemprop='name'>" + esc(c.label) + "</span>" +
         (String(c.count || "").trim() ? "<span class='rv-cat-n'>" + esc(String(c.count).trim()) + "</span>" : "") +
         "</a></li>";
@@ -1108,42 +1108,151 @@
     none:     { emoji: "∅", p: "" }
   };
   var MENU_ICON_KEYS = Object.keys(MENU_ICONS);
-  // Product-category icons. Stored as the emoji itself rather than a key, because
-  // that is what the old free-text field saved and existing projects must keep
-  // working. Anything typed by hand before is preserved as an extra option.
-  var CAT_ICONS = [
-    ["", "∅"],
-    ["🔌", "เครื่องใช้ไฟฟ้า|Electronics"],
-    ["📱", "มือถือ/แกดเจ็ต|Phones and gadgets"],
-    ["💻", "คอมพิวเตอร์|Computers"],
-    ["🏠", "บ้านและไลฟ์สไตล์|Home and living"],
-    ["🍳", "ครัวและอาหาร|Kitchen and food"],
-    ["🛋️", "เฟอร์นิเจอร์|Furniture"],
-    ["💄", "สุขภาพและความงาม|Health and beauty"],
-    ["👕", "แฟชั่น|Fashion"],
-    ["👟", "รองเท้า|Shoes"],
-    ["🏃", "กีฬาและกลางแจ้ง|Sports and outdoors"],
-    ["🐶", "สัตว์เลี้ยง|Pets"],
-    ["👶", "แม่และเด็ก|Mother and baby"],
-    ["🚗", "ยานยนต์|Automotive"],
-    ["🎮", "เกม|Games"],
-    ["📚", "หนังสือ|Books"],
-    ["🌱", "สวนและต้นไม้|Garden"],
-    ["🧰", "เครื่องมือ|Tools"],
-    ["🎁", "ของขวัญ|Gifts"],
-    ["🛒", "ทั่วไป|General"],
-    ["⭐", "แนะนำ|Recommended"],
-    ["🔥", "ขายดี|Best sellers"]
+
+  /* ---------- Product-category icons ----------
+     Same stroke-line style as MENU_ICONS so a category chip sits beside a nav
+     item without looking like it came from a different kit. Stored as a key,
+     with "auto" meaning "work it out from the category name". */
+  var CAT_ICONS = {
+    electronics: { th: "เครื่องใช้ไฟฟ้า", en: "Electronics", p: '<path d="M9 3v4M15 3v4"/><rect x="6" y="7" width="12" height="8" rx="2"/><path d="M12 15v6"/><path d="M9 21h6"/>' },
+    phone:       { th: "มือถือ", en: "Phones", p: '<rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18.5h2"/>' },
+    computer:    { th: "คอมพิวเตอร์", en: "Computers", p: '<rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/>' },
+    camera:      { th: "กล้อง", en: "Cameras", p: '<path d="M3 8a2 2 0 0 1 2-2h2l1.5-2h7L17 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.5" r="3.5"/>' },
+    audio:       { th: "เครื่องเสียง", en: "Audio", p: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><path d="M4 14h3v6H5a1 1 0 0 1-1-1z"/><path d="M20 14h-3v6h2a1 1 0 0 0 1-1z"/>' },
+    home:        { th: "บ้านและไลฟ์สไตล์", en: "Home and living", p: '<path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V20h14V9.5"/><path d="M9.5 20v-6h5v6"/>' },
+    furniture:   { th: "เฟอร์นิเจอร์", en: "Furniture", p: '<path d="M4 11V7a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 11h20v5H2z"/><path d="M5 16v3M19 16v3"/>' },
+    kitchen:     { th: "ครัวและอาหาร", en: "Kitchen and food", p: '<path d="M4 8h16"/><path d="M5 8a7 7 0 0 0 14 0"/><path d="M12 15v6"/><path d="M8 21h8"/>' },
+    beauty:      { th: "ความงาม", en: "Beauty", p: '<path d="M9 3h6v5H9z"/><path d="M8 8h8v11a2 2 0 0 1-2 2h-4a2 2 0 0 1-2-2z"/><path d="M8 13h8"/>' },
+    health:      { th: "สุขภาพ", en: "Health", p: '<path d="M12 20s-7-4.4-9.3-9A4.7 4.7 0 0 1 12 6.5 4.7 4.7 0 0 1 21.3 11C19 15.6 12 20 12 20z"/><path d="M8.5 12h2l1-2 1.5 4 1-2h1.5"/>' },
+    fashion:     { th: "แฟชั่น/เสื้อผ้า", en: "Fashion", p: '<path d="M9 3 6 5 3 8l3 3 1-1v9h10v-9l1 1 3-3-3-3-3-2"/><path d="M9 3a3 3 0 0 0 6 0"/>' },
+    shoes:       { th: "รองเท้า", en: "Shoes", p: '<path d="M2 16V9h4l2 2 3 1 4 1 5 1.5a2 2 0 0 1 2 2V17a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/><path d="M6 9v4"/>' },
+    bag:         { th: "กระเป๋า", en: "Bags", p: '<path d="M4 8h16l-1 12a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/>' },
+    watch:       { th: "นาฬิกา", en: "Watches", p: '<circle cx="12" cy="12" r="5"/><path d="M12 10v2l1.5 1"/><path d="M9 7V3h6v4M9 17v4h6v-4"/>' },
+    jewellery:   { th: "เครื่องประดับ", en: "Jewellery", p: '<path d="m5 8 2.5-4h9L19 8l-7 12z"/><path d="M5 8h14"/><path d="m9.5 8 2.5 12 2.5-12"/>' },
+    sports:      { th: "กีฬาและกลางแจ้ง", en: "Sports and outdoors", p: '<circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18"/><path d="M3.5 9h17M3.5 15h17"/>' },
+    fitness:     { th: "ฟิตเนส", en: "Fitness", p: '<path d="M4 9v6M20 9v6"/><path d="M7 6v12M17 6v12"/><path d="M7 12h10"/>' },
+    bicycle:     { th: "จักรยาน", en: "Bicycles", p: '<circle cx="6" cy="17" r="3.5"/><circle cx="18" cy="17" r="3.5"/><path d="m6 17 4-8h5l3 8"/><path d="M10 9h5"/>' },
+    car:         { th: "ยานยนต์", en: "Automotive", p: '<path d="M5 16V11l2-5h10l2 5v5"/><path d="M3 16h18"/><circle cx="7.5" cy="17.5" r="1.6"/><circle cx="16.5" cy="17.5" r="1.6"/>' },
+    pet:         { th: "สัตว์เลี้ยง", en: "Pets", p: '<circle cx="7" cy="9" r="2"/><circle cx="12" cy="6.5" r="2"/><circle cx="17" cy="9" r="2"/><path d="M12 11c3 0 5 2.5 5 5a3 3 0 0 1-3 3h-4a3 3 0 0 1-3-3c0-2.5 2-5 5-5z"/>' },
+    baby:        { th: "แม่และเด็ก", en: "Mother and baby", p: '<circle cx="12" cy="8" r="4.5"/><path d="M10 7h.01M14 7h.01"/><path d="M10 10a3 3 0 0 0 4 0"/><path d="M5 21a7 7 0 0 1 14 0"/>' },
+    toy:         { th: "ของเล่น", en: "Toys", p: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v6M12 15v6M3 12h6M15 12h6"/>' },
+    game:        { th: "เกม", en: "Games", p: '<rect x="2" y="7" width="20" height="10" rx="5"/><path d="M7 10v4M5 12h4"/><circle cx="16" cy="11" r="1"/><circle cx="18.5" cy="13.5" r="1"/>' },
+    book:        { th: "หนังสือ", en: "Books", p: '<path d="M12 6C10 4 6 4 3 5v13c3-1 7-1 9 1 2-2 6-2 9-1V5c-3-1-7-1-9 1z"/><path d="M12 6v13"/>' },
+    stationery:  { th: "เครื่องเขียน", en: "Stationery", p: '<path d="M4 20 8 19l11-11a2.5 2.5 0 0 0-3.5-3.5L4.5 15.5z"/><path d="m14 6 4 4"/>' },
+    garden:      { th: "สวนและต้นไม้", en: "Garden", p: '<path d="M12 21v-8"/><path d="M12 13c0-4 3-6 7-6 0 4-3 6-7 6z"/><path d="M12 15c0-3-2.5-5-6-5 0 3 2.5 5 6 5z"/>' },
+    tool:        { th: "เครื่องมือช่าง", en: "Tools", p: '<path d="M14 6a4 4 0 0 1 5 5l-8.5 8.5a2.1 2.1 0 0 1-3-3L16 8"/><path d="M14 6 11 3 8 6l3 3"/>' },
+    cleaning:    { th: "ทำความสะอาด", en: "Cleaning", p: '<path d="M9 3h6v7H9z"/><path d="M7 10h10l1 5H6z"/><path d="M8 15v6M12 15v6M16 15v6"/>' },
+    office:      { th: "สำนักงาน", en: "Office", p: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>' },
+    travel:      { th: "ท่องเที่ยว", en: "Travel", p: '<path d="M2 12h20"/><path d="m5 12 3-6h3l-1 6"/><path d="m5 12 3 6h3l-1-6"/><circle cx="18" cy="12" r="2.5"/>' },
+    food:        { th: "อาหารและเครื่องดื่ม", en: "Food and drink", p: '<path d="M6 3v8a2 2 0 0 0 4 0V3"/><path d="M8 11v10"/><path d="M17 3c-1.5 2-2 4-2 6h4c0-2-.5-4-2-6z"/><path d="M17 9v12"/>' },
+    supplement:  { th: "อาหารเสริม", en: "Supplements", p: '<rect x="3" y="8" width="18" height="12" rx="2"/><path d="M8 8V5a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3"/><path d="M12 11v6M9 14h6"/>' },
+    music:       { th: "ดนตรี", en: "Music", p: '<path d="M9 18V5l10-2v13"/><circle cx="6.5" cy="18" r="2.5"/><circle cx="16.5" cy="16" r="2.5"/>' },
+    gift:        { th: "ของขวัญ", en: "Gifts", p: '<rect x="3" y="8" width="18" height="4"/><path d="M5 12v8h14v-8"/><path d="M12 8v12"/><path d="M12 8S9 3 7 5s5 3 5 3zM12 8s3-5 5-3-5 3-5 3z"/>' },
+    cart:        { th: "สินค้าทั่วไป", en: "General", p: '<circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/><path d="M2 3h3l2.4 12.3a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.2L22 7H6"/>' },
+    tag:         { th: "หมวดหมู่", en: "Category", p: '<path d="M3 12V5a2 2 0 0 1 2-2h7l9 9-9 9z"/><path d="M7.5 7.5h.01"/>' },
+    star:        { th: "แนะนำ", en: "Recommended", p: '<path d="M12 3l2.7 5.9 6.3.7-4.7 4.3 1.3 6.2L12 17.8 6.1 20.4l1.3-6.2-4.7-4.3 6.3-.7z"/>' },
+    fire:        { th: "ขายดี", en: "Best sellers", p: '<path d="M12 3s5 4 5 9a5 5 0 0 1-10 0c0-2 1-3 1-3s0 2 1.5 2S12 3 12 3z"/>' },
+    discount:    { th: "ลดราคา", en: "Deals", p: '<path d="M5 5h6l8 8-6 6-8-8z"/><circle cx="8.5" cy="8.5" r="1.2"/><path d="m10 15 5-5"/>' }
+  };
+  var CAT_ICON_KEYS = Object.keys(CAT_ICONS);
+  // keyword -> icon, Thai and English, first match wins. Ordered so that the more
+  // specific words are tested before the broad ones ("ตู้เย็น" before "ไฟฟ้า").
+  // keyword -> icon, Thai and English, first match wins.
+  // Thai runs words together, so a short token matches inside a longer one:
+  // "ยา" hides in "จักรยาน" and "นิยาย", "จอ" in "เฟอร์นิเจอร์", "ชา" in "ชาร์จ".
+  // Keep tokens long enough to be unambiguous, and put the narrow entry before
+  // the broad one ("ของเล่นเด็ก" is a toy, not a baby product).
+  var CAT_ICON_HINTS = [
+    ["phone",      "มือถือ|โทรศัพท์|สมาร์ทโฟน|แท็บเล็ต|phone|mobile|smartphone|tablet|ipad"],
+    ["computer",   "คอมพิวเตอร์|โน้ตบุ๊ก|โน๊ตบุ๊ค|แล็ปท็อป|คีย์บอร์ด|เมาส์|computer|laptop|notebook|monitor|keyboard|mouse"],
+    ["camera",     "กล้อง|เลนส์|โดรน|ถ่ายภาพ|camera|lens|drone"],
+    ["audio",      "หูฟัง|ลำโพง|เครื่องเสียง|audio|headphone|speaker|earbud|sound"],
+    ["kitchen",    "ครัว|หม้อ|กระทะ|ทอด|เตาอบ|เตาแก๊ส|ไมโครเวฟ|ตู้เย็น|kitchen|cook|pan|pot|fryer|oven|microwave|fridge|refrigerator"],
+    ["cleaning",   "ทำความสะอาด|ดูดฝุ่น|ซักผ้า|เครื่องซักผ้า|ไม้ถูพื้น|น้ำยาล้าง|clean|vacuum|laundry|washing|mop|detergent"],
+    ["electronics", "ไฟฟ้า|อิเล็กทรอนิกส์|เครื่องปรับอากาศ|แอร์|พัดลม|electric|electronic|appliance|gadget|air conditioner"],
+    ["toy",        "ของเล่น|ตุ๊กตา|โมเดล|จิ๊กซอว์|toy|doll|puzzle|figure"],
+    ["baby",       "แม่และเด็ก|ทารก|ผ้าอ้อม|นมผง|รถเข็นเด็ก|baby|infant|maternity|diaper|stroller"],
+    ["furniture",  "เฟอร์นิเจอร์|โซฟา|เตียง|โต๊ะ|เก้าอี้|ตู้เสื้อผ้า|ชั้นวาง|furniture|sofa|bed|desk|chair|wardrobe|shelf"],
+    ["home",       "ของใช้ในบ้าน|ในบ้าน|บ้านและ|ไลฟ์สไตล์|ตกแต่งบ้าน|home|living|household|decor"],
+    ["beauty",     "ความงาม|เครื่องสำอาง|สกินแคร์|บำรุงผิว|แต่งหน้า|น้ำหอม|beauty|cosmetic|skincare|makeup|perfume"],
+    ["supplement", "อาหารเสริม|วิตามิน|โปรตีน|คอลลาเจน|supplement|vitamin|protein|collagen"],
+    ["health",     "สุขภาพ|เวชภัณฑ์|ร้านขายยา|ยารักษา|health|medical|pharmacy|wellness"],
+    ["shoes",      "รองเท้า|สนีกเกอร์|shoe|sneaker|boot|sandal"],
+    ["bag",        "กระเป๋า|เป้สะพาย|bag|backpack|luggage|wallet"],
+    ["watch",      "นาฬิกา|watch|smartwatch"],
+    ["jewellery",  "เครื่องประดับ|แหวน|สร้อย|ต่างหู|jewel|jewellery|jewelry|ring|necklace|earring"],
+    ["fashion",    "แฟชั่น|เสื้อผ้า|เสื้อ|กางเกง|กระโปรง|ชุดเดรส|ชุดนอน|fashion|clothing|apparel|shirt|dress"],
+    ["game",       "เกม|เกมส์|game|gaming|console|playstation|nintendo|xbox"],
+    ["pet",        "สัตว์เลี้ยง|สุนัข|อาหารหมา|อาหารแมว|แมว|pet|dog|cat"],
+    ["bicycle",    "จักรยาน|bicycle|bike|cycling"],
+    ["car",        "รถยนต์|ยานยนต์|มอเตอร์ไซค์|ยางรถ|อะไหล่รถ|car|auto|motorcycle|vehicle|tyre|tire"],
+    ["fitness",    "ฟิตเนส|ออกกำลังกาย|ดัมเบล|โยคะ|fitness|gym|workout|dumbbell|yoga"],
+    ["sports",     "กีฬา|กลางแจ้ง|แคมป์|เดินป่า|ตกปลา|sport|outdoor|camping|hiking|fishing"],
+    ["travel",     "ท่องเที่ยว|ทริป|เดินทาง|travel|trip|tour|holiday|vacation"],
+    ["garden",     "ต้นไม้|จัดสวน|และสวน|ปลูก|ดอกไม้|เกษตร|garden|plant|flower|farm"],
+    ["tool",       "เครื่องมือ|งานช่าง|สว่าน|ก่อสร้าง|tool|drill|hardware|diy"],
+    ["office",     "สำนักงาน|ออฟฟิศ|office|business"],
+    ["stationery", "เครื่องเขียน|ปากกา|สมุด|stationery|pen|paper"],
+    ["book",       "หนังสือ|นิยาย|การ์ตูน|นิตยสาร|book|novel|comic|magazine"],
+    ["music",      "ดนตรี|เครื่องดนตรี|กีตาร์|เปียโน|music|guitar|piano|instrument"],
+    ["food",       "อาหาร|เครื่องดื่ม|ขนม|กาแฟ|ชาเขียว|ใบชา|food|drink|snack|coffee|beverage"],
+    ["gift",       "ของขวัญ|ของฝาก|gift|present|souvenir"],
+    ["discount",   "ลดราคา|โปรโมชั่น|ดีล|ส่วนลด|sale|deal|discount|promotion|coupon"],
+    ["fire",       "ขายดี|มาแรง|ยอดนิยม|hot|popular|trending|best seller|bestseller"],
+    ["star",       "แนะนำ|น่าสนใจ|recommend|featured|top pick"],
+    ["tag",        "หมวดหมู่|หมวด|ประเภท|category|categories|tag"]
   ];
-  function catIconOptions(cur) {
-    var v = cur || "";
-    var list = CAT_ICONS.slice();
-    // keep an emoji typed before this picker existed
-    if (v && !list.some(function (x) { return x[0] === v; })) list.splice(1, 0, [v, tpl("ของเดิม", "Current")]);
-    return list.map(function (x) {
-      var lbl = x[1].indexOf("|") > -1 ? tpl(x[1].split("|")[0], x[1].split("|")[1]) : x[1];
-      return '<option value="' + esc(x[0]) + '"' + (x[0] === v ? " selected" : "") + '>' + (x[0] ? x[0] + " " + esc(lbl) : esc(lbl)) + "</option>";
-    }).join("");
+  // Emoji written by hand before this picker existed, mapped onto the new keys so
+  // upgrading a saved project does not blank its icons.
+  var CAT_EMOJI_MAP = {
+    "🔌": "electronics", "⚡": "electronics", "📱": "phone", "💻": "computer", "🖥️": "computer",
+    "📷": "camera", "📸": "camera", "🎧": "audio", "🔊": "audio", "🏠": "home", "🏡": "home",
+    "🛋️": "furniture", "🛏️": "furniture", "🍳": "kitchen", "🍽️": "kitchen", "💄": "beauty",
+    "💅": "beauty", "❤️": "health", "💊": "supplement", "👕": "fashion", "👗": "fashion",
+    "👟": "shoes", "👞": "shoes", "👜": "bag", "🎒": "bag", "⌚": "watch", "💍": "jewellery",
+    "🏃": "sports", "⚽": "sports", "🏋️": "fitness", "🚲": "bicycle", "🚗": "car", "🏍️": "car",
+    "🐶": "pet", "🐱": "pet", "👶": "baby", "🧸": "toy", "🎮": "game", "📚": "book", "📖": "book",
+    "✏️": "stationery", "🌱": "garden", "🌿": "garden", "🧰": "tool", "🔧": "tool", "🧹": "cleaning",
+    "🧺": "cleaning", "💼": "office", "✈️": "travel", "🍔": "food", "☕": "food", "🎵": "music",
+    "🎸": "music", "🎁": "gift", "🛒": "cart", "🏷️": "tag", "⭐": "star", "🔥": "fire", "🏷": "tag"
+  };
+  function guessCatIcon(c) {
+    var s = ((c.label || "") + " " + (c.labelName || "")).toLowerCase();
+    if (s.trim()) {
+      for (var i = 0; i < CAT_ICON_HINTS.length; i++) {
+        if (new RegExp(CAT_ICON_HINTS[i][1], "i").test(s)) return CAT_ICON_HINTS[i][0];
+      }
+    }
+    return "tag";
+  }
+  // resolve a category row to an SVG inner-path ("" means show no icon)
+  function catIconPath(c) {
+    var ic = c.icon;
+    if (ic === "none") return "";
+    if (ic && CAT_EMOJI_MAP[ic]) ic = CAT_EMOJI_MAP[ic];       // saved before the picker
+    if (!ic || ic === "auto" || !CAT_ICONS[ic]) ic = guessCatIcon(c);
+    var def = CAT_ICONS[ic];
+    return def ? def.p : "";
+  }
+  function catIconSvg(c, mode) {
+    var pth = catIconPath(c);
+    if (!pth) return "";
+    if (mode === "preview") {
+      return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px;flex:none;opacity:.88">' + pth + '</svg>';
+    }
+    return "<svg class='rv-cat-svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.9' stroke-linecap='round' stroke-linejoin='round' aria-hidden='true'>" + pth + "</svg>";
+  }
+  function catIconOptions(c) {
+    var cur = c.icon;
+    if (cur && CAT_EMOJI_MAP[cur]) cur = CAT_EMOJI_MAP[cur];
+    if (cur !== "none" && (!cur || !CAT_ICONS[cur])) cur = "auto";
+    var auto = CAT_ICONS[guessCatIcon(c)];
+    return '<option value="auto"' + (cur === "auto" ? " selected" : "") + ">" +
+        tpl("อัตโนมัติ", "Auto") + (auto ? " (" + tpl(auto.th, auto.en) + ")" : "") + "</option>" +
+      '<option value="none"' + (cur === "none" ? " selected" : "") + ">" + tpl("ไม่ใส่ไอคอน", "No icon") + "</option>" +
+      CAT_ICON_KEYS.map(function (k) {
+        return '<option value="' + k + '"' + (k === cur ? " selected" : "") + ">" + esc(tpl(CAT_ICONS[k].th, CAT_ICONS[k].en)) + "</option>";
+      }).join("");
   }
   // keyword → icon (Thai + English) · first match wins
   var MENU_ICON_HINTS = [
@@ -1426,7 +1535,7 @@
           var pvCols = catCols(pvCats.length);
           var pvRows = pvCats.slice(0, pvCols * 4).map(function (c) {
             return '<a style="display:flex;align-items:center;gap:9px;padding:9px 11px;border-radius:9px;font-size:13.5px;color:#1e2333;text-decoration:none;white-space:nowrap">' +
-              (c.icon ? '<span style="flex:none;width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#f7f8fc;font-size:13px">' + esc(c.icon) + '</span>' : '') +
+              (function () { var g = catIconSvg(c, "preview"); return g ? '<span style="flex:none;width:24px;height:24px;display:grid;place-items:center;border-radius:7px;background:#f7f8fc;color:#4a5063">' + g + '</span>' : ''; })() +
               '<span style="flex:1;overflow:hidden;text-overflow:ellipsis">' + esc(c.label) + '</span>' +
               (String(c.count || "").trim() ? '<span style="flex:none;font-size:11px;font-weight:700;color:#828aa0;background:#f0f1f7;border-radius:99px;padding:3px 8px">' + esc(String(c.count).trim()) + '</span>' : '') +
               '</a>';
@@ -2355,7 +2464,7 @@
               '<span style="width:4px;height:14px;border-radius:99px;background:linear-gradient(180deg,' + d.primary + ',' + d.accent + ')"></span>' + esc(catMenuLabel()) + '</div>' +
             '<div style="display:flex;flex-wrap:wrap;gap:7px">' + pvFCats.map(function (c) {
               return '<span style="display:inline-flex;align-items:center;gap:5px;font-size:12px;color:' + fMuted + ';background:' + fChip + ';border-radius:99px;padding:5px 12px">' +
-                (c.icon ? esc(c.icon) : "") + esc(c.label) +
+                catIconSvg(c, "preview") + esc(c.label) +
                 (String(c.count || "").trim() ? '<span style="opacity:.6;font-size:10.5px;font-weight:700">' + esc(String(c.count).trim()) + '</span>' : '') +
                 '</span>';
             }).join("") + '</div></div>'
@@ -2741,9 +2850,9 @@
         '<div class="menu-row-top">' +
           '<span class="menu-grip">⋮⋮</span>' +
           '<input class="inp menu-label" data-catl="' + i + '" value="' + esc(c.label || "") + '" placeholder="' + tpl("ชื่อหมวดหมู่", "Category name") + '">' +
-          '<select class="inp menu-icon-sel" data-catic="' + i + '" title="' + tpl("ไอคอนหมวดหมู่ (ไม่บังคับ)", "Category icon (optional)") + '" style="flex:0 0 auto;width:50px;padding:6px 2px;text-align:center;font-size:15px">' +
-          catIconOptions(c.icon) + '</select>' +
-          '<input class="inp" data-catn="' + i + '" value="' + esc(c.count || "") + '" placeholder="#" title="' + tpl("จำนวน (ไม่บังคับ)", "Count (optional)") + '" style="flex:0 0 auto;width:48px;padding:6px 2px;text-align:center;font-size:12px">' +
+          '<select class="inp" data-catic="' + i + '" title="' + tpl("ไอคอนหมวดหมู่ · เลือกอัตโนมัติจากชื่อหมวดให้เอง", "Category icon, picked from the name automatically") + '" style="flex:0 0 auto;width:104px;padding:6px 6px;font-size:12.5px">' +
+          catIconOptions(c) + '</select>' +
+          '<input class="inp" data-catn="' + i + '" value="' + esc(c.count || "") + '" placeholder="#" title="' + tpl("จำนวนสินค้าในหมวดนี้ · ใส่ตัวเลขแล้วจะโชว์ต่อท้ายชื่อหมวด เช่น 12 · เว้นว่างได้ ระบบไม่นับให้อัตโนมัติ", "How many products are in this category. Type a number and it shows next to the name. Leave it blank if you would rather not: nothing counts them for you.") + '" style="flex:0 0 auto;width:48px;padding:6px 2px;text-align:center;font-size:12px">' +
           '<button class="menu-del" data-catdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button>' +
         '</div>' +
         '<div class="menu-secondary" style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">' + typeSel +
@@ -2757,8 +2866,8 @@
       '<div class="menu-list">' + rows + '</div>' +
       '<button class="menu-add" data-catadd="1">' + tr("+ เพิ่มหมวดหมู่") + '</button>' +
       '<div class="hint" style="margin-top:6px">' + tpl(
-        'กรอกเอง คุมข้อความลิงก์และปลายทางได้เต็มที่ · เมนูจะซ่อนอัตโนมัติถ้ายังไม่ได้กรอก · ตอนนี้ ' + n + ' หมวด → ดรอปดาวน์ ' + catCols(n) + ' คอลัมน์' + (n >= CAT_FILTER_MIN ? ' + ช่องกรอง' : ''),
-        'Hand-entered so you control anchor text and destination. The menu hides itself while empty. ' + n + ' categories → ' + catCols(n) + '-column dropdown' + (n >= CAT_FILTER_MIN ? ' with a filter box' : '')) + '</div>' +
+        'กรอกเอง คุมข้อความลิงก์และปลายทางได้เต็มที่ · เมนูจะซ่อนอัตโนมัติถ้ายังไม่ได้กรอก · ตอนนี้ ' + n + ' หมวด → ดรอปดาวน์ ' + catCols(n) + ' คอลัมน์' + (n >= CAT_FILTER_MIN ? ' + ช่องกรอง' : '') + '<br><b>ไอคอน</b> ตั้งเป็นอัตโนมัติไว้ พิมพ์ชื่อหมวดแล้วระบบเดาให้เอง เช่น พิมพ์ "ไฟฟ้า" ได้ไอคอนเครื่องใช้ไฟฟ้า จะเลือกเองก็ได้ · <b>ช่อง #</b> คือจำนวนสินค้าในหมวด ใส่แล้วโชว์ต่อท้ายชื่อ เว้นว่างได้ ไม่ได้นับให้อัตโนมัติ',
+        'Hand-entered so you control anchor text and destination. The menu hides itself while empty. ' + n + ' categories → ' + catCols(n) + '-column dropdown' + (n >= CAT_FILTER_MIN ? ' with a filter box' : '') + '<br><b>Icon</b> is on Auto: type the category name and one is chosen for you, so "electronics" gets the appliance icon. Override it any time. · <b>The # box</b> is how many products the category holds. Type a number and it shows after the name. Leave it blank if you like: nothing counts them for you.') + '</div>' +
       (usesLabel ? labelLinkNote() : '') +
       '</div>' +
       txt("catLabel", "ชื่อเมนูที่แสดง", p.catLabel != null ? p.catLabel : tpl("หมวดหมู่สินค้า", "Categories")) +
@@ -3155,7 +3264,17 @@
       });
     });
     // category bindings (review template)
-    $$("[data-catl]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catl].label = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
+    $$("[data-catl]", c).forEach(function (inp) {
+      inp.addEventListener("input", function () {
+        var arr = catsOf(b.props); arr[+inp.dataset.catl].label = inp.value; b.props.categories = arr;
+        // an auto icon is derived from this name, so refresh the row's picker in place.
+        // Re-rendering the whole panel would steal focus mid-word.
+        var row = arr[+inp.dataset.catl];
+        var sel = c.querySelector('[data-catic="' + inp.dataset.catl + '"]');
+        if (sel && (!row.icon || row.icon === "auto")) sel.innerHTML = catIconOptions(row);
+        renderCanvas(); save();
+      });
+    });
     $$("[data-catic]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = catsOf(b.props); arr[+sel.dataset.catic].icon = sel.value; b.props.categories = arr; renderCanvas(); save(); }); });
     $$("[data-catn]", c).forEach(function (inp) { inp.addEventListener("input", function () { var arr = catsOf(b.props); arr[+inp.dataset.catn].count = inp.value; b.props.categories = arr; renderCanvas(); save(); }); });
     $$("[data-catt]", c).forEach(function (sel) { sel.addEventListener("change", function () { var arr = catsOf(b.props); arr[+sel.dataset.catt].linkType = sel.value; b.props.categories = arr; commit(); renderProps(); }); });
@@ -4849,7 +4968,9 @@ tplStyleVars(),
 ".rv-cat-list li[hidden]{display:none}",
 ".rv-cat-drop .rv-cat-list a,.rv-cat-sheet .rv-cat-list a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:9px;font-size:14px;font-weight:500;color:var(--text-main);text-decoration:none;transition:background .15s,color .15s;white-space:normal}",
 ".rv-cat-drop .rv-cat-list a:hover,.rv-cat-sheet .rv-cat-list a:hover{background:var(--hover-bg);color:var(--primary)}",
-".rv-cat-ic{flex:none;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:var(--bg-surface);font-size:14px;line-height:1}",
+".rv-cat-ic{flex:none;width:26px;height:26px;display:grid;place-items:center;border-radius:8px;background:var(--bg-surface);color:var(--text-muted);line-height:1}",
+    ".rv-cat-svg{width:16px;height:16px;flex:none;display:block}",
+    ".rv-cat-chip .rv-cat-svg{width:15px;height:15px;opacity:.85}",
 ".rv-cat-name{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
 ".rv-cat-n{flex:none;min-width:26px;text-align:center;font-size:11.5px;font-weight:700;color:var(--text-muted);background:var(--bg-surface-2);border-radius:99px;padding:3px 8px;line-height:1.25}",
 ".rv-cat-list a:hover .rv-cat-n{background:var(--primary-ink);color:#fff}",
@@ -5904,7 +6025,7 @@ tplStyleVars(),
           ? "<div class='footer-cats'><div class='footer-cats-head'>" + esc(catMenuLabel()) + "</div>" +
             "<div class='footer-cats-wrap'>" + fCats.map(function (c) {
               return "<a class='footer-cat' href='" + esc(catUrlFor(c)) + "'>" +
-                (c.icon ? "<span aria-hidden='true'>" + esc(c.icon) + "</span>" : "") +
+                catIconSvg(c, "static") +
                 "<span>" + esc(c.label) + "</span>" +
                 (String(c.count || "").trim() ? "<span class='footer-cat-n'>" + esc(String(c.count).trim()) + "</span>" : "") +
                 "</a>";
