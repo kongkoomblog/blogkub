@@ -741,8 +741,11 @@
   ];
 
   /* defaults per block type */
-  function blockDefaults(type) {
-    var d = BL === "en" ? {
+  // `lang` is optional and defaults to the builder UI language. It is passed explicitly
+  // by retranslateBlocks(), which needs the defaults of a language that is no longer active.
+  function blockDefaults(type, lang) {
+    var isEn = (lang || BL) === "en";
+    var d = isEn ? {
       header: { logoText: "MyBlog", menuItems: [
         { id: "m1", type: "home",   label: "Home",    url: "/" },
         { id: "m2", type: "search", label: "Posts",   url: "/search" },
@@ -857,7 +860,7 @@
     // Template-aware editable text defaults: the styled template variants used to
     // hardcode their eyebrow / chips / stats / rating copy. Seed them as real props
     // here (based on the active template) so every string is editable & removable.
-    var tid = S && S.templateId, en = BL === "en";
+    var tid = S && S.templateId, en = isEn;
     if (type === "hero") {
       var heroEb = { review: en ? "🏆 Product Reviews" : "🏆 รีวิวสินค้า",
         course: en ? "📚 Online Course" : "📚 คอร์สออนไลน์",
@@ -889,13 +892,45 @@
       var seed = en
         ? ["Electronics", "Home & Living", "Kitchen", "Health & Beauty", "Pets", "Sports & Outdoors"]
         : ["เครื่องใช้ไฟฟ้า", "บ้านและไลฟ์สไตล์", "ครัวและอาหาร", "สุขภาพและความงาม", "สัตว์เลี้ยง", "กีฬาและกลางแจ้ง"];
-      var seedIcons = ["🔌", "🏠", "🍳", "💄", "🐶", "🏃"];
+      var seedIcons = ["electronics", "home", "kitchen", "beauty", "pet", "sports"];
       out.categories = seed.map(function (name, i) {
         return { id: "c" + (i + 1), label: name, linkType: "label", labelName: name, icon: seedIcons[i], count: "" };
       });
     }
     return out;
   }
+  // Switching the builder language used to leave every existing block untouched, because
+  // blockDefaults() runs once when a block is created and its result is then stored in S.
+  // The exported theme came out half-translated: the hardcoded strings inside
+  // renderBlockStatic follow BL and flipped to English, while the menu, hero, about and
+  // footer text stayed in whatever language the project was started in.
+  //
+  // So on every language change, replace each prop that is still sitting at its old-language
+  // default with the new-language default. A value the user has edited no longer matches that
+  // default, so their own wording survives. Comparison is by serialized value, which handles
+  // the array props (menuItems, footerLinks, categories, columns.items) as single units:
+  // touch one menu label and the whole menu is treated as authored, which is the safe way
+  // round.
+  function retranslateBlocks(from, to) {
+    if (!S || !S.blocks || from === to) return 0;
+    var changed = 0;
+    S.blocks.forEach(function (b) {
+      var oldD = blockDefaults(b.type, from), newD = blockDefaults(b.type, to);
+      if (!b.props) b.props = {};
+      Object.keys(oldD).forEach(function (k) {
+        if (!(k in newD)) return;
+        var cur = JSON.stringify(b.props[k]), was = JSON.stringify(oldD[k]), now = JSON.stringify(newD[k]);
+        if (cur !== was || was === now) return;
+        b.props[k] = JSON.parse(now);
+        changed++;
+      });
+    });
+    // The blank-project name is language-dependent too; a template name is not.
+    var oldName = from === "en" ? "My Website" : "เว็บไซต์ของฉัน";
+    if (S.name === oldName) S.name = to === "en" ? "My Website" : "เว็บไซต์ของฉัน";
+    return changed;
+  }
+
   // Parse a newline-separated list field into trimmed non-empty items.
   function parseLines(s) { return String(s == null ? "" : s).split(/\r?\n/).map(function (x) { return x.trim(); }).filter(Boolean); }
   // Parse "number | label" lines into {n,l} pairs (label optional).
@@ -937,8 +972,8 @@
 
   function freshProject(name, design) {
     return {
-      name: name || "เว็บไซต์ของฉัน",
-      lang: "th",
+      name: name || (BL === "en" ? "My Website" : "เว็บไซต์ของฉัน"),
+      lang: BL,
       templateId: null,
       design: design || { primary: "#6366f1", accent: "#8b5cf6", font: "sans", radius: 12 },
       seo: { title: "", desc: "", blogTitle: "MyBlog", labelIndex: false, schema: true, og: true,
@@ -3987,11 +4022,11 @@
   /* ---------- internal link suggestions ---------- */
   function buildLinkSuggestions() {
     var base = [
-      { label: "หน้าแรก", url: "/" },
-      { label: "ค้นหา", url: "/search" },
-      { label: "About", url: "/p/about.html" },
-      { label: "ติดต่อ", url: "/p/contact.html" },
-      { label: "แผนผังเว็บ", url: "/p/sitemap.html" }
+      { label: tpl("หน้าแรก", "Home"), url: "/" },
+      { label: tpl("ค้นหา", "Search"), url: "/search" },
+      { label: tpl("เกี่ยวกับ", "About"), url: "/p/about.html" },
+      { label: tpl("ติดต่อ", "Contact"), url: "/p/contact.html" },
+      { label: tpl("แผนผังเว็บ", "Sitemap"), url: "/p/sitemap.html" }
     ];
     if (S) {
       S.blocks.forEach(function (b) {
@@ -4421,7 +4456,7 @@
 
     var blogWidget =
       "<b:section class='main-section' id='main' showaddelement='yes'>\n" +
-      "<b:widget id='Blog1' locked='true' mobile='yes' title='บทความบล็อก' type='Blog' version='2' visible='true'>\n" +
+      "<b:widget id='Blog1' locked='true' mobile='yes' title='" + tpl("บทความบล็อก", "Blog Posts") + "' type='Blog' version='2' visible='true'>\n" +
       blogWidgetSettings +
       "<b:includable id='main'>\n" + mainIncludable + "\n</b:includable>\n" +
       nextprevIncludable +
@@ -5343,8 +5378,8 @@ tplStyleVars(),
           "<a href='/' class='site-logo'>" +
             (S.seo && S.seo.logoUrl ? "<img src='" + esc(S.seo.logoUrl) + "' alt=''/>" : "") +
             "<span>" + esc(p.logoText) + "</span></a>" +
-          "<nav role='navigation' aria-label='เมนูหลัก' class='site-nav nav-" + side + "'>" +
-            "<label for='navtoggle' class='nav-close' aria-label='ปิดเมนู'>✕</label>" +
+          "<nav role='navigation' aria-label='" + tpl("เมนูหลัก", "Main menu") + "' class='site-nav nav-" + side + "'>" +
+            "<label for='navtoggle' class='nav-close' aria-label='" + tpl("ปิดเมนู", "Close menu") + "'>✕</label>" +
             "<div class='nav-drawer-head'>" +
               (S.seo && S.seo.logoUrl ? "<img src='" + esc(S.seo.logoUrl) + "' alt=''/>" : "") +
               "<span>" + esc(p.logoText) + "</span></div>" +
@@ -5368,7 +5403,7 @@ tplStyleVars(),
                   "<button type='button' class='nav-search-x' id='bxbNavSearchX' aria-label='" + tpl("ปิด", "Close") + "'>✕</button>" +
                 "</form></div>"
             : "") +
-          "<label for='navtoggle' class='nav-burger' aria-label='เปิดเมนู'><span></span><span></span><span></span></label>" +
+          "<label for='navtoggle' class='nav-burger' aria-label='" + tpl("เปิดเมนู", "Open menu") + "'><span></span><span></span><span></span></label>" +
           "<label for='navtoggle' class='nav-scrim'></label>" +
           "</div></header>" +
           "<script>/*<![CDATA[*/(function(){" +
@@ -6176,7 +6211,7 @@ tplStyleVars(),
           + "window.addEventListener('scroll',function(){if(t)return;t=setTimeout(function(){t=null;upd();},120);},{passive:true});upd();"
           + "}());/*]]>*/<\/script>";
       case "breadcrumb":
-        var bcHome = esc(p.home || "หน้าแรก");
+        var bcHome = esc(p.home || tpl("หน้าแรก", "Home"));
         var bcLink = "color:inherit;text-decoration:none";
         var bcSep = "<span aria-hidden='true' style='opacity:.5'>&#8250;</span>";
         return "<b:if cond='data:view.isSingleItem'>"
@@ -6453,7 +6488,7 @@ tplStyleVars(),
     out += "<script type='application/ld+json'>" +
       "{&quot;@context&quot;:&quot;https://schema.org&quot;,&quot;@graph&quot;:[" +
       "{&quot;@type&quot;:&quot;WebPage&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#webpage&quot;,&quot;url&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;,&quot;name&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;isPartOf&quot;:{&quot;@id&quot;:&quot;" + siteId + "&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;,&quot;speakable&quot;:{&quot;@type&quot;:&quot;SpeakableSpecification&quot;,&quot;cssSelector&quot;:[&quot;h1.post-title&quot;,&quot;.post-body p:first-of-type&quot;]}<b:if cond='data:view.featuredImage'>,&quot;primaryImageOfPage&quot;:{&quot;@type&quot;:&quot;ImageObject&quot;,&quot;url&quot;:&quot;<b:eval expr='resizeImage(data:view.featuredImage,1200,&quot;1200:630&quot;)'/>&quot;}</b:if>}," +
-      "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#breadcrumb&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;หน้าแรก&quot;,&quot;item&quot;:&quot;<b:eval expr='data:blog.homepageUrl.jsonEscaped'/>&quot;},{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:2,&quot;name&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;item&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;}]}" +
+      "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#breadcrumb&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;" + tpl("หน้าแรก", "Home") + "&quot;,&quot;item&quot;:&quot;<b:eval expr='data:blog.homepageUrl.jsonEscaped'/>&quot;},{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:2,&quot;name&quot;:&quot;<b:eval expr='data:view.title.jsonEscaped'/>&quot;,&quot;item&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;}]}" +
       "]}</script>\n";
     out += "</b:if>\n";
     // Label/archive page: CollectionPage + BreadcrumbList
@@ -6461,7 +6496,7 @@ tplStyleVars(),
     out += "<script type='application/ld+json'>" +
       "{&quot;@context&quot;:&quot;https://schema.org&quot;,&quot;@graph&quot;:[" +
       "{&quot;@type&quot;:&quot;CollectionPage&quot;,&quot;@id&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>#collection&quot;,&quot;url&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;,&quot;name&quot;:&quot;<b:if cond='data:blog.searchLabel'><b:eval expr='data:blog.searchLabel.jsonEscaped'/><b:else/><b:eval expr='data:blog.pageName.jsonEscaped'/></b:if>&quot;,&quot;isPartOf&quot;:{&quot;@id&quot;:&quot;" + siteId + "&quot;},&quot;inLanguage&quot;:&quot;" + lang + "&quot;}," +
-      "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;หน้าแรก&quot;,&quot;item&quot;:&quot;<b:eval expr='data:blog.homepageUrl.jsonEscaped'/>&quot;}" +
+      "{&quot;@type&quot;:&quot;BreadcrumbList&quot;,&quot;itemListElement&quot;:[{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:1,&quot;name&quot;:&quot;" + tpl("หน้าแรก", "Home") + "&quot;,&quot;item&quot;:&quot;<b:eval expr='data:blog.homepageUrl.jsonEscaped'/>&quot;}" +
       "<b:if cond='data:blog.searchLabel'>,{&quot;@type&quot;:&quot;ListItem&quot;,&quot;position&quot;:2,&quot;name&quot;:&quot;<b:eval expr='data:blog.searchLabel.jsonEscaped'/>&quot;,&quot;item&quot;:&quot;<b:eval expr='data:view.url.canonical.jsonEscaped'/>&quot;}</b:if>" +
       "]}" +
       "]}</script>\n";
@@ -6497,7 +6532,7 @@ tplStyleVars(),
       "<meta expr:content='data:view.lastUpdated' property='article:modified_time'/>",
       "<meta content='" + sn + "' property='article:author'/>",
       "<b:if cond='data:view.labels'><b:loop values='data:view.labels' var='lbl'><meta expr:content='data:lbl.name' property='article:tag'/></b:loop><meta expr:content='data:view.labels.first.name' property='article:section'/></b:if>",
-      "<meta content='หมวดหมู่' name='twitter:label1'/>",
+      "<meta content='" + tpl("หมวดหมู่", "Category") + "' name='twitter:label1'/>",
       "<b:if cond='data:view.labels'><meta expr:content='data:view.labels.first.name' name='twitter:data1'/></b:if>",
       "</b:if>",
       // Pagination hints for crawlers
@@ -7471,8 +7506,15 @@ tplStyleVars(),
   })();
 
   function applyBuilderLang(lang) {
+    var prev = BL;
     BL = lang; localStorage.setItem("bxb_lang", lang);
-    if (S) { S.lang = lang; save(); }
+    if (S) {
+      // Untouched block text follows the language switch, so an English project exports an
+      // English theme even when it was started in Thai. Edited text is left alone.
+      var n = retranslateBlocks(prev, lang);
+      S.lang = lang; save();
+      if (n) { var pn = $("#projName"); if (pn) pn.value = S.name; }
+    }
     // sync all lang toggle buttons (topbar + start screen)
     document.querySelectorAll("[data-bl]").forEach(function (b) { b.classList.toggle("on", b.dataset.bl === lang); });
     var mlb = document.getElementById("mobLangBtn"); if (mlb) mlb.textContent = lang.toUpperCase();
@@ -7809,7 +7851,18 @@ tplStyleVars(),
   // resume saved project?
   try {
     var saved = localStorage.getItem(KEY);
-    if (saved) { S = JSON.parse(saved); if (S && S.blocks) { enterBuilder(); } }
+    if (saved) {
+      S = JSON.parse(saved);
+      if (S && S.blocks) {
+        // A project saved before the language switch retranslated anything can hold props in
+        // the other language. Reconcile against the opposite language on load: only values
+        // still identical to that language's defaults move, so this is a no-op for a project
+        // that is already consistent, and it repairs one that is not.
+        if (retranslateBlocks(BL === "en" ? "th" : "en", BL)) save();
+        S.lang = BL;
+        enterBuilder();
+      }
+    }
   } catch (e) {}
 
   // expose minimal for debugging
