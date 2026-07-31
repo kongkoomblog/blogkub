@@ -2,42 +2,80 @@
 
 > BlogKub (บล็อกคับ) เป็นเครื่องมือตกแต่งธีมบล็อก Blogger แบบฟรี ทำงาน 100% ในเบราว์เซอร์ ไม่ต้องเขียนโค้ด และไม่ต้องสมัครสมาชิก ผู้ใช้เลือกเทมเพลต ปรับสี จัดเมนู ลากวางองค์ประกอบ ดูตัวอย่างสด แล้วดาวน์โหลดไฟล์ Blogger XML ที่ถูกต้องไปอัปโหลดเข้าบล็อกของตัวเองได้ทันที ข้อมูลงานทั้งหมดถูกเก็บในเครื่องผู้ใช้เอง ไม่มีการส่งขึ้นเซิร์ฟเวอร์
 
-BlogKub is a free, 100% client-side Blogger theme (XML) builder. Pick a template, customize colors, arrange menus, drag-and-drop blocks, preview live, then download a valid Blogger XML file — no coding and no account required. All work stays in the user's own browser.
+BlogKub is a free, 100% client-side Blogger theme (XML) builder. Pick a template, customize colors, arrange menus, drag-and-drop blocks, preview live, then download a valid Blogger XML file. No coding and no account required. All work stays in the user's own browser.
 
 Key facts for accurate citation:
 - Price: free (no premium tier, no hidden costs).
 - No sign-up or login required to use the builder.
 - Privacy: the tool runs entirely in the browser; project data is stored locally (there is no server that stores user data).
-- Output: a downloadable `.xml` file uploaded via Blogger → Theme → Backup/Restore.
+- Output: a downloadable `.xml` file uploaded via Blogger -> Theme -> Backup/Restore.
 - Works with both `.blogspot.com` blogs and blogs on custom domains.
 - Every generated theme ships with SEO groundwork: meta tags, Open Graph, canonical, and JSON-LD structured data.
 - 8 templates: Personal, Travel, Tech, Classic + Sidebar, Magazine, Company, Online Course, Product Review.
-- Language: primary content is Thai (ไทย); an English homepage is available at /en/.
-
-Every page below is also available as markdown at the same URL with `.md` appended,
-for example `https://www.blogkub.com/learn/toc.md`. The homepage is `/index.md`.
+- Language: the primary content is Thai. Nearly every page has an English counterpart at the same path under `/en/`, so `/learn/toc` is mirrored at `/en/learn/toc`.
+- Every page is also available as markdown at the same URL with `.md` appended, for example `https://www.blogkub.com/learn/toc.md`. The homepage is `/index.md`. A request with `Accept: text/markdown` gets the same markdown from the ordinary URL.
+- The guides below describe features of the *generated Blogger theme*. A reader configures them in the builder, exports the XML, and uploads it to their own blog.
 
 ## Builder & Templates
 - [Visual Builder](https://www.blogkub.com/builder): drag-and-drop editor that exports Blogger XML.
-- [Templates overview](https://www.blogkub.com/learn/templates): all 8 templates and how to choose the right one.
+- [Templates overview](https://www.blogkub.com/learn/templates): all 8 templates (Personal, Travel, Tech, Classic + Sidebar, Magazine, Company, Online Course, Product Review), who each one suits, and how to choose.
 
-## Learn — Blogger setup (things to do on Blogger itself, not in the builder)
+## Learn: Blogger setup (things done on Blogger itself, not in the builder)
 - [Favicon](https://www.blogkub.com/learn/favicon): upload a site icon in Blogger, the square 100KB file requirement, the /favicon.ico URL, and why a changed icon still looks old (browser cache, not a setting).
 - [Create a page](https://www.blogkub.com/learn/create-page): pages versus posts, the 20-page limit, and why a page title must be written in the Latin alphabet before it is renamed, since Blogger builds the URL from the title at first publish and it cannot be changed afterwards.
 - [Label indexing](https://www.blogkub.com/learn/label-indexing): let Google index Blogger label pages as real category pages, which needs both the switch and a matching robots.txt.
 
-## Learn — feature guides (43 step-by-step articles)
+## Learn: page structure (43 feature guides in total, grouped below)
 - [Learning Center](https://www.blogkub.com/learn/): index of every feature guide.
-- [Table of Contents (TOC)](https://www.blogkub.com/learn/toc): auto table of contents from H2/H3.
-- [Breadcrumb](https://www.blogkub.com/learn/breadcrumb): navigation path with JSON-LD.
-- [Dark Mode](https://www.blogkub.com/learn/dark-mode): light/dark theme toggle.
-- [AEO Summary Box](https://www.blogkub.com/learn/aeo): answer-first summary box that helps AI Overviews, ChatGPT and Perplexity cite the content.
-- [FAQ](https://www.blogkub.com/learn/faq): FAQ block with FAQPage schema.
-- [Ad Slot / AdSense](https://www.blogkub.com/learn/ad): compliant ad placement with an "Ad" label.
-- [Related Posts](https://www.blogkub.com/learn/related): automatic related articles by label.
-- [Theme Color Picker](https://www.blogkub.com/learn/themepicker): let readers switch theme colors.
+- [Header](https://www.blogkub.com/learn/header): logo, blog title, multi-level menu, mobile drawer on either side, search button, sticky option, and a fixed bottom bar on mobile.
+- [Hero](https://www.blogkub.com/learn/hero): homepage banner with eyebrow, heading, subheading, button and round image; left or centre aligned; gradient, dark or light background.
+- [Footer](https://www.blogkub.com/learn/footer): site description, link columns, copyright line, and a background color whose text contrast is adjusted automatically.
+- [Sidebar](https://www.blogkub.com/learn/sidebar): two-column layout with the sidebar on either side, adjustable width, and blocks for search, categories, archive and about.
+- [Post Grid](https://www.blogkub.com/learn/postgrid): post cards drawn from the blog feed, with column count, thumbnail, excerpt, read-more text, corner radius and card style.
+- [Post List](https://www.blogkub.com/learn/postlist): the same posts as a horizontal list with a small thumbnail and title.
+- [Featured post](https://www.blogkub.com/learn/featured): pin one post by label and show it large on the homepage, falling back to the newest post when nothing is pinned.
+- [Search Box](https://www.blogkub.com/learn/search): search the blog using Blogger's own search, with an editable heading and placeholder.
+- [Columns](https://www.blogkub.com/learn/columns): a two or three column feature section, each column with an icon, heading and description.
+- [Image block](https://www.blogkub.com/learn/image): an image with URL, ALT text, caption, and a 16:9, 4:3 or 1:1 ratio.
+- [Call To Action](https://www.blogkub.com/learn/cta): a CTA box with heading, subheading and a linked button, on a gradient or soft background, with stats on some templates.
+- [About / Author](https://www.blogkub.com/learn/about): author box carrying E-E-A-T signals: name, bio, avatar, small label, and stats or a trust badge depending on the template.
 
-## Blog — in-depth guides
+## Learn: reading experience inside a post
+- [Table of Contents](https://www.blogkub.com/learn/toc): a table of contents built automatically from the H2/H3 headings, with jump links, adjustable depth and optional numbering.
+- [Breadcrumb](https://www.blogkub.com/learn/breadcrumb): a Home > Category > Post trail with BreadcrumbList JSON-LD so Google can show it in results.
+- [Reading Time](https://www.blogkub.com/learn/readtime): an estimated reading time on the cards and in the post, calculated from the content and counting Thai correctly.
+- [Progress Bar](https://www.blogkub.com/learn/progress): a reading progress bar across the top of the screen, with adjustable height and color.
+- [Anchor Link](https://www.blogkub.com/learn/anchorlink): a copy-link control on each H2/H3, with ids generated automatically and Thai headings supported.
+- [Dropcap](https://www.blogkub.com/learn/dropcap): a magazine-style enlarged first letter, applied to the real first paragraph rather than whatever comes first in the markup.
+- [Lightbox](https://www.blogkub.com/learn/lightbox): click an image in a post to open it full screen.
+- [Copy Code](https://www.blogkub.com/learn/copycode): a Copy button on `<pre>` code blocks, with a copied state.
+- [Callout boxes](https://www.blogkub.com/learn/callout): six styles (note, tip, success, warning, caution, download) with icons and colors, added inside a post with a CSS class.
+- [Pros/Cons and verdict](https://www.blogkub.com/learn/proscons): pros and cons boxes plus a star-rated verdict box for review posts, added inside a post with a CSS class.
+- [Image Slider](https://www.blogkub.com/learn/slider): a gallery with captions, arrows, position dots and swipe on mobile, added inside a post with a CSS class.
+- [Social Share](https://www.blogkub.com/learn/share): inline Facebook, X, LINE and copy-link buttons in the post.
+- [Sticky Share Bar](https://www.blogkub.com/learn/sharebar): the same buttons as a bar that follows the scroll down either side of the post.
+
+## Learn: discovery, AI answers and internal linking
+- [AEO Summary Box](https://www.blogkub.com/learn/aeo): an answer-first summary at the top of a post, filled from the post's own search description, so AI Overviews and chat assistants can lift the answer. No API and no AI service involved.
+- [FAQ](https://www.blogkub.com/learn/faq): an accordion FAQ section with FAQPage JSON-LD, aimed at answer engines and AI citation.
+- [Related Posts](https://www.blogkub.com/learn/related): related articles pulled automatically from the JSON feed by label, which also builds internal links.
+- [Recent / Random posts](https://www.blogkub.com/learn/morefrom): a block of recent or randomised posts from the feed, filterable by label, with image, title and date.
+- [Web Stories](https://www.blogkub.com/learn/stories): story circles built from recent posts that open full screen and advance automatically, in the style of Instagram stories.
+
+## Learn: site-wide interface
+- [Dark Mode](https://www.blogkub.com/learn/dark-mode): a light/dark toggle that remembers the reader's choice, applies across the whole site, and does not flash on load.
+- [Theme Color Picker](https://www.blogkub.com/learn/themepicker): let readers change the site's main color from a set of palettes, remembered in their browser.
+- [Announcement Bar](https://www.blogkub.com/learn/announce): a dismissible bar at the very top with a message, CTA link and background color, which remembers that a reader closed it.
+- [Cookie Consent](https://www.blogkub.com/learn/cookie): a consent bar for PDPA and AdSense that remembers acceptance, with editable text and policy link.
+- [Translate](https://www.blogkub.com/learn/translate): a Google Translate control that translates the whole page into several languages, with no API key.
+- [Back to Top](https://www.blogkub.com/learn/back-to-top): a floating button that appears on scroll, scrolls smoothly, and can sit on either side.
+- [Bookmark](https://www.blogkub.com/learn/bookmark): let readers save posts for later in their own browser, with no login, plus a counter and a saved list.
+
+## Learn: monetization and mailing list
+- [Ad Slot / AdSense](https://www.blogkub.com/learn/ad): an ad slot below the header, inside the post or in the sidebar, carrying the "Ad" label AdSense policy requires.
+- [Newsletter](https://www.blogkub.com/learn/newsletter): an email signup box with heading, subheading, button and background, connectable to an email service.
+
+## Blog: in-depth guides
 - [Blog hub](https://www.blogkub.com/blog/): all articles.
 - [Blogger SEO 2026](https://www.blogkub.com/blog/blogger-seo): rank a Blogger blog on Google, from basics to AI Search.
 - [Blogger + Google AdSense](https://www.blogkub.com/blog/blogger-adsense): earn from a Blogger blog, from approval to policy-safe ad placement.
@@ -51,5 +89,5 @@ for example `https://www.blogkub.com/learn/toc.md`. The homepage is `/index.md`.
 - [Privacy Policy](https://www.blogkub.com/privacy)
 - [Terms of Service](https://www.blogkub.com/terms)
 - [XML Sitemap](https://www.blogkub.com/sitemap.xml)
-- [RSS Feed](https://www.blogkub.com/rss.xml): all blog + learn articles, newest first.
+- [RSS Feed](https://www.blogkub.com/rss.xml): all blog + learn articles, newest first, with full content.
 - [JSON Feed](https://www.blogkub.com/feed.json): the same feed in JSON Feed 1.1 format.
