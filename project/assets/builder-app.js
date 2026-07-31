@@ -1,8 +1,17 @@
-/* ==========================================================================
-   BlogKub · Visual Builder App (Vanilla JS, client-side)
-   Block model -> live canvas render -> valid Blogger XML export.
-   No backend. Autosave to localStorage. Projects export/import as JSON.
-   ========================================================================== */
+/*!
+ * BlogKub · Visual Builder App (Vanilla JS, client-side)
+ * https://www.blogkub.com
+ *
+ * Copyright (c) 2026 Patpisan Dathong (BlogKub). All rights reserved.
+ * Not licensed for redistribution or for hosting a copy of this service.
+ * Terms: https://www.blogkub.com/terms · Licence: see LICENSE in the repository.
+ *
+ * The Blogger theme XML this tool generates belongs to the person who made it,
+ * to use and publish freely. This notice covers the tool, not its output.
+ *
+ * Block model -> live canvas render -> valid Blogger XML export.
+ * No backend. Autosave to localStorage. Projects export/import as JSON.
+ */
 (function () {
   "use strict";
   var $ = function (s, r) { return (r || document).querySelector(s); };
