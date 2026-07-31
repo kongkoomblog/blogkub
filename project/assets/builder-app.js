@@ -5274,7 +5274,123 @@ tplStyleVars(),
 ".bxb-share-btn:hover::after{animation:bxbSheen .7s ease}",
 /* pager */
 ".blog-pager a{position:relative;overflow:hidden}",
-"@media(prefers-reduced-motion:reduce){.post-title,.bxb-share-btn::after{animation:none!important}}"
+"@media(prefers-reduced-motion:reduce){.post-title,.bxb-share-btn::after{animation:none!important}}",
+
+/* ═══════════ SIGNATURE ART DIRECTION · เอกลักษณ์เฉพาะตัวของแต่ละแม่แบบ (CSS ล้วน) ═══════════ */
+
+/* ── 1 · PERSONAL — Editorial collage: กระดาษครีม ลายจุด เส้นวาดมือใต้หัวเรื่อง ── */
+".pb-hero{background:radial-gradient(1100px 460px at 80% -12%,color-mix(in srgb,var(--accent) 14%,transparent),transparent 62%),linear-gradient(180deg,color-mix(in srgb,var(--primary) 5%,var(--bg-base)),var(--bg-base))}",
+".pb-hero::before{content:'';position:absolute;inset:0;opacity:.55;background-image:radial-gradient(color-mix(in srgb,var(--primary) 26%,transparent) 1.2px,transparent 1.3px);background-size:22px 22px;-webkit-mask-image:linear-gradient(160deg,#000,transparent 60%);mask-image:linear-gradient(160deg,#000,transparent 60%);pointer-events:none}",
+"@keyframes bxbBlob{0%,100%{border-radius:44% 56% 52% 48%/48% 44% 56% 52%}50%{border-radius:56% 44% 46% 54%/54% 56% 44% 46%}}",
+".pb-avatar-ring{border-radius:44% 56% 52% 48%/48% 44% 56% 52%;animation:bxbBlob 15s ease-in-out infinite}",
+".pb-avatar-inner{border-radius:inherit}",
+".pb-hero-text h1{position:relative;display:inline-block}",
+".pb-hero-text h1::after{content:'';position:absolute;left:0;right:0;bottom:-11px;height:8px;background:repeating-linear-gradient(-1deg,color-mix(in srgb,var(--accent) 62%,transparent) 0 15px,transparent 15px 19px);border-radius:9px;transform:rotate(-.7deg)}",
+".pb-eyebrow{transform:rotate(-2.2deg);box-shadow:3px 3px 0 color-mix(in srgb,var(--primary) 26%,transparent)}",
+".pb-card-img{border-radius:18px}",
+".pb-about-avatar{border-radius:46% 54% 58% 42%/52% 46% 54% 48%;animation:bxbBlob 17s ease-in-out infinite}",
+".pb-about-avatar-inner{border-radius:inherit}",
+
+/* ── 2 · SIDEBAR BLOG — ขอบหยักคลื่น รูปทรงเรขา การ์ดเงาแข็ง ── */
+".sb-hero{position:relative;background:linear-gradient(155deg,var(--primary-ink),color-mix(in srgb,var(--primary) 74%,#000));color:#fff;padding-bottom:62px;-webkit-mask-image:radial-gradient(circle 15px at 15px 100%,transparent 15px,#000 15.5px);mask-image:radial-gradient(circle 15px at 15px 100%,transparent 15px,#000 15.5px);-webkit-mask-size:30px 100%;mask-size:30px 100%;-webkit-mask-repeat:repeat-x;mask-repeat:repeat-x}",
+".sb-hero-title,.sb-hero-sub,.sb-hero-eyebrow{color:#fff}",
+".sb-hero-sub{opacity:.9}",
+"@keyframes bxbSpin{to{transform:rotate(360deg)}}",
+".sb-hero::before{content:'';position:absolute;top:16%;right:6%;width:92px;height:92px;background:var(--accent);clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);opacity:.92;animation:bxbSpin 28s linear infinite;pointer-events:none}",
+".sb-hero::after{content:'';position:absolute;bottom:26%;left:5%;width:52px;height:52px;border-radius:50%;background:color-mix(in srgb,var(--accent) 66%,#fff);opacity:.85;animation:bxbFloat 7s ease-in-out infinite;pointer-events:none}",
+".sb-hero-tag{border-radius:0;border:2px solid #fff;background:transparent;color:#fff}",
+".sb-hero-btn{border-radius:0;box-shadow:5px 5px 0 color-mix(in srgb,var(--accent) 85%,#000)}",
+".sb-card{border-radius:0;border:2px solid var(--text-main);box-shadow:5px 5px 0 var(--primary);transition:transform .18s,box-shadow .18s}",
+".sb-card:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--accent)}",
+".sb-h2{border-radius:0;border-left:6px solid var(--accent);padding-left:12px}",
+
+/* ── 3 · REVIEW — ขี้เล่น: บล็อบพาสเทล ป้ายเอียง เงาแบบตัน ── */
+".rv-hero{background:linear-gradient(120deg,color-mix(in srgb,var(--accent) 20%,var(--bg-base)),var(--bg-base) 56%,color-mix(in srgb,var(--primary) 13%,var(--bg-base)))}",
+".rv-hero::before{content:'';position:absolute;top:-80px;right:-70px;width:320px;height:320px;border-radius:46% 54% 60% 40%/52% 42% 58% 48%;background:color-mix(in srgb,var(--accent) 30%,transparent);animation:bxbBlob 16s ease-in-out infinite;pointer-events:none}",
+".rv-hero-eyebrow{transform:rotate(-2deg)}",
+".rv-hero-btn{border-radius:999px;box-shadow:0 6px 0 color-mix(in srgb,var(--primary) 34%,transparent)}",
+".rv-hero-btn:hover{transform:translateY(2px);box-shadow:0 3px 0 color-mix(in srgb,var(--primary) 34%,transparent)}",
+".rv-card{border-radius:22px;border:0;box-shadow:0 12px 30px -14px color-mix(in srgb,var(--primary) 36%,transparent)}",
+".rv-card-img{border-radius:18px 18px 0 0}",
+".rv-card-best,.rv-card-disc{transform:rotate(-4deg);border-radius:999px;box-shadow:0 4px 0 color-mix(in srgb,var(--primary) 26%,transparent)}",
+".rv-hero-score{border-radius:999px;padding:2px 12px;background:color-mix(in srgb,var(--accent) 28%,transparent)}",
+".rv-about-avatar{border-radius:44% 56% 54% 46%/50% 44% 56% 50%;animation:bxbBlob 18s ease-in-out infinite}",
+
+/* ── 4 · MAGAZINE — กระดาษฉีก บล็อกพาสเทลสลับสี กริดไม่เท่ากัน ── */
+".mag-feat{border-bottom:0;background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 9%,var(--bg-base)),var(--bg-base))}",
+".mag-feat-main{border-radius:0;clip-path:polygon(0 2%,7% 0,21% 3%,38% 0,55% 2%,72% 0,88% 3%,100% 1%,100% 97%,86% 100%,68% 97%,49% 100%,31% 97%,14% 100%,0 98%)}",
+".mag-side-item{border-radius:0;clip-path:polygon(0 4%,12% 0,34% 4%,58% 0,80% 4%,100% 0,100% 96%,78% 100%,54% 96%,28% 100%,0 97%)}",
+".mag-card{border-radius:0;border:0;box-shadow:none;background:color-mix(in srgb,var(--accent) 9%,var(--bg-surface));clip-path:polygon(0 2%,9% 0,26% 2%,47% 0,68% 2%,87% 0,100% 2%,100% 98%,84% 100%,63% 98%,41% 100%,19% 98%,0 100%);transition:transform .22s}",
+".mag-card:nth-child(3n+2){background:color-mix(in srgb,var(--primary) 10%,var(--bg-surface))}",
+".mag-card:nth-child(4n+3){background:color-mix(in srgb,var(--accent) 17%,var(--bg-surface))}",
+".mag-card:hover{box-shadow:none;transform:translateY(-4px) rotate(-.5deg)}",
+".mag-card-img{aspect-ratio:4/3}",
+".mag-card-title{font-size:19px;letter-spacing:-.015em}",
+".mag-news-row{border-bottom:1px dashed color-mix(in srgb,var(--primary) 30%,transparent)}",
+"@media(min-width:900px){.mag-grid{grid-template-columns:repeat(6,1fr)}.mag-card{grid-column:span 2}.mag-card:nth-child(5n+1),.mag-card:nth-child(5n+2){grid-column:span 3}}",
+
+/* ── 5 · TRAVEL — เส้นทางบินประ การ์ดมนลอย ปุ่มแคปซูล ── */
+".tb-hero::after{content:'';position:absolute;left:8%;right:20%;top:56%;height:64px;border-top:2px dashed color-mix(in srgb,#fff 62%,transparent);border-radius:50%;pointer-events:none;z-index:1}",
+".tb-hero-content{position:relative;z-index:2}",
+".tb-hero-tag{border-radius:999px;backdrop-filter:blur(6px)}",
+".tb-hero-btn{border-radius:999px;box-shadow:0 14px 32px -14px color-mix(in srgb,var(--primary) 62%,transparent)}",
+".tb-card{border-radius:22px;border:0;box-shadow:0 14px 34px -18px color-mix(in srgb,var(--primary) 46%,transparent);overflow:hidden}",
+".tb-card-img{border-radius:18px;margin:9px 9px 0;overflow:hidden}",
+".tb-card-btn{border-radius:999px}",
+".tb-feat-item{border-radius:20px;overflow:hidden}",
+".tb-h2{position:relative;padding-left:34px}",
+".tb-h2::before{content:'';position:absolute;left:0;top:50%;width:24px;height:2px;background:var(--primary);transform:translateY(-50%)}",
+
+/* ── 6 · COURSE — hero โทนเข้มไล่สี ชิปแคปซูล สถิติบล็อกใหญ่ ── */
+".edu-hero{background:linear-gradient(120deg,color-mix(in srgb,var(--primary) 90%,#000),color-mix(in srgb,var(--primary) 58%,#000) 55%,color-mix(in srgb,var(--accent) 42%,#000));border-radius:0 0 34px 34px;overflow:hidden;position:relative}",
+".edu-hero-title,.edu-hero-sub,.edu-hero-eyebrow,.edu-hero-chip{color:#fff}",
+".edu-hero-sub{opacity:.92}",
+".edu-hero::before{content:'';position:absolute;inset:0;background:radial-gradient(680px 300px at 82% 14%,color-mix(in srgb,var(--accent) 42%,transparent),transparent 70%);pointer-events:none}",
+".edu-hero .wrap{position:relative;z-index:1}",
+".edu-hero-chip{border-radius:999px;border:1px solid color-mix(in srgb,#fff 32%,transparent);background:color-mix(in srgb,#fff 12%,transparent)}",
+".edu-hero-btn{border-radius:999px;box-shadow:0 14px 30px -14px rgba(0,0,0,.55)}",
+".edu-card{border-radius:18px;border:0;box-shadow:0 10px 26px -16px rgba(0,0,0,.32)}",
+".edu-card:nth-child(3n+2){background:color-mix(in srgb,var(--accent) 13%,var(--bg-surface))}",
+".edu-card-badge,.edu-card-price{border-radius:999px}",
+".edu-trust{border-radius:18px;background:color-mix(in srgb,var(--accent) 16%,var(--bg-surface));border:0}",
+".edu-trust-num{letter-spacing:-.03em}",
+".edu-cta{border-radius:26px;background:linear-gradient(120deg,color-mix(in srgb,var(--primary) 88%,#000),color-mix(in srgb,var(--accent) 55%,#000))}",
+
+/* ── 7 · COMPANY — คมกริบ แถบเฉียง เส้นแดงนำสายตา ── */
+".corp-hero{background:linear-gradient(105deg,var(--bg-surface) 0 57%,color-mix(in srgb,var(--primary) 11%,var(--bg-base)) 57%);border-radius:0;position:relative;overflow:hidden}",
+".corp-hero::before{content:'';position:absolute;top:0;bottom:0;right:0;width:46%;background:var(--primary);clip-path:polygon(24% 0,100% 0,100% 100%,0 100%);opacity:.09;pointer-events:none}",
+".corp-hero::after{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--primary)}",
+".corp-hero .wrap{position:relative;z-index:1}",
+".corp-hero-eyebrow{border-radius:0;border-left:4px solid var(--primary);padding-left:11px;background:none;color:var(--primary)}",
+".corp-hero-btn,.corp-hero-btn-out{border-radius:0}",
+".corp-hero-btn{position:relative;overflow:hidden}",
+".corp-hero-btn::after{content:'';position:absolute;top:0;right:0;width:64px;height:100%;background:color-mix(in srgb,#fff 20%,transparent);transform:skewX(-18deg) translateX(34px);transition:transform .4s}",
+".corp-hero-btn:hover::after{transform:skewX(-18deg) translateX(-190px)}",
+".corp-visual-block{border-radius:0;border-top:3px solid var(--primary)}",
+".corp-stat-num{font-variant-numeric:tabular-nums;letter-spacing:-.035em}",
+".corp-about-eyebrow{border-radius:0;border-left:4px solid var(--accent);padding-left:11px;background:none}",
+".corp-cta{border-radius:0;position:relative;overflow:hidden}",
+".corp-cta::after{content:'';position:absolute;top:0;right:0;bottom:0;width:120px;background:color-mix(in srgb,#fff 10%,transparent);transform:skewX(-16deg) translateX(46px);pointer-events:none}",
+".corp-cta-btn{border-radius:0}",
+
+/* ── 8 · TECH — เข้ม-เรืองแสง ตารางกริด การ์ดสลับดำ ตัวเลขใหญ่ ── */
+".tech-hero{background:linear-gradient(140deg,#0b0f14,#131a22 62%,color-mix(in srgb,var(--accent) 26%,#0b0f14));border-radius:26px;overflow:hidden;position:relative}",
+".tech-hero-title,.tech-hero-sub,.tech-hero-eyebrow{color:#fff}",
+".tech-hero-sub{opacity:.86}",
+".tech-hero::before{content:'';position:absolute;top:-120px;right:-90px;width:330px;height:330px;border-radius:50%;background:radial-gradient(circle at 40% 40%,color-mix(in srgb,var(--accent) 66%,transparent),transparent 68%);filter:blur(4px);animation:bxbFloat 9s ease-in-out infinite;pointer-events:none}",
+".tech-hero::after{content:'';position:absolute;inset:0;background-image:linear-gradient(color-mix(in srgb,#fff 6%,transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb,#fff 6%,transparent) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(72% 72% at 28% 18%,#000,transparent);mask-image:radial-gradient(72% 72% at 28% 18%,#000,transparent);pointer-events:none}",
+".tech-hero .wrap{position:relative;z-index:1}",
+".tech-hero-btn{border-radius:12px;box-shadow:0 14px 34px -16px color-mix(in srgb,var(--accent) 70%,transparent)}",
+".tech-card{border-radius:18px;transition:transform .22s,box-shadow .22s}",
+".tech-card:nth-child(3n+1){background:#0f151c;border-color:#1d2833}",
+".tech-card:nth-child(3n+1) .tech-card-title,.tech-card:nth-child(3n+1) .tech-card-title a{color:#fff}",
+".tech-card:nth-child(3n+1) .tech-card-excerpt,.tech-card:nth-child(3n+1) .tech-card-date{color:#9fb0bd}",
+".tech-card:nth-child(3n+1) .tech-card-read{color:var(--accent)}",
+".tech-card:hover{transform:translateY(-5px);box-shadow:0 18px 40px -22px color-mix(in srgb,var(--accent) 68%,transparent)}",
+".tech-list-num{font-size:clamp(26px,4vw,44px);font-weight:800;letter-spacing:-.045em;background:linear-gradient(120deg,var(--primary),var(--accent));-webkit-background-clip:text;background-clip:text;color:transparent}",
+".tech-tag,.tech-card-tag{border-radius:999px;border:1px solid color-mix(in srgb,var(--primary) 26%,transparent)}",
+
+"@media(prefers-reduced-motion:reduce){.pb-avatar-ring,.pb-about-avatar,.rv-hero::before,.rv-about-avatar,.sb-hero::before,.sb-hero::after,.tech-hero::before{animation:none!important}}"
     ].join("\n");
   }
 
