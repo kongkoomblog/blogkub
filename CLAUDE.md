@@ -9,6 +9,25 @@ that brings people to the builder.
 The user is Thai and communicates in Thai. **Reply in Thai.** Code, comments, commit
 messages and English site content stay in English.
 
+## Starting a new session
+
+This file is loaded automatically at the start of every session. It is the handoff. You
+do not need the previous conversation, and reading an old transcript costs far more than
+it returns.
+
+To pick up where the last session stopped, in this order:
+
+1. Read "Open items" at the bottom of this file. That is the current state.
+2. `git log --oneline -15` for what changed recently. Commit messages here are written
+   as explanations, not labels: each one says what was wrong, why, and what was ruled
+   out. That is the session history in compressed form.
+3. `git log -1 <hash>` on anything that looks relevant, for the full reasoning.
+
+Then start work. Do not re-derive the architecture by reading builder-app.js end to end.
+
+At the end of a session, update "Open items" and add any new trap to "Gotchas that have
+already bitten". A fix that is not written down here will be rediscovered the hard way.
+
 ## Read this before README.md
 
 `README.md` is a leftover handoff bundle from Claude Design. It tells you to read
@@ -314,7 +333,42 @@ worse, and there is no verifier to make it work.
 
 ## Open items
 
+Last updated 2026-07-31. Keep this section current; it is the first thing the next
+session reads.
+
+### Waiting on the user, not on code
+
+- **Export the theme again and upload it to Blogger.** Every builder fix below is live on
+  the site but does not reach an already-uploaded theme. This is the single most common
+  reason a fix "did not work".
 - Submit the sitemap in Bing Webmaster Tools and in Google Search Console. Google does
   not support IndexNow, so it needs the sitemap separately. BingSiteAuth is verified.
-- The user must export the theme again and upload it to Blogger for builder fixes to
-  reach their live blog. Fixing the builder does not change an already-uploaded theme.
+- Request re-indexing of the homepage in Search Console, then wait. See site name below.
+
+### Waiting on Google, nothing left to change
+
+Google shows `blogkub.com` as the site name instead of `BlogKub`. The required markup was
+already correct, so this was the documented "not confident enough, falls back to the
+domain" case. Fixed on 2026-07-31 by unifying the Organization `@id` (the site declared
+the brand under both `#organization` and `#org`), adding a `logo` to all 106 Organization
+nodes, and adding `alternateName` to the homepage `WebSite`. The domain was deliberately
+left out of the alternates. Re-crawling takes days to weeks, and the site is only weeks
+old, so give it time before changing anything else.
+
+Note that Google evaluates each page on its own and does not follow `@id` across pages,
+so an entity property has to be repeated on every page, not only where the node is
+defined.
+
+### Recently finished, for context
+
+- The builder language switch now retranslates block text, so an English project exports
+  an English theme even when it was started in Thai. See "Two languages, two different
+  variables".
+- Category icons are stroke SVGs matching the nav, guessed from the category name in
+  Thai or English.
+
+### Security
+
+- A classic PAT was pasted into chat and has been used for every push since. It is
+  compromised and still live. The user has been told repeatedly to revoke it. Ask again
+  rather than assuming it was done.
