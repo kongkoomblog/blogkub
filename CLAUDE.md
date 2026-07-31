@@ -158,6 +158,11 @@ Eight, all visible: `personal`, `travel`, `tech`, `sidebar-blog`, `magazine`, `c
 `course`, `review`. `review` is the affiliate template and is the only one with the
 product category menu.
 
+`themeCSS()` ends with a SIGNATURE ART DIRECTION block: about 12 KB of per-template
+styling, pure CSS with no images, keyed off the classes `renderBlockStatic` emits. Add to
+it rather than rewriting it, keep every animation inside the closing
+`prefers-reduced-motion` rule, and read the `minifyCSS` entry under Gotchas first.
+
 `DEFAULT_UTILITIES` are pre-installed with every template: notfound, darkmode,
 breadcrumb, readtime, toc, aeo, related, lightbox, anchorlink, backtotop, progress,
 copycode. They self-place and self-hide, so they add value without cluttering the canvas.
@@ -345,6 +350,26 @@ usually caused by something else.
   `productionresultssa2.blob.core.windows.net`, which is not in the egress allowlist. The
   job's annotations come through the API and carry only the exit code. Ask the user, or
   isolate by pushing one change at a time.
+- **`minifyCSS` strips whitespace around `+ - > ~` everywhere, including inside values.**
+  The rule is `.replace(/\s*([{};:,>~+!])\s*/g, "$1")`, and it does not know the
+  difference between a selector and a declaration. `calc(100% + 10px)` comes out as
+  `calc(100%+10px)`, which is invalid CSS and fails silently: the declaration is dropped
+  and the layout is subtly wrong in the exported theme, with nothing in the console.
+  **Never write `calc()` with spaces around its operators in `themeCSS()`.** Either avoid
+  `calc` or close the gap, though `calc(100%-10px)` is invalid too, so in practice avoid
+  it. Everything else survives, and this has been checked on the constructs actually in
+  use: `color-mix(in srgb,...)` keeps the space in `in srgb` and before its percentage,
+  the blob `border-radius` keeps its slash form, `transform` keeps the space between two
+  functions, and `nth-child(3n+1)`, `clip-path`, `mask-image` and
+  `repeating-linear-gradient` all come through whole.
+- **Nothing in `themeCSS()` may contain `]]>` or `</`.** The whole stylesheet ships inside
+  `<b:skin><![CDATA[ ... ]]></b:skin>`, so either sequence ends the CDATA early and
+  Blogger rejects the upload as malformed XML.
+- **jsdom always reports "Could not parse CSS stylesheet" when booting `builder.html`,**
+  and a naive count of `<b:...>` open versus close tags always comes out uneven. Both are
+  artefacts, not defects. Before reporting either as a regression, run the same check
+  against the pre-change file with `git stash`; they have already produced a false alarm
+  across all 8 templates at once.
 - **robots.txt outranks meta robots.** A blanket `Disallow: /search` silently defeated
   the label-indexing feature no matter what the meta tag said.
 - **`ArticleLayout.astro` hardcodes `href="/en/"`** in the header and the mobile drawer.
