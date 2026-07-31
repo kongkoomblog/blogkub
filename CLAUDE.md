@@ -65,8 +65,10 @@ end of the file, and is the entry point for testing.
 ### The pipeline that matters
 
 - `LIB` (44 blocks), `IC` (inline SVG icons), `TEMPLATES` (8 themes), `SINGLETON_BLOCKS`
-- `blockDefaults(type)`: a new block's initial props. **There are two copies**, one
-  Thai and one English, chosen by `BL`. Change one, change the other.
+- `blockDefaults(type, lang)`: a new block's initial props. **There are two copies**, one
+  Thai and one English, chosen by `lang` and defaulting to `BL`. Change one, change the
+  other, and keep the two tables key-for-key parallel: `retranslateBlocks` walks the keys
+  of one and looks them up in the other.
 - `renderBlockInner(b)`: canvas preview markup. Cosmetic only.
 - `fieldsFor(b)`: the properties panel. Helpers: `txt`, `seg`, `tog`, `num`.
 - `renderBlockStatic(b)`: **emits the Blogger XML. This is the real output.** A change
@@ -81,6 +83,19 @@ end of the file, and is the entry point for testing.
 
 Do not confuse them. `docsUrl(slug)` follows `BL`, so an English user gets
 `/en/learn/<slug>`. Never hardcode a help URL.
+
+`applyBuilderLang` keeps `S.lang` equal to `BL` and calls `retranslateBlocks(from, to)`,
+which replaces every prop still holding its old-language default with the new-language
+one and leaves edited text alone. The same call runs when a saved project is loaded,
+against the opposite language, which is a no-op for a consistent project and repairs an
+inconsistent one. Without it the exported theme was half-translated: the hardcoded
+strings in `renderBlockStatic` follow `BL`, while props are written once at block
+creation and then persisted.
+
+**Every user-visible string in the exported XML goes through `tpl(th, en)`**, including
+`aria-label`s, the Blog widget title, `twitter:label1`, and the home crumb inside the
+JSON-LD BreadcrumbList. Six of those were missed originally and shipped Thai in English
+themes. The Thai retailer name in the affiliate store map is a brand and stays Thai.
 
 ### Block placement
 
