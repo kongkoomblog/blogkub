@@ -911,19 +911,38 @@
   // the array props (menuItems, footerLinks, categories, columns.items) as single units:
   // touch one menu label and the whole menu is treated as authored, which is the safe way
   // round.
+  //
+  // Matching is per string, not per prop. Comparing whole props looked simpler but failed on
+  // exactly the case that matters: the category list is an array of objects, so changing one
+  // item's icon made the whole array stop matching its default and the six category names
+  // stayed Thai in an English theme. Instead, walk the two default tables in parallel to
+  // collect the (old string -> new string) pairs for that block type, then replace any string
+  // anywhere in the block's props that still exactly equals one of the old ones. A name the
+  // user has typed matches nothing and is left alone, and the pairs are scoped to the block
+  // type, so the header's "Home" cannot rewrite a word inside a text block.
+  function langPairs(oldV, newV, map) {
+    if (typeof oldV === "string") { if (typeof newV === "string" && oldV !== newV) map[oldV] = newV; return map; }
+    if (Array.isArray(oldV)) { if (Array.isArray(newV)) oldV.forEach(function (v, i) { langPairs(v, newV[i], map); }); return map; }
+    if (oldV && typeof oldV === "object" && newV && typeof newV === "object") {
+      Object.keys(oldV).forEach(function (k) { langPairs(oldV[k], newV[k], map); });
+    }
+    return map;
+  }
+  function applyPairs(v, map, hit) {
+    if (typeof v === "string") { if (Object.prototype.hasOwnProperty.call(map, v)) { hit.n++; return map[v]; } return v; }
+    if (Array.isArray(v)) { for (var i = 0; i < v.length; i++) v[i] = applyPairs(v[i], map, hit); return v; }
+    if (v && typeof v === "object") { Object.keys(v).forEach(function (k) { v[k] = applyPairs(v[k], map, hit); }); return v; }
+    return v;
+  }
   function retranslateBlocks(from, to) {
     if (!S || !S.blocks || from === to) return 0;
     var changed = 0;
     S.blocks.forEach(function (b) {
-      var oldD = blockDefaults(b.type, from), newD = blockDefaults(b.type, to);
       if (!b.props) b.props = {};
-      Object.keys(oldD).forEach(function (k) {
-        if (!(k in newD)) return;
-        var cur = JSON.stringify(b.props[k]), was = JSON.stringify(oldD[k]), now = JSON.stringify(newD[k]);
-        if (cur !== was || was === now) return;
-        b.props[k] = JSON.parse(now);
-        changed++;
-      });
+      var map = langPairs(blockDefaults(b.type, from), blockDefaults(b.type, to), {});
+      var hit = { n: 0 };
+      applyPairs(b.props, map, hit);
+      changed += hit.n;
     });
     // The blank-project name is language-dependent too; a template name is not.
     var oldName = from === "en" ? "My Website" : "เว็บไซต์ของฉัน";
