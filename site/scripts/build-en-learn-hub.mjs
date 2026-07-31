@@ -67,7 +67,7 @@ const html = `<!doctype html>
 <meta property="og:image" content="${SITE}/android-chrome-512x512.png">
 <script type="application/ld+json">
 { "@context": "https://schema.org", "@graph": [
-  { "@type": "Organization", "@id": "${SITE}/#org", "name": "BlogKub", "url": "${SITE}/" },
+  { "@type": "Organization", "@id": "${SITE}/#org", "name": "BlogKub", "url": "${SITE}/", "logo": { "@type": "ImageObject", "url": "${SITE}/android-chrome-512x512.png", "width": 512, "height": 512 } },
   { "@type": "WebSite", "@id": "${SITE}/#website", "url": "${SITE}/", "name": "BlogKub", "publisher": { "@id": "${SITE}/#org" } },
   { "@type": "CollectionPage", "@id": "${SITE}/en/learn/#page", "url": "${SITE}/en/learn/", "name": "Learning Center", "inLanguage": "en", "isPartOf": { "@id": "${SITE}/#website" } },
   { "@type": "BreadcrumbList", "itemListElement": [
