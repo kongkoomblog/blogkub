@@ -191,9 +191,10 @@ reachable only by direct URL. That has already happened once, to `label-indexing
 ## Build and deploy
 
 ```
-prebuild   sync-public.mjs         copy ./project into site/public
+prebuild   sync-public.mjs         copy ./project into site/public, minus the
+                                   internal *.md notes, which must not be deployed
 build      astro build
-postbuild  build-en-learn-hub -> build-hreflang -> build-feeds
+postbuild  build-en-learn-hub -> build-hreflang -> build-markdown -> build-feeds
            -> build-sitemaps -> indexnow-plan
 ```
 
@@ -344,6 +345,19 @@ session reads.
 - Submit the sitemap in Bing Webmaster Tools and in Google Search Console. Google does
   not support IndexNow, so it needs the sitemap separately. BingSiteAuth is verified.
 - Request re-indexing of the homepage in Search Console, then wait. See site name below.
+
+### Needs one check after the next deploy
+
+`_headers` sets `Content-Type: text/markdown; charset=utf-8` on `/*.md`. Whether a rule
+can match on extension rather than a path prefix is not documented for Workers Static
+Assets, and it could not be tested from the build container. Fetch one .md URL after a
+deploy and look at the Content-Type. No charset means the pattern is not matching and
+the rule has to become per-directory, or the Thai comes back as mojibake exactly the way
+llms.txt did.
+
+Also worth confirming: Cloudflare's zone-level Markdown for Agents is the intended way to
+answer `Accept: text/markdown`, and it is a dashboard setting on the blogkub.com zone
+rather than anything in this repo. The .md twins work regardless.
 
 ### Waiting on Google, nothing left to change
 
