@@ -334,6 +334,17 @@ usually caused by something else.
   `display:block` and `aspect-ratio:1` were added.
 - **`object-fit: cover` crops.** The story viewer sliced landscape photos into a 9:16
   slot. Fixed with `contain` plus a blurred copy of the same image behind it.
+- **A `_headers` path whose wildcard is not at the end fails the deploy.** `/*.md` parses
+  and matches correctly under `wrangler dev`, then `wrangler deploy` exits 1 with its
+  output missing from the log GitHub renders. Two deploys were lost to it. Put the header
+  in the Worker instead. Anything new in `_headers` is worth treating as deploy-risky,
+  because it is the one file in `project/` that Cloudflare parses rather than serves.
+- **A failed deploy leaves production untouched**, which is why the site kept working
+  while `/learn/toc.md` returned 404. Check the run before assuming a code bug.
+- **The full Actions log is not readable from this container.** It redirects to
+  `productionresultssa2.blob.core.windows.net`, which is not in the egress allowlist. The
+  job's annotations come through the API and carry only the exit code. Ask the user, or
+  isolate by pushing one change at a time.
 - **robots.txt outranks meta robots.** A blanket `Disallow: /search` silently defeated
   the label-indexing feature no matter what the meta tag said.
 - **`ArticleLayout.astro` hardcodes `href="/en/"`** in the header and the mobile drawer.
@@ -377,11 +388,10 @@ session reads.
 
 ### Needs one check after the next deploy
 
-This deploy puts a Worker in front of the site for the first time. Fetch any page with
-`Accept: text/markdown` and confirm it comes back as markdown, and fetch a normal page
-and an image and confirm nothing changed. `_headers` matching on `/*.md` was confirmed
-to work under local wrangler, but the charset-dropping bug is a deploy-side quirk, so
-also open one `.md` URL and check the Thai is not mojibake.
+A Worker now sits in front of the site for the first time, and it deployed green in
+f09df00. Confirm on the live site: a page with `Accept: text/markdown` comes back as
+markdown, `/learn/toc.md` opens with its Thai intact, and a normal page and an image are
+unchanged.
 
 ### Waiting on Google, nothing left to change
 
