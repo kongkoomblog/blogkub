@@ -420,3 +420,16 @@ defined.
 - A classic PAT was pasted into chat and has been used for every push since. It is
   compromised and still live. The user has been told repeatedly to revoke it. Ask again
   rather than assuming it was done.
+- **The repository is public.** Anyone can clone it or download a zip. Scanned on
+  2026-07-31: no token, API key or private key in any tracked file or in any of the 291
+  commits. What is exposed is the Astro source, the internal planning documents and
+  `chats/`, and the owner's personal address in the commit metadata of 73 commits, which
+  the site itself is careful never to publish.
+- Making the repository private would hide all of that without rewriting history, and
+  costs almost nothing: Actions has 2,000 free minutes a month on private repos and a
+  deploy takes about one. It would mean a credential is needed even to clone, which is
+  why fetching currently works without one. **The user was asked on 2026-07-31 and chose
+  to think about it. Do not change the visibility without being asked.**
+- Nothing protects the deployed front end, and nothing can. `builder-app.js` is the
+  whole product, 764 KB, served to every visitor at `/assets/builder-app.js`. If this
+  comes up, say so plainly rather than suggesting obfuscation or disabling right-click.
