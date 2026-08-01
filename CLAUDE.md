@@ -417,6 +417,23 @@ usually caused by something else.
 - **Panels mirroring one setting in two places** must call `renderProps()` as well as
   their own re-render, or the mirrored control lags a refresh behind.
 - **`blockDefaults` exists twice**, Thai and English.
+- **Text inside an ATTRIBUTE was translated by nothing.** `tr`/`DICT` and
+  `applyLangAttrs` both work on element text, so `title`, `placeholder`, `aria-label`
+  and an input's `value` stayed Thai for an English user. Tooltips and screen-reader
+  labels do not show up in a screenshot, which is why it went unnoticed for so long.
+  `applyAttrLang` now handles `data-title-th/en`, `data-ph-th/en`, `data-al-th/en` and
+  `data-val-th/en`. Use those for any new attribute string.
+- **Setting `el.value` does not change the `value` attribute.** A scan that reads
+  `getAttribute("value")` reports Thai on an input the user sees in English. Read the
+  `.value` property. This produced a false positive on the last remaining string.
+- **Both homepages ship Thai markup and translate it in the browser.** `project/index.html`
+  and `project/en/index.html` carry `const I = {th, en}` and swap `[data-i]` text at load.
+  A browser is fine; nothing that skips JavaScript is, and that includes the `.md` twins,
+  since `build-markdown.mjs` reads the static HTML. `/en/` served a Thai document and
+  `/en/index.md` was a Thai file. The dictionary is now baked into the markup, so the
+  served HTML already matches the rendered page. **If you edit a `[data-i]` string, edit
+  the markup and the dictionary together, or the two will disagree again** and only
+  non-JS readers will see it.
 - **Blogger page URLs come from the title at first publish** and keep only Latin letters
   and digits, so an all-Thai title yields `blog-page.html` and cannot be changed. Pages
   have no custom permalink field. This is documented at `/learn/create-page`.
@@ -498,6 +515,12 @@ defined.
 - Three guides have no `og:image` at all: `learn/label-indexing`, `learn/create-page`,
   `learn/favicon`. They share nothing on social and carry no image in the feeds. Needs
   three images made, or a decision to point them at the default OG card.
+- **Each homepage still ships the other language's dictionary**, about 2,730 Thai
+  characters of dead `th` data inside `<script>` on `/en/`. It is never displayed, never
+  reaches the markdown twin, and costs a few KB. Dropping the unused half of `I`,
+  `features`, `steps`, `seoItems`, `faqs`, `tpls`, `caps` and `trust` per page would
+  remove it, but that is a real edit to a hand-maintained 60 KB file for no user-visible
+  gain. Left alone deliberately.
 
 ### Security
 

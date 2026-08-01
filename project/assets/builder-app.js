@@ -2591,7 +2591,7 @@
       var w = el("div", { class: "blk" + (b.id === SEL ? " sel" : ""), "data-id": b.id });
       var tag = el("div", { class: "blk-tag" });
       tag.innerHTML = '<span>' + blkLabel(b.type) + "</span>";
-      var up = el("button", { title: "ขึ้น" }, "↑"), dn = el("button", { title: "ลง" }, "↓"), dup = el("button", { title: "ทำซ้ำ" }, "⧉"), del = el("button", { title: "ลบ" }, "✕");
+      var up = el("button", { title: tpl("ขึ้น", "Move up") }, "↑"), dn = el("button", { title: tpl("ลง", "Move down") }, "↓"), dup = el("button", { title: tpl("ทำซ้ำ", "Duplicate") }, "⧉"), del = el("button", { title: tpl("ลบ", "Delete") }, "✕");
       var locked = b.type === "header" || b.type === "footer";
       if (locked) { up.style.display = "none"; dn.style.display = "none"; }
       up.onclick = function (e) { e.stopPropagation(); move(b.id, -1); };
@@ -3404,7 +3404,7 @@
     var items = p.items || [];
     var rows = items.map(function (it, i) {
       return '<div class="menu-row" data-ci-row="' + i + '">' +
-        '<div class="menu-row-top"><input class="inp" data-ci="icon" data-idx="' + i + '" value="' + esc(it.icon || "") + '" placeholder="★" style="max-width:54px;text-align:center"><input class="inp" data-ci="title" data-idx="' + i + '" value="' + esc(it.title) + '" placeholder="หัวข้อ"><button class="menu-del" data-cdel="' + i + '" title="ลบ">✕</button></div>' +
+        '<div class="menu-row-top"><input class="inp" data-ci="icon" data-idx="' + i + '" value="' + esc(it.icon || "") + '" placeholder="★" style="max-width:54px;text-align:center"><input class="inp" data-ci="title" data-idx="' + i + '" value="' + esc(it.title) + '" placeholder="' + tpl("หัวข้อ", "Title") + '"><button class="menu-del" data-cdel="' + i + '" title="' + tpl("ลบ", "Delete") + '">✕</button></div>' +
         '<textarea class="ta" data-ci="text" data-idx="' + i + '" placeholder="คำอธิบาย">' + esc(it.text) + '</textarea>' +
         '</div>';
     }).join("");
@@ -7382,8 +7382,8 @@ tplStyleVars(),
       var t = blkLabel(b.type);
       var isLocked = b.type === "header" || b.type === "footer";
       var moveBtns = isLocked
-        ? '<button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button>'
-        : '<button data-lup title="ขึ้น">↑</button><button data-ldn title="ลง">↓</button><button data-ldup title="ทำซ้ำ">⧉</button><button data-ldel title="ลบ">✕</button>';
+        ? '<button data-ldup title="' + tpl("ทำซ้ำ", "Duplicate") + '">⧉</button><button data-ldel title="' + tpl("ลบ", "Delete") + '">✕</button>'
+        : '<button data-lup title="' + tpl("ขึ้น", "Move up") + '">↑</button><button data-ldn title="' + tpl("ลง", "Move down") + '">↓</button><button data-ldup title="' + tpl("ทำซ้ำ", "Duplicate") + '">⧉</button><button data-ldel title="' + tpl("ลบ", "Delete") + '">✕</button>';
       return '<div class="layer-row' + (b.id === SEL ? " sel" : "") + '" draggable="' + (!isLocked) + '" data-id="' + b.id + '" data-type="' + b.type + '">'
         + '<span class="lh">' + svg(IC[b.type] || IC.text) + '</span>'
         + '<span class="ln">' + esc(t) + '</span>'
@@ -7447,6 +7447,13 @@ tplStyleVars(),
     // library groups + items
     "โครงสร้างหลัก": "Layout", "เนื้อหา": "Content", "ส่วนเสริม": "Extras", "บทความ & UX": "Article & UX",
     "ส่วนหัว (Header)": "Header", "โลโก้ + เมนู": "Logo + menu",
+    // Missed when the palette was translated: these six rendered Thai in the
+    // English UI. Found by walking the built page in a real browser.
+    "คอลัมน์ (Features)": "Columns (Features)", "2–3 คอลัมน์": "2-3 columns",
+    "รับอีเมลสมัครสมาชิก": "Collect email signups",
+    "ปุ่มแชร์โซเชียล": "Social share buttons",
+    "แถบปุ่มร้านค้า (Affiliate)": "Store button bar (Affiliate)",
+    "สแกนลิงก์ → ปุ่มร้านอัตโนมัติ": "Scans links -> automatic store buttons",
     "Hero": "Hero", "แบนเนอร์หลัก + ปุ่ม": "Main banner + button",
     "ส่วนท้าย (Footer)": "Footer", "ลิงก์ + ลิขสิทธิ์": "Links + copyright",
     "ตารางบทความ": "Post Grid", "Post Grid": "Post Grid",
@@ -7609,6 +7616,25 @@ tplStyleVars(),
       var v = BL === "en" ? (el.dataset.en || el.dataset.th) : (el.dataset.th || el.dataset.en);
       if (v == null) return;
       if (el.dataset.html === "1") el.innerHTML = v; else el.textContent = v;
+    });
+    applyAttrLang();
+  }
+  // The same data-th/data-en idea for text that lives in an ATTRIBUTE rather than in
+  // the element. Nothing translated these, so an English user got Thai tooltips,
+  // placeholders and screen-reader labels: invisible in a screenshot, and the reason
+  // they survived this long. data-tip already worked this way; this covers the rest.
+  var ATTR_LANG = { titleTh: "title", titleEn: "title", phTh: "placeholder", phEn: "placeholder", alTh: "aria-label", alEn: "aria-label", valTh: "value", valEn: "value" };
+  function applyAttrLang() {
+    $$("[data-title-th],[data-title-en],[data-ph-th],[data-ph-en],[data-al-th],[data-al-en],[data-val-th],[data-val-en]").forEach(function (el) {
+      ["title", "ph", "al", "val"].forEach(function (k) {
+        var th = el.dataset[k + "Th"], en = el.dataset[k + "En"];
+        if (th == null && en == null) return;
+        var v = BL === "en" ? (en == null ? th : en) : (th == null ? en : th);
+        var attr = ATTR_LANG[k + "Th"];
+        // A value the user has already edited must not be reset by a language switch.
+        if (attr === "value") { if (el.value !== th && el.value !== en) return; el.value = v; }
+        else el.setAttribute(attr, v);
+      });
     });
   }
   function translateChrome() {
