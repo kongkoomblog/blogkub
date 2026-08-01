@@ -120,8 +120,8 @@ const html = `<!doctype html>
   footer{border-top:1px solid var(--border);margin-top:56px;padding:30px 0;color:var(--muted);font-size:13.5px;text-align:center}
   footer a{color:var(--fg-soft)}
 </style>
-<link rel="alternate" type="application/rss+xml" title="BlogKub RSS" href="${SITE}/rss.xml">
-<link rel="alternate" type="application/feed+json" title="BlogKub JSON Feed" href="${SITE}/feed.json">
+<link rel="alternate" type="application/rss+xml" title="BlogKub RSS" href="${SITE}/en/rss.xml">
+<link rel="alternate" type="application/feed+json" title="BlogKub JSON Feed" href="${SITE}/en/feed.json">
 </head>
 <body>
 <header class="top">

@@ -5,9 +5,14 @@
  * Runs AFTER `astro build`. Reads the built article pages in ./dist,
  * extracts each article's FULL content (links/images made absolute), and
  * writes:
- *   dist/rss.xml   RSS 2.0 with <content:encoded> = the whole article
- *   dist/atom.xml  Atom 1.0 with the same content
- *   dist/feed.json JSON Feed 1.1 with content_html = the whole article
+ *   dist/rss.xml       dist/en/rss.xml     RSS 2.0, <content:encoded> = whole article
+ *   dist/atom.xml      dist/en/atom.xml    Atom 1.0, same content
+ *   dist/feed.json     dist/en/feed.json   JSON Feed 1.1, content_html = whole article
+ *
+ * One set per language, not one mixed feed. A feed channel declares a single
+ * <language>, and a subscriber who asked for the English blog should not receive
+ * Thai articles in the same river. The English set reads dist/en/blog and
+ * dist/en/learn; the Thai set reads dist/blog and dist/learn.
  *
  * Three formats of one feed is not redundancy for its own sake. Search Console
  * accepts an RSS or Atom feed where it expects a sitemap, so these double as a
@@ -18,20 +23,34 @@
  * Wired via the "postbuild" npm script, so CI keeps the feeds in sync with
  * the deployed pages automatically.
  */
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const DIST = 'dist';
 const SITE = 'https://www.blogkub.com';
 const NOW = new Date();
 
-const CHANNEL = {
-  title: 'BlogKub — คู่มือ Blogger & ตกแต่งธีมฟรี',
-  desc: 'บทความและคู่มือฟีเจอร์ธีม Blogger จาก BlogKub — ทำบล็อกให้ติดหน้าแรก Google หารายได้ และแต่งธีมสวยโดยไม่ต้องเขียนโค้ด',
-  lang: 'th',
-  author: 'ภัทร์พิศาล ดาทอง (เบน)',
-  authorEmail: 'hello@blogkub.com',
-  logo: `${SITE}/android-chrome-512x512.png`,
+const CHANNELS = {
+  th: {
+    lang: 'th', dir: '', home: `${SITE}/`,
+    title: 'BlogKub — คู่มือ Blogger & ตกแต่งธีมฟรี',
+    desc: 'บทความและคู่มือฟีเจอร์ธีม Blogger จาก BlogKub — ทำบล็อกให้ติดหน้าแรก Google หารายได้ และแต่งธีมสวยโดยไม่ต้องเขียนโค้ด',
+    author: 'ภัทร์พิศาล ดาทอง (เบน)',
+    authorEmail: 'hello@blogkub.com',
+    logo: `${SITE}/android-chrome-512x512.png`,
+    catBlog: 'บล็อก', catLearn: 'คู่มือฟีเจอร์',
+    readMore: 'อ่านบนเว็บ BlogKub →',
+  },
+  en: {
+    lang: 'en', dir: 'en', home: `${SITE}/en/`,
+    title: 'BlogKub — free Blogger theme guides',
+    desc: 'Guides and feature documentation from BlogKub: build a Blogger blog that ranks on Google, earns from AdSense, and looks good without writing code.',
+    author: 'Patpisan Dathong (Ben)',
+    authorEmail: 'hello@blogkub.com',
+    logo: `${SITE}/android-chrome-512x512.png`,
+    catBlog: 'Blog', catLearn: 'Feature guide',
+    readMore: 'Read it on BlogKub →',
+  },
 };
 
 const m1 = (re, s) => { const m = s.match(re); return m ? m[1].trim() : null; };
@@ -55,9 +74,9 @@ function articleContent(html) {
   return absolutize(c).trim();
 }
 
-function collect(dir, kind) {
+function collect(base, dir, kind, L) {
   const out = [];
-  const full = join(DIST, dir);
+  const full = join(DIST, base, dir);
   let files;
   try { files = readdirSync(full); } catch { return out; }
   for (const name of files) {
@@ -77,66 +96,71 @@ function collect(dir, kind) {
       content: articleContent(h),
       published: pub ? toDate(pub) : NOW,
       modified: mod ? toDate(mod) : NOW,
-      category: kind === 'blog' ? 'บล็อก' : 'คู่มือฟีเจอร์',
+      category: kind === 'blog' ? L.catBlog : L.catLearn,
     });
   }
   return out;
 }
 
-let items = [...collect('blog', 'blog'), ...collect('learn', 'learn')];
-items.sort((a, b) => b.modified - a.modified);
-const lastBuild = items.length ? items[0].modified : NOW;
+function emit(L) {
+  const OUT = L.dir ? join(DIST, L.dir) : DIST;
+  const BASE = L.dir ? `${SITE}/${L.dir}` : SITE;
+  if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
+
+  const items = [...collect(L.dir, 'blog', 'blog', L), ...collect(L.dir, 'learn', 'learn', L)];
+  items.sort((a, b) => b.modified - a.modified);
+  const lastBuild = items.length ? items[0].modified : NOW;
 
 /* ---------- RSS 2.0 (full content) ---------- */
-const rssItems = items.map((it) => `    <item>
+  const rssItems = items.map((it) => `    <item>
       <title>${xesc(it.title)}</title>
       <link>${xesc(it.url)}</link>
       <guid isPermaLink="true">${xesc(it.url)}</guid>
       <pubDate>${rfc822(it.published)}</pubDate>
-      <dc:creator>${xesc(CHANNEL.author)}</dc:creator>
+      <dc:creator>${xesc(L.author)}</dc:creator>
       <category>${xesc(it.category)}</category>
       <description>${xesc(it.desc)}</description>
 ${it.image ? `      <enclosure url="${xesc(it.image)}" type="image/png" length="0"/>
       <media:content url="${xesc(it.image)}" medium="image" type="image/png"/>
-` : ''}      <content:encoded><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">อ่านบนเว็บ BlogKub →</a></p>]]></content:encoded>
+` : ''}      <content:encoded><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">${L.readMore}</a></p>]]></content:encoded>
     </item>`).join('\n');
 
-const rss = `<?xml version="1.0" encoding="UTF-8"?>
+  const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"
      xmlns:atom="http://www.w3.org/2005/Atom"
      xmlns:content="http://purl.org/rss/1.0/modules/content/"
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:media="http://search.yahoo.com/mrss/">
   <channel>
-    <title>${xesc(CHANNEL.title)}</title>
-    <link>${SITE}/</link>
-    <atom:link href="${SITE}/rss.xml" rel="self" type="application/rss+xml"/>
-    <description>${xesc(CHANNEL.desc)}</description>
-    <language>${CHANNEL.lang}</language>
+    <title>${xesc(L.title)}</title>
+    <link>${L.home}</link>
+    <atom:link href="${BASE}/rss.xml" rel="self" type="application/rss+xml"/>
+    <description>${xesc(L.desc)}</description>
+    <language>${L.lang}</language>
     <copyright>© ${NOW.getFullYear()} BlogKub</copyright>
-    <managingEditor>${CHANNEL.authorEmail} (${xesc(CHANNEL.author)})</managingEditor>
-    <webMaster>${CHANNEL.authorEmail} (${xesc(CHANNEL.author)})</webMaster>
+    <managingEditor>${L.authorEmail} (${xesc(L.author)})</managingEditor>
+    <webMaster>${L.authorEmail} (${xesc(L.author)})</webMaster>
     <lastBuildDate>${rfc822(lastBuild)}</lastBuildDate>
     <generator>BlogKub feed builder</generator>
     <ttl>360</ttl>
-    <image><url>${CHANNEL.logo}</url><title>${xesc(CHANNEL.title)}</title><link>${SITE}/</link></image>
+    <image><url>${L.logo}</url><title>${xesc(L.title)}</title><link>${L.home}</link></image>
 ${rssItems}
   </channel>
 </rss>
 `;
-writeFileSync(join(DIST, 'rss.xml'), rss);
+  writeFileSync(join(OUT, 'rss.xml'), rss);
 
 /* ---------- JSON Feed 1.1 (full content) ---------- */
-const jsonFeed = {
+  const jsonFeed = {
   version: 'https://jsonfeed.org/version/1.1',
-  title: CHANNEL.title,
-  home_page_url: `${SITE}/`,
-  feed_url: `${SITE}/feed.json`,
-  description: CHANNEL.desc,
-  language: CHANNEL.lang,
-  icon: CHANNEL.logo,
+  title: L.title,
+  home_page_url: L.home,
+  feed_url: `${BASE}/feed.json`,
+  description: L.desc,
+  language: L.lang,
+  icon: L.logo,
   favicon: `${SITE}/favicon-32x32.png`,
-  authors: [{ name: CHANNEL.author, url: `${SITE}/about` }],
+  authors: [{ name: L.author, url: L.dir ? `${SITE}/en/about` : `${SITE}/about` }],
   items: items.map((it) => ({
     id: it.url,
     url: it.url,
@@ -147,42 +171,45 @@ const jsonFeed = {
     banner_image: it.image || undefined,
     date_published: it.published.toISOString(),
     date_modified: it.modified.toISOString(),
-    authors: [{ name: CHANNEL.author, url: `${SITE}/about` }],
+    authors: [{ name: L.author, url: L.dir ? `${SITE}/en/about` : `${SITE}/about` }],
     tags: [it.category],
   })),
 };
-writeFileSync(join(DIST, 'feed.json'), JSON.stringify(jsonFeed, null, 2) + '\n');
+  writeFileSync(join(OUT, 'feed.json'), JSON.stringify(jsonFeed, null, 2) + '\n');
 
 /* ---------- Atom 1.0 (full content) ---------- */
 // Atom dates are RFC 3339, which is what toISOString already produces. Every entry
 // needs its own <id>; the canonical URL is stable and unique, so it serves.
-const atomEntries = items.map((it) => `  <entry>
+  const atomEntries = items.map((it) => `  <entry>
     <title type="text">${xesc(it.title)}</title>
     <link rel="alternate" type="text/html" href="${xesc(it.url)}"/>
     <id>${xesc(it.url)}</id>
     <published>${it.published.toISOString()}</published>
     <updated>${it.modified.toISOString()}</updated>
-    <author><name>${xesc(CHANNEL.author)}</name><email>${CHANNEL.authorEmail}</email></author>
+    <author><name>${xesc(L.author)}</name><email>${L.authorEmail}</email></author>
     <category term="${xesc(it.category)}"/>
     <summary type="text">${xesc(it.desc)}</summary>
-${it.image ? `    <link rel="enclosure" type="image/png" href="${xesc(it.image)}"/>\n` : ''}    <content type="html"><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">อ่านบนเว็บ BlogKub →</a></p>]]></content>
+${it.image ? `    <link rel="enclosure" type="image/png" href="${xesc(it.image)}"/>\n` : ''}    <content type="html"><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">${L.readMore}</a></p>]]></content>
   </entry>`).join('\n');
 
-writeFileSync(join(DIST, 'atom.xml'), `<?xml version="1.0" encoding="UTF-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="${CHANNEL.lang}">
-  <title type="text">${xesc(CHANNEL.title)}</title>
-  <subtitle type="text">${xesc(CHANNEL.desc)}</subtitle>
-  <link rel="self" type="application/atom+xml" href="${SITE}/atom.xml"/>
-  <link rel="alternate" type="text/html" href="${SITE}/"/>
-  <id>${SITE}/</id>
+  writeFileSync(join(OUT, 'atom.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="${L.lang}">
+  <title type="text">${xesc(L.title)}</title>
+  <subtitle type="text">${xesc(L.desc)}</subtitle>
+  <link rel="self" type="application/atom+xml" href="${BASE}/atom.xml"/>
+  <link rel="alternate" type="text/html" href="${L.home}"/>
+  <id>${L.home}</id>
   <updated>${lastBuild.toISOString()}</updated>
   <rights>© ${NOW.getFullYear()} BlogKub</rights>
-  <icon>${CHANNEL.logo}</icon>
-  <logo>${CHANNEL.logo}</logo>
+  <icon>${L.logo}</icon>
+  <logo>${L.logo}</logo>
   <generator uri="${SITE}/">BlogKub feed builder</generator>
-  <author><name>${xesc(CHANNEL.author)}</name><email>${CHANNEL.authorEmail}</email><uri>${SITE}/about</uri></author>
+  <author><name>${xesc(L.author)}</name><email>${L.authorEmail}</email><uri>${L.dir ? `${SITE}/en/about` : `${SITE}/about`}</uri></author>
 ${atomEntries}
 </feed>
 `);
 
-console.log(`feeds: ${items.length} items with FULL content -> dist/rss.xml, dist/atom.xml, dist/feed.json`);
+  console.log(`feeds[${L.lang}]: ${items.length} items with FULL content -> ${OUT}/rss.xml, atom.xml, feed.json`);
+}
+
+for (const L of [CHANNELS.th, CHANNELS.en]) emit(L);

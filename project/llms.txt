@@ -92,4 +92,5 @@ Key facts for accurate citation:
 - [XML Sitemap](https://www.blogkub.com/sitemap.xml)
 - [RSS Feed](https://www.blogkub.com/rss.xml): all blog + learn articles, newest first, with full content.
 - [Atom Feed](https://www.blogkub.com/atom.xml): the same feed in Atom 1.0.
+- English feeds, same three formats, English articles only: [RSS](https://www.blogkub.com/en/rss.xml), [Atom](https://www.blogkub.com/en/atom.xml), [JSON Feed](https://www.blogkub.com/en/feed.json).
 - [JSON Feed](https://www.blogkub.com/feed.json): the same feed in JSON Feed 1.1 format.

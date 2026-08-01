@@ -272,9 +272,9 @@ ${g.items.map((p, j) => `          <li class="smli" itemprop="itemListElement" i
   footer{border-top:1px solid var(--border);margin-top:56px;padding:30px 0;color:var(--muted);font-size:13.5px;text-align:center}
   footer a{color:var(--fg-soft)}
 </style>
-<link rel="alternate" type="application/rss+xml" title="BlogKub RSS" href="${SITE}/rss.xml">
-<link rel="alternate" type="application/atom+xml" title="BlogKub Atom" href="${SITE}/atom.xml">
-<link rel="alternate" type="application/feed+json" title="BlogKub JSON Feed" href="${SITE}/feed.json">
+<link rel="alternate" type="application/rss+xml" title="BlogKub RSS" href="${SITE}${isEn ? '/en' : ''}/rss.xml">
+<link rel="alternate" type="application/atom+xml" title="BlogKub Atom" href="${SITE}${isEn ? '/en' : ''}/atom.xml">
+<link rel="alternate" type="application/feed+json" title="BlogKub JSON Feed" href="${SITE}${isEn ? '/en' : ''}/feed.json">
 </head>
 <body>
 <header class="top">
@@ -323,9 +323,9 @@ ${standing.map((p) => `      <li><a href="${xesc(p.path)}">${xesc(p.title)}</a><
       <a class="smchip" href="/sitemap.xml">sitemap.xml</a>
       <a class="smchip" href="/sitemap-pages.xml">sitemap-pages.xml</a>
       <a class="smchip" href="/sitemap-images.xml">sitemap-images.xml</a>
-      <a class="smchip" href="/rss.xml">RSS</a>
-      <a class="smchip" href="/atom.xml">Atom</a>
-      <a class="smchip" href="/feed.json">JSON Feed</a>
+      <a class="smchip" href="${isEn ? '/en/rss.xml' : '/rss.xml'}">RSS</a>
+      <a class="smchip" href="${isEn ? '/en/atom.xml' : '/atom.xml'}">Atom</a>
+      <a class="smchip" href="${isEn ? '/en/feed.json' : '/feed.json'}">JSON Feed</a>
       <a class="smchip" href="/llms.txt">llms.txt</a>
       <a class="smchip" href="/robots.txt">robots.txt</a>
     </div>

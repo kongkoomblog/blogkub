@@ -41,6 +41,12 @@
   Cache-Control: public, max-age=3600
 /atom.xml
   Cache-Control: public, max-age=3600
+/en/rss.xml
+  Cache-Control: public, max-age=3600
+/en/atom.xml
+  Cache-Control: public, max-age=3600
+/en/feed.json
+  Cache-Control: public, max-age=3600
 /sitemap.xml
   Cache-Control: public, max-age=3600
 /sitemap-pages.xml
@@ -95,9 +101,9 @@
 # /en and /en/ both listed: html_handling is left at its default, so the trailing slash
 # is normalised by a redirect and either form can be the one that is served.
 /en
-  Link: <https://www.blogkub.com/en/>; rel="canonical", <https://www.blogkub.com/>; rel="alternate"; hreflang="th", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="en", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="x-default", <https://www.blogkub.com/llms.txt>; rel="describedby"; type="text/plain", <https://www.blogkub.com/rss.xml>; rel="alternate"; type="application/rss+xml"; title="BlogKub RSS", <https://www.blogkub.com/feed.json>; rel="alternate"; type="application/feed+json"; title="BlogKub JSON Feed", <https://www.blogkub.com/en/learn/>; rel="help", <https://www.blogkub.com/en/about>; rel="author", <https://www.blogkub.com/en/privacy>; rel="privacy-policy", <https://www.blogkub.com/en/terms>; rel="terms-of-service"
+  Link: <https://www.blogkub.com/en/>; rel="canonical", <https://www.blogkub.com/>; rel="alternate"; hreflang="th", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="en", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="x-default", <https://www.blogkub.com/llms.txt>; rel="describedby"; type="text/plain", <https://www.blogkub.com/en/rss.xml>; rel="alternate"; type="application/rss+xml"; title="BlogKub RSS", <https://www.blogkub.com/en/feed.json>; rel="alternate"; type="application/feed+json"; title="BlogKub JSON Feed", <https://www.blogkub.com/en/learn/>; rel="help", <https://www.blogkub.com/en/about>; rel="author", <https://www.blogkub.com/en/privacy>; rel="privacy-policy", <https://www.blogkub.com/en/terms>; rel="terms-of-service"
 /en/
-  Link: <https://www.blogkub.com/en/>; rel="canonical", <https://www.blogkub.com/>; rel="alternate"; hreflang="th", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="en", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="x-default", <https://www.blogkub.com/llms.txt>; rel="describedby"; type="text/plain", <https://www.blogkub.com/rss.xml>; rel="alternate"; type="application/rss+xml"; title="BlogKub RSS", <https://www.blogkub.com/feed.json>; rel="alternate"; type="application/feed+json"; title="BlogKub JSON Feed", <https://www.blogkub.com/en/learn/>; rel="help", <https://www.blogkub.com/en/about>; rel="author", <https://www.blogkub.com/en/privacy>; rel="privacy-policy", <https://www.blogkub.com/en/terms>; rel="terms-of-service"
+  Link: <https://www.blogkub.com/en/>; rel="canonical", <https://www.blogkub.com/>; rel="alternate"; hreflang="th", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="en", <https://www.blogkub.com/en/>; rel="alternate"; hreflang="x-default", <https://www.blogkub.com/llms.txt>; rel="describedby"; type="text/plain", <https://www.blogkub.com/en/rss.xml>; rel="alternate"; type="application/rss+xml"; title="BlogKub RSS", <https://www.blogkub.com/en/feed.json>; rel="alternate"; type="application/feed+json"; title="BlogKub JSON Feed", <https://www.blogkub.com/en/learn/>; rel="help", <https://www.blogkub.com/en/about>; rel="author", <https://www.blogkub.com/en/privacy>; rel="privacy-policy", <https://www.blogkub.com/en/terms>; rel="terms-of-service"
 
 # --- Everything else (HTML pages): always revalidate so edits show instantly ---
 /*
