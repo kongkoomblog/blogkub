@@ -393,6 +393,18 @@ Verified end to end on 2026-08-01 once CONTACT_TO was set: messages from both /c
 and /en/contact arrived in the destination inbox, with the Thai body intact, and the
 Page line distinguishing which language page they came from.
 
+hello@blogkub.com now sends from two independent places, which is not a mistake:
+
+- **Inbound**, the contact form, through the Cloudflare `send_email` binding. This is
+  the code in this repo.
+- **Outbound**, the owner's replies, through Gmail "Send mail as" over a Brevo SMTP
+  relay. This is dashboard configuration, nothing here.
+
+Two consequences worth knowing before touching DNS. A domain may carry exactly **one**
+SPF TXT record; Email Routing and Brevo both want to be in it, and two `v=spf1` records
+mean neither works, which sends replies to spam. Merge them into one line with both
+`include:` terms. DKIM is fine with several, since each uses its own selector.
+
 ## IndexNow
 
 - `indexnow-plan.mjs` hashes every built page, fetches previous hashes from
