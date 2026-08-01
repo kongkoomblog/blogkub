@@ -149,12 +149,20 @@ export async function handleContact(request, env) {
     if (!TOPICS.has(topic)) bad.push('topic');
     if (bad.length) return json({ ok: false, error: 'invalid', fields: bad }, 422);
 
+    // Configuration, not the sender's fault. Say so plainly rather than pretending the
+    // message went somewhere. The two causes are reported separately: they look
+    // identical to the visitor but need completely different fixes, and telling them
+    // apart from the outside otherwise means guessing.
+    //   no_recipient -> `wrangler secret put CONTACT_TO` was never run
+    //   no_binding   -> the send_email binding did not deploy
+    if (!env.CONTACT_EMAIL) {
+      console.log('contact: send_email binding CONTACT_EMAIL is missing');
+      return json({ ok: false, error: 'unconfigured', why: 'no_binding' }, 503);
+    }
     const to = env.CONTACT_TO;
-    if (!to || !env.CONTACT_EMAIL) {
-      // Configuration, not the sender's fault. Say so plainly rather than pretending
-      // the message went somewhere.
-      console.log('contact: not configured (CONTACT_TO or CONTACT_EMAIL binding missing)');
-      return json({ ok: false, error: 'unconfigured' }, 503);
+    if (!to) {
+      console.log('contact: CONTACT_TO is not set');
+      return json({ ok: false, error: 'unconfigured', why: 'no_recipient' }, 503);
     }
 
     const from = 'hello@blogkub.com';
