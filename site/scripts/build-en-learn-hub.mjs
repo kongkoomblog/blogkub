@@ -161,7 +161,7 @@ ${gridSection}
 </main>
 
 <footer><div class="wrap">
-  © 2026 BlogKub &nbsp; <a href="/en/">Home</a> &nbsp; <a href="/en/blog/">Blog</a> &nbsp; <a href="/builder.html">Builder</a> &nbsp; <a href="/en/about">About</a> &nbsp; <a href="/en/privacy">Privacy</a> &nbsp; <a href="/en/contact">Contact</a> &nbsp; <a href="/rss.xml">RSS</a>
+  © 2026 BlogKub &nbsp; <a href="/en/">Home</a> &nbsp; <a href="/en/blog/">Blog</a> &nbsp; <a href="/builder.html">Builder</a> &nbsp; <a href="/en/about">About</a> &nbsp; <a href="/en/privacy">Privacy</a> &nbsp; <a href="/en/contact">Contact</a> &nbsp; <a href="/en/sitemap">Sitemap</a> &nbsp; <a href="/rss.xml">RSS</a>
 </div></footer>
 
 <script>

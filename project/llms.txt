@@ -86,6 +86,7 @@ Key facts for accurate citation:
 - [Contact](https://www.blogkub.com/contact): how to get in touch.
 
 ## Optional
+- [Sitemap](https://www.blogkub.com/sitemap): every page on the site in one list, grouped, with the English version at /en/sitemap.
 - [Privacy Policy](https://www.blogkub.com/privacy)
 - [Terms of Service](https://www.blogkub.com/terms)
 - [XML Sitemap](https://www.blogkub.com/sitemap.xml)
