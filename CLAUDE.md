@@ -162,7 +162,7 @@ bookmark, backtotop, translate).
 <link ... "feeds/comments/default"               rel='alternate' type='application/atom+xml'/>
 <link href='https://pubsubhubbub.appspot.com/'   rel='hub'/>
 <link href='https://pubsubhubbub.superfeedr.com/' rel='hub'/>
-<link ... "feeds/posts/default"                  rel='self' type='application/atom+xml'/>
+<link expr:href='"https://www.blogger.com/feeds/" + data:blog.blogId + "/posts/default"' rel='self'/>
 ```
 
 - **These used to be gated on `seo.siteUrl`.** A theme exported without a Site URL
@@ -173,6 +173,17 @@ bookmark, backtotop, translate).
   so it cannot POST `hub.mode=publish` the way `websub-ping.mjs` does for this site.
   Blogger is what notifies the hub when a post is published. The theme only says where
   the hub and the topic are.
+- **`rel="self"` must be the blogger.com URL, not the blog's own domain.** In WebSub the
+  topic is the exact string in `rel="self"`, and a real Blogger Atom feed declares
+  `rel='self' href='https://www.blogger.com/feeds/<blogId>/posts/default'`. That is the
+  topic Blogger publishes to. Pointing it at `canonicalHomepageUrl + "feeds/posts/default"`
+  instead, which is the obvious-looking choice and what the QuestThai theme does, sends a
+  subscriber to register for a topic nobody ever publishes: it subscribes successfully
+  and then never hears anything. Confirmed against a live Blogger feed. The
+  `rel="alternate"` links stay on the blog's own domain, which is what a reader should
+  see; only the topic identifier has to match.
+- Blogger declares its hub as `http://pubsubhubbub.appspot.com/`. The theme advertises
+  the `https` form of the same service, which is the same hub.
 - `rel='canonical'` is deliberately absent: `<b:include data='blog' name='all-head-content'/>`
   is already in the head and Blogger injects canonical there. The QuestThai reference
   theme does the same. Do not "fix" this by adding a second canonical.

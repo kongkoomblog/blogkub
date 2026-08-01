@@ -4591,14 +4591,27 @@ og + "\n" +
 // markup with no backend, so it cannot POST hub.mode=publish to a hub the way
 // this site's own websub-ping.mjs does; Blogger is what notifies the hub when a
 // post is published. What the theme contributes is telling a subscriber where the
-// hub and the topic are. Two hubs, as the reference theme does: a subscriber
-// picks one, and appspot going quiet does not leave the feed unsubscribable.
+// hub and the topic are.
+//
+// rel="self" MUST be the blogger.com feed URL, not the blog's own domain. In
+// WebSub the topic is identified by the exact string in rel="self", and a real
+// Blogger Atom feed declares:
+//
+//   <link rel='hub'  href='http://pubsubhubbub.appspot.com/'/>
+//   <link rel='self' href='https://www.blogger.com/feeds/<blogId>/posts/default'/>
+//
+// That blogger.com URL is the topic Blogger publishes to. Advertising
+// canonicalHomepageUrl + "feeds/posts/default" instead sends a subscriber to
+// register for a topic nobody ever publishes, so it subscribes successfully and
+// then never hears anything. data:blog.blogId gives the same string Blogger uses.
+// The human-facing rel="alternate" links above stay on the blog's own domain,
+// which is what a reader should see; only the topic identifier has to match.
 "<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/posts/default&quot;' expr:title='data:blog.title + &quot; Atom&quot;' rel='alternate' type='application/atom+xml'/>\n" +
 "<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/posts/default?alt=rss&quot;' expr:title='data:blog.title + &quot; RSS&quot;' rel='alternate' type='application/rss+xml'/>\n" +
 "<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/comments/default&quot;' expr:title='data:blog.title + &quot; Comments&quot;' rel='alternate' type='application/atom+xml'/>\n" +
 "<link href='https://pubsubhubbub.appspot.com/' rel='hub'/>\n" +
 "<link href='https://pubsubhubbub.superfeedr.com/' rel='hub'/>\n" +
-"<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/posts/default&quot;' rel='self' type='application/atom+xml'/>\n" +
+"<link expr:href='&quot;https://www.blogger.com/feeds/&quot; + data:blog.blogId + &quot;/posts/default&quot;' rel='self' type='application/atom+xml'/>\n" +
 "<b:if cond='data:view.isSingleItem'><b:if cond='data:view.featuredImage'><link expr:href='resizeImage(data:view.featuredImage,1200,\"1200:630\")' rel='preload' as='image' fetchpriority='high'/></b:if></b:if>\n" +
 schema + "\n" +
 "<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
