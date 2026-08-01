@@ -7285,7 +7285,14 @@ tplStyleVars(),
   // All are singletons that self-place (inline into posts / header / floating) and self-hide when
   // not applicable, so they add value out of the box without cluttering the layout. Inserted
   // just before the footer so body-flow blocks (related) sit above it.
-  var DEFAULT_UTILITIES = ["notfound", "darkmode", "breadcrumb", "readtime", "toc", "aeo", "related", "lightbox", "anchorlink", "backtotop", "progress", "copycode"];
+  // translate and bookmark are here for the same reason as the rest: both are in
+  // UTIL_BOTTOM so they sort to the end and never disturb a template's layout, both
+  // are singletons, and both are in SHOW_ON_ERROR so they survive on the 404 page.
+  // bookmark is entirely local to the reader's browser. translate is the one entry
+  // that loads a third-party script (Google Translate) on the reader's page, so it
+  // is the only default with an outside dependency; it can be removed per project
+  // from the canvas like any other block.
+  var DEFAULT_UTILITIES = ["notfound", "darkmode", "breadcrumb", "readtime", "toc", "aeo", "related", "lightbox", "anchorlink", "backtotop", "progress", "copycode", "translate", "bookmark"];
   function startFromTemplate(id) {
     var t = TEMPLATES.find(function (x) { return x.id === id; });
     S = freshProject(t.name, JSON.parse(JSON.stringify(t.design)));

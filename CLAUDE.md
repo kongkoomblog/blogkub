@@ -201,7 +201,18 @@ it rather than rewriting it, keep every animation inside the closing
 
 `DEFAULT_UTILITIES` are pre-installed with every template: notfound, darkmode,
 breadcrumb, readtime, toc, aeo, related, lightbox, anchorlink, backtotop, progress,
-copycode. They self-place and self-hide, so they add value without cluttering the canvas.
+copycode, translate, bookmark. They self-place and self-hide, so they add value without
+cluttering the canvas.
+
+To qualify, a block has to be in `SINGLETON_BLOCKS` (so a template that already lists it
+does not end up with two), in `UTIL_BOTTOM` (so it sorts to the end and cannot disturb a
+template's layout), and normally in `SHOW_ON_ERROR`. `translate` is the only default that
+loads a third-party script on the reader's page, Google Translate; everything else is
+self-contained, and `bookmark` never leaves the reader's browser.
+
+**This list only applies at `startFromTemplate`.** A project already saved in
+localStorage keeps the blocks it was created with, so adding an entry here does not
+reach existing users; they start a new project or add the block by hand.
 
 ## The site
 
