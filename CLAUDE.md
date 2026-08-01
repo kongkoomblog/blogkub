@@ -308,6 +308,11 @@ support. WebSub buys pushed updates for feed readers and aggregators, and less p
   readers that support it, but the hub will not serve JSON to an Atom subscriber.
 - It never fails the job. The deploy is already live and correct without the hub.
 
+Verified end to end on 2026-08-01 in run #100: deploy green, IndexNow submitted 108
+URLs with HTTP 200, then all four feeds published with HTTP 204, which is the success
+code the spec asks for rather than a generic 200. The `108 page(s) changed` line came
+from the real queue, so the gate works too.
+
 ## IndexNow
 
 - `indexnow-plan.mjs` hashes every built page, fetches previous hashes from
@@ -488,6 +493,15 @@ session reads.
 - Submit the sitemap in Bing Webmaster Tools and in Google Search Console. Google does
   not support IndexNow, so it needs the sitemap separately. BingSiteAuth is verified.
 - Request re-indexing of the homepage in Search Console, then wait. See site name below.
+
+### The workflow warns about Node 20 on every run
+
+`cloudflare/wrangler-action@v3` declares the node20 action runtime, which GitHub is
+retiring, so every deploy logs "Node 20 is being deprecated". It is a warning today and
+a hard failure once GitHub removes that runtime. The job itself runs Node 22, so nothing
+is broken yet and nothing needs changing in this repo. Check whether a v4 of the action
+exists before bumping it, and do not bump it blind: wrangler-action is what performs the
+only deploy this site has.
 
 ### Verifying from this container no longer works
 
