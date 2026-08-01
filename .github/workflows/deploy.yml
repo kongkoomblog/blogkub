@@ -65,3 +65,13 @@ jobs:
       - name: Notify IndexNow
         continue-on-error: true
         run: cd site && npm run indexnow:submit
+
+      # Same reasoning as IndexNow, and the same placement: the WebSub hub FETCHES
+      # the feed the moment it is told to publish, so telling it before the deploy
+      # lands would have it push the previous build as if it were new. It only
+      # fires when this deploy actually changed something, which it reads from the
+      # queue IndexNow planned. A hub pinged on every no-op push learns to ignore
+      # the publisher.
+      - name: Publish to WebSub hub
+        continue-on-error: true
+        run: cd site && npm run websub:publish

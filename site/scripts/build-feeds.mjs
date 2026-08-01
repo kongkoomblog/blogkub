@@ -41,6 +41,20 @@ const SITE = 'https://www.blogkub.com';
 const NOW = new Date();
 
 /**
+ * WebSub hub. A feed declares rel="hub" next to rel="self"; a subscriber that
+ * understands WebSub then registers with the hub instead of polling, and the hub
+ * pushes to it the moment `websub-ping.mjs` publishes after a deploy.
+ *
+ * This is Google's public reference hub. It does NOT make Googlebot index faster:
+ * Google Search dropped WebSub as an indexing signal, and its documented channels
+ * are the sitemap and, for two narrow content types, the Indexing API. The
+ * search-engine equivalent that does work is IndexNow, which this site already
+ * runs, and which Google does not support. What WebSub buys is feed readers and
+ * aggregators getting pushed updates, and not polling six feeds on a timer.
+ */
+const HUB = 'https://pubsubhubbub.appspot.com/';
+
+/**
  * Newest N articles per feed. The feeds carry FULL article content, so they grow
  * without bound as articles are added: at 46 Thai articles the file is already
  * 1.25 MB, and every subscriber and every crawler downloads all of it every time.
@@ -352,6 +366,7 @@ ${it.enclosure ? `      <enclosure url="${xesc(it.enclosure.url)}" type="${it.en
     <title>${xesc(L.title)}</title>
     <link>${L.home}</link>
     <atom:link href="${BASE}/rss.xml" rel="self" type="application/rss+xml"/>
+    <atom:link href="${HUB}" rel="hub"/>
     <description>${xesc(L.desc)}</description>
     <language>${L.lang}</language>
     <copyright>© ${NOW.getFullYear()} BlogKub</copyright>
@@ -374,6 +389,7 @@ ${rssItems}
     title: L.title,
     home_page_url: L.home,
     feed_url: `${BASE}/feed.json`,
+    hubs: [{ type: 'WebSub', url: HUB }],
     description: L.desc,
     language: L.lang,
     icon: L.logo,
@@ -415,6 +431,7 @@ ${it.enclosure ? `    <link rel="enclosure" type="${it.enclosure.type}" length="
   <title type="text">${xesc(L.title)}</title>
   <subtitle type="text">${xesc(L.desc)}</subtitle>
   <link rel="self" type="application/atom+xml" href="${BASE}/atom.xml"/>
+  <link rel="hub" href="${HUB}"/>
   <link rel="alternate" type="text/html" href="${L.home}"/>
   <id>${L.home}</id>
   <updated>${lastBuild.toISOString()}</updated>

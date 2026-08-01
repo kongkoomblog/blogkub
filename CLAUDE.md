@@ -201,7 +201,8 @@ prebuild   sync-public.mjs         copy ./project into site/public, minus the
                                    internal *.md notes, which must not be deployed
 build      astro build
 postbuild  build-en-learn-hub -> build-sitemap-page -> build-hreflang
-           -> build-markdown -> build-feeds -> build-sitemaps -> indexnow-plan
+           -> build-feed-links -> build-markdown -> build-feeds
+           -> build-sitemaps -> indexnow-plan
 ```
 
 `build-sitemap-page` runs before `build-hreflang` because the hreflang step has to
@@ -285,6 +286,27 @@ by `build-feeds.mjs`, so a new article reaches them with no manual step.
 - **Search Console does not accept JSON Feed** and reports it as an unsupported format.
   That is correct, not a bug. Submit `rss.xml` or `atom.xml` there; `feed.json` is for
   readers and agents.
+
+## WebSub
+
+Every feed declares `rel="hub"` next to `rel="self"`, every indexable page carries
+`rel="hub"` and `rel="self"` in its head (`build-feed-links.mjs`), and
+`websub-ping.mjs` POSTs `hub.mode=publish` for the four XML feeds after the deploy.
+
+**Be honest about what this does.** It does not make Googlebot index faster. Google
+Search dropped WebSub as an indexing signal; its documented channels are the sitemap
+and, for job postings and livestreams only, the Indexing API. The real-time
+search-engine channel is IndexNow, which this site already runs and Google does not
+support. WebSub buys pushed updates for feed readers and aggregators, and less polling.
+
+- It runs **after** wrangler, like IndexNow, and for the same reason: the hub FETCHES
+  the feed the moment it is told to publish. Publishing first means it pushes the
+  previous build as new, and there is no retraction.
+- It fires only when the deploy changed something, read from the queue IndexNow
+  planned. A hub pinged on every no-op push learns to ignore the publisher.
+- Only the four XML feeds are published. `feed.json` carries a `hubs` array for the
+  readers that support it, but the hub will not serve JSON to an Atom subscriber.
+- It never fails the job. The deploy is already live and correct without the hub.
 
 ## IndexNow
 
