@@ -490,10 +490,11 @@ defined.
 - **`project/uploads/` is 45 tracked PDFs that deploy to the live site**, reachable at
   `https://www.blogkub.com/uploads/<name>.pdf`. They are internal design and feasibility
   documents from the original Claude Design handoff, several duplicated under two names.
-  Nothing links to them, so they are unlikely to be indexed, but they are downloadable by
-  anyone who guesses or crawls the URL, and they are in the public repo regardless. The
-  same argument already retired the internal `*.md` notes from `sync-public.mjs`. Ask
-  before removing them: it is the owner's content, not a defect.
+  They now carry `X-Robots-Tag: noindex, nofollow, noarchive` from `_headers`, so they
+  stay out of search results, but **they are still downloadable by anyone with the URL**,
+  and they are in the public repo regardless. Removing them from the deploy entirely, the
+  way `sync-public.mjs` already drops the internal `*.md` notes, is the owner's call. Ask
+  before doing it: it is their content, not a defect.
 - Three guides have no `og:image` at all: `learn/label-indexing`, `learn/create-page`,
   `learn/favicon`. They share nothing on social and carry no image in the feeds. Needs
   three images made, or a decision to point them at the default OG card.

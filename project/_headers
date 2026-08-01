@@ -70,6 +70,24 @@
 /ads.txt
   Content-Type: text/plain; charset=utf-8
 
+# --- Internal PDFs: served, but never indexed ---
+# project/uploads/ holds 45 internal design and feasibility documents that deploy
+# with the rest of the site, so they are fetchable at /uploads/<name>.pdf. Nothing
+# links to them, but "unlinked" is not "unfindable": a PDF can be indexed from an
+# external link, a shared URL, or a crawler that guesses.
+#
+# X-Robots-Tag rather than a robots.txt Disallow, for two reasons. A Disallow stops
+# the crawl, and a page that is never crawled is never told to leave the index, so a
+# PDF that somehow got in would be stuck there; noindex needs the fetch to succeed to
+# work. And robots.txt is public, so a Disallow line would advertise the very path it
+# is trying to keep quiet. PDFs have no <head>, so a response header is the only way
+# to mark them at all.
+#
+# The wildcard is at the END of the path. One that is not (/*.md) has already failed
+# two deploys; see CLAUDE.md.
+/uploads/*
+  X-Robots-Tag: noindex, nofollow, noarchive
+
 # --- Search engine ownership proof ---
 # Yandex checks this file byte for byte, so the file itself must not be edited.
 # It is 30 characters of text with no title and no canonical, which is exactly
