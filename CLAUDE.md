@@ -360,6 +360,35 @@ URLs with HTTP 200, then all four feeds published with HTTP 204, which is the su
 code the spec asks for rather than a generic 200. The `108 page(s) changed` line came
 from the real queue, so the gate works too.
 
+## Contact form
+
+`/contact` and `/en/contact` carry a form that POSTs JSON to `/api/contact`, handled by
+`worker/contact.js`. It is the only route on the site that does not end at
+`env.ASSETS.fetch`, and it is matched on exact path AND method, so a GET of the same URL
+still falls through to the static 404.
+
+- **Email Routing only RECEIVES.** It forwards hello@blogkub.com to a verified
+  destination. It cannot send, so the form sends through the `send_email` binding
+  (Email Workers), which is free and can only deliver to an address already verified on
+  the account. Nothing to steal: the only possible recipient is the owner's own inbox.
+- **The recipient is `env.CONTACT_TO`, not pinned in wrangler.jsonc**, because this repo
+  is public and the destination is a real mailbox. Set it with
+  `wrangler secret put CONTACT_TO`. Without it the endpoint answers 503 `unconfigured`
+  and the form tells the visitor to email directly, rather than pretending to send.
+- **A honeypot trip returns `ok:true`.** The sender sees the success screen and nothing
+  is sent, which makes a FALSE positive the worst failure here: a real message would
+  vanish while the person believed it arrived. That is why the hidden field is called
+  `cf_ref_x` and not `website`, which browser autofill recognises and would fill.
+- The timing gate needs `t` to be **present** and 3s to 24h old. The first version used
+  `Number(body.t || 0)`, which made a missing timestamp read as the epoch, so omitting
+  the field entirely skipped the check.
+- Header injection is handled by `oneLine` on every header value, and the subject is
+  RFC 2047 encoded and folded at a 39-byte budget per encoded word, which keeps the
+  first line at 73 characters including the `Subject: ` prefix. A 42-byte budget looked
+  right and produced 77, one over the limit.
+- If spam ever gets through, the next step is Cloudflare Turnstile, which needs a site
+  key from the dashboard. Do not reach for it before there is spam to stop.
+
 ## IndexNow
 
 - `indexnow-plan.mjs` hashes every built page, fetches previous hashes from

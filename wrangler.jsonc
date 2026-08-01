@@ -19,6 +19,17 @@
   "observability": {
     "enabled": true
   },
+  // Contact form. Email Routing on this domain only RECEIVES, so the form needs its
+  // own way to send; this binding is Email Workers, costs nothing, and can only
+  // deliver to an address already verified on the account.
+  //
+  // No "destination_address" here on purpose. Pinning it would put a real mailbox in
+  // a public repository. The recipient is read at runtime from CONTACT_TO, set with
+  // `wrangler secret put CONTACT_TO` or as a Worker variable in the dashboard. Without
+  // it the endpoint answers 503 "unconfigured" rather than pretending to send.
+  "send_email": [
+    { "name": "CONTACT_EMAIL" }
+  ],
   "main": "worker/index.js",
   "assets": {
     "directory": "site/dist",

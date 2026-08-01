@@ -9,6 +9,11 @@
  * It must not be able to take the site down. Every path ends at env.ASSETS.fetch, and
  * anything unexpected is caught and falls through to exactly the response the site
  * would have served without this Worker in front of it.
+ *
+ * One exception, added deliberately: POST /api/contact, handled by ./contact.js, which
+ * is the contact form. It is the only route that does not end at ASSETS. It is matched
+ * on exact path AND method, so a GET of the same URL still falls through to the static
+ * 404, and it catches its own errors and always answers with JSON.
  */
 
 /** Quality value the Accept header gives a media type, 0 if it is not acceptable. */
@@ -50,6 +55,14 @@ const withVary = (res) => {
 export default {
   async fetch(request, env) {
     try {
+      // The one endpoint on this site that is not a static asset. It is matched by
+      // exact path and method, it catches its own errors, and it always answers with
+      // JSON, so nothing about it can reach the asset path below.
+      if (request.method === 'POST' && new URL(request.url).pathname === '/api/contact') {
+        const { handleContact } = await import('./contact.js');
+        return await handleContact(request, env);
+      }
+
       const accept = request.headers.get('Accept') || '';
       if ((request.method === 'GET' || request.method === 'HEAD') && WANTS_MD(accept)) {
         const url = new URL(request.url);
