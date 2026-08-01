@@ -389,6 +389,10 @@ still falls through to the static 404.
 - If spam ever gets through, the next step is Cloudflare Turnstile, which needs a site
   key from the dashboard. Do not reach for it before there is spam to stop.
 
+Verified end to end on 2026-08-01 once CONTACT_TO was set: messages from both /contact
+and /en/contact arrived in the destination inbox, with the Thai body intact, and the
+Page line distinguishing which language page they came from.
+
 ## IndexNow
 
 - `indexnow-plan.mjs` hashes every built page, fetches previous hashes from
