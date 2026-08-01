@@ -152,6 +152,31 @@ Blocks without a scope also get an explicit 404 exclusion, unless they are in
 `SHOW_ON_ERROR` (header, footer, darkmode, notfound, themepicker, cookie, announce,
 bookmark, backtotop, translate).
 
+### What the exported theme puts in <head>
+
+`genXML()` emits, from Blogger's own variables so nothing user-specific is baked in:
+
+```
+<link expr:href='data:blog.canonicalHomepageUrl + "feeds/posts/default"' rel='alternate' type='application/atom+xml'/>
+<link ... "feeds/posts/default?alt=rss"          rel='alternate' type='application/rss+xml'/>
+<link ... "feeds/comments/default"               rel='alternate' type='application/atom+xml'/>
+<link href='https://pubsubhubbub.appspot.com/'   rel='hub'/>
+<link href='https://pubsubhubbub.superfeedr.com/' rel='hub'/>
+<link ... "feeds/posts/default"                  rel='self' type='application/atom+xml'/>
+```
+
+- **These used to be gated on `seo.siteUrl`.** A theme exported without a Site URL
+  typed into the SEO panel carried no feed links at all, and said nothing about it.
+  `data:blog.canonicalHomepageUrl` is right on blogspot.com and on a custom domain,
+  needs no input, and keeps the user's data out of the file.
+- **WebSub here is discovery only.** A Blogger theme is static markup with no backend,
+  so it cannot POST `hub.mode=publish` the way `websub-ping.mjs` does for this site.
+  Blogger is what notifies the hub when a post is published. The theme only says where
+  the hub and the topic are.
+- `rel='canonical'` is deliberately absent: `<b:include data='blog' name='all-head-content'/>`
+  is already in the head and Blogger injects canonical there. The QuestThai reference
+  theme does the same. Do not "fix" this by adding a second canonical.
+
 ### Templates
 
 Eight, all visible: `personal`, `travel`, `tech`, `sidebar-blog`, `magazine`, `company`,

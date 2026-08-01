@@ -4578,11 +4578,27 @@ og + "\n" +
 // Non-blocking font load (preload + onload swap, like both reference files)
 "<link as='style' href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' onload=\"this.onload=null;this.rel='stylesheet'\" rel='preload'/>\n" +
 "<noscript><link href='https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/></noscript>\n" +
-// RSS/Atom feeds · helps feed crawlers and freshness signals
-(seo.siteUrl
-  ? "<link href='" + esc(seo.siteUrl.replace(/\/?$/, "/")) + "feeds/posts/default' rel='alternate' title='" + esc(seo.blogTitle || "Blog") + " Atom' type='application/atom+xml'/>\n" +
-    "<link href='" + esc(seo.siteUrl.replace(/\/?$/, "/")) + "feeds/posts/default?alt=rss' rel='alternate' title='" + esc(seo.blogTitle || "Blog") + " RSS' type='application/rss+xml'/>\n"
-  : "") +
+// Feed discovery + WebSub, built from Blogger's own variables.
+//
+// These used to be emitted only when the user had typed a Site URL in the SEO
+// panel, so a theme exported without one carried no feed links at all, silently.
+// data:blog.canonicalHomepageUrl is the blog's real address, known to Blogger at
+// serve time, correct on blogspot.com and on a custom domain, and it keeps the
+// user's own data out of the exported file, which is the rule for this output.
+// The title comes from data:blog.title for the same reason.
+//
+// WebSub (rel="hub" + rel="self") is discovery only. A Blogger theme is static
+// markup with no backend, so it cannot POST hub.mode=publish to a hub the way
+// this site's own websub-ping.mjs does; Blogger is what notifies the hub when a
+// post is published. What the theme contributes is telling a subscriber where the
+// hub and the topic are. Two hubs, as the reference theme does: a subscriber
+// picks one, and appspot going quiet does not leave the feed unsubscribable.
+"<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/posts/default&quot;' expr:title='data:blog.title + &quot; Atom&quot;' rel='alternate' type='application/atom+xml'/>\n" +
+"<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/posts/default?alt=rss&quot;' expr:title='data:blog.title + &quot; RSS&quot;' rel='alternate' type='application/rss+xml'/>\n" +
+"<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/comments/default&quot;' expr:title='data:blog.title + &quot; Comments&quot;' rel='alternate' type='application/atom+xml'/>\n" +
+"<link href='https://pubsubhubbub.appspot.com/' rel='hub'/>\n" +
+"<link href='https://pubsubhubbub.superfeedr.com/' rel='hub'/>\n" +
+"<link expr:href='data:blog.canonicalHomepageUrl + &quot;feeds/posts/default&quot;' rel='self' type='application/atom+xml'/>\n" +
 "<b:if cond='data:view.isSingleItem'><b:if cond='data:view.featuredImage'><link expr:href='resizeImage(data:view.featuredImage,1200,\"1200:630\")' rel='preload' as='image' fetchpriority='high'/></b:if></b:if>\n" +
 schema + "\n" +
 "<b:skin><![CDATA[\n" + css + "\n]]></b:skin>\n" +
