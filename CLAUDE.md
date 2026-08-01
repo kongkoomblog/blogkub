@@ -467,12 +467,22 @@ session reads.
   not support IndexNow, so it needs the sitemap separately. BingSiteAuth is verified.
 - Request re-indexing of the homepage in Search Console, then wait. See site name below.
 
-### Needs one check after the next deploy
+### Verifying from this container no longer works
 
-A Worker now sits in front of the site for the first time, and it deployed green in
-f09df00. Confirm on the live site: a page with `Accept: text/markdown` comes back as
-markdown, `/learn/toc.md` opens with its Thai intact, and a normal page and an image are
-unchanged.
+`www.blogkub.com` is not in the egress allowlist: curl returns
+`Host not in allowlist` rather than a response. A `until curl ... ; do sleep` watch
+therefore never fires and looks exactly like a deploy that has not landed yet. Do not
+start one, and do not report a live check as pending when it is actually impossible.
+`gh` is not installed either, and the unauthenticated GitHub API rate limit is spent, so
+run status cannot be read from here. Ask the user for a screenshot of the Actions tab.
+
+Local verification still works and is what these changes were checked with:
+`npx wrangler dev --local` for anything touching `_headers` or the Worker, and
+Playwright against `/opt/pw-browsers/chromium-1194/chrome-linux/chrome` for anything
+that only exists after JavaScript runs.
+
+Deploys confirmed green by the user on 2026-08-01: fa307a0 (feeds), d63961b (uploads
+noindex), 5c4c80c (i18n).
 
 ### Waiting on Google, nothing left to change
 
