@@ -200,9 +200,12 @@ reachable only by direct URL. That has already happened once, to `label-indexing
 prebuild   sync-public.mjs         copy ./project into site/public, minus the
                                    internal *.md notes, which must not be deployed
 build      astro build
-postbuild  build-en-learn-hub -> build-hreflang -> build-markdown -> build-feeds
-           -> build-sitemaps -> indexnow-plan
+postbuild  build-en-learn-hub -> build-sitemap-page -> build-hreflang
+           -> build-markdown -> build-feeds -> build-sitemaps -> indexnow-plan
 ```
+
+`build-sitemap-page` runs before `build-hreflang` because the hreflang step has to
+tag the two pages it writes.
 
 Push to `main` triggers `.github/workflows/deploy.yml`: build, deploy through
 `cloudflare/wrangler-action`, then submit to IndexNow. **That workflow is the only thing
@@ -256,6 +259,32 @@ Things to know before touching it:
 The whole thing was verified with `npx wrangler dev --local` against a real build: every
 page and asset type byte-identical with a browser Accept, 404 handling intact, and the
 `.md` twins served for nine different Accept strings. Do that again after changing it.
+
+## Feeds
+
+Six files, three formats per language: `rss.xml`, `atom.xml`, `feed.json` at the root
+for Thai and under `/en/` for English. All six are rewritten from `dist` on every build
+by `build-feeds.mjs`, so a new article reaches them with no manual step.
+
+- **Sections are discovered, not listed.** Every subdirectory of a language root holding
+  at least one page with a canonical becomes a feed section. Hardcoding blog and learn
+  meant a new section would publish, land in the sitemap, and silently never reach a
+  subscriber. Add the new name to `SECTION_LABELS` for a proper `<category>`; the build
+  prints a NOTE until you do.
+- **`MAX_ITEMS` caps each feed at 50.** The feeds carry full article content and were
+  already 1.25 MB at 46 Thai articles, downloaded in full by every crawler every time.
+  `sitemap.xml` is the complete URL list, so nothing is lost.
+- **The script fails the build rather than publish a broken feed.** Empty channel,
+  duplicate canonical, an item from the wrong language, unterminated CDATA, a stray
+  `]]>` or a bare `&` outside CDATA all throw. A failed build leaves the live feeds
+  alone, which is the right outcome.
+- Output is byte-stable between builds of the same content, which IndexNow's change
+  detection depends on. Sorting has a URL tiebreaker for exactly that reason, and an
+  article with no `datePublished` used to fall back to the build time and churn the feed
+  on every deploy. The build now warns by name when that happens.
+- **Search Console does not accept JSON Feed** and reports it as an unsupported format.
+  That is correct, not a bug. Submit `rss.xml` or `atom.xml` there; `feed.json` is for
+  readers and agents.
 
 ## IndexNow
 
@@ -365,6 +394,16 @@ usually caused by something else.
 - **Nothing in `themeCSS()` may contain `]]>` or `</`.** The whole stylesheet ships inside
   `<b:skin><![CDATA[ ... ]]></b:skin>`, so either sequence ends the CDATA early and
   Blogger rejects the upload as malformed XML.
+- **Counting `<![CDATA[` against `]]>` is not a validity check.** An article that shows a
+  CDATA example, which this site does because Blogger themes are full of them, puts a
+  literal `<![CDATA[` inside the payload where it is ordinary text and opens nothing. The
+  counts then disagree on a document every parser accepts. It produced a false failure
+  the first time it ran. Walk the string the way a parser does instead: outside a section
+  find the next `<![CDATA[`, inside one find the next `]]>`. See `cdataClosed` in
+  `build-feeds.mjs`. Same family as the `<b:...>` tag-counting trap below.
+- **`sax` is present in `site/node_modules` as a transitive dependency**, so a real
+  strict XML parser is available for testing feeds and sitemaps without installing
+  anything. Do not import it from build scripts, since nothing declares it.
 - **jsdom always reports "Could not parse CSS stylesheet" when booting `builder.html`,**
   and a naive count of `<b:...>` open versus close tags always comes out uneven. Both are
   artefacts, not defects. Before reporting either as a regression, run the same check
@@ -439,6 +478,25 @@ defined.
   variables".
 - Category icons are stroke SVGs matching the nav, guessed from the category name in
   Thai or English.
+- English feeds exist at `/en/rss.xml`, `/en/atom.xml`, `/en/feed.json`. The generator
+  was then hardened; see the Feeds section.
+- `learn/label-indexing` was the only article with no Article-type JSON-LD node at all,
+  so it had no `datePublished` and no `dateModified`. TechArticle added in both
+  languages. It was found by the new feed warning, not by looking. This is the third
+  time this one article has turned out to be wired up differently from its siblings.
+
+### Worth deciding, not urgent
+
+- **`project/uploads/` is 45 tracked PDFs that deploy to the live site**, reachable at
+  `https://www.blogkub.com/uploads/<name>.pdf`. They are internal design and feasibility
+  documents from the original Claude Design handoff, several duplicated under two names.
+  Nothing links to them, so they are unlikely to be indexed, but they are downloadable by
+  anyone who guesses or crawls the URL, and they are in the public repo regardless. The
+  same argument already retired the internal `*.md` notes from `sync-public.mjs`. Ask
+  before removing them: it is the owner's content, not a defect.
+- Three guides have no `og:image` at all: `learn/label-indexing`, `learn/create-page`,
+  `learn/favicon`. They share nothing on social and carry no image in the feeds. Needs
+  three images made, or a decision to point them at the default OG card.
 
 ### Security
 

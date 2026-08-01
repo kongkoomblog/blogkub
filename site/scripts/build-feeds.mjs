@@ -11,24 +11,58 @@
  *
  * One set per language, not one mixed feed. A feed channel declares a single
  * <language>, and a subscriber who asked for the English blog should not receive
- * Thai articles in the same river. The English set reads dist/en/blog and
- * dist/en/learn; the Thai set reads dist/blog and dist/learn.
+ * Thai articles in the same river. The English set reads dist/en/**; the Thai set
+ * reads dist/**, minus the language directories.
  *
  * Three formats of one feed is not redundancy for its own sake. Search Console
  * accepts an RSS or Atom feed where it expects a sitemap, so these double as a
  * second, recency-ordered way to tell Google what changed. Atom is also what a
  * Blogger blog serves at /atom.xml, which is what readers arriving from that
- * world will try first.
+ * world will try first. JSON Feed is for readers and agents; Search Console does
+ * NOT accept it and rejects it as an unsupported format, which is expected and
+ * correct. Do not submit feed.json there.
  *
  * Wired via the "postbuild" npm script, so CI keeps the feeds in sync with
  * the deployed pages automatically.
+ *
+ * ------------------------------------------------------------------
+ * Everything below the CHANNELS table is about not breaking silently.
+ * A feed is the one output nobody looks at: it is read by machines, it is
+ * cached for an hour, and a malformed one fails in a subscriber's reader where
+ * we never see it. So this script would rather fail the build than deploy a
+ * broken feed. See `assertSane`, `xesc`, `cdata` and `verifyXml`.
+ * ------------------------------------------------------------------
  */
-import { readFileSync, writeFileSync, readdirSync, existsSync, mkdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, statSync, existsSync, mkdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 const DIST = 'dist';
 const SITE = 'https://www.blogkub.com';
 const NOW = new Date();
+
+/**
+ * Newest N articles per feed. The feeds carry FULL article content, so they grow
+ * without bound as articles are added: at 46 Thai articles the file is already
+ * 1.25 MB, and every subscriber and every crawler downloads all of it every time.
+ * Truncating loses nothing, because sitemap.xml is the complete URL list and is
+ * what Google actually crawls for coverage. A feed is a recency river, not an
+ * archive. Raise this only with the file size in mind.
+ */
+const MAX_ITEMS = 50;
+
+/**
+ * Directories under a language root that are not article sections. Everything
+ * else is discovered (see `discoverSections`), so a brand new section starts
+ * appearing in the feeds on its own instead of being silently absent. `en` and
+ * `th` are here so the Thai channel never swallows the English tree.
+ */
+const NOT_SECTIONS = new Set(['assets', 'en', 'th', 'uploads', 'scraps', 'images', 'og', '_astro']);
+
+/** Section label per language. An undiscovered section falls back to its own name. */
+const SECTION_LABELS = {
+  blog: { th: 'บล็อก', en: 'Blog' },
+  learn: { th: 'คู่มือฟีเจอร์', en: 'Feature guide' },
+};
 
 const CHANNELS = {
   th: {
@@ -38,7 +72,6 @@ const CHANNELS = {
     author: 'ภัทร์พิศาล ดาทอง (เบน)',
     authorEmail: 'hello@blogkub.com',
     logo: `${SITE}/android-chrome-512x512.png`,
-    catBlog: 'บล็อก', catLearn: 'คู่มือฟีเจอร์',
     readMore: 'อ่านบนเว็บ BlogKub →',
   },
   en: {
@@ -48,25 +81,73 @@ const CHANNELS = {
     author: 'Patpisan Dathong (Ben)',
     authorEmail: 'hello@blogkub.com',
     logo: `${SITE}/android-chrome-512x512.png`,
-    catBlog: 'Blog', catLearn: 'Feature guide',
     readMore: 'Read it on BlogKub →',
   },
 };
 
+/* ------------------------------------------------------------------ *
+ * XML safety
+ * ------------------------------------------------------------------ */
+
+/**
+ * XML 1.0 forbids most C0 control characters outright: there is no escape for
+ * them, so a single stray 0x0B in an article kills the whole document for every
+ * strict parser, which is every feed reader. Strip them before anything else.
+ */
+const stripCtl = (s) => String(s == null ? '' : s).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
+
+/** Escape for element text and attribute values. */
+const xesc = (s) => stripCtl(s)
+  .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  .replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+
+/**
+ * Wrap HTML in CDATA. `]]>` inside the payload would end the section early and
+ * leave raw markup in the document, so it is split across two sections, which is
+ * the standard trick and is invisible to the consumer. This site publishes code
+ * samples, and `<![CDATA[ ... ]]>` is itself one of the things a Blogger article
+ * teaches, so the sequence WILL appear in an article eventually. It has already
+ * broken the theme builder once for the same reason (see CLAUDE.md, themeCSS).
+ */
+const cdata = (s) => `<![CDATA[${stripCtl(s).replace(/\]\]>/g, ']]]]><![CDATA[>')}]]>`;
+
+/* ------------------------------------------------------------------ *
+ * Parsing the built pages
+ * ------------------------------------------------------------------ */
+
 const m1 = (re, s) => { const m = s.match(re); return m ? m[1].trim() : null; };
-const xesc = (s) => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
 const toDate = (d) => {
-  if (!d) return NOW;
+  if (!d) return null;
   const dt = new Date(/T\d/.test(d) ? d : `${d}T09:00:00+07:00`); // accept full ISO or bare date
-  return isNaN(dt) ? NOW : dt;
+  return isNaN(dt) ? null : dt;
 };
 const rfc822 = (dt) => dt.toUTCString().replace('GMT', '+0000');
 
 // root-relative href="/x" / src="/x" -> absolute; leave //, http(s):, #, mailto: alone
 const absolutize = (html) => html.replace(/(href|src)="(\/[^/][^"]*)"/g, (_, a, p) => `${a}="${SITE}${p}"`);
 
+const MIME = { png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', webp: 'image/webp', gif: 'image/gif', svg: 'image/svg+xml' };
+
+/**
+ * RSS <enclosure> requires type and length, and length must be the real byte
+ * count. It used to be hardcoded to 0 with type image/png, which validators flag
+ * and some readers use to decide whether to prefetch. The image is a local file
+ * in dist, so the real numbers are free to obtain.
+ */
+function enclosureOf(url) {
+  if (!url || !url.startsWith(`${SITE}/`)) return null;
+  const rel = url.slice(SITE.length + 1).split('?')[0];
+  const ext = (rel.split('.').pop() || '').toLowerCase();
+  const type = MIME[ext];
+  if (!type) return null;
+  let length = 0;
+  try { length = statSync(join(DIST, rel)).size; } catch { return null; } // missing file: no enclosure
+  return { url, type, length };
+}
+
 function articleContent(html) {
-  let m = html.match(/<article>([\s\S]*?)<\/article>/);
+  const m = html.match(/<article>([\s\S]*?)<\/article>/);
   if (!m) return '';
   let c = m[1];
   c = c.replace(/<aside class="author-box"[\s\S]*?<\/aside>/g, ''); // drop redundant author box
@@ -74,42 +155,178 @@ function articleContent(html) {
   return absolutize(c).trim();
 }
 
-function collect(base, dir, kind, L) {
+/**
+ * Every immediate subdirectory of a language root that holds at least one
+ * article page. Hardcoding ['blog','learn'] meant a new section would publish,
+ * appear in the sitemap, and quietly never reach a single subscriber. Discovery
+ * has no such failure mode, and the labels below only affect the <category>.
+ */
+function discoverSections(base) {
+  const root = base ? join(DIST, base) : DIST;
+  let entries;
+  try { entries = readdirSync(root, { withFileTypes: true }); } catch { return []; }
+  return entries
+    .filter((e) => e.isDirectory() && !NOT_SECTIONS.has(e.name))
+    .map((e) => e.name)
+    .filter((name) => {
+      try {
+        return readdirSync(join(root, name)).some((f) => {
+          if (!f.endsWith('.html') || f === 'index.html') return false;
+          return /rel="canonical"/.test(readFileSync(join(root, name, f), 'utf8'));
+        });
+      } catch { return false; }
+    })
+    .sort();
+}
+
+function collect(base, section, L, warn) {
   const out = [];
-  const full = join(DIST, base, dir);
+  const full = join(DIST, base, section);
   let files;
-  try { files = readdirSync(full); } catch { return out; }
+  try { files = readdirSync(full).sort(); } catch { return out; }
+
+  const label = (SECTION_LABELS[section] && SECTION_LABELS[section][L.lang]) || section;
+
   for (const name of files) {
     if (!name.endsWith('.html') || name === 'index.html') continue;
     const h = readFileSync(join(full, name), 'utf8');
+
     const robots = m1(/name="robots" content="([^"]+)"/, h) || '';
     if (/noindex/.test(robots)) continue;
+
     const url = m1(/rel="canonical" href="([^"]+)"/, h);
-    if (!url) continue;
-    const pub = m1(/"datePublished":\s*"([^"]+)"/, h);
-    const mod = m1(/"dateModified":\s*"([^"]+)"/, h) || pub;
+    if (!url) { warn(`${base}/${section}/${name}: no canonical, skipped`); continue; }
+
+    const title = m1(/property="og:title" content="([^"]+)"/, h) || m1(/<title>([\s\S]*?)<\/title>/, h);
+    const content = articleContent(h);
+    if (!title) { warn(`${url}: no title, skipped`); continue; }
+    if (!content) { warn(`${url}: no <article> content, skipped`); continue; }
+
+    const pub = toDate(m1(/"datePublished":\s*"([^"]+)"/, h));
+    const mod = toDate(m1(/"dateModified":\s*"([^"]+)"/, h)) || pub;
+    if (!pub) warn(`${url}: no datePublished, using build time (feed will differ every build)`);
+
+    const image = m1(/property="og:image" content="([^"]+)"/, h);
+
     out.push({
-      url, kind,
-      title: m1(/property="og:title" content="([^"]+)"/, h) || m1(/<title>([\s\S]*?)<\/title>/, h),
+      url, section, title,
       desc: m1(/name="description" content="([^"]+)"/, h) || '',
-      image: m1(/property="og:image" content="([^"]+)"/, h),
-      content: articleContent(h),
-      published: pub ? toDate(pub) : NOW,
-      modified: mod ? toDate(mod) : NOW,
-      category: kind === 'blog' ? L.catBlog : L.catLearn,
+      image,
+      enclosure: enclosureOf(image),
+      content,
+      published: pub || NOW,
+      modified: mod || pub || NOW,
+      category: label,
     });
   }
   return out;
 }
+
+/* ------------------------------------------------------------------ *
+ * Guards
+ * ------------------------------------------------------------------ */
+
+/**
+ * Fail the build rather than publish a feed that is empty or duplicated. An
+ * empty feed is indistinguishable from "the site has no articles" to a reader,
+ * and it would overwrite a good one that is already live.
+ */
+function assertSane(L, items) {
+  if (!items.length) throw new Error(`feeds[${L.lang}]: 0 items. Refusing to publish an empty feed.`);
+  const seen = new Set();
+  for (const it of items) {
+    if (seen.has(it.url)) throw new Error(`feeds[${L.lang}]: duplicate canonical ${it.url}`);
+    seen.add(it.url);
+  }
+  const wrongLang = items.filter((it) => (L.dir ? !it.url.startsWith(`${SITE}/en/`) : it.url.startsWith(`${SITE}/en/`)));
+  if (wrongLang.length) throw new Error(`feeds[${L.lang}]: ${wrongLang.length} item(s) from the other language, first: ${wrongLang[0].url}`);
+}
+
+/**
+ * Walk the document the way a parser does: outside a CDATA section look for the
+ * next `<![CDATA[`, inside one look for the next `]]>`. Every section must be
+ * closed by the end.
+ *
+ * Counting `<![CDATA[` against `]]>` instead looks equivalent and is not. An
+ * article that *shows* a CDATA example, which this site does because Blogger
+ * themes are full of them, puts a literal `<![CDATA[` inside the payload where
+ * it is ordinary text and opens nothing. The counts then disagree on a document
+ * that is perfectly well formed. That naive version produced a false failure the
+ * first time it was tested, which is the same trap as counting `<b:...>` tags.
+ */
+function cdataClosed(s) {
+  let i = 0, inside = false;
+  for (;;) {
+    if (!inside) {
+      const n = s.indexOf('<![CDATA[', i);
+      if (n < 0) return true;
+      inside = true; i = n + 9;
+    } else {
+      const n = s.indexOf(']]>', i);
+      if (n < 0) return false;
+      inside = false; i = n + 3;
+    }
+  }
+}
+
+/**
+ * A structural smoke test on what was just written. Not a full parser, but it
+ * catches the failure modes this generator can actually produce: an unbalanced
+ * or prematurely closed CDATA section, and a bare `&` or `<` in the markup
+ * outside one. Both make the document unparseable for every reader, and both
+ * come from article content rather than from this file, so they cannot be ruled
+ * out by reading the code.
+ */
+function verifyXml(path, expectedItems, itemTag) {
+  const s = readFileSync(path, 'utf8');
+
+  if (!cdataClosed(s)) throw new Error(`${path}: unterminated CDATA section`);
+
+  const count = (s.match(new RegExp(`<${itemTag}>`, 'g')) || []).length;
+  if (count !== expectedItems) throw new Error(`${path}: wrote ${count} <${itemTag}>, expected ${expectedItems}`);
+
+  // Blank out every CDATA payload, then the remaining markup must be clean.
+  const skeleton = s.replace(/<!\[CDATA\[[\s\S]*?\]\]>/g, '');
+  if (skeleton.includes(']]>')) throw new Error(`${path}: stray ]]> outside a CDATA section`);
+  const badAmp = skeleton.match(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/);
+  if (badAmp) throw new Error(`${path}: unescaped & near "${skeleton.slice(Math.max(0, badAmp.index - 60), badAmp.index + 60)}"`);
+  if (!s.startsWith('<?xml version="1.0" encoding="UTF-8"?>')) throw new Error(`${path}: missing XML declaration`);
+  if (/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/.test(s)) throw new Error(`${path}: control character in output`);
+}
+
+function verifyJson(path, expectedItems) {
+  const j = JSON.parse(readFileSync(path, 'utf8')); // throws on malformed
+  if (j.items.length !== expectedItems) throw new Error(`${path}: wrote ${j.items.length} items, expected ${expectedItems}`);
+  if (j.version !== 'https://jsonfeed.org/version/1.1') throw new Error(`${path}: wrong JSON Feed version`);
+}
+
+/* ------------------------------------------------------------------ *
+ * Emit
+ * ------------------------------------------------------------------ */
 
 function emit(L) {
   const OUT = L.dir ? join(DIST, L.dir) : DIST;
   const BASE = L.dir ? `${SITE}/${L.dir}` : SITE;
   if (!existsSync(OUT)) mkdirSync(OUT, { recursive: true });
 
-  const items = [...collect(L.dir, 'blog', 'blog', L), ...collect(L.dir, 'learn', 'learn', L)];
-  items.sort((a, b) => b.modified - a.modified);
-  const lastBuild = items.length ? items[0].modified : NOW;
+  const warnings = [];
+  const warn = (m) => warnings.push(m);
+
+  const sections = discoverSections(L.dir);
+  const unlabelled = sections.filter((s) => !SECTION_LABELS[s]);
+
+  let items = sections.flatMap((s) => collect(L.dir, s, L, warn));
+
+  // Newest first. The URL tiebreaker keeps the output byte-identical between two
+  // builds of the same content, which is what IndexNow's change detection and
+  // the hourly cache both depend on.
+  items.sort((a, b) => (b.modified - a.modified) || (a.url < b.url ? -1 : a.url > b.url ? 1 : 0));
+
+  assertSane(L, items);
+
+  const total = items.length;
+  items = items.slice(0, MAX_ITEMS);
+  const lastBuild = items[0].modified;
 
 /* ---------- RSS 2.0 (full content) ---------- */
   const rssItems = items.map((it) => `    <item>
@@ -120,9 +337,9 @@ function emit(L) {
       <dc:creator>${xesc(L.author)}</dc:creator>
       <category>${xesc(it.category)}</category>
       <description>${xesc(it.desc)}</description>
-${it.image ? `      <enclosure url="${xesc(it.image)}" type="image/png" length="0"/>
-      <media:content url="${xesc(it.image)}" medium="image" type="image/png"/>
-` : ''}      <content:encoded><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">${L.readMore}</a></p>]]></content:encoded>
+${it.enclosure ? `      <enclosure url="${xesc(it.enclosure.url)}" type="${it.enclosure.type}" length="${it.enclosure.length}"/>
+      <media:content url="${xesc(it.enclosure.url)}" medium="image" type="${it.enclosure.type}"/>
+` : ''}      <content:encoded>${cdata(`${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">${L.readMore}</a></p>`)}</content:encoded>
     </item>`).join('\n');
 
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
@@ -142,7 +359,7 @@ ${it.image ? `      <enclosure url="${xesc(it.image)}" type="image/png" length="
     <webMaster>${L.authorEmail} (${xesc(L.author)})</webMaster>
     <lastBuildDate>${rfc822(lastBuild)}</lastBuildDate>
     <generator>BlogKub feed builder</generator>
-    <ttl>360</ttl>
+    <ttl>60</ttl>
     <image><url>${L.logo}</url><title>${xesc(L.title)}</title><link>${L.home}</link></image>
 ${rssItems}
   </channel>
@@ -151,30 +368,31 @@ ${rssItems}
   writeFileSync(join(OUT, 'rss.xml'), rss);
 
 /* ---------- JSON Feed 1.1 (full content) ---------- */
+  const authors = [{ name: L.author, url: L.dir ? `${SITE}/en/about` : `${SITE}/about` }];
   const jsonFeed = {
-  version: 'https://jsonfeed.org/version/1.1',
-  title: L.title,
-  home_page_url: L.home,
-  feed_url: `${BASE}/feed.json`,
-  description: L.desc,
-  language: L.lang,
-  icon: L.logo,
-  favicon: `${SITE}/favicon-32x32.png`,
-  authors: [{ name: L.author, url: L.dir ? `${SITE}/en/about` : `${SITE}/about` }],
-  items: items.map((it) => ({
-    id: it.url,
-    url: it.url,
-    title: it.title,
-    summary: it.desc,
-    content_html: (it.image ? `<p><img src="${it.image}" alt="${it.title}"/></p>` : '') + it.content,
-    image: it.image || undefined,
-    banner_image: it.image || undefined,
-    date_published: it.published.toISOString(),
-    date_modified: it.modified.toISOString(),
-    authors: [{ name: L.author, url: L.dir ? `${SITE}/en/about` : `${SITE}/about` }],
-    tags: [it.category],
-  })),
-};
+    version: 'https://jsonfeed.org/version/1.1',
+    title: L.title,
+    home_page_url: L.home,
+    feed_url: `${BASE}/feed.json`,
+    description: L.desc,
+    language: L.lang,
+    icon: L.logo,
+    favicon: `${SITE}/favicon-32x32.png`,
+    authors,
+    items: items.map((it) => ({
+      id: it.url,
+      url: it.url,
+      title: it.title,
+      summary: it.desc,
+      content_html: (it.image ? `<p><img src="${it.image}" alt="${it.title}"/></p>` : '') + it.content,
+      image: it.image || undefined,
+      banner_image: it.image || undefined,
+      date_published: it.published.toISOString(),
+      date_modified: it.modified.toISOString(),
+      authors,
+      tags: [it.category],
+    })),
+  };
   writeFileSync(join(OUT, 'feed.json'), JSON.stringify(jsonFeed, null, 2) + '\n');
 
 /* ---------- Atom 1.0 (full content) ---------- */
@@ -189,7 +407,7 @@ ${rssItems}
     <author><name>${xesc(L.author)}</name><email>${L.authorEmail}</email></author>
     <category term="${xesc(it.category)}"/>
     <summary type="text">${xesc(it.desc)}</summary>
-${it.image ? `    <link rel="enclosure" type="image/png" href="${xesc(it.image)}"/>\n` : ''}    <content type="html"><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">${L.readMore}</a></p>]]></content>
+${it.enclosure ? `    <link rel="enclosure" type="${it.enclosure.type}" length="${it.enclosure.length}" href="${xesc(it.enclosure.url)}"/>\n` : ''}    <content type="html">${cdata(`${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">${L.readMore}</a></p>`)}</content>
   </entry>`).join('\n');
 
   writeFileSync(join(OUT, 'atom.xml'), `<?xml version="1.0" encoding="UTF-8"?>
@@ -209,7 +427,15 @@ ${atomEntries}
 </feed>
 `);
 
-  console.log(`feeds[${L.lang}]: ${items.length} items with FULL content -> ${OUT}/rss.xml, atom.xml, feed.json`);
+/* ---------- verify what was written, before anything ships ---------- */
+  verifyXml(join(OUT, 'rss.xml'), items.length, 'item');
+  verifyXml(join(OUT, 'atom.xml'), items.length, 'entry');
+  verifyJson(join(OUT, 'feed.json'), items.length);
+
+  const capped = total > items.length ? ` (capped from ${total})` : '';
+  console.log(`feeds[${L.lang}]: ${items.length} items${capped} from [${sections.join(', ')}] -> ${OUT}/rss.xml, atom.xml, feed.json`);
+  for (const s of unlabelled) console.log(`feeds[${L.lang}]: NOTE new section "${s}" included; add it to SECTION_LABELS for a proper <category>`);
+  for (const w of warnings) console.log(`feeds[${L.lang}]: WARN ${w}`);
 }
 
 for (const L of [CHANNELS.th, CHANNELS.en]) emit(L);
