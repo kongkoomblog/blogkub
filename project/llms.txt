@@ -90,4 +90,5 @@ Key facts for accurate citation:
 - [Terms of Service](https://www.blogkub.com/terms)
 - [XML Sitemap](https://www.blogkub.com/sitemap.xml)
 - [RSS Feed](https://www.blogkub.com/rss.xml): all blog + learn articles, newest first, with full content.
+- [Atom Feed](https://www.blogkub.com/atom.xml): the same feed in Atom 1.0.
 - [JSON Feed](https://www.blogkub.com/feed.json): the same feed in JSON Feed 1.1 format.

@@ -39,7 +39,11 @@
   Cache-Control: public, max-age=3600
 /feed.json
   Cache-Control: public, max-age=3600
+/atom.xml
+  Cache-Control: public, max-age=3600
 /sitemap.xml
+  Cache-Control: public, max-age=3600
+/sitemap-pages.xml
   Cache-Control: public, max-age=3600
 /sitemap-images.xml
   Cache-Control: public, max-age=3600

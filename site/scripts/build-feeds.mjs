@@ -6,7 +6,14 @@
  * extracts each article's FULL content (links/images made absolute), and
  * writes:
  *   dist/rss.xml   RSS 2.0 with <content:encoded> = the whole article
+ *   dist/atom.xml  Atom 1.0 with the same content
  *   dist/feed.json JSON Feed 1.1 with content_html = the whole article
+ *
+ * Three formats of one feed is not redundancy for its own sake. Search Console
+ * accepts an RSS or Atom feed where it expects a sitemap, so these double as a
+ * second, recency-ordered way to tell Google what changed. Atom is also what a
+ * Blogger blog serves at /atom.xml, which is what readers arriving from that
+ * world will try first.
  *
  * Wired via the "postbuild" npm script, so CI keeps the feeds in sync with
  * the deployed pages automatically.
@@ -146,4 +153,36 @@ const jsonFeed = {
 };
 writeFileSync(join(DIST, 'feed.json'), JSON.stringify(jsonFeed, null, 2) + '\n');
 
-console.log(`feeds: ${items.length} items with FULL content -> dist/rss.xml, dist/feed.json`);
+/* ---------- Atom 1.0 (full content) ---------- */
+// Atom dates are RFC 3339, which is what toISOString already produces. Every entry
+// needs its own <id>; the canonical URL is stable and unique, so it serves.
+const atomEntries = items.map((it) => `  <entry>
+    <title type="text">${xesc(it.title)}</title>
+    <link rel="alternate" type="text/html" href="${xesc(it.url)}"/>
+    <id>${xesc(it.url)}</id>
+    <published>${it.published.toISOString()}</published>
+    <updated>${it.modified.toISOString()}</updated>
+    <author><name>${xesc(CHANNEL.author)}</name><email>${CHANNEL.authorEmail}</email></author>
+    <category term="${xesc(it.category)}"/>
+    <summary type="text">${xesc(it.desc)}</summary>
+${it.image ? `    <link rel="enclosure" type="image/png" href="${xesc(it.image)}"/>\n` : ''}    <content type="html"><![CDATA[${it.image ? `<p><img src="${it.image}" alt="${it.title}" style="max-width:100%;height:auto"/></p>` : ''}${it.content}<p><a href="${it.url}">อ่านบนเว็บ BlogKub →</a></p>]]></content>
+  </entry>`).join('\n');
+
+writeFileSync(join(DIST, 'atom.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="${CHANNEL.lang}">
+  <title type="text">${xesc(CHANNEL.title)}</title>
+  <subtitle type="text">${xesc(CHANNEL.desc)}</subtitle>
+  <link rel="self" type="application/atom+xml" href="${SITE}/atom.xml"/>
+  <link rel="alternate" type="text/html" href="${SITE}/"/>
+  <id>${SITE}/</id>
+  <updated>${lastBuild.toISOString()}</updated>
+  <rights>© ${NOW.getFullYear()} BlogKub</rights>
+  <icon>${CHANNEL.logo}</icon>
+  <logo>${CHANNEL.logo}</logo>
+  <generator uri="${SITE}/">BlogKub feed builder</generator>
+  <author><name>${xesc(CHANNEL.author)}</name><email>${CHANNEL.authorEmail}</email><uri>${SITE}/about</uri></author>
+${atomEntries}
+</feed>
+`);
+
+console.log(`feeds: ${items.length} items with FULL content -> dist/rss.xml, dist/atom.xml, dist/feed.json`);

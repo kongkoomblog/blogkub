@@ -5,7 +5,14 @@
  * Scans the built dist/ for every indexable page (has a canonical, not
  * noindex) and writes:
  *   dist/sitemap.xml         urlset (sitemaps.org 0.9) + hreflang on the homepages
+ *   dist/sitemap-pages.xml   the standalone pages only, as a second submission
  *   dist/sitemap-images.xml  image sitemap (Google image extension)
+ *
+ * sitemap.xml stays the complete list. sitemap-pages.xml is a subset of it, which
+ * the protocol allows, and exists because Search Console reports coverage per
+ * submitted sitemap: submitting a narrow one is the only way to see whether a
+ * particular section is being indexed rather than reading one number for the whole
+ * site. Nothing here is split for size; at ~106 URLs the 50,000 limit is far off.
  *
  * Because it reads the actual built output, the sitemap can never drift out
  * of sync with the pages again.
@@ -92,6 +99,29 @@ ${urls}
 </urlset>
 `);
 
+/* ---- sitemap-pages.xml ---- */
+// The pages that are not articles: both homepages, the two hubs, and the standing
+// pages. Articles live under /blog/<slug> and /learn/<slug> and are excluded, which
+// is what makes this readable as its own coverage report.
+const isPage = (u) => {
+  const p = u.slice(SITE.length) || '/';
+  const t = p.startsWith('/en/') ? p.slice(3) : p;
+  return t === '/' || t === '/learn/' || t === '/blog/'
+    || ['/about', '/contact', '/privacy', '/terms'].includes(t);
+};
+const pageUrls = pages.filter((p) => isPage(p.url));
+writeFileSync(join(DIST, 'sitemap-pages.xml'), `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+${pageUrls.map((p) => `  <url>
+    <loc>${xesc(p.url)}</loc>
+${altBlock(p.url)}    <lastmod>${p.lastmod}</lastmod>
+    <changefreq>${p.cf}</changefreq>
+    <priority>${p.pr}</priority>
+  </url>`).join('\n')}
+</urlset>
+`);
+
 /* ---- sitemap-images.xml ---- */
 const imgUrls = pages.filter((p) => p.images.length).map((p) => `  <url>
     <loc>${xesc(p.url)}</loc>
@@ -104,4 +134,4 @@ ${imgUrls}
 </urlset>
 `);
 
-console.log(`sitemaps: ${pages.length} urls -> dist/sitemap.xml (+ images) `);
+console.log(`sitemaps: ${pages.length} urls -> dist/sitemap.xml, ${pageUrls.length} -> dist/sitemap-pages.xml (+ images)`);
