@@ -650,6 +650,13 @@ defined.
   and they are in the public repo regardless. Removing them from the deploy entirely, the
   way `sync-public.mjs` already drops the internal `*.md` notes, is the owner's call. Ask
   before doing it: it is their content, not a defect.
+- **BIMI was considered and declined on 2026-08-02.** The DNS record is free, but a
+  logo only appears if a VMC or CMC certificate backs it, and Gmail, Yahoo and Apple all
+  require one. That is roughly 1,000 to 1,500 USD a year, a VMC additionally needs a
+  registered trademark, and a CMC needs 12 months of documented logo use, which a site
+  this young does not have. It is a branding feature and does nothing for inbox
+  placement, which was the actual problem being worked on. Do not re-propose it without
+  a specific reason.
 - Three guides have no `og:image` at all: `learn/label-indexing`, `learn/create-page`,
   `learn/favicon`. They share nothing on social and carry no image in the feeds. Needs
   three images made, or a decision to point them at the default OG card.
