@@ -2200,7 +2200,7 @@
           + '</div></div>';
       case "share":
         var shs = SHARE_NETS.filter(function (n) { return p[n.key]; });
-        if (p.copy) shs = shs.concat([{ key: "copy", name: tpl("คัดลอกลิงก์", "Copy link"), color: "#6366f1" }]);
+        if (p.copy) shs = shs.concat([{ key: "copy", name: tpl("คัดลอกลิงก์", "Copy link"), color: pr }]);
         var shPill = function (n) {
           return '<span style="padding:9px 15px;background:' + n.color + ';color:#fff;border-radius:999px;'
             + 'font-weight:600;font-size:13px;line-height:1;display:inline-flex;align-items:center;gap:7px">'
@@ -2210,7 +2210,7 @@
         return '<div style="padding:22px 24px">'
           + '<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:14px 16px;background:#f5f6fa;border:1px solid #e8eaf2;border-radius:' + r + '">'
           + (p.label ? '<span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#828aa0;white-space:nowrap">'
-              + '<span style="width:14px;height:14px;display:inline-flex;fill:' + (S.design.primary || "#6366f1") + '">' + shareMark("share") + '</span>'
+              + '<span style="width:14px;height:14px;display:inline-flex;fill:' + pr + '">' + shareMark("share") + '</span>'
               + esc(p.label) + '</span>' : '')
           + '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' + shs.map(shPill).join("") + '</div>'
           + '</div></div>';
