@@ -5457,7 +5457,7 @@ tplStyleVars(),
 /* share buttons */
 /* pager */
 ".blog-pager a{position:relative;overflow:hidden}",
-"@media(prefers-reduced-motion:reduce){.post-title,.bxb-share-btn::after{animation:none!important}}",
+"@media(prefers-reduced-motion:reduce){.post-title{animation:none!important}}",
 
 /* ═══════════ SIGNATURE ART DIRECTION · เอกลักษณ์เฉพาะตัวของแต่ละแม่แบบ (CSS ล้วน) ═══════════ */
 
