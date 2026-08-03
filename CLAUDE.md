@@ -126,9 +126,26 @@ themes. The Thai retailer name in the affiliate store map is a brand and stays T
 6 related / morefrom / stories   7 notfound   8 footer   9 bottom utilities
 ```
 
-Three blocks bypass this entirely. `toc`, `aeo`, and `breadcrumb` are injected **inline
-into the post includable**, because `data:post.*` and `data:view.description` are only
-in scope inside the post loop. Outside it they are undefined and the block renders empty.
+Four blocks bypass this entirely. `toc`, `aeo`, `breadcrumb` and `share` are injected
+**inline into the post includable**. The first three have to be: `data:post.*` and
+`data:view.description` are only in scope inside the post loop, and outside it they are
+undefined and the block renders empty. `share` is there because its position is pinned
+to the post rather than dragged, and it is the only one of the four that can appear
+twice.
+
+`share.props.pos` is `top`, `bottom` or `both`.
+
+- `bottom` sits after the `.post-body` div and before the comments include.
+- `top` is the **first child of `.post-body`**, which is one insertion point serving two
+  requirements: it lands above the AEO summary box on every template, and below the
+  affiliate store bar on the review template, because that bar is inserted at
+  `post-body.firstChild` by the affiliate script at runtime and so pushes in above
+  whatever is already there. Do not "fix" this by adding JS to reposition the card.
+- The card markup and its behaviour are emitted separately, by `shareCardHtml(p, where)`
+  and `shareScriptHtml(p)`. With `both` there are two cards and still exactly one script,
+  which binds every `[data-share]` and `.bxb-copy-btn` on the page.
+- `share` is now in `SINGLETON_BLOCKS`. A project saved before that could hold two, and
+  the export takes the first and silently ignores the second.
 
 `POST_BLOCKS` (postgrid, postlist, featured) mark where the Blog widget goes.
 `UTIL_BOTTOM` blocks are floating or global UI and sort to the end.
