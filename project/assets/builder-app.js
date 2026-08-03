@@ -133,7 +133,7 @@
     var sel = CALLOUT_TYPES.map(function (t) { return ".bk-" + t.k; }).join(",");
     var css = sel + "{position:relative;margin:1.25rem 0;padding:14px 18px 14px 48px;border-radius:0 10px 10px 0;line-height:1.65;font-style:normal;color:var(--text-main,#1e2333);overflow-wrap:anywhere}";
     css += CALLOUT_TYPES.map(function (t) { return ".bk-" + t.k + "::before"; }).join(",") + "{content:'';position:absolute;left:14px;top:13px;width:22px;height:22px;background-repeat:no-repeat;background-position:center;background-size:contain}";
-    css += sel + " a{color:var(--link-color,#2563eb)}";
+    css += sel + " a{color:var(--primary,#2563eb)}";
     css += sel + ">:first-child{margin-top:0}" + sel + ">:last-child{margin-bottom:0}";
     CALLOUT_TYPES.forEach(function (t) {
       css += ".bk-" + t.k + "{background:" + hexRgba(t.c, ".1") + ";border-left:4px solid " + t.c + "}";
@@ -3616,7 +3616,7 @@
       + ".bxb-aff-lm[data-n='2']{font-size:8.5px}"
       // ── product gallery ──
       + ".bxb-gal{margin:0 0 18px}"
-      + ".bxb-gal-main{position:relative;border-radius:14px;overflow:hidden;background:var(--surface-2,#f1f3f8);border:1px solid var(--border-soft,rgba(128,128,128,.18))}"
+      + ".bxb-gal-main{position:relative;border-radius:14px;overflow:hidden;background:var(--bg-surface-2,#f1f3f8);border:1px solid var(--border,rgba(128,128,128,.18))}"
       + ".bxb-gal-main>img{display:block;width:100%;height:auto;margin:0;cursor:zoom-in}"
       + ".bxb-gal-nav{position:absolute;top:50%;transform:translateY(-50%);width:34px;height:34px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;background:rgba(15,23,42,.55);color:#fff;font-size:19px;line-height:1;transition:background .15s;-webkit-tap-highlight-color:transparent}"
       + ".bxb-gal-nav:hover{background:rgba(15,23,42,.8)}"
@@ -3624,7 +3624,7 @@
       + ".bxb-gal-count{position:absolute;right:10px;bottom:10px;background:rgba(15,23,42,.72);color:#fff;font-size:11.5px;font-weight:600;padding:3px 10px;border-radius:99px;pointer-events:none}"
       + ".bxb-gal-zoom{position:absolute;left:10px;bottom:10px;background:rgba(15,23,42,.72);color:#fff;font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:99px;display:inline-flex;align-items:center;gap:5px;pointer-events:none}"
       + ".bxb-gal-thumbs{display:flex;gap:7px;margin-top:7px;overflow-x:auto;scrollbar-width:thin;padding-bottom:2px}"
-      + ".bxb-gal-th{flex:none;width:64px;height:50px;padding:0;border-radius:8px;overflow:hidden;border:2px solid transparent;background:var(--surface-2,#eef1f7);cursor:pointer;transition:border-color .15s,opacity .15s;opacity:.72}"
+      + ".bxb-gal-th{flex:none;width:64px;height:50px;padding:0;border-radius:8px;overflow:hidden;border:2px solid transparent;background:var(--bg-surface-2,#eef1f7);cursor:pointer;transition:border-color .15s,opacity .15s;opacity:.72}"
       + ".bxb-gal-th>img{width:100%;height:100%;object-fit:cover;display:block;margin:0}"
       + ".bxb-gal-th.on{border-color:var(--primary,#6366f1);opacity:1}"
       + ".bxb-gal-th:hover{opacity:1}"
@@ -6542,9 +6542,9 @@ tplStyleVars(),
       case "aeo":
         var aeoTitle = esc(p.title || "สรุปบทความ");
         var aeoCSS = p.style === "highlight"
-          ? "margin:20px 0;padding:18px 22px;background:var(--accent,#8b5cf6)0d;border-left:4px solid var(--accent,#8b5cf6);border-radius:0 var(--radius,8px) var(--radius,8px) 0"
+          ? "margin:20px 0;padding:18px 22px;border-left:4px solid var(--accent,#8b5cf6);border-radius:0 var(--radius,8px) var(--radius,8px) 0"
           : p.style === "minimal" ? "margin:20px 0;padding:14px 0;border-top:2px solid var(--primary);border-bottom:1px solid #eef"
-          : "margin:20px 0;padding:18px 22px;background:var(--primary)0d;border:1px solid var(--primary)22;border-radius:var(--radius,8px)";
+          : "margin:20px 0;padding:18px 22px 18px 0";
         // Summary text (server-side, no AI/API): data:view.description holds this post's
         // Search Description on item pages (same value Blogger renders into <meta name=description>).
         // data:post.metaDescription does NOT exist as a Blogger tag, which is why it was blank.

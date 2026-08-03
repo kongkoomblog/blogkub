@@ -641,6 +641,21 @@ usually caused by something else.
   the blob `border-radius` keeps its slash form, `transform` keeps the space between two
   functions, and `nth-child(3n+1)`, `clip-path`, `mask-image` and
   `repeating-linear-gradient` all come through whole.
+- **`var(--primary)20` is not a colour.** A CSS custom property cannot have hex alpha
+  concatenated onto it; the parser drops the whole declaration and says nothing. The file
+  still carries about 22 of these, so those gradients, tints and coloured shadows have
+  never rendered. `color-mix(in srgb,var(--primary) 13%,transparent)` is the working form
+  and is already used elsewhere in the same file. Do not "restore" them all in one go
+  without asking: they are decoration nobody has ever seen, and switching them on changes
+  how every template looks.
+- **A `var()` that names a property nobody defines silently takes its fallback.** The
+  theme defines 26 custom properties; `--surface-2`, `--border-soft` and `--link-color`
+  were referenced and never defined, so the image gallery kept a light grey frame in dark
+  mode and every callout link was a fixed blue whatever the blog's colour. The names that
+  exist are in the `:root` rule in `themeCSS()`; `--bg-surface-2` and `--border` are the
+  real ones. `--ic-color` is referenced-but-undefined on purpose: each social link sets it
+  inline. To audit, diff the `(--x):` definitions against the `var(--x)` uses in the
+  exported XML.
 - **Nothing in `themeCSS()` may contain `]]>` or `</`.** The whole stylesheet ships inside
   `<b:skin><![CDATA[ ... ]]></b:skin>`, so either sequence ends the CDATA early and
   Blogger rejects the upload as malformed XML.
