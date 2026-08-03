@@ -520,6 +520,16 @@ usually caused by something else.
 - **`b\.textContent` matches the tail of `lb.textContent`.** A check for the old copy
   handler reported the bug still present in code that no longer had it. Anchor a regex
   on an identifier with `[^a-zA-Z]`, and remember `\b` does not help here.
+- **`.site-bar` is a fixed-width budget and the brand is the only elastic thing in it.**
+  The bar holds the brand, the menu, and one control per utility block the user added
+  (search, bookmark, translate, dark mode, burger), all of them fixed size. With
+  `.site-logo{flex:none}` nothing could give, so a long blog title pushed the burger
+  off the right edge of a phone and scrolled the whole page sideways. The brand now
+  shrinks and ellipsizes; menu labels carry `white-space:nowrap` so a squeezed bar
+  cannot break them mid-word instead. **Anything new added to the bar spends from the
+  same 1080px**, and past that the brand truncates, which is the designed fallback, not
+  a bug. Measure with a real logo: a remote image in this container loads as a
+  zero-width broken image and the bar measures narrower than the user's does.
 - **CSS specificity.** The theme's own `.site-nav ul` (0,1,1) beat `.rv-cat-list` (0,1,0)
   and rendered a dropdown horizontally. Scope new selectors with two classes.
 - **A `<button>` does not inherit `a { color }`.** A category button rendered black for
