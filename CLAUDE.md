@@ -157,6 +157,14 @@ itself.
 - The card markup and its behaviour are emitted separately, by `shareCardHtml(p, where)`
   and `shareScriptHtml(p)`. With `both` there are two cards and still exactly one script,
   which binds every `[data-share]` and `.bxb-copy-btn` on the page.
+- **The card has no panel of its own**: no background, no border, no padding. Its
+  neighbours inside the post, the affiliate store bar above and the AEO summary below,
+  both sit straight on the page, so a grey slab here read as a stray block dropped into
+  the article rather than part of it. Do not put one back.
+- The review template's default lead-in is "share this product", not "share this post",
+  through the `tid` branch in `blockDefaults` the way the AEO title already is. Set it in
+  **both** language tables so `retranslateBlocks` can pair them; a variant that exists in
+  only one table is treated as user-edited text and stays in the wrong language forever.
 - `share` is now in `SINGLETON_BLOCKS`. A project saved before that could hold two, and
   the export takes the first and silently ignores the second.
 

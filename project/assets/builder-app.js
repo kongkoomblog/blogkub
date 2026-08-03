@@ -723,7 +723,7 @@
     var copyLabel = tpl("\u0e04\u0e31\u0e14\u0e25\u0e2d\u0e01\u0e25\u0e34\u0e07\u0e01\u0e4c", "Copy link");
     return "<b:if cond='data:view.isPost'>" +
       "<div class='bxb-share bxb-share-" + where + "'>" +
-      "<nav class='bxb-share-card' aria-label='" + esc(tpl("\u0e41\u0e0a\u0e23\u0e4c\u0e1a\u0e17\u0e04\u0e27\u0e32\u0e21\u0e19\u0e35\u0e49", "Share this post")) + "'>" +
+      "<nav class='bxb-share-card' aria-label='" + esc(p.label || tpl("\u0e41\u0e0a\u0e23\u0e4c\u0e1a\u0e17\u0e04\u0e27\u0e32\u0e21\u0e19\u0e35\u0e49", "Share this post")) + "'>" +
       (p.label ? "<span class='bxb-share-hd'>" + shareMark("share") + esc(p.label) + "</span>" : "") +
       "<div class='bxb-share-btns'>" +
       SHARE_NETS.filter(function (n) { return p[n.key]; }).map(function (n) {
@@ -986,6 +986,9 @@
     // On the affiliate/review template the summary sits right under the store bar, so it reads as a
     // buying decision ("Before you buy") rather than a generic article recap.
     if (type === "aeo" && tid === "review") out.title = en ? "Before you buy" : "สรุปก่อนตัดสินใจ";
+    // Both language tables carry the variant, so retranslateBlocks pairs it like any
+    // other default and an English review project does not keep the Thai string.
+    if (type === "share" && tid === "review") out.label = en ? "Share this product" : "แชร์สินค้านี้";
     // Readers land on an affiliate blog looking for verdicts, so the feed is framed as reviews.
     if (type === "postgrid" && tid === "review") out.heading = en ? "Latest Reviews" : "รีวิวล่าสุด";
     // Seed the category menu with working examples so the review template ships with a live menu.
@@ -2284,7 +2287,7 @@
         return '<div style="padding:22px 24px">'
           + '<div style="font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#828aa0;margin-bottom:9px;display:flex;align-items:center;gap:6px">'
           + '<span style="width:12px;height:12px;display:inline-flex;fill:#828aa0">' + shareMark("lock") + '</span>' + esc(shWhere) + '</div>'
-          + '<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:14px 16px;background:#f5f6fa;border:1px solid #e8eaf2;border-radius:' + r + '">'
+          + '<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">'
           + (p.label ? '<span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#828aa0;white-space:nowrap">'
               + '<span style="width:14px;height:14px;display:inline-flex;fill:' + pr + '">' + shareMark("share") + '</span>'
               + esc(p.label) + '</span>' : '')
@@ -4952,7 +4955,9 @@ tplStyleVars(),
 "#bxbTocList .toc-h3{padding-left:14px;font-size:13px;color:var(--text-muted)}",
 ".bxb-share-top{margin:0 0 22px}",
 ".bxb-share-bottom{margin:30px 0 0}",
-".bxb-share-card{display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:14px 16px;background:var(--bg-surface-2,#f5f6fa);border:1px solid var(--border,#e8eaf2);border-radius:var(--radius)}",
+// No panel: the store bar above it and the summary box below it both sit straight on
+// the page, so a grey slab here read as a stray block rather than part of the article.
+".bxb-share-card{display:flex;align-items:center;gap:11px;flex-wrap:wrap}",
 ".bxb-share-hd{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-subtle);white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}",
 ".bxb-share-hd svg{width:14px;height:14px;fill:var(--primary);flex:none}",
 ".bxb-share-btns{display:flex;gap:7px;flex-wrap:wrap;align-items:center}",
