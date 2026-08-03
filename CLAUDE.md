@@ -188,6 +188,27 @@ bookmark, backtotop, translate).
   is already in the head and Blogger injects canonical there. The QuestThai reference
   theme does the same. Do not "fix" this by adding a second canonical.
 
+### The share block
+
+Six buttons: Facebook, X, LINE, Threads, Pinterest and copy link. `SHARE_NETS` is the
+single list the canvas preview and `renderBlockStatic` both read, and `SHARE_MARKS` holds
+the brand glyphs as bare filled paths with no enclosing disc, because the button already
+supplies the brand colour and a lockup with its own circle draws a disc inside a disc.
+
+**Below 480px the word is hidden and only the mark shows**, which is the whole point of
+the layout: six pills wrap into a stack on a phone, six icons stay on one line. That is
+why each button carries an `aria-label` as well as the visible `<span class='bxb-share-lb'>`.
+Without it the mobile view is a row of unlabelled icons to a screen reader.
+
+The copy button swaps the icon's `innerHTML` to a check and the label's `textContent`
+separately, and restores both after 2s. It cannot set `textContent` on the button itself
+any more; that would delete the SVG. The confirmation text carries no tick character,
+since the mark is already one.
+
+Verified with Playwright on the real exported CSS: 900px wide gives mark plus word on one
+row, 400px gives six 35px icon buttons on one row, no horizontal overflow at either, and
+the card follows the dark palette.
+
 ### Templates
 
 Eight, all visible: `personal`, `travel`, `tech`, `sidebar-blog`, `magazine`, `company`,
@@ -479,6 +500,26 @@ usually caused by something else.
 ## Gotchas that have already bitten
 
 - **`isSingleItem` includes pages.** See the scoping table above.
+- **No template seeds every block, so a test that only starts a template measures
+  nothing.** The share block is in `LIB` but in no `TEMPLATES[].blocks` and not in
+  `DEFAULT_UTILITIES`, so a check that clicked a template card and grepped the XML
+  reported zero share markup across all 8 templates and looked exactly like a broken
+  change. Add the block the way a user does: click `.lib-item[data-type="..."]`, and
+  stub `matchMedia` so `(max-width:1000px)` matches, because tap-to-add is the only
+  click path and it is gated on that query. Drag and drop is the desktop path and
+  jsdom cannot do it.
+- **The theme's surface variable is `--bg-surface-2`, not `--surface-2`.** Both look
+  plausible and only one exists, so `var(--surface-2,#f5f6fa)` silently takes the
+  fallback: correct in light mode, and a light grey card with light text in dark mode.
+  The full list is in the `:root` rule in `themeCSS()`. Check the name against it.
+- **`<b:skin>` CSS is full of `$(name)` and the dark palette is not in it.** Rendering
+  the exported CSS as-is leaves `--primary` unset, so anything painted with it comes out
+  invisible. Substitute from the `<Variable name="..." value="...">` defaults, which use
+  double quotes, and append the `[data-theme=dark]{...}` rule, which ships with the
+  darkmode block rather than inside the skin.
+- **`b\.textContent` matches the tail of `lb.textContent`.** A check for the old copy
+  handler reported the bug still present in code that no longer had it. Anchor a regex
+  on an identifier with `[^a-zA-Z]`, and remember `\b` does not help here.
 - **CSS specificity.** The theme's own `.site-nav ul` (0,1,1) beat `.rv-cat-list` (0,1,0)
   and rendered a dropdown horizontally. Scope new selectors with two classes.
 - **A `<button>` does not inherit `a { color }`.** A category button rendered black for

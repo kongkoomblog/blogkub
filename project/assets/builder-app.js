@@ -691,6 +691,30 @@
     return css + sc;
   }
 
+
+  /* Brand glyphs for the share buttons. Bare marks, no enclosing disc: the button
+     already supplies the brand colour, so a lockup with its own circle would draw a
+     disc inside a disc. Filled paths so they inherit the button's white currentColor. */
+  var SHARE_MARKS = {
+    share: "<path d='M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92-1.31-2.92-2.92-2.92z'/>",
+    facebook: "<path d='M15.12 5.32H17V2.14A26.11 26.11 0 0 0 14.26 2C11.54 2 9.68 3.66 9.68 6.7v2.62H6.61v3.56h3.07V22h3.68v-9.12h3.06l.46-3.56h-3.52V7.05c0-1.05.28-1.73 1.76-1.73z'/>",
+    twitter: "<path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zm-1.161 17.52h1.833L7.084 4.126H5.117l11.966 15.644z'/>",
+    line: "<path d='M24 10.3C24 5 18.6.6 12 .6S0 5 0 10.3c0 4.8 4.3 8.8 10 9.6.4.1.9.3 1.1.6.1.3.1.7 0 1l-.2 1c0 .3-.2 1.2 1 .6 1.3-.5 6.9-4 9.4-6.9C23.2 14.4 24 12.5 24 10.3zM7.8 13.5H5.4c-.3 0-.6-.3-.6-.6V8.1c0-.3.3-.6.6-.6s.6.3.6.6v4.1h1.8c.3 0 .6.3.6.6s-.3.7-.6.7zm2.4-.6c0 .3-.3.6-.6.6s-.6-.3-.6-.6V8.1c0-.3.3-.6.6-.6s.6.3.6.6v4.8zm5.7 0c0 .3-.2.5-.4.6h-.2c-.2 0-.4-.1-.5-.2l-2.4-3.3v2.9c0 .3-.3.6-.6.6s-.6-.3-.6-.6V8.1c0-.3.2-.5.4-.6h.2c.2 0 .4.1.5.3l2.5 3.3V8.1c0-.3.3-.6.6-.6s.6.3.6.6v4.8zm3.9-3c.3 0 .6.3.6.6s-.3.6-.6.6h-1.8v1.1h1.8c.3 0 .6.3.6.6s-.3.6-.6.6h-2.4c-.3 0-.6-.3-.6-.6V8.1c0-.3.3-.6.6-.6h2.4c.3 0 .6.3.6.6s-.3.6-.6.6h-1.8v1.2h1.8z'/>",
+    threads: "<path d='M16.5 11.2c-.1 0-.2-.1-.3-.1-.2-3.2-1.9-5-4.8-5h-.1c-1.7 0-3.2.8-4.1 2.2l1.6 1.1c.7-1 1.7-1.2 2.5-1.2h.1c.9 0 1.6.3 2 .8.3.4.5 1 .7 1.7-.9-.2-1.9-.2-3-.1-2.9.2-4.8 1.9-4.7 4.3.1 1.2.7 2.3 1.7 3 .9.6 2 .9 3.3.8 1.6-.1 2.9-.7 3.7-1.8.7-.8 1.1-1.9 1.3-3.3.8.5 1.3 1 1.6 1.8.5 1.2.6 3.2-1.1 4.8-1.4 1.4-3.2 2-5.8 2-2.9 0-5.1-.9-6.5-2.7C3.3 17.7 2.6 15.3 2.6 12s.7-5.7 2-7.4C6 2.8 8.2 1.9 11.1 1.9c2.9 0 5.1 1 6.6 2.7.7.9 1.2 2 1.6 3.2l2-.6c-.4-1.6-1.1-2.9-2-4C17.3 1 14.6 0 11.2 0h-.1C7.7 0 5 1 3.1 3.4 1.4 5.5.6 8.4.5 12c0 3.6.9 6.5 2.5 8.6C4.9 23 7.7 24 11.1 24h.1c3.2 0 5.4-.8 7.2-2.6 2.4-2.4 2.3-5.4 1.5-7.2-.6-1.4-1.7-2.4-3.4-3zm-4.5 5.3c-1.3.1-2.7-.5-2.8-1.8-.1-1 .7-2 2.9-2.1h.7c.8 0 1.5.1 2.2.2-.3 3.2-1.8 3.6-3 3.7z'/>",
+    pinterest: "<path d='M12 0C5.4 0 0 5.4 0 12c0 5.1 3.2 9.4 7.6 11.2-.1-.9-.2-2.4 0-3.4.2-.9 1.4-6 1.4-6s-.4-.7-.4-1.8c0-1.7 1-2.9 2.2-2.9 1 0 1.5.8 1.5 1.7 0 1-.7 2.6-1 4-.3 1.2.6 2.2 1.8 2.2 2.1 0 3.8-2.2 3.8-5.5 0-2.9-2.1-4.9-5-4.9-3.4 0-5.4 2.6-5.4 5.2 0 1 .4 2.1.9 2.7.1.1.1.2.1.3-.1.4-.3 1.2-.3 1.4-.1.2-.2.3-.4.2-1.5-.7-2.4-2.9-2.4-4.6 0-3.8 2.7-7.3 7.9-7.3 4.2 0 7.4 3 7.4 6.9 0 4.1-2.6 7.5-6.2 7.5-1.2 0-2.4-.6-2.8-1.4l-.7 2.8c-.3 1-1 2.4-1.5 3.1 1.1.3 2.3.5 3.5.5 6.6 0 12-5.4 12-12S18.6 0 12 0z'/>",
+    copy: "<path d='M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71 0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71 0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76 0 5-2.24 5-5s-2.24-5-5-5z'/>",
+    check: "<path d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/>"
+  };
+  function shareMark(k) { return "<svg viewBox='0 0 24 24' aria-hidden='true'>" + SHARE_MARKS[k] + "</svg>"; }
+  /* One row of truth for both the canvas preview and the exported theme. */
+  var SHARE_NETS = [
+    { key: "facebook", name: "Facebook", color: "#1877f2" },
+    { key: "twitter", name: "X", color: "#0f1419" },
+    { key: "line", name: "LINE", color: "#06c755" },
+    { key: "threads", name: "Threads", color: "#262626" },
+    { key: "pinterest", name: "Pinterest", color: "#e60023" }
+  ];
+
   /* ---------- element library ---------- */
   var LIB = [
     ["โครงสร้างหลัก", [
@@ -775,7 +799,7 @@
       image: { alt: "Image description", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "Below header", label: true },
       newsletter: { heading: "Get Updates First", sub: "Enter your email to receive new posts instantly · free, no spam", btnText: "Subscribe", bg: "soft" },
-      share: { label: "Share this article", facebook: true, twitter: true, line: true, copy: true },
+      share: { label: "Share this post", facebook: true, twitter: true, line: true, threads: true, pinterest: true, copy: true },
       sidebar: { position: "right", width: "280px", showSearch: true, showCategories: true, showArchive: true, showAbout: false },
       search: { heading: "", placeholder: "Search blog…" },
       columns: { heading: "Our Services", cols: 3, items: [
@@ -830,7 +854,7 @@
       image: { alt: "คำอธิบายรูปภาพ", caption: "", ratio: "16/9", src: "" },
       ad: { slot: "ใต้ส่วนหัว", label: true },
       newsletter: { heading: "รับข่าวสารก่อนใคร", sub: "กรอกอีเมลเพื่อรับบทความใหม่ทันที ฟรี ไม่มีสแปม", btnText: "สมัครเลย", bg: "soft" },
-      share: { label: "แชร์บทความนี้ให้เพื่อน", facebook: true, twitter: true, line: true, copy: true },
+      share: { label: "แชร์บทความนี้", facebook: true, twitter: true, line: true, threads: true, pinterest: true, copy: true },
       sidebar: { position: "right", width: "280px", showSearch: true, showCategories: true, showArchive: true, showAbout: false },
       search: { heading: "", placeholder: "ค้นหาในบล็อก…" },
       columns: { heading: "บริการของเรา", cols: 3, items: [
@@ -2175,16 +2199,20 @@
           + '<button style="background:' + nlbtnbg + ';color:' + nlbtnfg + ';padding:12px 20px;border:0;border-radius:' + r + ';font-weight:600;font-size:14px;cursor:pointer;white-space:nowrap">' + esc(p.btnText) + '</button>'
           + '</div></div>';
       case "share":
-        var shs = [
-          p.facebook && { label: "Facebook", color: "#1877f2" },
-          p.twitter && { label: "X (Twitter)", color: "#000" },
-          p.line && { label: "LINE", color: "#06c755" },
-          p.copy && { label: tpl("คัดลอกลิงก์","Copy link"), color: "#6366f1" }
-        ].filter(Boolean);
-        return '<div style="padding:28px 32px;text-align:center">'
-          + (p.label ? '<div style="font-size:13px;color:#828aa0;margin-bottom:14px">' + esc(p.label) + '</div>' : '')
-          + '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">'
-          + shs.map(function (s) { return '<button style="padding:10px 18px;background:' + s.color + ';color:#fff;border:0;border-radius:' + r + ';font-weight:600;font-size:13px;cursor:pointer">' + s.label + '</button>'; }).join("")
+        var shs = SHARE_NETS.filter(function (n) { return p[n.key]; });
+        if (p.copy) shs = shs.concat([{ key: "copy", name: tpl("คัดลอกลิงก์", "Copy link"), color: "#6366f1" }]);
+        var shPill = function (n) {
+          return '<span style="padding:9px 15px;background:' + n.color + ';color:#fff;border-radius:999px;'
+            + 'font-weight:600;font-size:13px;line-height:1;display:inline-flex;align-items:center;gap:7px">'
+            + '<span style="width:15px;height:15px;display:inline-flex;fill:currentColor">' + shareMark(n.key) + '</span>'
+            + esc(n.name) + '</span>';
+        };
+        return '<div style="padding:22px 24px">'
+          + '<div style="display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:14px 16px;background:#f5f6fa;border:1px solid #e8eaf2;border-radius:' + r + '">'
+          + (p.label ? '<span style="display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#828aa0;white-space:nowrap">'
+              + '<span style="width:14px;height:14px;display:inline-flex;fill:' + (S.design.primary || "#6366f1") + '">' + shareMark("share") + '</span>'
+              + esc(p.label) + '</span>' : '')
+          + '<div style="display:flex;gap:7px;flex-wrap:wrap;align-items:center">' + shs.map(shPill).join("") + '</div>'
           + '</div></div>';
       case "sidebar":
         var sbWid = p.width || "280px";
@@ -3050,7 +3078,7 @@
       case "image": return imgUrl("src", "URL รูปภาพ", p.src || "") + txt("alt", "ข้อความ ALT (SEO)", p.alt, "สำคัญต่อ SEO และการเข้าถึง") + txt("caption", "คำบรรยายใต้ภาพ", p.caption) + seg("ratio", "สัดส่วน", p.ratio, [["16/9", "16:9"], ["4/3", "4:3"], ["1/1", "1:1"]]);
       case "ad": return seg("slot", "ตำแหน่ง", p.slot, [["ใต้ส่วนหัว", "บน"], ["ในบทความ", "กลาง"], ["ไซด์บาร์", "ข้าง"]]) + tog("label", 'แสดงป้าย "โฆษณา"', p.label, "แนะนำตามนโยบาย AdSense");
       case "newsletter": return txt("heading", "หัวข้อ", p.heading) + area("sub", "คำโปรย", p.sub) + txt("btnText", "ข้อความปุ่ม", p.btnText) + seg("bg", "พื้นหลัง", p.bg || "soft", [["soft", "อ่อน"], ["gradient", "ไล่สี"], ["dark", "เข้ม"]]);
-      case "share": return txt("label", "ข้อความนำ", p.label) + tog("facebook", "Facebook", p.facebook) + tog("twitter", "X (Twitter)", p.twitter) + tog("line", "LINE", p.line) + tog("copy", "คัดลอกลิงก์", p.copy);
+      case "share": return txt("label", tpl("ข้อความนำ", "Lead-in text"), p.label) + tog("facebook", "Facebook", p.facebook) + tog("twitter", "X (Twitter)", p.twitter) + tog("line", "LINE", p.line) + tog("threads", "Threads", p.threads) + tog("pinterest", "Pinterest", p.pinterest) + tog("copy", tpl("คัดลอกลิงก์", "Copy link"), p.copy);
       case "sidebar": return seg("position", "ตำแหน่ง Sidebar", p.position || "right", [["right", "ขวา ◨"], ["left", "◧ ซ้าย"]]) + txt("width", "ความกว้าง Sidebar", p.width || "280px") + tog("showSearch", "ช่องค้นหา", p.showSearch) + tog("showCategories", "ป้ายกำกับ / หมวดหมู่", p.showCategories) + tog("showArchive", "คลังบทความ", p.showArchive) + tog("showAbout", "เกี่ยวกับผู้เขียน", p.showAbout) + '<div class="note info">' + svg('<circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/>', 2) + '<div>ใส่ Sidebar ไว้ใกล้กลุ่มบทความ (postgrid/postlist/featured) · ระบบจะวาง Sidebar ข้างเนื้อหาหลักอัตโนมัติตอน Export XML</div></div>';
       case "search": return txt("heading", "หัวข้อ (เว้นว่าง = ซ่อน)", p.heading || "") + txt("placeholder", "Placeholder", p.placeholder || "ค้นหาในบล็อก…");
       case "darkmode": return '<div class="note ok">' + svg('<path d="M20 6L9 17l-5-5"/>', 2.5) + '<div>ปุ่มฝังใน Header โดยอัตโนมัติ · <b>มือถือ</b>: วางก่อนปุ่มเมนู ☰ | <b>Desktop</b>: วางหลังช่องค้นหา 🔍<br>หากไม่มีบล็อก Header จะลอยตัวมุมขวาล่างแทน<br><small>รองรับ <code>prefers-color-scheme</code> + จดจำใน localStorage</small></div></div>';
@@ -4811,8 +4839,16 @@ tplStyleVars(),
 "#bxbTocList a{color:inherit;text-decoration:none;transition:color .15s}",
 "#bxbTocList a:hover{color:var(--primary)}",
 "#bxbTocList .toc-h3{padding-left:14px;font-size:13px;color:var(--text-muted)}",
-".bxb-share-btn{padding:10px 18px;color:#fff;border-radius:var(--radius);font-weight:600;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;transition:transform .15s,opacity .15s}",
-".bxb-share-btn:hover{transform:translateY(-2px);opacity:.92}",
+".bxb-share-card{display:flex;align-items:center;gap:11px;flex-wrap:wrap;padding:14px 16px;background:var(--bg-surface-2,#f5f6fa);border:1px solid var(--border,#e8eaf2);border-radius:var(--radius)}",
+".bxb-share-hd{display:inline-flex;align-items:center;gap:7px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text-subtle);white-space:nowrap}",
+".bxb-share-hd svg{width:14px;height:14px;fill:var(--primary);flex:none}",
+".bxb-share-btns{display:flex;gap:7px;flex-wrap:wrap;align-items:center}",
+".bxb-share-btn{padding:9px 15px;color:#fff;border:0;border-radius:999px;font-weight:600;font-size:13px;line-height:1;text-decoration:none;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:transform .15s,filter .15s}",
+".bxb-share-btn svg{width:15px;height:15px;fill:currentColor;flex:none}",
+".bxb-share-btn:hover{transform:translateY(-2px);filter:brightness(1.08)}",
+// Narrow screens drop the word and keep the mark, so six networks still fit on one
+// line instead of wrapping into a stack of wide pills.
+"@media(max-width:480px){.bxb-share-lb{display:none}.bxb-share-btn{padding:10px;border-radius:12px}}",
 ".pb-hero{position:relative;overflow:hidden;padding:92px 20px 80px;background:radial-gradient(circle,color-mix(in srgb,var(--primary) 14%,transparent) 1.5px,transparent 1.9px) 0 0/24px 24px,radial-gradient(640px 300px at 18% -8%,color-mix(in srgb,var(--primary) 9%,transparent),transparent 70%),var(--bg-base);border-bottom:1px solid var(--border)}",
 ".pb-hero::before{content:'';position:absolute;top:-70px;right:-70px;width:280px;height:280px;border-radius:50%;border:2px dashed color-mix(in srgb,var(--primary) 35%,transparent);animation:pbspin 60s linear infinite}",
 "@keyframes pbspin{to{transform:rotate(360deg)}}",
@@ -5298,9 +5334,6 @@ tplStyleVars(),
 ".bxb-related h3{position:relative;display:inline-block;padding-bottom:9px}",
 ".bxb-related h3::after{content:'';position:absolute;left:0;bottom:0;width:42px;height:3px;border-radius:2px;background:linear-gradient(90deg,var(--primary),var(--accent))}",
 /* share buttons */
-".bxb-share-btn{position:relative;overflow:hidden}",
-".bxb-share-btn::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.45) 50%,transparent 62%);transform:translateX(-130%) skewX(-18deg)}",
-".bxb-share-btn:hover::after{animation:bxbSheen .7s ease}",
 /* pager */
 ".blog-pager a{position:relative;overflow:hidden}",
 "@media(prefers-reduced-motion:reduce){.post-title,.bxb-share-btn::after{animation:none!important}}",
@@ -6160,18 +6193,26 @@ tplStyleVars(),
           + "<button type='submit' style='background:var(--primary-ink);color:#fff;padding:12px 20px;border:0;border-radius:var(--radius);font-weight:600;cursor:pointer'>" + esc(p.btnText) + "</button>"
           + "</form></div></section>";
       case "share":
-        var copyDone = tpl("คัดลอกแล้ว ✓","Copied ✓");
+        var copyDone = tpl("คัดลอกแล้ว","Copied");
         var copyLabel = tpl("คัดลอกลิงก์","Copy link");
         var shareHtml =
           "<b:if cond='data:view.isPost'>" +
-          "<section class='bxb-share' style='padding:28px 20px;text-align:center'><div class='wrap'>" +
-          (p.label ? "<div style='font-size:13px;color:var(--text-subtle);margin-bottom:14px'>" + esc(p.label) + "</div>" : "") +
-          "<div style='display:flex;gap:10px;justify-content:center;flex-wrap:wrap'>" +
-          (p.facebook ? "<a href='#' data-share='facebook' rel='noopener noreferrer' class='bxb-share-btn' style='background:#1877f2'>Facebook</a>" : "") +
-          (p.twitter ? "<a href='#' data-share='twitter' rel='noopener noreferrer' class='bxb-share-btn' style='background:#000'>X (Twitter)</a>" : "") +
-          (p.line ? "<a href='#' data-share='line' rel='noopener noreferrer' class='bxb-share-btn' style='background:#06c755'>LINE</a>" : "") +
-          (p.copy ? "<button type='button' class='bxb-share-btn bxb-copy-btn' data-done='" + copyDone + "' style='background:var(--primary);border:0;cursor:pointer'>" + copyLabel + "</button>" : "") +
-          "</div></div></section>" +
+          "<section class='bxb-share' style='padding:24px 20px'><div class='wrap'>" +
+          "<nav class='bxb-share-card' aria-label='" + esc(tpl("แชร์บทความนี้", "Share this post")) + "'>" +
+          (p.label ? "<span class='bxb-share-hd'>" + shareMark("share") + esc(p.label) + "</span>" : "") +
+          "<div class='bxb-share-btns'>" +
+          SHARE_NETS.filter(function (n) { return p[n.key]; }).map(function (n) {
+            // aria-label as well as the visible word: below 480px the word is hidden and
+            // the button would otherwise be an unlabelled icon to a screen reader.
+            return "<a href='#' data-share='" + n.key + "' rel='noopener noreferrer' class='bxb-share-btn'" +
+              " style='background:" + n.color + "' aria-label='" + esc(n.name) + "'>" +
+              shareMark(n.key) + "<span class='bxb-share-lb'>" + esc(n.name) + "</span></a>";
+          }).join("") +
+          (p.copy ? "<button type='button' class='bxb-share-btn bxb-copy-btn' data-done='" + copyDone + "'" +
+            " style='background:var(--primary)' aria-label='" + copyLabel + "'>" +
+            shareMark("copy") + "<span class='bxb-share-lb'>" + copyLabel + "</span></button>" : "") +
+          "</div></nav>" +
+          "</div></section>" +
           "<script>/*<![CDATA[*/(function(){" +
           "function getCleanUrl(){" +
           "var link=document.querySelector('link[rel=\"canonical\"]');" +
@@ -6193,15 +6234,21 @@ tplStyleVars(),
           "if(src==='facebook')url='https://www.facebook.com/sharer/sharer.php?u='+u;" +
           "else if(src==='twitter')url='https://twitter.com/intent/tweet?text='+t+'%20'+u;" +
           "else if(src==='line')url='https://social-plugins.line.me/lineit/share?url='+u;" +
+          "else if(src==='threads')url='https://www.threads.net/intent/post?text='+t+'%20'+u;" +
+          "else if(src==='pinterest')url='https://www.pinterest.com/pin/create/button/?url='+u+'&description='+t;" +
           "if(url){var win=window.open(url,'_blank','noopener,noreferrer');if(!win)window.location.href=url;}" +
           "});})(btns[i]);}" +
           (p.copy ?
             "var cbs=document.querySelectorAll('.bxb-copy-btn');" +
             "for(var j=0;j<cbs.length;j++){(function(b){" +
-            "var orig=b.textContent;" +
+            "var ic=b.querySelector('svg'),lb=b.querySelector('.bxb-share-lb');" +
+            "var origIc=ic?ic.innerHTML:'',origLb=lb?lb.textContent:'';" +
             "b.addEventListener('click',function(){" +
             "var url=getCleanUrl();" +
-            "var done=function(){b.textContent=b.dataset.done;setTimeout(function(){b.textContent=orig;},2000);};" +
+            "var done=function(){" +
+            "if(ic)ic.innerHTML=\"" + SHARE_MARKS.check.replace(/'/g, "\\'") + "\";" +
+            "if(lb)lb.textContent=b.dataset.done;" +
+            "setTimeout(function(){if(ic)ic.innerHTML=origIc;if(lb)lb.textContent=origLb;},2000);};" +
             "if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done,function(){window.prompt('',url);});}" +
             "else{var tx=document.createElement('textarea');tx.value=url;document.body.appendChild(tx);tx.select();try{document.execCommand('copy');done();}catch(ex){window.prompt('',url);}document.body.removeChild(tx);}" +
             "});})(cbs[j]);}" : "") +
