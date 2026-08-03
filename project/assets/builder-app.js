@@ -4834,20 +4834,33 @@ footerVars(),
 tplStyleVars(),
 "h1,h2,h3{line-height:1.2}",
 ".site-header{background:var(--bg-header);border-bottom:1px solid var(--border);position:relative;z-index:50}",
-".site-bar{position:relative;display:flex;align-items:center;gap:14px;padding:14px 20px;max-width:1080px;margin:0 auto}",
-".site-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:21px;color:var(--primary);flex:0 1 auto;min-width:0;overflow:hidden}",
+".site-bar{position:relative;display:flex;align-items:center;gap:calc(14px*var(--fit-nav));padding:14px 20px;max-width:1080px;margin:0 auto;--fit:1;--fit-nav:1}",
+// --fit is set by the header script when the row does not fit. Everything sized from
+// it uses multiplication only: minifyCSS strips the spaces around + and -, so calc()
+// with those operators comes out invalid and the declaration is dropped silently.
+".site-bar.bxb-fit-measure>*{flex:none!important;min-width:auto!important;max-width:none!important}",
+// Between shrinking and truncating there is a cheaper concession: the menu icons are
+// decoration and cost about 25px each. Only above the drawer breakpoint, since the
+// drawer has room to spare and its icons are the only thing marking each row.
+"@media(min-width:769px){.site-bar.bxb-fit-noic .site-nav>ul>li>a>.nav-ic,.site-bar.bxb-fit-noic .site-nav>ul>li>.rv-catbtn>.nav-ic{display:none}}",
+// The round controls are the last unclaimed space. Only above the drawer breakpoint:
+// there they are mouse targets, while on a phone 40px IS the touch target. Child
+// selectors so these outrank the single-class rules in the blocks that own them.
+"@media(min-width:769px){.site-bar>.nav-search-btn,.site-bar>.bxb-bm-top,.site-bar>.bxb-tr>.bxb-tr-btn{width:calc(40px*var(--fit-nav));height:calc(40px*var(--fit-nav))}.site-bar>.bxb-dm-btn{width:calc(38px*var(--fit-nav));height:calc(38px*var(--fit-nav));font-size:calc(18px*var(--fit-nav))}.site-bar>.nav-search-btn>svg,.site-bar>.bxb-bm-top>svg{width:calc(19px*var(--fit-nav));height:calc(19px*var(--fit-nav))}.site-bar>.bxb-tr>.bxb-tr-btn>svg{width:calc(22px*var(--fit-nav));height:calc(22px*var(--fit-nav))}}",
+".site-bar.bxb-fit-measure .site-logo,.site-bar.bxb-fit-measure .site-logo span,.site-bar.bxb-fit-measure .site-nav>ul>li,.site-bar.bxb-fit-measure .site-nav>ul>li>a,.site-bar.bxb-fit-measure .site-nav>ul>li>.rv-catbtn,.site-bar.bxb-fit-measure .site-nav>ul>li>a>span,.site-bar.bxb-fit-measure .site-nav>ul>li>.rv-catbtn>span{overflow:visible;text-overflow:clip;min-width:auto;max-width:none}",
+".site-logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:calc(21px*var(--fit));color:var(--primary);flex:0 1 auto;min-width:0;overflow:hidden}",
 ".site-logo img{height:34px;width:auto;max-width:130px;object-fit:contain;display:block;flex:none}",
 ".site-logo span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}",
-"@media(max-width:768px){.site-bar{gap:10px;padding:12px 14px}.site-logo{font-size:18px;gap:8px}.site-logo img{height:26px;max-width:104px}}",
+"@media(max-width:768px){.site-bar{gap:calc(10px*var(--fit-nav));padding:12px 14px}.site-logo{font-size:calc(18px*var(--fit));gap:8px}.site-logo img{height:26px;max-width:104px}.site-nav{--fit-nav:1}}",
 ".site-nav{min-width:0}",
 ".site-nav ul{display:flex;gap:4px;list-style:none;margin:0 0 0 auto;padding:0;min-width:0}",
 ".site-nav>ul>li{min-width:0}",
 ".site-nav>ul>li>a,.site-nav>ul>li>.rv-catbtn{min-width:0;max-width:100%}",
 ".site-nav>ul>li>a>span,.site-nav>ul>li>.rv-catbtn>span{min-width:0;overflow:hidden;text-overflow:ellipsis}",
-".site-nav li a{font-weight:500;padding:8px 10px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:background .15s,color .15s}",
+".site-nav li a{font-weight:500;font-size:calc(1em*var(--fit-nav));padding:8px calc(10px*var(--fit-nav));border-radius:8px;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;transition:background .15s,color .15s}",
 ".site-nav li a:hover{background:var(--hover-bg);color:var(--primary)}",
 ".site-nav li a[aria-current='page']{color:var(--primary);background:var(--hover-bg)}",
-".site-nav .nav-ic{width:17px;height:17px;flex:none;opacity:.82;transition:opacity .15s}",
+".site-nav .nav-ic{width:calc(17px*var(--fit-nav));height:calc(17px*var(--fit-nav));flex:none;opacity:.82;transition:opacity .15s}",
 ".site-nav li a:hover .nav-ic,.site-nav li a[aria-current='page'] .nav-ic{opacity:1}",
 ".nav-toggle-cb,.nav-burger,.nav-scrim,.nav-close,.nav-drawer-head,.nav-drawer-search{display:none}",
 ".nav-burger{flex-direction:column;justify-content:center;gap:5px;cursor:pointer;width:40px;height:40px;border-radius:8px;background:transparent;border:1px solid var(--border-med);margin-left:auto;flex:none}",
@@ -4861,7 +4874,7 @@ tplStyleVars(),
 ".nav-search-btn{flex:none;width:40px;height:40px;display:grid;place-items:center;border-radius:50%;border:1px solid var(--border-med);background:transparent;color:var(--text-main);cursor:pointer;padding:0;transition:background .15s,color .15s,border-color .15s}",
 ".nav-search-btn svg{width:18px;height:18px;display:block}",
 ".nav-search-btn:hover,.nav-search-btn[aria-expanded='true']{background:var(--hover-bg);color:var(--primary);border-color:var(--primary)}",
-".nav-search-pop{position:absolute;top:calc(100% + 5px);right:20px;z-index:95;width:min(400px,calc(100vw - 32px));background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:10px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}",
+".nav-search-pop{position:absolute;top:100%;margin-top:5px;right:20px;z-index:95;width:min(400px,92vw);background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:10px;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}",
 ".nav-search-pop.open{opacity:1;visibility:visible;transform:translateY(0)}",
 ".nav-search-pop form{display:flex;align-items:center;gap:8px;padding:3px 5px 3px 13px;border:1px solid var(--border-med);border-radius:12px;background:var(--bg-surface)}",
 ".nav-search-pop svg{width:17px;height:17px;flex:none;color:var(--text-subtle)}",
@@ -5202,11 +5215,11 @@ tplStyleVars(),
 ".rv-hero-sub{font-size:17px;color:rgba(255,255,255,.85);line-height:1.65;margin:0 0 22px;max-width:500px}",
 /* ── category menu · desktop dropdown, mobile sheet, footer chips ── */
 ".rv-catli{position:relative}",
-".rv-catbtn{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font:inherit;font-weight:500;color:var(--primary);background:none;border:0;cursor:pointer;padding:8px 10px;border-radius:8px;transition:background .15s,color .15s}",
+".rv-catbtn{display:inline-flex;align-items:center;gap:8px;white-space:nowrap;font:inherit;font-weight:500;font-size:calc(1em*var(--fit-nav));color:var(--primary);background:none;border:0;cursor:pointer;padding:8px calc(10px*var(--fit-nav));border-radius:8px;transition:background .15s,color .15s}",
 ".rv-catbtn:hover,.rv-catbtn[aria-expanded='true']{background:var(--hover-bg);color:var(--primary)}",
 ".rv-cat-caret{width:15px;height:15px;flex:none;opacity:.7;transition:transform .22s}",
 ".rv-catbtn[aria-expanded='true'] .rv-cat-caret{transform:rotate(180deg)}",
-".rv-cat-drop{position:absolute;top:calc(100% + 9px);left:0;z-index:90;background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:8px;min-width:250px;max-width:min(760px,calc(100vw - 28px));max-height:min(70vh,560px);overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}",
+".rv-cat-drop{position:absolute;top:100%;margin-top:9px;left:0;z-index:90;background:var(--bg-header);border:1px solid var(--border);border-radius:14px;box-shadow:var(--drop-shadow);padding:8px;min-width:250px;max-width:min(760px,96vw);max-height:min(70vh,560px);overflow-y:auto;opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .18s,transform .18s,visibility .18s}",
 ".rv-cat-drop.open{opacity:1;visibility:visible;transform:translateY(0)}",
 // two classes on purpose: `.site-nav ul{display:flex}` outranks a single class and would
 // otherwise lay the dropdown out as one horizontal row across the page
@@ -5745,6 +5758,46 @@ tplStyleVars(),
           "<label for='navtoggle' class='nav-scrim'></label>" +
           "</div></header>" +
           "<script>/*<![CDATA[*/(function(){" +
+            // Fit the bar to its width instead of letting the brand and the menu labels
+            // ellipsize. One factor drives everything: the brand takes the full reduction,
+            // the menu takes 60% of it, so the brand never ends up smaller than the links
+            // beside it. Below the floor the ellipsis rules take over as they did before.
+            "var bar=document.querySelector('.site-bar');" +
+            "if(bar){(function(){" +
+              "var MIN=0.7,raf=0;" +
+              // What the row WANTS, measured with shrinking and ellipsis switched off.
+              // Reading the laid-out widths instead would report the squeezed sizes and
+              // the search would conclude that everything already fits.
+              "function want(){" +
+                "var cs=getComputedStyle(bar),g=parseFloat(cs.columnGap||cs.gap)||0,w=0,n=0;" +
+                "for(var i=0;i<bar.children.length;i++){var el=bar.children[i],st=getComputedStyle(el);" +
+                  "if(st.display==='none'||st.position==='fixed'||st.position==='absolute')continue;" +
+                  "w+=el.getBoundingClientRect().width;n++;}" +
+                "return w+(n>1?(n-1)*g:0)+parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);" +
+              "}" +
+              "function set(f){bar.style.setProperty('--fit',f);bar.style.setProperty('--fit-nav',1-(1-f)*0.6);}" +
+              "function search(room){var lo=MIN,hi=1,best=MIN,mid;" +
+                "for(var i=0;i<7;i++){mid=(lo+hi)/2;set(mid);if(want()<=room){best=mid;lo=mid;}else{hi=mid;}}" +
+                "set(best);return best;}" +
+              "function run(){" +
+                "bar.classList.add('bxb-fit-measure');bar.classList.remove('bxb-fit-noic');set(1);" +
+                "var room=bar.getBoundingClientRect().width-3;" +
+                "if(want()>room){" +
+                  "if(search(room)<=MIN+0.001){" +
+                    "bar.classList.add('bxb-fit-noic');set(1);" +
+                    "if(want()>room)search(room);" +
+                  "}" +
+                "}" +
+                "bar.classList.remove('bxb-fit-measure');" +
+              "}" +
+              "function fit(){if(raf)cancelAnimationFrame(raf);raf=requestAnimationFrame(function(){raf=0;run();});}" +
+              "run();addEventListener('resize',fit);" +
+              // The webfont is the reason a bar that fits in the fallback font overflows
+              // once the page settles, so re-fit when it lands.
+              "if(document.fonts&&document.fonts.ready)document.fonts.ready.then(fit);" +
+              // bookmark, translate and dark mode insert their controls after this runs
+              "if(window.MutationObserver)new MutationObserver(fit).observe(bar,{childList:true});" +
+            "}());}" +
             "var cb=document.getElementById('navtoggle');" +
             "if(cb){cb.addEventListener('change',function(){document.body.classList.toggle('menu-open',cb.checked);});}" +
             "document.querySelectorAll('.has-children>a').forEach(function(a){" +

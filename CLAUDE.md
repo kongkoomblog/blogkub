@@ -576,6 +576,27 @@ usually caused by something else.
 - **`b\.textContent` matches the tail of `lb.textContent`.** A check for the old copy
   handler reported the bug still present in code that no longer had it. Anchor a regex
   on an identifier with `[^a-zA-Z]`, and remember `\b` does not help here.
+- **The header scales itself to fit; do not tune it by guessing sizes.** A script beside
+  the header markup measures what the row wants and, if it overflows, binary-searches a
+  single factor `--fit` on `.site-bar`. Everything sized from it uses `calc(21px*var(--fit))`
+  style multiplication. The brand takes the full reduction, the menu and the round
+  controls take 60% of it (`--fit-nav`), so the brand never ends up smaller than the links
+  beside it. If it bottoms out at 0.7 it drops the menu icons and searches again; below
+  that the ellipsis rules take over. It re-runs on resize, on `document.fonts.ready`, and
+  on a `MutationObserver` for the bar, because bookmark, translate and dark mode insert
+  their controls after it first runs.
+- **`scrollWidth` cannot tell you that text is ellipsised.** Once `text-overflow` has
+  truncated a line, the element's `scrollWidth`, its box width and a canvas `measureText`
+  of its `textContent` all agree on the CLIPPED width, so every obvious check says the
+  text fits while the screen plainly shows an ellipsis. It cost most of a session. Two
+  things do work: a `Range` over the element's contents returns a second client rect when
+  an ellipsis run is present, and measuring under a class that sets `overflow:visible`,
+  `text-overflow:clip`, `flex:none` and `min-width:auto` gives the natural width. The
+  fitter uses the second, tests use the first.
+- **Landing within half a pixel of the available width is not fitting.** The browser
+  triggers `text-overflow` on a sub-pixel overflow, so the fit search subtracts 3px of
+  slack. Without it the search settles exactly on the edge and the brand ellipsises
+  anyway, while every integer measurement insists it fits.
 - **`.site-bar` is a fixed-width budget and the brand is the only elastic thing in it.**
   The bar holds the brand, the menu, and one control per utility block the user added
   (search, bookmark, translate, dark mode, burger), all of them fixed size. With
@@ -634,7 +655,13 @@ usually caused by something else.
   difference between a selector and a declaration. `calc(100% + 10px)` comes out as
   `calc(100%+10px)`, which is invalid CSS and fails silently: the declaration is dropped
   and the layout is subtly wrong in the exported theme, with nothing in the console.
-  **Never write `calc()` with spaces around its operators in `themeCSS()`.** Either avoid
+  **Never write `calc()` with spaces around its operators in `themeCSS()`.** Two had
+  survived in the skin for a long time: `.nav-search-pop` and `.rv-cat-drop` both used
+  `top:calc(100% + 5px)` and a `min(...,calc(100vw - 32px))` width cap, so all four
+  declarations were dropped and the search popup opened on top of the header instead of
+  below it. `top:100%` plus `margin-top`, and a `92vw`-style multiple, say the same thing
+  safely. Grep the skin for `calc\([^)]*\s[+-]\s` before shipping CSS changes; only
+  `<b:skin>` goes through `minifyCSS`, the per-block `<style>` strings are emitted raw. Either avoid
   `calc` or close the gap, though `calc(100%-10px)` is invalid too, so in practice avoid
   it. Everything else survives, and this has been checked on the constructs actually in
   use: `color-mix(in srgb,...)` keeps the space in `in srgb` and before its percentage,
