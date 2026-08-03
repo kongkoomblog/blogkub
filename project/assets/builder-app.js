@@ -2741,14 +2741,22 @@
       if (SINGLETON_BLOCKS[t]) el.classList.toggle("added", S.blocks.some(function (b) { return b.type === t; }));
     });
   }
+  // Front-page devices. A welcome hero above an article, or a story row, is chrome
+  // between the reader and the thing they clicked; the hero's own CTA even reads
+  // "read the latest posts" and points at #main, which on a post is the post itself.
+  // Both templates and the library go through here so the two cannot drift.
+  var HOME_ONLY = { hero: 1, stories: 1 };
+  function newBlock(type) {
+    var b = { id: uid(), type: type, props: blockDefaults(type) };
+    if (HOME_ONLY[type]) b.vis = { scope: "home", hideMobile: false };
+    return b;
+  }
   function addBlock(type, idx) {
     if (singletonExists(type)) {
       toast(tpl("คุณได้เพิ่ม “" + blkLabel(type) + "” ไว้แล้ว · ฟีเจอร์นี้มีได้ 1 อันต่อหน้า", "“" + blkLabel(type) + "” is already added · only one per page"));
       return;
     }
-    var b = { id: uid(), type: type, props: blockDefaults(type) };
-    // a story row is a front-page device; on an article it is just one stray circle
-    if (type === "stories") b.vis = { scope: "home", hideMobile: false };
+    var b = newBlock(type);
     if (idx == null || idx > S.blocks.length) idx = S.blocks.length;
     var minIdx = (S.blocks.length > 0 && S.blocks[0].type === "header") ? 1 : 0;
     var maxIdx = (S.blocks.length > 0 && S.blocks[S.blocks.length - 1].type === "footer") ? S.blocks.length - 1 : S.blocks.length;
@@ -4357,6 +4365,12 @@
     // Breadcrumbs also need data:post scope; injected at the very top of the post, above the title.
     var crumbBlock = S.blocks.find(function (b) { return b.type === "breadcrumb"; });
     var inlineCrumbsHtml = crumbBlock ? renderBlockStatic(crumbBlock) : "";
+    // Related posts reads data:post.labels, which is only in scope inside the post loop.
+    // Emitted outside it the label div never rendered and the block's own script then
+    // removed the whole section, so the feature showed nothing. Inline it is, which also
+    // puts it where it belongs: after the article and before the comments.
+    var relatedBlock = S.blocks.find(function (b) { return b.type === "related"; });
+    var inlineRelatedHtml = relatedBlock ? renderBlockStatic(relatedBlock) : "";
     // Share buttons are pinned to the post rather than dragged into the page flow.
     // "bottom" sits after the content and before the comments. "top" is the first child of
     // .post-body, which lands it above the AEO summary box, and BELOW the affiliate store
@@ -4394,6 +4408,7 @@
         "</div>" +
         shareBottomHtml +
         shareJsHtml +
+        inlineRelatedHtml +
       "</div></article>" +
       "<b:if cond='data:view.isSingleItem'><div class='wrap comments-wrap' style='max-width:780px;padding:0 20px 64px'><b:include data='post' name='commentPicker'/></div></b:if>";
 
@@ -4634,7 +4649,9 @@
       if (t === "header") return 1;
       if (t === "hero") return 2;
       if (UTIL_BOTTOM[t]) return 9;
-      if (t === "related" || t === "morefrom" || t === "stories") return 6;
+      if (t === "morefrom") return 6;
+      // stories used to sit here too, which pinned a front-page story row above the
+      // footer no matter where it was dragged, so the canvas and the export disagreed.
       if (t === "notfound") return 7;
       if (t === "footer") return 8;
       return 4; // content sections (postgrid/postlist/featured/about/cta/text/columns/image/search/ad/newsletter/sidebar)
@@ -4650,7 +4667,7 @@
       if (postIdx < 0 && !widgetIn && zoneOf(b.type) >= 6) { parts.push(widgetHtml); widgetIn = true; }
       if (POST_BLOCKS[b.type]) { if (i === postIdx) { parts.push(widgetHtml); widgetIn = true; } return; }
       if (b.type === "sidebar") return; // handled inside blogOrLayout
-      if (b.type === "toc" || b.type === "aeo" || b.type === "breadcrumb" || b.type === "share") return; // injected inline into the post includable
+      if (b.type === "toc" || b.type === "aeo" || b.type === "breadcrumb" || b.type === "share" || b.type === "related") return; // injected inline into the post includable
       parts.push(condWrap(renderBlockStatic(b), b));
     });
     if (postIdx < 0 && !widgetIn) parts.push(widgetHtml);
@@ -7385,7 +7402,7 @@ tplStyleVars(),
     var utils = DEFAULT_UTILITIES.filter(function (u) { return base.indexOf(u) === -1; });
     var fIdx = base.indexOf("footer");
     var ordered = fIdx > -1 ? base.slice(0, fIdx).concat(utils, base.slice(fIdx)) : base.concat(utils);
-    S.blocks = ordered.map(function (type) { return { id: uid(), type: type, props: blockDefaults(type) }; });
+    S.blocks = ordered.map(newBlock);
     enterBuilder();
   }
   $("#blankBtn").addEventListener("click", function () { S = freshProject(); enterBuilder(); });

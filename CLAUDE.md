@@ -123,15 +123,28 @@ themes. The Thai retailer name in the affiliate store map is a brand and stays T
 
 ```
 0 announce   1 header   2 hero   4 content sections
-6 related / morefrom / stories   7 notfound   8 footer   9 bottom utilities
+6 morefrom   7 notfound   8 footer   9 bottom utilities
 ```
 
-Four blocks bypass this entirely. `toc`, `aeo`, `breadcrumb` and `share` are injected
-**inline into the post includable**. The first three have to be: `data:post.*` and
+Five blocks bypass this entirely. `toc`, `aeo`, `breadcrumb`, `share` and `related` are
+injected **inline into the post includable**. Most of them have to be: `data:post.*` and
 `data:view.description` are only in scope inside the post loop, and outside it they are
 undefined and the block renders empty. `share` is there because its position is pinned
-to the post rather than dragged, and it is the only one of the four that can appear
+to the post rather than dragged, and it is the only one of the five that can appear
 twice.
+
+`related` was emitted in the page flow while reading `data:post.labels`, so the label
+div it needs never rendered and its own script then removed the whole section. The
+upload succeeds and the feature simply shows nothing. **A block that reads `data:post.*`
+must be inside the post includable, and the theme uploading cleanly does not tell you
+that it is.** Check it structurally: search for the block's markup inside the
+`<b:includable id='post'>` slice rather than in the whole file.
+
+`hero` and `stories` default to `vis.scope = "home"` (`HOME_ONLY` in `newBlock`, which
+both `addBlock` and `startFromTemplate` go through so the two cannot drift). A welcome
+hero above every article is chrome between the reader and what they clicked, and its own
+CTA reads "read the latest posts" pointing at `#main`, which on a post is the post
+itself.
 
 `share.props.pos` is `top`, `bottom` or `both`.
 
@@ -149,6 +162,24 @@ twice.
 
 `POST_BLOCKS` (postgrid, postlist, featured) mark where the Blog widget goes.
 `UTIL_BOTTOM` blocks are floating or global UI and sort to the end.
+
+**Zones override drag order, and the canvas does not.** `renderCanvas` walks `S.blocks`
+in the order the user arranged, `genXML` sorts by zone first. For the script-only blocks
+that is invisible, but `stories` used to sit in zone 6 and so rendered above the footer
+however far up it was dragged: the canvas said one thing and the export did another. It
+is a content section now. Before putting a visible block in a zone of its own, ask
+whether the user is allowed to move it, and if not, say so in its panel the way `share`
+does.
+
+To read the real order, evaluate the `<b:if>` conditions rather than stripping them;
+stripping keeps both branches and makes a post page and the homepage come out identical.
+A ~40-line recursive resolver handles everything this file emits: match `<b:if>` to its
+`</b:if>` by depth, split the branches that belong to it at depth 0 only, translate
+`data:x.y` against a view context, and recurse. Splice the post includable in where
+`<b:section class='main-section'>` sits; a non-greedy match on any `<b:section>` grabs
+the sidebar's instead and makes the sidebar look like it renders after the comments.
+The sidebar genuinely does come after the post in source order and is placed beside it
+by the grid, which is correct and good for mobile.
 
 ### Page scoping
 
