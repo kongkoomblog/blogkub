@@ -530,6 +530,30 @@ usually caused by something else.
   same 1080px**, and past that the brand truncates, which is the designed fallback, not
   a bug. Measure with a real logo: a remote image in this container loads as a
   zero-width broken image and the bar measures narrower than the user's does.
+- **`white-space:nowrap` on user text needs something bounding it.** Stopping a label
+  from breaking mid-word turns "wraps to two lines" into "grows without limit", which
+  is worse: it pushes siblings off the page instead of getting taller. Every nowrap on
+  a string the visitor typed needs `max-width` plus `overflow:hidden;text-overflow:ellipsis`
+  next to it. Three blocks had the bare version: the share card lead-in, the
+  announcement bar CTA, and the menu labels.
+- **`min-width:0` does nothing for a link inside an `<li>`.** The `li` is a flex item of
+  `.site-nav ul` and shrinks, but it is a block, so the `inline-flex` anchor inside it is
+  not a flex item and keeps its full content width, overflowing the `li` silently. The
+  anchor needs `max-width:100%`. The min-width:0 chain only carries as far as the flex
+  items; check what each element's parent actually is before adding more of it.
+- **The whole library fits in one theme, which makes a full sweep cheap.** Click every
+  `.lib-item`, `genXML()`, then turn the export into a page: substitute the `$(name)`
+  variables, drop `<b:section>` wholesale (the Blog widget's markup only exists inside
+  Blogger's post loop), replace `<data:*/>` and `<b:eval/>` with text, and strip the
+  remaining `b:` tags and `expr:` attributes. Rendering both branches of every `<b:if>`
+  is fine for width testing, since it only overstates the content. Then compare
+  `documentElement.scrollWidth` against `clientWidth` at several widths and report the
+  outermost element whose right edge is past the viewport. Two things will produce false
+  positives: the off-canvas drawers and sheets, which sit past the right edge on purpose,
+  and `.site-nav`, which is only off-canvas below 769px and is the real menu above it.
+  Excluding `.site-nav` unconditionally hid the one offender the scan existed to find.
+  Run it at two input lengths, one a plausible Thai phrase and one absurd, or a missing
+  guard is indistinguishable from an impossible input.
 - **CSS specificity.** The theme's own `.site-nav ul` (0,1,1) beat `.rv-cat-list` (0,1,0)
   and rendered a dropdown horizontally. Scope new selectors with two classes.
 - **A `<button>` does not inherit `a { color }`.** A category button rendered black for
